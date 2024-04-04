@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ __('Create') }} Collaborator
-@endsection
-
-@section('content')
+<x-layouts.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -25,4 +22,4 @@
             </div>
         </div>
     </section>
-@endsection
+</x-layouts.app>

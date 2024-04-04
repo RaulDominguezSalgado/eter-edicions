@@ -16,16 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('books', App\Http\Controllers\BookController::class);
+Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo']);
 Route::resource('authors', App\Http\Controllers\AuthorController::class);
 Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
-// Route::resource('books', App\Http\Controllers\BookController::class);
+
 
 //Route::get('{slug}');
+
+Route::prefix('admin')->middleware('admin.check')->group(function () {
+    Route::resource('books', App\Http\Controllers\BookController::class);
+});
