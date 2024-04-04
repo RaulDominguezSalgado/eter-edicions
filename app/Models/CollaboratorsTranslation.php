@@ -5,20 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Collaborator
+ * Class CollaboratorsTranslation
  *
  * @property $id
- * @property $image
- * @property $social_networks
+ * @property $collaborator_id
+ * @property $lang
+ * @property $name
+ * @property $last_name
+ * @property $biography
  * @property $created_at
  * @property $updated_at
  *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Collaborator extends Model
+class CollaboratorsTranslation extends Model
 {
-
+    
 
     protected $perPage = 20;
 
@@ -27,10 +30,8 @@ class Collaborator extends Model
      *
      * @var array
      */
-    protected $fillable = ['image', 'social_networks'];
+    protected $fillable = ['collaborator_id', 'lang', 'name', 'last_name', 'biography'];
 
-    public function collaboratorsTranslation(){
-        return $this->hasMany(\App\Models\CollaboratorsTranslation::class, 'collaborator_id', 'id');
-    }
+
 
 }

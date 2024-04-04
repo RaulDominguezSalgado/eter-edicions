@@ -17,7 +17,16 @@ class CollaboratorController extends Controller
     public function index()
     {
         $collaborators = Collaborator::paginate();
-
+        $collaboratorsArray = [];
+        foreach ($collaborators as $collaborator) {
+            $collaboratorsArray[] = [
+                'id' => $collaborator->id,
+                'image' => $collaborator->image,
+                'name' => Collaborator::find($collaborator->id)->collaboratorsTranslation()->where('lang', 'es')->first()->name(),
+                'last_name' => "name",
+                'social_networks' => $collaborator->social_networks
+            ];
+        }
         return view('collaborator.index', compact('collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
