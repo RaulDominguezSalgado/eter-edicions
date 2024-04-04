@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('lang');
             $table->string('title');
             $table->text('description');
+            $table->string('slug');
             $table->timestamps();
 
             $table->foreign('book_id')->references('id')->on('books')->name('books_translation_book_id_foreign');
