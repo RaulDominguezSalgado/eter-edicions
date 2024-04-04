@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    Collaborator
-@endsection
-
-@section('content')
+<x-layouts.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -35,7 +32,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Image</th>
 										<th>Social Networks</th>
 
@@ -46,7 +43,7 @@
                                     @foreach ($collaborators as $collaborator)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+
 											<td>{{ $collaborator->image }}</td>
 											<td>{{ $collaborator->social_networks }}</td>
 
@@ -70,4 +67,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-layouts.app>
