@@ -41,7 +41,7 @@ class BookController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource for the public users.
      */
     public function catalogo()
     {

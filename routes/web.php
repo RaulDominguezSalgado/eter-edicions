@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+/* MiddleWare */
+use App\Http\Middleware\AdminCheck;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,13 +21,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo']);
+
 Route::resource('authors', App\Http\Controllers\AuthorController::class);
 Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
 
 
-//Route::get('{slug}');
+/* Admin Backoffice */
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    });
+    Route::resource('books', App\Http\Controllers\BookController::class);  
+})->middleware(AdminCheck::class);
 
-Route::prefix('admin')->middleware('admin.check')->group(function () {
-    Route::resource('books', App\Http\Controllers\BookController::class);
-});
+//Route::get('{slug}');
