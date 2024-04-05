@@ -17,8 +17,35 @@ class CollaboratorController extends Controller
     public function index()
     {
         $collaborators = Collaborator::paginate();
+        $collaboratorsArray = [];
 
-        return view('collaborator.index', compact('collaborators'))
+        //mostrar solo en catalan
+        foreach ($collaborators as $collaborator) {
+            $translation = $collaborator->translations()->where('lang', 'es')->first();
+            $collaboratorsArray[] = [
+                'id' => $collaborator->id,
+                'image' => $collaborator->image,
+                'name' => $translation ? $translation->name : '',
+                'last_name' => $translation ? $translation->last_name : '',
+                'lang' => $translation ? $translation->lang : '', 
+                'social_networks' => $collaborator->social_networks
+            ];
+        }
+
+        //opcion 2 que me salgan todos los colaboradores en todos los idiomas
+        // foreach ($collaborators as $collaborator) {
+        //     foreach ($collaborator->translations as $collabtrad) {
+        //         $collaboratorsArray[] = [
+        //             'id' => $collaborator->id,
+        //             'lang'=>$collabtrad->lang,
+        //             'image' => $collaborator->image,
+        //             'name' => $collabtrad->name,
+        //             'last_name' => $collabtrad->last_name,
+        //             'social_networks' => $collaborator->social_networks,
+        //         ];
+        //     }
+        // }
+        return view('collaborator.index', compact('collaboratorsArray','collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
 
