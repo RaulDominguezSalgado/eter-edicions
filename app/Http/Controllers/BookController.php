@@ -41,6 +41,34 @@ class BookController extends Controller
     }
 
     /**
+     * Display a listing of the resource for the public users.
+     */
+    public function catalogo()
+    {
+        $books_lv = Book::all();
+        $books = [];
+        foreach ($books_lv as $book) {
+            $books[] = [
+                'id' => $book->id,
+                'isbn' => $book->isbn,
+                'title' => "Titulo defecto", //TODO
+                'publisher' => $book->publisher,
+                'image' => $book->image,
+                'pvp' => $book->pvp,
+                'iva' => $book->iva,
+                'discounted_price' => $book->discounted_price,
+                'stock' => $book->stock,
+                'visible' => $book->visible,
+                'authors' => ["Author A", "Author K"], //TODO
+                'illustrators' => ["Ilustrator 1", "Illustrator 2"],
+                'translators' => ["Translators 1"],
+            ];
+        }
+
+        return view('book.catalogo', compact('books'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
