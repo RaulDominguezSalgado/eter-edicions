@@ -29,7 +29,7 @@ class Collaborator extends Model
      */
     protected $fillable = ['image', 'social_networks'];
 
-    public function collaboratorsTranslation(){
+    public function translations(){
         return $this->hasMany(\App\Models\CollaboratorsTranslation::class, 'collaborator_id', 'id');
     }
 

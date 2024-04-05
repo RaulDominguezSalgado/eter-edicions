@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CollaboratorsTranslation extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -32,6 +32,8 @@ class CollaboratorsTranslation extends Model
      */
     protected $fillable = ['collaborator_id', 'lang', 'name', 'last_name', 'biography'];
 
-
-
+    public function collaborator()
+    {
+        return $this->belongsTo(\App\Models\Collaborator::class, 'collaborator_id', 'id');
+    }
 }

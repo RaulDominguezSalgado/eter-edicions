@@ -36,24 +36,29 @@
 										<th>Imatge</th>
 										<th>Nom</th>
 										<th>Cognoms</th>
+                                        <th>Llenguatge</th>
 										<th>Social Networks</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($collaborators as $collaborator)
+                                    @foreach ($collaboratorsArray as $collaborator)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-											<td>{{ $collaborator["image"] }}</td>
+											{{-- <td>{{ $collaborator["image"] }}</td> --}}
+                                            <td>
+                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/'. $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
+                                            </td>
 											<td>{{ $collaborator["name"] }}</td>
 											<td>{{ $collaborator["last_name"] }}</td>
+											<td>{{ $collaborator["lang"] }}</td>
 											<td>{{ $collaborator["social_networks"] }}</td>
 
                                             <td>
-                                                <form action="{{ route('collaborators.destroy',$collaborator->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('collaborators.show',$collaborator->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('collaborators.edit',$collaborator->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('collaborators.destroy',$collaborator["id"]) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('collaborators.show',$collaborator["id"]) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('collaborators.edit',$collaborator["id"]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
