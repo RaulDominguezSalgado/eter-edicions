@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Collaborator extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -29,6 +29,8 @@ class Collaborator extends Model
      */
     protected $fillable = ['image', 'social_networks'];
 
-
+    public function translations(){
+        return $this->hasMany(\App\Models\CollaboratorsTranslations::class, 'collaborator_id', 'id');
+    }
 
 }

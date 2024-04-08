@@ -4,7 +4,7 @@
 
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Imatge') }}</label>
-            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
+            <input type="text" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
@@ -15,11 +15,12 @@
 
         <div class="form-group mb-2 mb20">
             <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>
-            <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
+            {{-- <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
                 <option value="ca" {{ old('lang', $collaborator['language']) == 'ca' ? 'selected' : '' }}>Català</option>
                 <option value="es" {{ old('lang', $collaborator['language']) == 'es' ? 'selected' : '' }}>Castellà</option>
                 <option value="ar-sy" {{ old('lang', $collaborator['language']) == 'ar-sy' ? 'selected' : '' }}>Àrab</option>
-            </select>
+            </select> --}}
+            <input type="text" name="lang" class="form-control @error('lang') is-invalid @enderror" value="{{ old('lang', $collaborator['name']) }}" id="lang" placeholder="Llenguatge">
             {!! $errors->first('lang', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 

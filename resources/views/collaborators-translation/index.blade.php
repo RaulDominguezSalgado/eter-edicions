@@ -1,7 +1,10 @@
-<x-layouts.admin.app>
-    {{-- <x-slot name="title">
-        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
-    </x-slot> --}}
+@extends('layouts.app')
+
+@section('template_title')
+    Collaborators Translation
+@endsection
+
+@section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -10,11 +13,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Collaborator') }}
+                                {{ __('Collaborators Translation') }}
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('collaborators.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                <a href="{{ route('collaborators-translations.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
                               </div>
@@ -32,33 +35,31 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-
-										<th>Imatge</th>
-										<th>Nom</th>
-										<th>Cognoms</th>
-                                        <th>Llenguatge</th>
-										<th>Social Networks</th>
+                                        
+										<th>Collaborator Id</th>
+										<th>Lang</th>
+										<th>Name</th>
+										<th>Last Name</th>
+										<th>Biography</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($collaboratorsArray as $collaborator)
+                                    @foreach ($collaboratorsTranslations as $collaboratorsTranslation)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-											{{-- <td>{{ $collaborator["image"] }}</td> --}}
-                                            <td>
-                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/'. $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
-                                            </td>
-											<td>{{ $collaborator["name"] }}</td>
-											<td>{{ $collaborator["last_name"] }}</td>
-											<td>{{ $collaborator["lang"] }}</td>
-											<td>{{ $collaborator["social_networks"] }}</td>
+                                            
+											<td>{{ $collaboratorsTranslation->collaborator_id }}</td>
+											<td>{{ $collaboratorsTranslation->lang }}</td>
+											<td>{{ $collaboratorsTranslation->name }}</td>
+											<td>{{ $collaboratorsTranslation->last_name }}</td>
+											<td>{{ $collaboratorsTranslation->biography }}</td>
 
                                             <td>
-                                                <form action="{{ route('collaborators.destroy',$collaborator["id"]) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('collaborators.show',$collaborator["id"]) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('collaborators.edit',$collaborator["id"]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('collaborators-translations.destroy',$collaboratorsTranslation->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('collaborators-translations.show',$collaboratorsTranslation->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('collaborators-translations.edit',$collaboratorsTranslation->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
@@ -71,8 +72,8 @@
                         </div>
                     </div>
                 </div>
-                {!! $collaborators->links() !!}
+                {!! $collaboratorsTranslations->links() !!}
             </div>
         </div>
     </div>
-</x-layouts.admin.app>
+@endsection

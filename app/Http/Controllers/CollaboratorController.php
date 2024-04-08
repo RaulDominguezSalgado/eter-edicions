@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collaborator;
+use App\Models\CollaboratorsTranslations;
 use App\Http\Requests\CollaboratorRequest;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class CollaboratorController
@@ -17,8 +19,35 @@ class CollaboratorController extends Controller
     public function index()
     {
         $collaborators = Collaborator::paginate();
+        $collaboratorsArray = [];
 
-        return view('collaborator.index', compact('collaborators'))
+        //mostrar solo en catalan
+        foreach ($collaborators as $collaborator) {
+            $translation = $collaborator->translations()->where('lang', 'es')->first();
+            $collaboratorsArray[] = [
+                'id' => $collaborator->id,
+                'image' => $collaborator->image,
+                'name' => $translation ? $translation->name : '',
+                'last_name' => $translation ? $translation->last_name : '',
+                'lang' => $translation ? $translation->lang : '',
+                'social_networks' => $collaborator->social_networks
+            ];
+        }
+
+        //opcion 2 que me salgan todos los colaboradores en todos los idiomas
+        // foreach ($collaborators as $collaborator) {
+        //     foreach ($collaborator->translations as $collabtrad) {
+        //         $collaboratorsArray[] = [
+        //             'id' => $collaborator->id,
+        //             'lang'=>$collabtrad->lang,
+        //             'image' => $collaborator->image,
+        //             'name' => $collabtrad->name,
+        //             'last_name' => $collabtrad->last_name,
+        //             'social_networks' => $collaborator->social_networks,
+        //         ];
+        //     }
+        // }
+        return view('collaborator.index', compact('collaboratorsArray', 'collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
 
@@ -36,10 +65,30 @@ class CollaboratorController extends Controller
      */
     public function store(CollaboratorRequest $request)
     {
-        Collaborator::create($request->validated());
+        try {
+            $validatedData = $request->validated();
+            $collaboratorData = [
+                'image'=>$validatedData['image'],
+                'social_networks'=>$validatedData['social_networks']
+            ];
+            $collaborator = Collaborator::create($collaboratorData);
 
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator created successfully.');
+            $translationData = [
+                'collaborator_id' => $collaborator->id,
+                //'lang' => $validatedData['lang'],
+                'lang' => 'es',
+                'name' => $validatedData['name'],
+                'last_name' => $validatedData['last_name'],
+                'biography' => $validatedData['biography'],
+                'slug' => $validatedData['name']."-".$validatedData['last_name']
+            ];
+
+            CollaboratorsTranslations::create($translationData);
+
+            return redirect()->route('collaborators.index')
+                ->with('success', 'Collaborator created successfully.');
+        } catch (ValidationException $e) {
+        }
     }
 
     /**

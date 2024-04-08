@@ -5,7 +5,7 @@
     <ul>
         <li><a href="">Portada</a></li>
         <li><a href="">Catàleg</a></li>
-        <li><a href="{{ route('collaborators.index') }}">Autors</a></li>
+        <li><a href="{{ route('collaborators.index') }}">Colaborators</a></li>
         <li><a href="">Agència</a></li>
         <li><a href="">Activitats</a></li>
         <li><a href="">Articles</a></li>
