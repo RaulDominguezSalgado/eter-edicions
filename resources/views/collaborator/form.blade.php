@@ -37,7 +37,7 @@
 
         <div class="form-group mb-2 mb20">
             <label for="biography" class="form-label">{{ __('Biografia') }}</label>
-            <text type="text" name="biography" class="form-control @error('biography') is-invalid @enderror" value="{{ old('biography', $collaborator['biography']) }}" id="biography" placeholder="Biografia">
+            <input type="text" name="biography" class="form-control @error('biography') is-invalid @enderror" value="{{ old('biography', $collaborator['biography']) }}" id="biography" placeholder="Biografia">
             {!! $errors->first('biography', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
