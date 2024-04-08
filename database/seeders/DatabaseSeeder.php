@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use \App\Models\CollaboratorsTranslation;
+use \App\Models\CollaboratorsTranslations;
 use \App\Models\Collaborator;
 class DatabaseSeeder extends Seeder
 {
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'image' => 'collab-3.webp',
             'social_networks' => json_encode(['twitter' => '@usuario3', 'linkedin' => 'usuario3']),
         ]);
-        CollaboratorsTranslation::create([
+        CollaboratorsTranslations::create([
             'collaborator_id' => 1,
             'lang' => 'en',
             'name' => 'John',
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'biography' => 'John Smith is an accomplished author known for his bestselling novels in the thriller genre. His writing style is characterized by gripping plots and well-developed characters. With numerous awards to his name, John continues to captivate readers with each new release.',
             'slug' =>'John-Smith'
         ]);
-        CollaboratorsTranslation::create([
+        CollaboratorsTranslations::create([
             'collaborator_id' => 1,
             'lang' => 'es',
             'name' => 'John',
@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
             'biography' => 'John Smith es un autor consumado conocido por sus exitosas novelas en el género del thriller. Su estilo de escritura se caracteriza por tramas emocionantes y personajes bien desarrollados. Con numerosos premios a su nombre, John sigue cautivando a los lectores con cada nuevo lanzamiento.',
             'slug' =>'John-Smith'
         ]);
-        CollaboratorsTranslation::create([
+        CollaboratorsTranslations::create([
             'collaborator_id' => 2,
             'lang' => 'es',
             'name' => 'Maria',
@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
             'slug'=>"Maria-Garcia"
         ]);
 
-        CollaboratorsTranslation::create([
+        CollaboratorsTranslations::create([
             'collaborator_id' => 3,
             'lang' => 'en',
             'name' => 'Emily',
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
             "slug" => "Emily-Johnson"
         ]);
 
-        CollaboratorsTranslation::create([
+        CollaboratorsTranslations::create([
             'collaborator_id' => 3,
             'lang' => 'ca',
             'name' => 'Emily',
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
             "slug" => "Emily-Johnson"
         ]);
 
-        CollaboratorsTranslation::create([
+        CollaboratorsTranslations::create([
             'collaborator_id' => 3,
             'lang' => 'es',
             'name' => 'Emily',
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
             "slug" => "Emily-Johnson"
         ]);
 
-        CollaboratorsTranslation::create([
+        CollaboratorsTranslations::create([
             'collaborator_id' => 3,
             'lang' => 'ar',
             'name' => 'إيميلي',

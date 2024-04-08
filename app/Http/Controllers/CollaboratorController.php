@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collaborator;
-use App\Models\CollaboratorsTranslation;
+use App\Models\CollaboratorsTranslations;
 use App\Http\Requests\CollaboratorRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -75,14 +75,15 @@ class CollaboratorController extends Controller
 
             $translationData = [
                 'collaborator_id' => $collaborator->id,
-                'lang' => $validatedData['lang'],
+                //'lang' => $validatedData['lang'],
+                'lang' => 'es',
                 'name' => $validatedData['name'],
                 'last_name' => $validatedData['last_name'],
-                'byography' => $validatedData['byography'],
-                'slug' => $validatedData['slug']
+                'biography' => $validatedData['biography'],
+                'slug' => $validatedData['name']."-".$validatedData['last_name']
             ];
-            
-            CollaboratorsTranslation::create($translationData);
+
+            CollaboratorsTranslations::create($translationData);
 
             return redirect()->route('collaborators.index')
                 ->with('success', 'Collaborator created successfully.');
