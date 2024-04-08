@@ -27,6 +27,7 @@ class CollaboratorRequest extends FormRequest
             'name' => 'required',
             'last_name' => 'required',
             'biography' => 'required',
+            'lang'=>'required|string|in:ca,es,ar-sy',
             'slug' => 'required',
         ];
     }
