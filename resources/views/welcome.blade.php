@@ -22,89 +22,11 @@
     </head>
     <body >
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <!-- {{-- <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a> --}} -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        <!-- Authentication Links -->
-                        <!-- {{-- <li class="nav-item">
-                            <a class="nav-link" href="">Home</a>
-                        </li> --}} -->
-                        {{-- <li class="nav-item">
-                            <a class="nav-link" href="">ListarCompañerosEmpresa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">AñadirCompañero</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">ActualizarCompañero</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">BorrarCompañero</a>
-                        </li> --}}
-
-
-                        <li class="nav-item">
-                            <!-- <a class="nav-link" href="#">Shows</a>  -->
-                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu"
-                                aria-expanded="false" aria-controls="submenu">Books</a>
-                                <ul class="submenu collapse" id="submenu"> <!-- Submenú -->
-                                    <li><a class="nav-link" href="{{ route('books.index') }}">1. Listar todos</a></li>
-                                    <li><a class="nav-link" href="">2. Lista ordenados por precio</a></li>
-                                    <li><a class="nav-link" href="">3. Listar shows y ver comentarios</a></li>
-                                </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu1"
-                                aria-expanded="false" aria-controls="submenu1">Comentarios</a>
-                            <ul class="submenu collapse" id="submenu1"> <!-- Submenú -->
-                                <li><a class="nav-link" href="">Comentar un show</a></li>
-                                <li><a class="nav-link" href="">Actualizar un comentario</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu2"
-                                aria-expanded="false" aria-controls="submenu2">Categories</a>
-                            <ul class="submenu collapse" id="submenu2"> <!-- Submenú -->
-                                <li><a class="nav-link" href="">1. Listar categorias y sus shows</a></li>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">ShowsCategories</a>
-                        </li> 
-
-                        <li class="nav-item">
-                                <a class="nav-link" href="">Colegas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Compañias</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Colegas en compañias</a>
-                            </li> 
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        WELCOME ÈTER EDICIONS
 
         <main class="py-4">
             @yield('content')
-            
+
         </main>
     </div>
     </body>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->text('biography');
+            $table->string('slug');
             $table->timestamps();
 
             $table->foreign('collaborator_id')->references('id')->on('collaborators')->name('collab_trans_collab_id_foreign');

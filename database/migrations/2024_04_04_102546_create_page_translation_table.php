@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('books_translation', function (Blueprint $table) {
+        Schema::create('page_translation', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('page_id');
             $table->string('lang');
-            $table->string('title');
+            $table->string('name');
             $table->text('description');
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('book_id')->references('id')->on('books')->name('books_translation_book_id_foreign');
+            $table->foreign('page_id')->references('id')->on('pages')->name('pages_translation_page_id_foreign');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('books_translation');
+        Schema::dropIfExists('page_translation');
     }
 };
