@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collaborator;
+use App\Models\CollaboratorsTranslation;
 use App\Http\Requests\CollaboratorRequest;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class CollaboratorController
@@ -27,7 +29,7 @@ class CollaboratorController extends Controller
                 'image' => $collaborator->image,
                 'name' => $translation ? $translation->name : '',
                 'last_name' => $translation ? $translation->last_name : '',
-                'lang' => $translation ? $translation->lang : '', 
+                'lang' => $translation ? $translation->lang : '',
                 'social_networks' => $collaborator->social_networks
             ];
         }
@@ -45,7 +47,7 @@ class CollaboratorController extends Controller
         //         ];
         //     }
         // }
-        return view('collaborator.index', compact('collaboratorsArray','collaborators'))
+        return view('collaborator.index', compact('collaboratorsArray', 'collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
 
@@ -63,10 +65,29 @@ class CollaboratorController extends Controller
      */
     public function store(CollaboratorRequest $request)
     {
-        Collaborator::create($request->validated());
+        try {
+            $validatedData = $request->validated();
+            $collaboratorData = [
+                'image'=>$validatedData['image'],
+                'social_networks'=>$validatedData['social_networks']
+            ];
+            $collaborator = Collaborator::create($collaboratorData);
 
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator created successfully.');
+            $translationData = [
+                'collaborator_id' => $collaborator->id,
+                'lang' => $validatedData['lang'],
+                'name' => $validatedData['name'],
+                'last_name' => $validatedData['last_name'],
+                'byography' => $validatedData['byography'],
+                'slug' => $validatedData['slug']
+            ];
+            
+            CollaboratorsTranslation::create($translationData);
+
+            return redirect()->route('collaborators.index')
+                ->with('success', 'Collaborator created successfully.');
+        } catch (ValidationException $e) {
+        }
     }
 
     /**
