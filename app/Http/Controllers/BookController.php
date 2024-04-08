@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use \App\Models\BooksTranslation;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,13 +18,16 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books_lv = Book::all();
+        $books_lv = Book::paginate();
         $books = [];
         foreach ($books_lv as $book) {
-            $books[] = [
+            $return = [
                 'id' => $book->id,
+                'title' => $book->title,
+                'description' => $book->description,
+                'slug' => $book->slug,
+                'lang' => $book->lang,
                 'isbn' => $book->isbn,
-                'title' => "Titulo defecto", //TODO
                 'publisher' => $book->publisher,
                 'image' => $book->image,
                 'pvp' => $book->pvp,
@@ -31,10 +35,16 @@ class BookController extends Controller
                 'discounted_price' => $book->discounted_price,
                 'stock' => $book->stock,
                 'visible' => $book->visible,
-                'authors' => ["Author A", "Author K"], //TODO
-                'illustrators' => ["Ilustrator 1", "Illustrator 2"],
-                'translators' => ["Translators 1"],
+                'authory' => $book->authory,
+                'translation' => $book->translation,
+                'ilustration' => $book->ilustration,
+                'sample_url' => $book->sample_url,
+                'page_num' => $book->page_num,
+                'publication_date' => $book->publication_date,
+                'colections' => $book->colections,
             ];
+
+            $books[] = $return;
         }
 
         return view('book.index', compact('books'));
@@ -45,13 +55,16 @@ class BookController extends Controller
      */
     public function catalogo()
     {
-        $books_lv = Book::all();
+        $books_lv = Book::paginate();
         $books = [];
         foreach ($books_lv as $book) {
-            $books[] = [
+            $return = [
                 'id' => $book->id,
+                'title' => $book->title,
+                'description' => $book->description,
+                'slug' => $book->slug,
+                'lang' => $book->lang,
                 'isbn' => $book->isbn,
-                'title' => "Titulo defecto", //TODO
                 'publisher' => $book->publisher,
                 'image' => $book->image,
                 'pvp' => $book->pvp,
@@ -59,10 +72,16 @@ class BookController extends Controller
                 'discounted_price' => $book->discounted_price,
                 'stock' => $book->stock,
                 'visible' => $book->visible,
-                'authors' => ["Author A", "Author K"], //TODO
-                'illustrators' => ["Ilustrator 1", "Illustrator 2"],
-                'translators' => ["Translators 1"],
+                'authory' => $book->authory,
+                'translation' => $book->translation,
+                'ilustration' => $book->ilustration,
+                'sample_url' => $book->sample_url,
+                'page_num' => $book->page_num,
+                'publication_date' => $book->publication_date,
+                'colections' => $book->colections,
             ];
+
+            $books[] = $return;
         }
 
         return view('book.catalogo', compact('books'));
@@ -73,8 +92,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        $book = new Book();
-        return view('book.create', compact('book'));
+        return view('book.edit');
     }
 
     /**
@@ -106,9 +124,32 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
-        $book = Book::find($id);
+        $aux = Book::where('slug', $slug)->first();
+
+        $book = [
+            'id' => $aux->id,
+            'title' => $aux->title,
+            'description' => $aux->description,
+            'slug' => $aux->slug,
+            'lang' => $aux->lang,
+            'isbn' => $aux->isbn,
+            'publisher' => $aux->publisher,
+            'image' => $aux->image,
+            'pvp' => $aux->pvp,
+            'iva' => $aux->iva,
+            'discounted_price' => $aux->discounted_price,
+            'stock' => $aux->stock,
+            'visible' => $aux->visible,
+            'authory' => $aux->authory,
+            'translation' => $aux->translation,
+            'ilustration' => $aux->ilustration,
+            'sample_url' => $aux->sample_url,
+            'page_num' => $aux->page_num,
+            'publication_date' => $aux->publication_date,
+            'colections' => $aux->colections,
+        ];
 
         return view('book.show', compact('book'));
     }

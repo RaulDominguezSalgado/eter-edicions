@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.admin.app>
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
     </x-slot> --}}
@@ -10,7 +10,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Collaborator') }}
+                                {{ __('Book') }}
                             </span>
 
                              <div class="float-right">
@@ -25,7 +25,6 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-
                     <div class="card-body bg-white">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
@@ -75,4 +74,4 @@
             </div>
         </div>
     </div>
-</x-layouts.app>
+</x-layouts.admin.app>

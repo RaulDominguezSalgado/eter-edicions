@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+}
+th, td {
+    text-align: center;
+    padding: 10px 20px;
+}
+th {
+    background-color: #66f;
+}
+tr:nth-of-type(even) > td {
+    background-color: #ccc;
+}
+tr:nth-of-type(odd) > td {
+    background-color: #eee;
+}

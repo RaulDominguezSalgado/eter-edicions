@@ -33,8 +33,28 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['isbn', 'publisher', 'image', 'pvp', 'iva', 'discounted_price', 'stock', 'visible'];
-
+    protected $fillable = [
+        'title',
+        'description',
+        'slug',
+        'lang',
+        'isbn',
+        'publisher',
+        'image',
+        'pvp',
+        'iva',
+        'discounted_price',
+        'stock',
+        'visible',
+        'authory',
+        'translation',
+        'ilustration',
+        'sample_url',
+        'page_num',
+        'publication_date',
+        'colections',
+    ];
+    
 
 
 }

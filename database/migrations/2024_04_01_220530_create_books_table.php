@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->string('slug');
+            $table->string('lang');
             $table->string('isbn')->unique();
             $table->string('publisher');
             $table->string('image');
@@ -21,6 +25,13 @@ return new class extends Migration
             $table->decimal('discounted_price', 8, 2);
             $table->integer('stock');
             $table->boolean('visible')->default(true);
+            $table->string('authory');
+            $table->string('translation');
+            $table->string('ilustration');
+            $table->string('sample_url');
+            $table->string('page_num');
+            $table->string('publication_date');
+            $table->string('colections');
             $table->timestamps();
         });
     }

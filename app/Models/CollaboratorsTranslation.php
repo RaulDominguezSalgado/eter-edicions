@@ -37,3 +37,4 @@ class CollaboratorsTranslation extends Model
         return $this->belongsTo(\App\Models\Collaborator::class, 'collaborator_id', 'id');
     }
 }
+

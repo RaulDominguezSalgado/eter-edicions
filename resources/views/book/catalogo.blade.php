@@ -1,7 +1,4 @@
-<x-layouts.admin.app>
-    {{-- <x-slot name="title">
-        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
-    </x-slot> --}}
+<x-layouts.app>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -9,15 +6,8 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                <h1>{{ __('Llibres') }}</h1>
+                                <h1>{{ __('Tots els llibres') }}</h1>
                             </span>
-
-                            <div class="float-right">
-                                <a href="{{ route('books.create') }}" class="btn btn-primary btn-sm float-right"
-                                    data-placement="left">
-                                    {{ __('Create New') }}
-                                </a>
-                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -41,7 +31,6 @@
                                         <th>Preu amb descompte</th>
                                         <th colspan="1">Stock</th>
                                         <th>Visible</th>
-                                        <th>Opcions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,7 +38,7 @@
                                         <tr>
                                             <td><input type="checkbox"></td>
                                             <td>
-                                                <img style="width: 100px; height: auto;" src="{{ asset('img/book/'.$book['image']) }}" alt="{{ ($book['image']) }}"></a>
+                                                <a href="/catalogo/{{ $book['slug'] }}/"><img style="width: 100px; height: auto;" src="{{ asset('img/book/'.$book['image']) }}" alt="{{ ($book['image']) }}"></a>
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['lang'] }}</td>
@@ -63,21 +52,6 @@
                                             @else
                                                 <td><span>x</span></td>
                                             @endif
-                                            {{-- Crud --}}
-                                            <td>
-                                                <form action="{{ route('books.destroy', $book['id']) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary "
-                                                        href="{{ route('books.show', $book['slug']) }}" target="_blank"><i
-                                                            class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a>
-                                                    <a class="btn btn-sm btn-success"
-                                                        href="{{ route('books.edit', $book['id']) }}"><i
-                                                            class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
-                                                </form>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -89,4 +63,4 @@
             </div>
         </div>
     </div>
-</x-layouts.admin.app>
+</x-layouts.app>

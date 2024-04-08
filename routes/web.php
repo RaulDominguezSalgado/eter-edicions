@@ -22,7 +22,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo']);
+Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo'])->name('catalogo');
+Route::get('catalogo/{slug}', [App\Http\Controllers\BookController::class, 'show']);
 
 Route::resource('authors', App\Http\Controllers\AuthorController::class);
 
