@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('collection_id')->references('id')->on('collections')->name('collections_translation_collection_id_foreign');
+            $table->foreign('collection_id')->references('id')->on('collections');
         });
     }
 

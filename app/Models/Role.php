@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -29,5 +29,11 @@ class Role extends Model
     protected $fillable = ['name'];
 
 
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->hasMany(\App\Models\User::class, 'user_id', 'id');
+    }
 }

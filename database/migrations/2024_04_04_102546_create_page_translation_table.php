@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('page_id')->references('id')->on('pages')->name('pages_translation_page_id_foreign');
+            $table->foreign('page_id')->references('id')->on('pages');
         });
     }
 

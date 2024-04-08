@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('illustrator_id');
             $table->unsignedBigInteger('book_id');
 
-            $table->foreign('illustrator_id')->references('id')->on('illustrators')->onDelete('cascade');
+            $table->foreign('illustrator_id')->references('id')->on('illustrators')->onDelete('cascade'); //no s'hauria de poder il·lustrador autor amb llibres
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
 
             $table->primary(['illustrator_id', 'book_id']);

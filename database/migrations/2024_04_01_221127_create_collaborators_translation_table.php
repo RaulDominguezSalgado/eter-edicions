@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('collaborator_id')->references('id')->on('collaborators')->name('collab_trans_collab_id_foreign');
+            $table->foreign('collaborator_id')->references('id')->on('collaborators');
         });
     }
 
