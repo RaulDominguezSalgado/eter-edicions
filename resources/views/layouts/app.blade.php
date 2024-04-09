@@ -10,7 +10,6 @@
 <body>
     <x-layouts.navigate/>
     {{-- {{$slot}} --}}
-    jksdhfjkshfhajfhsdljk
     @yield('content')
     <x-layouts.footer/>
 </body>

@@ -101,10 +101,10 @@ class CollaboratorController extends Controller
     public function show($id)
     {
         $collab = Collaborator::find($id);
-        $collaborator = [];
+        // $collaborator =
         $translation = $collab->translations()->where('lang', $this->lang)->first();
         if ($translation) {
-            $collaborator[] = [
+            $collaborator = [
             'id' => $collab->id,
             'image' => $collab->image,
             'name' => $translation->name ,
