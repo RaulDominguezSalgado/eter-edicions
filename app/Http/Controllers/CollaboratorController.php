@@ -92,7 +92,6 @@ class CollaboratorController extends Controller
 
             $translationData = [
                 'collaborator_id' => $collaborator->id,
-                //'lang' => 'es',
                 'name' => $validatedData['name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
