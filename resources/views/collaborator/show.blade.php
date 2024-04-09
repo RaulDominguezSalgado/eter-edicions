@@ -19,14 +19,30 @@
                     </div>
 
                     <div class="card-body bg-white">
-                        
+
                         <div class="form-group mb-2 mb20">
-                            <strong>Image:</strong>
-                            {{ $collaborator->image }}
+                            <strong>Imatge:</strong>
+                            <img style="width: 100px; height: auto;" src="{{ asset('img/collab/'. $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
                         </div>
                         <div class="form-group mb-2 mb20">
-                            <strong>Social Networks:</strong>
-                            {{ $collaborator->social_networks }}
+                            <strong>Nom:</strong>
+                            {{ $collaborator["name"] }}
+                        </div>
+                        <div class="form-group mb-2 mb20">
+                            <strong>Cognom:</strong>
+                            {{ $collaborator["last_name"] }}
+                        </div>
+                        <div class="form-group mb-2 mb20">
+                            <strong>Llenguatge:</strong>
+                            {{ $collaborator["lang"] }}
+                        </div>
+                        <div class="form-group mb-2 mb20">
+                            <strong>Biografia:</strong>
+                            {{ $collaborator["biography"] }}
+                        </div>
+                        <div class="form-group mb-2 mb20">
+                            <strong>Xarxa social:</strong>
+                            {{ $collaborator["social_networks"] }}
                         </div>
 
                     </div>
