@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Collaborator;
 use App\Models\CollaboratorsTranslations;
 use App\Http\Requests\CollaboratorRequest;
-use Exception;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -71,7 +70,7 @@ class CollaboratorController extends Controller
     public function store(CollaboratorRequest $request)
     {
 
-        //dd($request);
+        dd($request);
         try {
             $validatedData = $request->validated();
 
@@ -95,16 +94,13 @@ class CollaboratorController extends Controller
                 'name' => $validatedData['name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
-                'slug' => $validatedData['name'] . "-" . $validatedData['last_name'],
+                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name'])."-".\App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
                 'lang' => $validatedData['lang']
             ];
             CollaboratorsTranslations::create($translationData);
             return redirect()->route('collaborators.index')
                 ->with('success', 'Collaborator created successfully.');
         } catch (ValidationException $e) {
-            dd($e);
-        }catch(Exception $e){
-            dd($e);
         }
     }
 

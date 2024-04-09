@@ -4,7 +4,7 @@
 
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Imatge') }}</label>
-            <input type="text" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
+            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         {{-- <div class="form-group mb-2 mb20">
@@ -70,5 +70,5 @@
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
     </div>
 </div>
-<script src="{{ asset('js/social_networks.js') }}"></script>
+<script src="{{ asset('js/form/social_networks.js') }}"></script>
 
