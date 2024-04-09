@@ -68,29 +68,29 @@ class CollaboratorController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(CollaboratorRequest $request)
-{
-    try {
-        // Validate the request data
-        $validatedData = $request->validated();
+    {
+        try {
+            // Validate the request data
+            $validatedData = $request->validated();
 
-        // Convert the social networks data to JSON
-        // Convertir los datos de las redes sociales en formato JSON
-        $redes_sociales = [];
-        if ($request->filled('red_social')) {
-            foreach ($request->input('red_social') as $index => $red_social) {
-                if ($request->filled('usuario_red_social.' . $index)) {
-                    $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $index);
+            // Convert the social networks data to JSON
+            // Convertir los datos de las redes sociales en formato JSON
+            $redes_sociales = [];
+            if ($request->filled('red_social')) {
+                foreach ($request->input('red_social') as $index => $red_social) {
+                    if ($request->filled('usuario_red_social.' . $index)) {
+                        $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $index);
+                    }
                 }
             }
-        }
-        $redes_sociales_json = json_encode($redes_sociales);
+            $redes_sociales_json = json_encode($redes_sociales);
 
-        // Create the collaborator
-        $collaboratorData = [
-            'image' => $validatedData['image'],
-            'social_networks' => $redes_sociales_json
-        ];
-        $collaborator = Collaborator::create($collaboratorData);
+            // Create the collaborator
+            $collaboratorData = [
+                'image' => $validatedData['image'],
+                'social_networks' => $redes_sociales_json
+            ];
+            $collaborator = Collaborator::create($collaboratorData);
 
             $translationData = [
                 'collaborator_id' => $collaborator->id,
@@ -104,9 +104,6 @@ class CollaboratorController extends Controller
             return redirect()->route('collaborators.index')
                 ->with('success', 'Collaborator created successfully.');
         } catch (ValidationException $e) {
-            dd($e);
-        }catch(Exception $e){
-            dd($e);
         }
     }
 
