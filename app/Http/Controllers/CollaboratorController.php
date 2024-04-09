@@ -13,40 +13,44 @@ use Illuminate\Validation\ValidationException;
  */
 class CollaboratorController extends Controller
 {
+    private $lang= "es";
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
         $collaborators = Collaborator::paginate();
         $collaboratorsArray = [];
 
         //mostrar solo en español
-        // foreach ($collaborators as $collaborator) {
-        //     $translation = $collaborator->translations()->where('lang', 'es')->first();
-        //     $collaboratorsArray[] = [
-        //         'id' => $collaborator->id,
-        //         'image' => $collaborator->image,
-        //         'name' => $translation ? $translation->name : '',
-        //         'last_name' => $translation ? $translation->last_name : '',
-        //         'lang' => $translation ? $translation->lang : '',
-        //         'social_networks' => $collaborator->social_networks
-        //     ];
-        // }
-
-        //opcion 2 que me salgan todos los colaboradores en todos los idiomas
         foreach ($collaborators as $collaborator) {
-            foreach ($collaborator->translations as $collabtrad) {
+            $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+            if ($translation) {
                 $collaboratorsArray[] = [
-                    'id' => $collaborator->id,
-                    'lang'=>$collabtrad->lang,
-                    'image' => $collaborator->image,
-                    'name' => $collabtrad->name,
-                    'last_name' => $collabtrad->last_name,
-                    'social_networks' => $collaborator->social_networks,
-                ];
+                'id' => $collaborator->id,
+                'image' => $collaborator->image,
+                'name' => $translation->name ,
+                'last_name' =>$translation->last_name,
+                'lang' => $translation->lang,
+                'social_networks' => $collaborator->social_networks
+            ];
             }
         }
+
+        //opcion 2 que me salgan todos los colaboradores en todos los idiomas
+        // foreach ($collaborators as $collaborator) {
+        //     foreach ($collaborator->translations as $collabtrad) {
+        //         $collaboratorsArray[] = [
+        //             'id' => $collaborator->id,
+        //             'lang'=>$collabtrad->lang,
+        //             'image' => $collaborator->image,
+        //             'name' => $collabtrad->name,
+        //             'last_name' => $collabtrad->last_name,
+        //             'social_networks' => $collaborator->social_networks,
+        //         ];
+        //     }
+        // }
         return view('collaborator.index', compact('collaboratorsArray', 'collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
@@ -96,8 +100,20 @@ class CollaboratorController extends Controller
      */
     public function show($id)
     {
-        $collaborator = Collaborator::find($id);
-
+        $collab = Collaborator::find($id);
+        $collaborator = [];
+        $translation = $collab->translations()->where('lang', $this->lang)->first();
+        if ($translation) {
+            $collaborator[] = [
+            'id' => $collab->id,
+            'image' => $collab->image,
+            'name' => $translation->name ,
+            'last_name' =>$translation->last_name,
+            'lang' => $translation->lang,
+            'biography'=>$translation->biography,
+            'social_networks' => $collab->social_networks
+        ];
+        }
         return view('collaborator.show', compact('collaborator'));
     }
 

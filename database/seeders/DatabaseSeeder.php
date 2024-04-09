@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
 
         CollaboratorsTranslations::create([
             'collaborator_id' => 3,
-            'lang' => 'ar',
+            'lang' => 'ar-sy',
             'name' => 'إيميلي',
             'last_name' => 'جونسون',
             'biography' => 'إيميلي جونسون هي رسامة موهوبة معروفة بأعمالها الفنية الغريبة والرسومات الزاهية. رسوماتها زينت صفحات العديد من كتب الأطفال وسرت بالقلوب لقراء جميع الأعمار',
