@@ -92,24 +92,23 @@ class CollaboratorController extends Controller
         ];
         $collaborator = Collaborator::create($collaboratorData);
 
-        // Create the collaborator translation
-        $translationData = [
-            'collaborator_id' => $collaborator->id,
-            'name' => $validatedData['name'],
-            'last_name' => $validatedData['last_name'],
-            'biography' => $validatedData['biography'],
-            'slug' => $validatedData['name'] . "-" . $validatedData['last_name'],
-            'lang' => $validatedData['lang']
-        ];
-        CollaboratorsTranslations::create($translationData);
-
-        // Redirect to the collaborators index page
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator created successfully.');
-    } catch (ValidationException $e) {
-        // Handle validation errors
+            $translationData = [
+                'collaborator_id' => $collaborator->id,
+                'name' => $validatedData['name'],
+                'last_name' => $validatedData['last_name'],
+                'biography' => $validatedData['biography'],
+                'slug' => $validatedData['name'] . "-" . $validatedData['last_name'],
+                'lang' => $validatedData['lang']
+            ];
+            CollaboratorsTranslations::create($translationData);
+            return redirect()->route('collaborators.index')
+                ->with('success', 'Collaborator created successfully.');
+        } catch (ValidationException $e) {
+            dd($e);
+        }catch(Exception $e){
+            dd($e);
+        }
     }
-}
 
     /**
      * Display the specified resource.
