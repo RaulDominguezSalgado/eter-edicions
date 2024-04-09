@@ -104,7 +104,7 @@ class CollaboratorController extends Controller
         $collaborator = [];
         $translation = $collab->translations()->where('lang', $this->lang)->first();
         if ($translation) {
-            $collaborator[] = [
+            $collaborator = [
             'id' => $collab->id,
             'image' => $collab->image,
             'name' => $translation->name ,
