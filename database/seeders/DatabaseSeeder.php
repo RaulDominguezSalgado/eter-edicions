@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'John',
             'last_name' => 'Smith',
             'biography' => 'John Smith is an accomplished author known for his bestselling novels in the thriller genre. His writing style is characterized by gripping plots and well-developed characters. With numerous awards to his name, John continues to captivate readers with each new release.',
-            'slug' =>'John Smith'
+            'slug' =>'John-Smith'
         ]);
         CollaboratorsTranslations::create([
             'collaborator_id' => 1,
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'John',
             'last_name' => 'Smith',
             'biography' => 'John Smith es un autor consumado conocido por sus exitosas novelas en el género del thriller. Su estilo de escritura se caracteriza por tramas emocionantes y personajes bien desarrollados. Con numerosos premios a su nombre, John sigue cautivando a los lectores con cada nuevo lanzamiento.',
-            'slug' =>'John Smith'
+            'slug' =>'John-Smith'
         ]);
         CollaboratorsTranslations::create([
             'collaborator_id' => 2,
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Maria',
             'last_name' => 'Garcia',
             'biography' => 'María García es una autora reconocida por sus novelas románticas que han conquistado los corazones de los lectores. Su habilidad para crear historias emotivas y personajes entrañables la ha convertido en una de las escritoras más queridas en su género.',
-            'slug'=>"Maria Garcia"
+            'slug'=>"Maria-Garcia"
         ]);
 
         CollaboratorsTranslations::create([
@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Emily',
             'last_name' => 'Johnson',
             'biography' => 'Emily Johnson is a talented illustrator known for her whimsical artwork and vibrant illustrations. Her illustrations have graced the pages of numerous children\'s books and have delighted readers of all ages.',
-            "slug" => "Emily Johnson"
+            "slug" => "Emily-Johnson"
         ]);
 
         CollaboratorsTranslations::create([
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Emily',
             'last_name' => 'Johnson',
             'biography' => 'Emily Johnson és una il·lustradora talentosa coneguda pel seu treball capritxós i les seves il·lustracions vibrants. Les seves il·lustracions han decorat les pàgines de nombrosos llibres infantils i han encantat lectors de totes les edats.',
-            "slug" => "Emily Johnson"
+            "slug" => "Emily-Johnson"
         ]);
 
         CollaboratorsTranslations::create([
@@ -85,16 +85,16 @@ class DatabaseSeeder extends Seeder
             'name' => 'Emily',
             'last_name' => 'Johnson',
             'biography' => 'Emily Johnson es una talentosa ilustradora conocida por su trabajo caprichoso y sus ilustraciones vibrantes. Sus ilustraciones han decorado las páginas de numerosos libros infantiles y han encantado a lectores de todas las edades.',
-            "slug" => "Emily Johnson"
+            "slug" => "Emily-Johnson"
         ]);
 
         CollaboratorsTranslations::create([
             'collaborator_id' => 3,
-            'lang' => 'ar',
+            'lang' => 'ar-sy',
             'name' => 'إيميلي',
             'last_name' => 'جونسون',
             'biography' => 'إيميلي جونسون هي رسامة موهوبة معروفة بأعمالها الفنية الغريبة والرسومات الزاهية. رسوماتها زينت صفحات العديد من كتب الأطفال وسرت بالقلوب لقراء جميع الأعمار',
-            "slug" => "Emily Johnson"
+            "slug" => "Emily-Johnson"
         ]);
     }
 }

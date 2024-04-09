@@ -13,25 +13,29 @@ use Illuminate\Validation\ValidationException;
  */
 class CollaboratorController extends Controller
 {
+    private $lang= "es";
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
         $collaborators = Collaborator::paginate();
         $collaboratorsArray = [];
 
-        //mostrar solo en catalan
+        //mostrar solo en español
         foreach ($collaborators as $collaborator) {
-            $translation = $collaborator->translations()->where('lang', 'es')->first();
-            $collaboratorsArray[] = [
+            $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+            if ($translation) {
+                $collaboratorsArray[] = [
                 'id' => $collaborator->id,
                 'image' => $collaborator->image,
-                'name' => $translation ? $translation->name : '',
-                'last_name' => $translation ? $translation->last_name : '',
-                'lang' => $translation ? $translation->lang : '',
+                'name' => $translation->name ,
+                'last_name' =>$translation->last_name,
+                'lang' => $translation->lang,
                 'social_networks' => $collaborator->social_networks
             ];
+            }
         }
 
         //opcion 2 que me salgan todos los colaboradores en todos los idiomas
@@ -67,6 +71,8 @@ class CollaboratorController extends Controller
     {
         try {
             $validatedData = $request->validated();
+
+            //dd($request);
             $collaboratorData = [
                 'image'=>$validatedData['image'],
                 'social_networks'=>$validatedData['social_networks']
@@ -75,16 +81,14 @@ class CollaboratorController extends Controller
 
             $translationData = [
                 'collaborator_id' => $collaborator->id,
-                //'lang' => $validatedData['lang'],
-                'lang' => 'es',
+                //'lang' => 'es',
                 'name' => $validatedData['name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
-                'slug' => $validatedData['name']."-".$validatedData['last_name']
+                'slug' => $validatedData['name']."-".$validatedData['last_name'],
+                'lang' => $validatedData['lang']
             ];
-
             CollaboratorsTranslations::create($translationData);
-
             return redirect()->route('collaborators.index')
                 ->with('success', 'Collaborator created successfully.');
         } catch (ValidationException $e) {
@@ -96,8 +100,20 @@ class CollaboratorController extends Controller
      */
     public function show($id)
     {
-        $collaborator = Collaborator::find($id);
-
+        $collab = Collaborator::find($id);
+        $collaborator = [];
+        $translation = $collab->translations()->where('lang', $this->lang)->first();
+        if ($translation) {
+            $collaborator[] = [
+            'id' => $collab->id,
+            'image' => $collab->image,
+            'name' => $translation->name ,
+            'last_name' =>$translation->last_name,
+            'lang' => $translation->lang,
+            'biography'=>$translation->biography,
+            'social_networks' => $collab->social_networks
+        ];
+        }
         return view('collaborator.show', compact('collaborator'));
     }
 
