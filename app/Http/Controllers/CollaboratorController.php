@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
  */
 class CollaboratorController extends Controller
 {
-    private $lang = "es";
+    private $lang = "ca";
     /**
      * Display a listing of the resource.
      */
