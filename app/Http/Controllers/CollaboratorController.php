@@ -11,6 +11,10 @@ use App\Http\Requests\CollaboratorRequest;
  */
 class CollaboratorController extends Controller
 {
+    public static function listAll() {
+        
+    }
+
     /**
      * Display a listing of the resource.
      */

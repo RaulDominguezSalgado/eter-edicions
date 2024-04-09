@@ -1,25 +1,25 @@
 <x-layouts.admin.app>
-    {{-- <x-slot name="title">
-        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
-    </x-slot> --}}
-    <section class="content container-fluid">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-
-                <div class="card card-default">
+            <div class="col-sm-12">
+                <div class="card">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Create') }} Book</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span id="card_title">
+                                <a href="{{ route('books.index') }}">Torna a l'index</a>
+                                <h1>Publica un nou llibre</h1>
+                            </span>
+                        </div>
                     </div>
-                    <div class="card-body bg-white">
-                        <form method="POST" action="{{ route('books.store') }}"  role="form" enctype="multipart/form-data">
-                            @csrf
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success m-4">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
 
-                            @include('book.form')
-
-                        </form>
-                    </div>
+                    @include("book.form")
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </x-layouts.admin.app>

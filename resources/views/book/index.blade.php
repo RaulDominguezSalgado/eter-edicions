@@ -67,7 +67,7 @@
                                             <td>
                                                 <form action="{{ route('books.destroy', $book['id']) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary "
-                                                        href="{{ route('books.show', $book['slug']) }}" target="_blank"><i
+                                                        href="{{ route('libro', $book['slug']) }}" target="_blank"><i
                                                             class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a>
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('books.edit', $book['id']) }}"><i

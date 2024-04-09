@@ -22,9 +22,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/* Rutas públicas de libros */
 Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo'])->name('catalogo');
-Route::get('catalogo/{slug}', [App\Http\Controllers\BookController::class, 'show']);
+Route::get('catalogo/{slug}', [App\Http\Controllers\BookController::class, 'show'])->name('libro');
 
+/* Rutas públicas de colaboradores */
 Route::resource('authors', App\Http\Controllers\AuthorController::class);
 
 
@@ -35,6 +37,9 @@ Route::prefix('admin')->group(function () {
     });
     Route::resource('books', App\Http\Controllers\BookController::class);
     Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+    Route::resource('authors', App\Http\Controllers\AuthorController::class);
+    Route::resource('translators', App\Http\Controllers\TranslatorController::class);
+    Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');

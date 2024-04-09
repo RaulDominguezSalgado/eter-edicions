@@ -5,15 +5,14 @@
                 <div class="card">
                     <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="float-left">
-                            <span class="card-title">{{ __('Show') }} Book</span>
+                            <h1 class="card-title">{{ $book['title'] }}</h1>
+                            <img style="width: 450px;" src="/img/book/{{ $book['image'] }}" alt="">
                         </div>
                         <div class="float-right">
                             <a class="btn btn-primary btn-sm" href="{{ route('catalogo') }}"> {{ __('Back') }}</a>
                         </div>
                     </div>
-
                     <div class="card-body bg-white">
-                        
                         <div class="form-group mb-2 mb20">
                             <strong>Isbn:</strong>
                             {{ $book['isbn'] ?? '' }}
