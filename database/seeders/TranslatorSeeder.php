@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Collaborator;
+use App\Models\Translator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +14,19 @@ class TranslatorSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        //Mohammad bitari
+        $mohammadbitari = new Translator();
+        $mohammadbitari->id = Collaborator::find(2)->id;
+        $mohammadbitari->save();
+
+        //Ismael Profitós
+        $ismaelprofitos = new Translator();
+        $ismaelprofitos->id = Collaborator::find(3)->id;
+        $ismaelprofitos->save();
+
+        //Margarida Castells
+        $margaridacastells = new Translator();
+        $margaridacastells->id = Collaborator::find(4)->id;
+        $margaridacastells->save();
     }
 }

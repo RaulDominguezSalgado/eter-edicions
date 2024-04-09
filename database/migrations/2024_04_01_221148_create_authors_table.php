@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('authors', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary(); 
+            $table->unsignedBigInteger('id')->primary();
             $table->boolean('represented_by_agency')->default(false); // Si el autor está representado por una agencia
             $table->timestamps();
 
             // Restricción de clave foránea
-            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade');
+            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }

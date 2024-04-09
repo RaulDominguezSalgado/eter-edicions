@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Author;
+use App\Models\Collaborator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +14,9 @@ class AuthorSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        //Majd Kayyal
+        $majdkayyal = new Author();
+        $majdkayyal->id = Collaborator::find(1)->id;
+        $majdkayyal->save();
     }
 }

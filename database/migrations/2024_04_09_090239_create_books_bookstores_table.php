@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('authors_books', function (Blueprint $table) {
-            //$table->id();
-            $table->unsignedBigInteger('author_id');
+        Schema::create('books_bookstores', function (Blueprint $table) {
             $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('bookstore_id');
             $table->timestamps();
 
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('restrict')->onUpdate('cascade'); //no s'hauria de poder eliminar autor amb llibres
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('bookstore_id')->references('id')->on('bookstores')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->primary(['author_id', 'book_id']);
-
+            $table->primary(['book_id', 'bookstore_id']);
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('authors_books');
+        Schema::dropIfExists('books_bookstores');
     }
 };

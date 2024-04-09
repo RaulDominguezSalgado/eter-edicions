@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('translators_books', function (Blueprint $table) {
-            $table->unsignedBigInteger('translator_id');
             $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('translator_id');
 
-            $table->foreign('translator_id')->references('id')->on('translators')->onDelete('cascade'); //no s'hauria de poder eliminar traductor amb llibres
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('restrict');
+            $table->foreign('translator_id')->references('id')->on('translators')->onDelete('restrict')->onUpdate('cascade');
 
             $table->primary(['translator_id', 'book_id']);
         });

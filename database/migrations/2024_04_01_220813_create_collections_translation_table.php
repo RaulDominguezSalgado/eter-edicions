@@ -16,11 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('collection_id');
             $table->string('lang');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('collection_id')->references('id')->on('collections');
+            $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('lang')->references('iso')->on('languages')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

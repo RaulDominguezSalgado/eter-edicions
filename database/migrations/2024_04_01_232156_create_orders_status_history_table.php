@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('status_id');
             $table->timestamp('timestamp');
 
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreign('status_id')->references('id')->on('orders_status')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('status_id')->references('id')->on('orders_status')->onDelete('restrict')->onUpdate('cascade');
 
             $table->timestamps();
         });

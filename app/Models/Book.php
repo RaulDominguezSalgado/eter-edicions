@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property $id
  * @property $isbn
+ * @property $title
  * @property $publisher
  * @property $image
  * @property $pvp
  * @property $iva
  * @property $discounted_price
  * @property $stock
+ * @property $legal_disposit
  * @property $visible
  * @property $created_at
  * @property $updated_at
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Book extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -33,8 +35,21 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['isbn', 'publisher', 'image', 'pvp', 'iva', 'discounted_price', 'stock', 'visible'];
+    protected $fillable = ['isbn', 'title', 'publisher', 'image', 'pvp', 'iva', 'discounted_price', 'stock', 'legal_diposit', 'visible'];
 
+    public function authors(){
+        return $this->belongsToMany(\App\Models\Author::class);
+    }
 
+    public function translators(){
+        return $this->belongsToMany(\App\Models\Translator::class);
+    }
 
+    public function illustrators(){
+        return $this->belongsToMany(\App\Models\Illustrator::class);
+    }
+
+    // public function extras(){
+    //     return $this->belongsToMany(\App\Models\BooksExtra::class);
+    // }
 }

@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $oriol = new User();
-        $oriol->email = "oriolrissech@gmail.com";
+        $oriol->email = "orissech@eteredicions.com";
         $oriol->email_verified_at = now();
         $oriol->first_name = "Oriol";
         $oriol->last_name = "Rissech Gasulla";
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         $oriol->save();
 
         $moha = new User();
-        $moha->email = "moha@example.com";
+        $moha->email = "mbitari@eteredicions.com";
         $moha->email_verified_at = now();
         $moha->first_name = "Mohammad";
         $moha->last_name = "Bitari";

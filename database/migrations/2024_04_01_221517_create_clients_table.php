@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('dni');
-            $table->string('name');
+            $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
             $table->string('phone_number');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('country');
 
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
         });

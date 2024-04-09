@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('translators', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
+        Schema::create('languages', function (Blueprint $table) {
+            $table->string('iso');
+
             $table->timestamps();
 
-            // Restricción de clave foránea
-            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
+            $table->primary('iso');
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('translators');
+        Schema::dropIfExists('languages');
     }
 };

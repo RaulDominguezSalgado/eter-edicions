@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('collaborators', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->json('social_networks');
+            $table->json('social_networks')->nullable();
             $table->timestamps();
         });
     }

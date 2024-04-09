@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('illustrators', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary();
-            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade');
+
+            $table->timestamps();
+
+            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
        });
     }
 
