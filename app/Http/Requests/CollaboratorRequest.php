@@ -23,7 +23,7 @@ class CollaboratorRequest extends FormRequest
     {
         return [
 			'image' => 'required|string',
-			'social_networks' => 'required',
+			'social_networks' => '',
             'name' => 'required',
             'last_name' => 'required',
             'biography' => 'required',
