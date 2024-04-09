@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collaborator;
 use App\Models\CollaboratorsTranslations;
 use App\Http\Requests\CollaboratorRequest;
+use Exception;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -69,23 +70,20 @@ class CollaboratorController extends Controller
      */
     public function store(CollaboratorRequest $request)
     {
+
+        //dd($request);
         try {
-            dd($request);
-            //$validatedData = $request->validated();
+            $validatedData = $request->validated();
 
-            $validatedData = $request;
-
-        // Convertir los datos de las redes sociales en formato JSON
-        $redes_sociales = [];
-        if ($request->filled('red_social')) {
-            foreach ($request->input('red_social') as $key => $red_social) {
-                if ($request->filled('usuario_red_social.' . $key)) {
-                    $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $key);
+            $redes_sociales = [];
+            if ($request->filled('red_social')) {
+                foreach ($request->input('red_social') as $key => $red_social) {
+                    if ($request->filled('usuario_red_social.' . $key)) {
+                        $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $key);
+                    }
                 }
             }
-        }
-        $redes_sociales_json = json_encode($redes_sociales);
-
+            $redes_sociales_json = json_encode($redes_sociales);
             $collaboratorData = [
                 'image' => $validatedData['image'],
                 'social_networks' => $redes_sociales_json
@@ -105,6 +103,9 @@ class CollaboratorController extends Controller
             return redirect()->route('collaborators.index')
                 ->with('success', 'Collaborator created successfully.');
         } catch (ValidationException $e) {
+            dd($e);
+        }catch(Exception $e){
+            dd($e);
         }
     }
 

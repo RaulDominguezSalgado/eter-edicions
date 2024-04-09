@@ -1,4 +1,4 @@
-<hr>
+
 <div class="row padding-1 p-1">
     <div class="col-md-12">
 
@@ -27,10 +27,12 @@
                 <input type="text" name="red_social[]" placeholder="Nombre de la red social">
                 <input type="text" name="usuario_red_social[]" placeholder="Nombre de usuario">
             </div>
+            {!! $errors->first('social_networks', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
             <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
+                {{-- TODO get languages from database --}}
                 <option value="ca" {{ old('lang', $collaborator['language']) == 'ca' ? 'selected' : '' }}>Català</option>
                 <option value="es" {{ old('lang', $collaborator['language']) == 'es' ? 'selected' : '' }}>Castellà</option>
                 <option value="ar-sy" {{ old('lang', $collaborator['language']) == 'ar-sy' ? 'selected' : '' }}>Àrab</option>
@@ -68,6 +70,5 @@
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
     </div>
 </div>
-<hr>
 <script src="{{ asset('js/social_networks.js') }}"></script>
 
