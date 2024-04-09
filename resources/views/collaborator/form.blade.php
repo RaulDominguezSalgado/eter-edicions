@@ -7,11 +7,25 @@
             <input type="text" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        {{-- Xarxa Social --}}
         <div class="form-group mb-2 mb20">
             <label for="social_networks" class="form-label">{{ __('Xarxa social') }}</label>
-            <input type="text" name="social_networks" class="form-control @error('social_networks') is-invalid @enderror" value="{{ old('social_networks', $collaborator['social_networks']) }}" id="social_networks" placeholder="Xarxa social">
+            <div class="input-group">
+                <select name="social_network_type" class="form-select mb-2">
+                    <option value="">{{ __('Selecciona una xarxa social') }}</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="twitter">Twitter</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="instagram">Instagram</option>
+                </select>
+                <input type="text" name="social_networks[]" class="form-control @error('social_networks') is-invalid @enderror" value="{{ old('social_networks', $collaborator['social_networks']) }}" id="social_networks" placeholder="URL de la xarxa social">
+            </div>
+            <button type="button" class="btn btn-primary" id="agregar_red_social">+</button>
             {!! $errors->first('social_networks', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+
+
+
 
         <div class="form-group mb-2 mb20">
             <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>

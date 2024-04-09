@@ -102,18 +102,18 @@ class CollaboratorController extends Controller
     {
         $collab = Collaborator::find($id);
         $collaborator = [];
-        // $translation = $collab->translations()->where('lang', $this->lang)->first();
-        // if ($translation) {
-        //     $collaborator = [
-        //     'id' => $collab->id,
-        //     'image' => $collab->image,
-        //     'name' => $translation->name ,
-        //     'last_name' =>$translation->last_name,
-        //     'lang' => $translation->lang,
-        //     'biography'=>$translation->biography,
-        //     'social_networks' => $collab->social_networks
-        //     ];
-        // }
+        $translation = $collab->translations()->where('lang', $this->lang)->first();
+        if ($translation) {
+            $collaborator = [
+            'id' => $collab->id,
+            'image' => $collab->image,
+            'name' => $translation->name ,
+            'last_name' =>$translation->last_name,
+            'lang' => $translation->lang,
+            'biography'=>$translation->biography,
+            'social_networks' => $collab->social_networks
+            ];
+        }
         return view('collaborator.show', compact('collaborator'));
     }
 
