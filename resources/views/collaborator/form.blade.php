@@ -7,26 +7,22 @@
             <input type="text" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        {{-- Xarxa Social --}}
-        <div class="form-group mb-2 mb20">
-            <label for="social_networks" class="form-label">{{ __('Xarxa social') }}</label>
-            <div class="input-group">
-                <select name="social_network_type" class="form-select mb-2">
-                    <option value="">{{ __('Selecciona una xarxa social') }}</option>
-                    <option value="facebook">Facebook</option>
-                    <option value="twitter">Twitter</option>
-                    <option value="linkedin">LinkedIn</option>
-                    <option value="instagram">Instagram</option>
-                </select>
-                <input type="text" name="social_networks[]" class="form-control @error('social_networks') is-invalid @enderror" value="{{ old('social_networks', $collaborator['social_networks']) }}" id="social_networks" placeholder="URL de la xarxa social">
+        {{-- <div id="redes_sociales">
+            <div class="form-group mb-2 mb20" class="red_social">
+                {{-- <label for="social_networks" class="form-label">{{ __('Xarxa social') }}</label>
+                <input type="text" name="red_social[]" placeholder="Nombre de la red social">
+                <input type="text" name="usuario_red_social[]" placeholder="Nombre de usuario">
+                {!! $errors->first('social_networks', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
             </div>
-            <button type="button" class="btn btn-primary" id="agregar_red_social">+</button>
-            {!! $errors->first('social_networks', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div> --}}
+        <div id="redes_sociales">
+            <label for="social_networks" class="form-label">{{ __('Xarxes socials') }}</label>
+            <button type="button" id="agregar_red_social" class="btn btn-primary">+</button>
+            <div class="red_social">
+                <input type="text" name="red_social[]" placeholder="Nombre de la red social">
+                <input type="text" name="usuario_red_social[]" placeholder="Nombre de usuario">
+            </div>
         </div>
-
-
-
-
         <div class="form-group mb-2 mb20">
             <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
@@ -68,3 +64,5 @@
     </div>
 </div>
 <hr>
+<script src="{{ asset('js/social_networks.js') }}"></script>
+

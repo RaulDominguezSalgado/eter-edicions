@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
  */
 class CollaboratorController extends Controller
 {
-    private $lang= "es";
+    private $lang = "es";
     /**
      * Display a listing of the resource.
      */
@@ -28,13 +28,13 @@ class CollaboratorController extends Controller
             $translation = $collaborator->translations()->where('lang', $this->lang)->first();
             if ($translation) {
                 $collaboratorsArray[] = [
-                'id' => $collaborator->id,
-                'image' => $collaborator->image,
-                'name' => $translation->name ,
-                'last_name' =>$translation->last_name,
-                'lang' => $translation->lang,
-                'social_networks' => $collaborator->social_networks
-            ];
+                    'id' => $collaborator->id,
+                    'image' => $collaborator->image,
+                    'name' => $translation->name,
+                    'last_name' => $translation->last_name,
+                    'lang' => $translation->lang,
+                    'social_networks' => $collaborator->social_networks
+                ];
             }
         }
 
@@ -68,32 +68,48 @@ class CollaboratorController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(CollaboratorRequest $request)
-    {
-        try {
-            $validatedData = $request->validated();
+{
+    try {
+        // Validate the request data
+        $validatedData = $request->validated();
 
-            //dd($request);
-            $collaboratorData = [
-                'image'=>$validatedData['image'],
-                'social_networks'=>$validatedData['social_networks']
-            ];
-            $collaborator = Collaborator::create($collaboratorData);
-
-            $translationData = [
-                'collaborator_id' => $collaborator->id,
-                //'lang' => 'es',
-                'name' => $validatedData['name'],
-                'last_name' => $validatedData['last_name'],
-                'biography' => $validatedData['biography'],
-                'slug' => $validatedData['name']."-".$validatedData['last_name'],
-                'lang' => $validatedData['lang']
-            ];
-            CollaboratorsTranslations::create($translationData);
-            return redirect()->route('collaborators.index')
-                ->with('success', 'Collaborator created successfully.');
-        } catch (ValidationException $e) {
+        // Convert the social networks data to JSON
+        // Convertir los datos de las redes sociales en formato JSON
+        $redes_sociales = [];
+        if ($request->filled('red_social')) {
+            foreach ($request->input('red_social') as $index => $red_social) {
+                if ($request->filled('usuario_red_social.' . $index)) {
+                    $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $index);
+                }
+            }
         }
+        $redes_sociales_json = json_encode($redes_sociales);
+
+        // Create the collaborator
+        $collaboratorData = [
+            'image' => $validatedData['image'],
+            'social_networks' => $redes_sociales_json
+        ];
+        $collaborator = Collaborator::create($collaboratorData);
+
+        // Create the collaborator translation
+        $translationData = [
+            'collaborator_id' => $collaborator->id,
+            'name' => $validatedData['name'],
+            'last_name' => $validatedData['last_name'],
+            'biography' => $validatedData['biography'],
+            'slug' => $validatedData['name'] . "-" . $validatedData['last_name'],
+            'lang' => $validatedData['lang']
+        ];
+        CollaboratorsTranslations::create($translationData);
+
+        // Redirect to the collaborators index page
+        return redirect()->route('collaborators.index')
+            ->with('success', 'Collaborator created successfully.');
+    } catch (ValidationException $e) {
+        // Handle validation errors
     }
+}
 
     /**
      * Display the specified resource.
@@ -105,13 +121,13 @@ class CollaboratorController extends Controller
         $translation = $collab->translations()->where('lang', $this->lang)->first();
         if ($translation) {
             $collaborator = [
-            'id' => $collab->id,
-            'image' => $collab->image,
-            'name' => $translation->name ,
-            'last_name' =>$translation->last_name,
-            'lang' => $translation->lang,
-            'biography'=>$translation->biography,
-            'social_networks' => $collab->social_networks
+                'id' => $collab->id,
+                'image' => $collab->image,
+                'name' => $translation->name,
+                'last_name' => $translation->last_name,
+                'lang' => $translation->lang,
+                'biography' => $translation->biography,
+                'social_networks' => $collab->social_networks
             ];
         }
         return view('collaborator.show', compact('collaborator'));
