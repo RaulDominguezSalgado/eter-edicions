@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
  */
 class CollaboratorController extends Controller
 {
-    private $lang= "es";
+    private $lang = "es";
     /**
      * Display a listing of the resource.
      */
@@ -28,13 +28,13 @@ class CollaboratorController extends Controller
             $translation = $collaborator->translations()->where('lang', $this->lang)->first();
             if ($translation) {
                 $collaboratorsArray[] = [
-                'id' => $collaborator->id,
-                'image' => $collaborator->image,
-                'name' => $translation->name ,
-                'last_name' =>$translation->last_name,
-                'lang' => $translation->lang,
-                'social_networks' => $collaborator->social_networks
-            ];
+                    'id' => $collaborator->id,
+                    'image' => $collaborator->image,
+                    'name' => $translation->name,
+                    'last_name' => $translation->last_name,
+                    'lang' => $translation->lang,
+                    'social_networks' => $collaborator->social_networks
+                ];
             }
         }
 
@@ -70,12 +70,25 @@ class CollaboratorController extends Controller
     public function store(CollaboratorRequest $request)
     {
         try {
-            $validatedData = $request->validated();
+            dd($request);
+            //$validatedData = $request->validated();
 
-            //dd($request);
+            $validatedData = $request;
+
+        // Convertir los datos de las redes sociales en formato JSON
+        $redes_sociales = [];
+        if ($request->filled('red_social')) {
+            foreach ($request->input('red_social') as $key => $red_social) {
+                if ($request->filled('usuario_red_social.' . $key)) {
+                    $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $key);
+                }
+            }
+        }
+        $redes_sociales_json = json_encode($redes_sociales);
+
             $collaboratorData = [
-                'image'=>$validatedData['image'],
-                'social_networks'=>$validatedData['social_networks']
+                'image' => $validatedData['image'],
+                'social_networks' => $redes_sociales_json
             ];
             $collaborator = Collaborator::create($collaboratorData);
 
@@ -85,7 +98,7 @@ class CollaboratorController extends Controller
                 'name' => $validatedData['name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
-                'slug' => $validatedData['name']."-".$validatedData['last_name'],
+                'slug' => $validatedData['name'] . "-" . $validatedData['last_name'],
                 'lang' => $validatedData['lang']
             ];
             CollaboratorsTranslations::create($translationData);
@@ -105,14 +118,14 @@ class CollaboratorController extends Controller
         $translation = $collab->translations()->where('lang', $this->lang)->first();
         if ($translation) {
             $collaborator = [
-            'id' => $collab->id,
-            'image' => $collab->image,
-            'name' => $translation->name ,
-            'last_name' =>$translation->last_name,
-            'lang' => $translation->lang,
-            'biography'=>$translation->biography,
-            'social_networks' => $collab->social_networks
-        ];
+                'id' => $collab->id,
+                'image' => $collab->image,
+                'name' => $translation->name,
+                'last_name' => $translation->last_name,
+                'lang' => $translation->lang,
+                'biography' => $translation->biography,
+                'social_networks' => $collab->social_networks
+            ];
         }
         return view('collaborator.show', compact('collaborator'));
     }
