@@ -91,7 +91,7 @@ class CollaboratorController extends Controller
 
         // If size > 560x400, resize to 720x1080
         if ($image->width() > 560 || $image->height() > 400) {
-            $image->resize(720, 1080);
+            $image->resize(560, 400);
         }
 
         // Encode the image to webp format with 80% quality
