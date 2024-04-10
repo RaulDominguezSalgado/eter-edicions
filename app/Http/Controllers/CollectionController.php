@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\CollectionsTranslation;
 use App\Http\Requests\CollectionRequest;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class CollectionController
@@ -50,12 +52,28 @@ class CollectionController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(CollectionRequest $request)
-    {
-        Collection::create($request->validated());
+{
+    try {
+        // Validate the request data
+        $validatedData = $request->validated();
+
+        // Create the collection
+        $collection = Collection::create([]);
+
+        $translationData = [
+            'collection_id' => $collection->id,
+            'lang' => $validatedData['lang'],
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'slug' => $validatedData['name'],
+        ];
+        CollectionsTranslation::create($translationData);
 
         return redirect()->route('collections.index')
             ->with('success', 'Collection created successfully.');
+    } catch (ValidationException $e) {
     }
+}
 
     /**
      * Display the specified resource.

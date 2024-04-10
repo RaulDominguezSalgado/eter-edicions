@@ -22,7 +22,7 @@ class CollectionsTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['lang', 'name', 'description'];
+    protected $fillable = ['collection_id','lang', 'name', 'description','slug'];
 
     public function collection()
     {
