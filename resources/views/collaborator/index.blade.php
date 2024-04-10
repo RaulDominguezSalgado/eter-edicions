@@ -48,7 +48,7 @@
                                             <td>{{ ++$i }}</td>
 											{{-- <td>{{ $collaborator["image"] }}</td> --}}
                                             <td>
-                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/'. $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
+                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/' . $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
                                             </td>
 											<td>{{ $collaborator["name"] }}</td>
 											<td>{{ $collaborator["last_name"] }}</td>

@@ -6,7 +6,11 @@ use App\Models\Collaborator;
 use App\Models\CollaboratorsTranslations;
 use App\Http\Requests\CollaboratorRequest;
 use Illuminate\Validation\ValidationException;
-
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Encoders\WebpEncoder;
 /**
  * Class CollaboratorController
  * @package App\Http\Controllers
@@ -64,16 +68,61 @@ class CollaboratorController extends Controller
         return view('collaborator.create', compact('collaborator'));
     }
 
+    public function editImage($rutaImagen){
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($rutaImagen);
+        // Crop a 1.4 / 1 aspect ratio
+        if ($image->width() > $image->height()) {
+            $heightStd = $image->width() / 1.4;
+            $cropNum = $image->height() - $heightStd;
+            if ($cropNum > 0) {
+                $image->crop($image->width(), $heightStd);
+            }
+        } else {
+            $heightStd = $image->width() / 1.4;
+            $cropNum = $image->height() - $heightStd;
+            if ($cropNum > 0) {
+                $image->crop($heightStd, $image->height());
+            }
+        }
+
+        // Resize the image to 560x400
+        $image->resize(560, 400);
+
+        // If size > 560x400, resize to 720x1080
+        if ($image->width() > 560 || $image->height() > 400) {
+            $image->resize(720, 1080);
+        }
+
+        // Encode the image to webp format with 80% quality
+        $image->encode(new WebpEncoder(), 80);
+
+        // Save the processed image
+        $image->save($rutaImagen);
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(CollaboratorRequest $request)
     {
 
-        dd($request);
+        //dd($request);
         try {
             $validatedData = $request->validated();
+            if ($request->hasFile('image')) {
+                // Obtener el archivo de imagen
+                $imagen = $request->file('image');
+                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
 
+                $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+
+                // // Procesar y guardar la imagen
+                $rutaImagen = public_path('img/collab/' . $nombreImagenOriginal);
+                $imagen->move(public_path('img/collab/'), $nombreImagenOriginal);
+                $this->editImage($rutaImagen);
+
+                $validatedData['image'] = $nombreImagenOriginal;
+            }
             $redes_sociales = [];
             if ($request->filled('red_social')) {
                 foreach ($request->input('red_social') as $key => $red_social) {
@@ -94,7 +143,7 @@ class CollaboratorController extends Controller
                 'name' => $validatedData['name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name'])."-".\App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
                 'lang' => $validatedData['lang']
             ];
             CollaboratorsTranslations::create($translationData);
