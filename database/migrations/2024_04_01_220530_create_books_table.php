@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('isbn')->unique();
             $table->string('title')->unique();
-            $table->text('headline');
+            $table->string('lang');
+            $table->text('headline')->nullable();
             $table->longText('description');
             $table->string('publisher');
             $table->string('image');
@@ -24,8 +25,12 @@ return new class extends Migration
             $table->decimal('discounted_price', 8, 2)->nullable();
             $table->integer('stock');
             $table->string('legal_diposit')->nullable();
+            $table->string('enviromental_footprint')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
+
+
+            $table->foreign('lang')->references('iso')->on('languages')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
