@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class CollaboratorsTranslations extends Model
+class CollaboratorTranslation extends Model
 {
 
 
@@ -30,7 +30,7 @@ class CollaboratorsTranslations extends Model
      *
      * @var array
      */
-    protected $fillable = ['collaborator_id', 'lang', 'name', 'last_name', 'biography', 'slug'];
+    protected $fillable = ['collaborator_id', 'lang', 'name', 'last_name', 'biography'];
 
     public function collaborator()
     {

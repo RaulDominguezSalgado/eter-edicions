@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class User extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -42,8 +42,8 @@ class User extends Model
      */
     public function role()
     {
-        return $this->belongsTo(\App\Models\Role::class, 'role_id', 'id');
+        return $this->belongsTo(\App\Models\Role::class, 'role_id', 'id'); //revisar relació
     }
-    
+
 
 }
