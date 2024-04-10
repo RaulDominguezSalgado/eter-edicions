@@ -75,7 +75,7 @@ class CollectionController extends Controller
                 'lang' => $validatedData['lang'],
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
-                'slug' => $validatedData['name'],
+                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']),
             ];
             CollectionTranslation::create($translationData);
 

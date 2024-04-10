@@ -19,7 +19,7 @@
 
                         <div class="form-group mb-2 mb20">
                             <strong>Name:</strong>
-                            {{ $user->name }}
+                            {{ $user->first_name }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Last Name:</strong>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Role Id:</strong>
-                            {{ $user->role_id }}
+                            {{ $user->role->name }}
                         </div>
 
                     </div>

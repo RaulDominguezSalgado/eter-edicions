@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class UserController
@@ -17,8 +18,24 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate();
+        $usersArray=[];
+        foreach ($users as $user) {
+            $usersArray[] = [
+                'id' => $user->id,
+                'name' => $user->first_name." ".$user->last_name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'role' => $user->role->name,
+            ];
+        }
 
-        return view('user.index', compact('users'))
+        // <td>{{ $user->first_name }}</td>
+        // <td>{{ $user->last_name }}</td>
+        // <td>{{ $user->email }}</td>
+        // <td>{{ $user->phone }}</td>
+        // <td>{{ $user->role->name }}</td>
+
+        return view('user.index', compact('usersArray','users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
     }
 
@@ -35,12 +52,30 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(UserRequest $request)
-    {
-        User::create($request->validated());
+{
+    try {
+        // Validar los datos de la solicitud
+        $validatedData = $request->validated();
+
+        // Crear un nuevo usuario con los datos validados
+        $user = User::create($validatedData);
+
+        // Crear una nueva traducción de usuario con los datos validados
+        $translationData = [
+            'user_id' => $user->id,
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'role' => $validatedData['role'],
+        ];
+        User::create($translationData);
 
         return redirect()->route('users.index')
             ->with('success', 'User created successfully.');
+    } catch (ValidationException $e) {
     }
+}
 
     /**
      * Display the specified resource.

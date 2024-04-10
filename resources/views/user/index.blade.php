@@ -34,7 +34,6 @@
                                         <th>No</th>
 
 										<th>Name</th>
-										<th>Last Name</th>
 										<th>Email</th>
 										<th>Phone</th>
 										<th>Role</th>
@@ -43,20 +42,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
+                                    @foreach ($usersArray as $user)
                                         <tr>
                                             <td>{{ ++$i }}</td>
 
-											<td>{{ $user->name }}</td>
-											<td>{{ $user->last_name }}</td>
-											<td>{{ $user->email }}</td>
-											<td>{{ $user->phone }}</td>
-											<td>{{ $user->role_id }}</td>
+											<td>{{ $user['name'] }}</td>
+											<td>{{ $user['email'] }}</td>
+											<td>{{ $user['phone'] }}</td>
+											<td>{{ $user['role'] }}</td>
 
                                             <td>
-                                                <form action="{{ route('users.destroy',$user->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('users.show',$user->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('users.destroy',$user['id']) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('users.show',$user['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('users.edit',$user['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
