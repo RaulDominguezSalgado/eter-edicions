@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ $collection->name ?? __('Show') . " " . __('Collection') }}
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -19,11 +16,11 @@
                     </div>
 
                     <div class="card-body bg-white">
-                        
+
 
                     </div>
                 </div>
             </div>
         </div>
     </section>
-@endsection
+</x-layouts.admin.app>
