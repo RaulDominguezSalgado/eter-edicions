@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Class User
@@ -23,9 +25,9 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class User extends Model
+class User extends Authenticatable
 {
-
+    use HasApiTokens, Authenticatable;
 
     protected $perPage = 20;
 
@@ -34,7 +36,7 @@ class User extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'last_name', 'email', 'phone', 'role_id'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'passwordConfirmation', 'phone', 'role_id'];
 
 
     /**
