@@ -1,7 +1,10 @@
-<x-layouts.app>
-    {{-- <x-slot name="title">
-        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
-    </x-slot> --}}
+@extends('layouts.app')
+
+@section('template_title')
+    Collections Translation
+@endsection
+
+@section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -10,11 +13,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Collection') }}
+                                {{ __('Collections Translation') }}
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('collections.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                <a href="{{ route('collections-translations.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
                               </div>
@@ -32,25 +35,21 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        <th>Llenguatge</th>
-                                        <th>Nom</th>
-                                        <th>Descripció</th>
+                                        
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($collections as $collection)
+                                    @foreach ($collectionsTranslations as $collectionsTranslation)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $collaborator["lang"] }}</td>
-                                            <td>{{ $collaborator["name"] }}</td>
-											<td>{{ $collaborator["description"] }}</td>
+                                            
 
                                             <td>
-                                                <form action="{{ route('collections.destroy',$collection->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('collections.show',$collection->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('collections.edit',$collection->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('collections-translations.destroy',$collectionsTranslation->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('collections-translations.show',$collectionsTranslation->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('collections-translations.edit',$collectionsTranslation->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
@@ -63,8 +62,8 @@
                         </div>
                     </div>
                 </div>
-                {!! $collections->links() !!}
+                {!! $collectionsTranslations->links() !!}
             </div>
         </div>
     </div>
-</x-layouts.app>
+@endsection

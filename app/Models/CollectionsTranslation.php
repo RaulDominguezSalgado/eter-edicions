@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Collection
+ * Class CollectionsTranslation
  *
- * @property $id
- * @property $created_at
- * @property $updated_at
  *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Collection extends Model
+class CollectionsTranslation extends Model
 {
 
 
@@ -25,10 +22,11 @@ class Collection extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['lang', 'name', 'description'];
 
-    public function translations(){
-        return $this->hasMany(\App\Models\CollectionsTranslation::class, 'collection_id', 'id');
+    public function collection()
+    {
+        return $this->belongsTo(\App\Models\Collection::class, 'collection_id', 'id');
     }
 
 }

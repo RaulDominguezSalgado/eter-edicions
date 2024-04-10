@@ -34,6 +34,7 @@ Route::prefix('admin')->group(function () {
     });
     Route::resource('books', App\Http\Controllers\BookController::class);
     Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+    Route::resource('collections', App\Http\Controllers\CollectionController::class);
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');
