@@ -107,6 +107,7 @@ class BookSeeder extends Seeder
         $orientalisme->stock = 100;
         $orientalisme->visible = 1;
         $orientalisme->legal_diposit = "B 16476-2023";
+        $orientalisme->enviromental_footprint = "527 grams";
         $orientalisme->save();
 
         $orientalisme->authors()->attach(4);
