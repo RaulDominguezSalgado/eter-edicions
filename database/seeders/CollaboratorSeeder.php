@@ -16,7 +16,7 @@ class CollaboratorSeeder extends Seeder
     {
         // 1 - Majd Kayyal
         $majdkayyal = new Collaborator();
-        $majdkayyal->image = "collab-1.webp";
+        $majdkayyal->image = "majd-kayyal.webp";
         $majdkayyal->social_networks = '{"instagram": "https://www.instagram.com/majdkayyal/", "twitter": "https://twitter.com/Majdkayyal"}';
         $majdkayyal->save();
 
@@ -35,7 +35,7 @@ class CollaboratorSeeder extends Seeder
 
         // 2- Moha
         $mohamadbitari = new Collaborator();
-        $mohamadbitari->image = "collab-2.webp";
+        $mohamadbitari->image = "mohammad-bitari.webp";
         $mohamadbitari->social_networks = '{"instagram": "https://www.instagram.com/mohammadbitari/", "facebook": "https://www.facebook.com/mohammad.bitari1/", "twitter": "https://twitter.com/bitari_m"}';
         $mohamadbitari->save();
 
@@ -53,7 +53,7 @@ class CollaboratorSeeder extends Seeder
 
         // 3- Ismael Profitós
         $ismaelprofitos = new Collaborator();
-        $ismaelprofitos->image = "collab-3.webp";
+        $ismaelprofitos->image = "default.webp";
         $ismaelprofitos->social_networks = '{"linkedin": "https://es.linkedin.com/in/ismael-profit%C3%B3s-9a9284145"}';
         $ismaelprofitos->save();
 
@@ -70,7 +70,7 @@ class CollaboratorSeeder extends Seeder
 
         // 4- Margarida Castells
         $margaridacastells = new Collaborator();
-        $margaridacastells->image = "collab-1.webp";
+        $margaridacastells->image = "margarida-castells.webp";
         $margaridacastells->social_networks = '{"wikipedia": "https://ca.wikipedia.org/wiki/Margarida_Castells_i_Criball%C3%A9s"}';
         $margaridacastells->save();
 
@@ -89,7 +89,7 @@ class CollaboratorSeeder extends Seeder
 
         // 5- Rammi Abbas
         $rammiabbas = new Collaborator();
-        $rammiabbas->image = "collab-2.webp";
+        $rammiabbas->image = "default.webp";
         $rammiabbas->social_networks = '{"facebook": "https://www.facebook.com/rami.abbas.902/", "twitter": "https://twitter.com/RamiAbbas48"}';
         $rammiabbas->save();
 
@@ -106,7 +106,7 @@ class CollaboratorSeeder extends Seeder
 
         // 6- Rasha Omran
         $rashaomran = new Collaborator();
-        $rashaomran->image = "collab-3.webp";
+        $rashaomran->image = "rasha-omran.webp";
         $rashaomran->social_networks = '{}';
         $rashaomran->save();
 
@@ -125,7 +125,7 @@ class CollaboratorSeeder extends Seeder
 
         // 7- Pontus Sánchez
         $pontussanchez = new Collaborator();
-        $pontussanchez->image = "collab-1.webp";
+        $pontussanchez->image = "default.webp";
         $pontussanchez->social_networks = '{}';
         $pontussanchez->save();
 
@@ -142,7 +142,7 @@ class CollaboratorSeeder extends Seeder
 
         // 8- Oriol Rissech
         $oriolrissech = new Collaborator();
-        $oriolrissech->image = "collab-2.webp";
+        $oriolrissech->image = "default.webp";
         $oriolrissech->social_networks = '{"instagram": "https://www.instagram.com/reginald_langsham", "facebook": "https://es-es.facebook.com/oriol.gasulla/"}';
         $oriolrissech->save();
 
@@ -160,7 +160,7 @@ class CollaboratorSeeder extends Seeder
 
         // 9- Elisabeth Hultcrantz
         $elisabethhultcrantz = new Collaborator();
-        $elisabethhultcrantz->image = "collab-1.webp";
+        $elisabethhultcrantz->image = "elisabeth-hultcrantz.webp";
         $elisabethhultcrantz->social_networks = '{}';
         $elisabethhultcrantz->save();
 
@@ -180,7 +180,7 @@ class CollaboratorSeeder extends Seeder
 
         // 10- Sàdiq Jalal al-Àzem
         $sadiqjalalalazem = new Collaborator();
-        $sadiqjalalalazem->image = "collab-3.webp";
+        $sadiqjalalalazem->image = "sadiq-jalal-al-azem.webp";
         $sadiqjalalalazem->social_networks = '{}';
         $sadiqjalalalazem->save();
 
@@ -197,7 +197,7 @@ class CollaboratorSeeder extends Seeder
 
         // 11- Sélim Nassib
         $selimnassib = new Collaborator();
-        $selimnassib->image = "collab-1.webp";
+        $selimnassib->image = "selim-nassib.webp";
         $selimnassib->social_networks = '{}';
         $selimnassib->save();
 
@@ -214,7 +214,7 @@ class CollaboratorSeeder extends Seeder
 
         // 12- Asmaa Alghoul
         $asmaaalghoul = new Collaborator();
-        $asmaaalghoul->image = "collab-1.webp";
+        $asmaaalghoul->image = "asmaa-alghoul.webp";
         $asmaaalghoul->social_networks = '{}';
         $asmaaalghoul->save();
 
@@ -228,7 +228,7 @@ class CollaboratorSeeder extends Seeder
         Per la seva activitat periodística i militant, ha rebut els premis Hellman-Hammet de Human Rights Watch (2010) i Valor en el Periodisme per la International Women's Media Foundation (2012), a més del Premi de Literatura Juvenil Palestina (2000).
         Des del 2016, i degut a la seva oposició frontal a Hamàs, viu a França, on ha continuat amb la seva activitat a diversos mitjans de comunicació.
         HEREDOC;
-        $asmaaalghoulTranslation->slug = "selim-nassib";
+        $asmaaalghoulTranslation->slug = "asmaa-alghoul";
         $asmaaalghoulTranslation->save();
     }
 }
