@@ -17,6 +17,17 @@ class CollectionTranslation extends Model
      */
     protected $fillable = ['collection_id','lang', 'name', 'description','slug'];
 
+
+    protected $perPage = 20;
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['collection_id', 'lang', 'name', 'description', 'slug'];
+
+
     public function collection(){
         return $this->belongsTo(\App\Models\Collection::class);
     }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class UserSeeder extends Seeder
         $oriol->email_verified_at = now();
         $oriol->first_name = "Oriol";
         $oriol->last_name = "Rissech Gasulla";
-        $oriol->password = "PerOsirisIPerApis!";
+        $oriol->password = Hash::make("PerOsirisIPerApis!");
         $oriol->phone = "637059090";
         $oriol->role_id = 1;
         $oriol->save();
@@ -28,7 +29,7 @@ class UserSeeder extends Seeder
         $moha->email_verified_at = now();
         $moha->first_name = "Mohammad";
         $moha->last_name = "Bitari";
-        $moha->password = "LaContraDelMoha";
+        $moha->password = Hash::make("LaContraDelMoha");
         $moha->phone = "600113218";
         $moha->role_id = 1;
         $moha->save();
