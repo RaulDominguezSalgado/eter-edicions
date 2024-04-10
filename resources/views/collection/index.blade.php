@@ -40,17 +40,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($collections as $collection)
+                                    @foreach ($collectionsArray as $collection)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $collaborator["lang"] }}</td>
-                                            <td>{{ $collaborator["name"] }}</td>
-											<td>{{ $collaborator["description"] }}</td>
+                                            <td>{{ $collection["lang"] }}</td>
+                                            <td>{{ $collection["name"] }}</td>
+											<td>{{ $collection["description"] }}</td>
 
                                             <td>
-                                                <form action="{{ route('collections.destroy',$collection->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('collections.show',$collection->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('collections.edit',$collection->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('collections.destroy',$collection["id"]) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('collections.show',$collection["id"]) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('collections.edit',$collection["id"]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
