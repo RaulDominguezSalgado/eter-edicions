@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collections_translation', function (Blueprint $table) {
+        Schema::create('collections_translations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('collection_id');
             $table->string('lang');

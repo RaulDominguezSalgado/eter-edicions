@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collaborator;
 use App\Models\CollaboratorsTranslations;
 use App\Http\Requests\CollaboratorRequest;
+use Exception;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -105,9 +106,8 @@ class CollaboratorController extends Controller
      */
     public function store(CollaboratorRequest $request)
     {
-
-        //dd($request);
         try {
+            // Validate the request data
             $validatedData = $request->validated();
             if ($request->hasFile('image')) {
                 // Obtener el archivo de imagen
@@ -125,13 +125,15 @@ class CollaboratorController extends Controller
             }
             $redes_sociales = [];
             if ($request->filled('red_social')) {
-                foreach ($request->input('red_social') as $key => $red_social) {
-                    if ($request->filled('usuario_red_social.' . $key)) {
-                        $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $key);
+                foreach ($request->input('red_social') as $index => $red_social) {
+                    if ($request->filled('usuario_red_social.' . $index)) {
+                        $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $index);
                     }
                 }
             }
             $redes_sociales_json = json_encode($redes_sociales);
+
+            // Create the collaborator
             $collaboratorData = [
                 'image' => $validatedData['image'],
                 'social_networks' => $redes_sociales_json
