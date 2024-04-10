@@ -9,6 +9,15 @@ class Author extends Model
 {
     use HasFactory;
 
+    protected $perPage = 20;
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['collaborator_id', 'represented_by_agency'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
