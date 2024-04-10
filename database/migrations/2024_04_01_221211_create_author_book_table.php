@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('authors_books', function (Blueprint $table) {
+        Schema::create('author_book', function (Blueprint $table) {
             //$table->id();
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('book_id');
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');
 
             $table->primary(['author_id', 'book_id']);
-
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('authors_books');
+        Schema::dropIfExists('author_book');
     }
 };

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class LanguagesTranslation extends Model
+class LanguageTranslation extends Model
 {
     use HasFactory;
 
@@ -28,4 +28,18 @@ class LanguagesTranslation extends Model
      * @var array
      */
     protected $fillable = ['iso_language', 'iso_translation', 'translation'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function language(){
+        return $this->belongsTo(\App\Models\Language::class, 'iso_language', 'iso');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function translationLanguage(){
+        return $this->belongsTo(\App\Models\Language::class, 'iso_translation', 'iso');
+    }
 }

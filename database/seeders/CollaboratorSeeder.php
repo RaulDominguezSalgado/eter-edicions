@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Collaborator;
-use App\Models\CollaboratorsTranslation;
+use App\Models\CollaboratorTranslation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +20,7 @@ class CollaboratorSeeder extends Seeder
         $majdkayyal->social_networks = '{"instagram": "https://www.instagram.com/majdkayyal/"}';
         $majdkayyal->save();
 
-        $majdkayyalTranslation = new CollaboratorsTranslation();
+        $majdkayyalTranslation = new CollaboratorTranslation();
         $majdkayyalTranslation->collaborator_id = 1;
         $majdkayyalTranslation->lang = "ca";
         $majdkayyalTranslation->first_name = "Majd";
@@ -40,7 +40,7 @@ class CollaboratorSeeder extends Seeder
         $mohamadbitari->social_networks = '{"instagram": "https://www.instagram.com/mohammadbitari/"}';
         $mohamadbitari->save();
 
-        $mohamadbitariTranslation = new CollaboratorsTranslation();
+        $mohamadbitariTranslation = new CollaboratorTranslation();
         $mohamadbitariTranslation->collaborator_id = 2;
         $mohamadbitariTranslation->lang = "ca";
         $mohamadbitariTranslation->first_name = "Mohammad";
@@ -48,8 +48,8 @@ class CollaboratorSeeder extends Seeder
         $mohamadbitariTranslation->biography = <<<HEREDOC
         Mohamad Bitari és un poeta, traductor, escriptor i periodista palestí de Síria establert a Barcelona. Va néixer el 1990 al camp de refugiats palestins de Yarmouk a Síria, on va viure fins als vint-i-tres anys. La seva família va fugir de la ciutat de Natzaret el 1948 (any de la Nakba) i es va instal·lar a Síria després de l'ocupació del nou Estat d'Israel a Palestina.  Bitari és fundador d'Èter Edicions, especialitzada en traduccions de l'àrab al català i viceversa. Forma part del Comitè d'Escriptors Perseguits de la Fundació Pen Club a Catalunya, i treballa com a traductor de literatura catalana i literatura espanyola; també imparteix classes d'àrab a la Universitat Autònoma de Barcelona i col·labora habitualment amb institucions culturals per establir ponts entre Catalunya i el mon àrab. Ha traduït a l'àrab autors com ara Federico García Lorca, Rafael Alberti, Miguel Hernández, Tomas Cohen i Miquel Martí i Pol. És autor de Jo soc vosaltres, sis poetes de Síria (2019), una versió bilingüe en àrab-català amb traducció de Margarida Castells i Criballés, en col·laboració amb les editorials Polen i Godall i la fundació Sodepau.
         HEREDOC;
-        $majdkayyalTranslation->slug = "mohammad-bitari";
-        $majdkayyalTranslation->save();
+        $mohamadbitariTranslation->slug = "mohammad-bitari";
+        $mohamadbitariTranslation->save();
 
 
         //Ismael Profitós
@@ -58,7 +58,7 @@ class CollaboratorSeeder extends Seeder
         $ismaelprofitos->social_networks = '{"linkedin": "https://es.linkedin.com/in/ismael-profit%C3%B3s-9a9284145"}';
         $ismaelprofitos->save();
 
-        $ismaelprofitosTranslation = new CollaboratorsTranslation();
+        $ismaelprofitosTranslation = new CollaboratorTranslation();
         $ismaelprofitosTranslation->collaborator_id = 3;
         $ismaelprofitosTranslation->lang = "ca";
         $ismaelprofitosTranslation->first_name = "Ismael";
@@ -66,8 +66,8 @@ class CollaboratorSeeder extends Seeder
         $ismaelprofitosTranslation->biography = <<<HEREDOC
         blablablabla
         HEREDOC;
-        $majdkayyalTranslation->slug = "ismael-profitos";
-        $majdkayyalTranslation->save();
+        $ismaelprofitosTranslation->slug = "ismael-profitos";
+        $ismaelprofitosTranslation->save();
 
         //Margarida Castells
         $margaridacastells = new Collaborator();
@@ -75,7 +75,7 @@ class CollaboratorSeeder extends Seeder
         $margaridacastells->social_networks = '{"wikipedia": "https://ca.wikipedia.org/wiki/Margarida_Castells_i_Criball%C3%A9s"}';
         $margaridacastells->save();
 
-        $margaridacastellsTranslation = new CollaboratorsTranslation();
+        $margaridacastellsTranslation = new CollaboratorTranslation();
         $margaridacastellsTranslation->collaborator_id = 4;
         $margaridacastellsTranslation->lang = "ca";
         $margaridacastellsTranslation->first_name = "Margarida";
@@ -89,20 +89,20 @@ class CollaboratorSeeder extends Seeder
 
 
         //Rammi Abbas
-        $margaridacastells = new Collaborator();
-        $margaridacastells->image = "collab-1.webp";
-        $margaridacastells->social_networks = '{"linkedin": "https://es.linkedin.com/in/rami-abbas-144b0173"}';
-        $margaridacastells->save();
+        $rammiabbas = new Collaborator();
+        $rammiabbas->image = "collab-1.webp";
+        $rammiabbas->social_networks = '{"linkedin": "https://es.linkedin.com/in/rami-abbas-144b0173"}';
+        $rammiabbas->save();
 
-        $ismaelprofitosTranslation = new CollaboratorsTranslation();
-        $ismaelprofitosTranslation->collaborator_id = 5;
-        $ismaelprofitosTranslation->lang = "ca";
-        $ismaelprofitosTranslation->first_name = "Rammi";
-        $ismaelprofitosTranslation->last_name = "Abbas";
-        $ismaelprofitosTranslation->biography = <<<HEREDOC
+        $rammiabbasTranslation = new CollaboratorTranslation();
+        $rammiabbasTranslation->collaborator_id = 5;
+        $rammiabbasTranslation->lang = "ca";
+        $rammiabbasTranslation->first_name = "Rammi";
+        $rammiabbasTranslation->last_name = "Abbas";
+        $rammiabbasTranslation->biography = <<<HEREDOC
         blablablabla
         HEREDOC;
-        $majdkayyalTranslation->slug = "rammi-abbas";
-        $majdkayyalTranslation->save();
+        $rammiabbasTranslation->slug = "rammi-abbas";
+        $rammiabbasTranslation->save();
     }
 }

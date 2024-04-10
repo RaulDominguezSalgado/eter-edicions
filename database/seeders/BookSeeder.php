@@ -24,12 +24,12 @@ class BookSeeder extends Seeder
         $tragedia->discounted_price;
         $tragedia->stock = 400;
         $tragedia->visible = 1;
+        $tragedia->legal_diposit = "B 8646-2023";
         $tragedia->save();
 
-        $tragedia->authors->attach(1);
-        $tragedia->translators->attach(2);
-        $tragedia->translators->attach(3);
-        $tragedia->illustrators->attach(4);
+        $tragedia->authors()->attach(1);
+        $tragedia->translators()->attach(2);
+        $tragedia->translators()->attach(3);
 
         // Panorama
 

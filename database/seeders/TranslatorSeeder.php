@@ -16,17 +16,17 @@ class TranslatorSeeder extends Seeder
     {
         //Mohammad bitari
         $mohammadbitari = new Translator();
-        $mohammadbitari->id = Collaborator::find(2)->id;
+        $mohammadbitari->collaborator_id = Collaborator::find(2)->id;
         $mohammadbitari->save();
 
         //Ismael Profitós
         $ismaelprofitos = new Translator();
-        $ismaelprofitos->id = Collaborator::find(3)->id;
+        $ismaelprofitos->collaborator_id = Collaborator::find(3)->id;
         $ismaelprofitos->save();
 
         //Margarida Castells
         $margaridacastells = new Translator();
-        $margaridacastells->id = Collaborator::find(4)->id;
+        $margaridacastells->collaborator_id = Collaborator::find(4)->id;
         $margaridacastells->save();
     }
 }

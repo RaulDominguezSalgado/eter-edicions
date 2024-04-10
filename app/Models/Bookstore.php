@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Bookstore extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -31,5 +31,7 @@ class Bookstore extends Model
     protected $fillable = ['name', 'address', 'website'];
 
 
-
+    public function books(){
+        return $this->belongsToMany(\App\Models\Book::class);
+    }
 }

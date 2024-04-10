@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Collection extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -28,5 +28,11 @@ class Collection extends Model
     protected $fillable = [];
 
 
+    public function translations(){
+        return $this->hasMany(\App\Models\Collection::class);
+    }
 
+    public function collections(){
+        return $this->belongsToMany(\App\Models\Book::class);
+    }
 }

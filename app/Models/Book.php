@@ -37,6 +37,10 @@ class Book extends Model
      */
     protected $fillable = ['isbn', 'title', 'publisher', 'image', 'pvp', 'iva', 'discounted_price', 'stock', 'legal_diposit', 'visible'];
 
+    public function extras(){
+        return $this->hasMany(\App\Models\BookExtra::class);
+    }
+
     public function authors(){
         return $this->belongsToMany(\App\Models\Author::class);
     }
@@ -45,11 +49,11 @@ class Book extends Model
         return $this->belongsToMany(\App\Models\Translator::class);
     }
 
-    public function illustrators(){
-        return $this->belongsToMany(\App\Models\Illustrator::class);
+    public function collections(){
+        return $this->belongsToMany(\App\Models\Collection::class);
     }
 
-    // public function extras(){
-    //     return $this->belongsToMany(\App\Models\BooksExtra::class);
-    // }
+    public function bookstores(){
+        return $this->belongsToMany(\App\Models\Bookstore::class);
+    }
 }

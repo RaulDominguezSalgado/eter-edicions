@@ -26,4 +26,8 @@ class Language extends Model
      * @var array
      */
     protected $fillable = ['iso'];
+
+    public function translations(){
+        return $this->hasMany(\App\Models\LanguageTranslation::class);
+    }
 }

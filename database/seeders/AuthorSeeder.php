@@ -16,7 +16,7 @@ class AuthorSeeder extends Seeder
     {
         //Majd Kayyal
         $majdkayyal = new Author();
-        $majdkayyal->id = Collaborator::find(1)->id;
+        $majdkayyal->collaborator_id = Collaborator::find(1)->id;
         $majdkayyal->save();
     }
 }

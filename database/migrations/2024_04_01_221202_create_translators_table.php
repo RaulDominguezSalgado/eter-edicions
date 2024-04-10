@@ -11,18 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collaborators_translations', function (Blueprint $table) {
+        Schema::create('translators', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('collaborator_id');
-            $table->string('lang');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->text('biography')->nullable();
-            $table->string('slug');
+            $table->unsignedBigInteger('collaborator_id')->unique();
             $table->timestamps();
 
             $table->foreign('collaborator_id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('lang')->references('iso')->on('languages')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('collaborators_translations');
+        Schema::dropIfExists('translators');
     }
 };

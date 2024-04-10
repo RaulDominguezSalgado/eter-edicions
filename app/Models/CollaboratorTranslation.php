@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class CollaboratorsTranslation extends Model
+class CollaboratorTranslation extends Model
 {
 
 
