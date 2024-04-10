@@ -3,11 +3,11 @@
         <div class="form-group mb-2 mb20">
             <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
-                <option value="ca" {{ old('lang', $collection['language']) == 'ca' ? 'selected' : '' }}>Català
+                <option value="ca" {{ old('lang', $collection['lang']) == 'ca' ? 'selected' : '' }}>Català
                 </option>
-                <option value="es" {{ old('lang', $collection['language']) == 'es' ? 'selected' : '' }}>Castellà
+                <option value="es" {{ old('lang', $collection['lang']) == 'es' ? 'selected' : '' }}>Castellà
                 </option>
-                <option value="ar-sy" {{ old('lang', $collection['language']) == 'ar-sy' ? 'selected' : '' }}>Àrab
+                <option value="ar-sy" {{ old('lang', $collection['lang']) == 'ar-sy' ? 'selected' : '' }}>Àrab
                 </option>
             </select>
             {{-- <input type="text" name="lang" class="form-control @error('lang') is-invalid @enderror" value="{{ old('lang', $collaborator['name']) }}" id="lang" placeholder="Llenguatge"> --}}
