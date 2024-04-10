@@ -19,22 +19,32 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        $collections = Collection::paginate();
-        $collectionsArray = [];
+        // $collections = Collection::paginate();
+        // $collectionsArray = [];
 
+        // foreach ($collections as $collection) {
+        //     $translation = $collection->translations()->where('lang', $this->lang)->first();
+
+
+        //     if ($translation) {
+        //         $collectionsArray[] = [
+        //             'id' => $collection->id, // Corrected to $collection->id
+        //             'lang' => $translation->lang,
+        //             'name' => $translation->name,
+        //             'description' => $translation->description
+        //         ];
+        //     }
+        // }
+        $collections = CollectionTranslation::where('lang', $this->lang)->paginate();
+        $collectionsArray=[];
         foreach ($collections as $collection) {
-            $translation = $collection->translations()->where('lang', $this->lang)->first();
-
-            if ($translation) {
-                $collectionsArray[] = [
-                    'id' => $collection->id, // Corrected to $collection->id
-                    'lang' => $translation->lang,
-                    'name' => $translation->name,
-                    'description' => $translation->description
-                ];
-            }
+            $collectionsArray[] = [
+                'id' => $collection->collection->id,
+                'lang' => $collection->lang,
+                'name' => $collection->name,
+                'description' => $collection->description
+            ];
         }
-
         return view('collection.index', compact('collectionsArray', 'collections'))
             ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
     }

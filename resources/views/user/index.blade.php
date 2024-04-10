@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    User
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -76,4 +73,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-layouts.admin.app>

@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.admin.app>
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
     </x-slot> --}}
@@ -74,4 +74,4 @@
             </div>
         </div>
     </div>
-</x-layouts.app>
+</x-layouts.admin.app>

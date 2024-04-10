@@ -18,7 +18,7 @@ use Intervention\Image\Encoders\WebpEncoder;
  */
 class CollaboratorController extends Controller
 {
-    private $lang = "es";
+    private $lang = "ca";
     /**
      * Display a listing of the resource.
      */
@@ -35,8 +35,7 @@ class CollaboratorController extends Controller
                 $collaboratorsArray[] = [
                     'id' => $collaborator->id,
                     'image' => $collaborator->image,
-                    'name' => $translation->name,
-                    'last_name' => $translation->last_name,
+                    'full_name' => $translation->last_name.", ".$translation->first_name,
                     'lang' => $translation->lang,
                     'social_networks' => json_decode($collaborator->social_networks,true)
                 ];

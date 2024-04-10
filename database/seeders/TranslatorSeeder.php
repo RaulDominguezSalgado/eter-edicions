@@ -28,5 +28,15 @@ class TranslatorSeeder extends Seeder
         $margaridacastells = new Translator();
         $margaridacastells->collaborator_id = Collaborator::find(4)->id;
         $margaridacastells->save();
+
+        //Pontus Sánchez
+        $pontussanchez = new Translator();
+        $pontussanchez->collaborator_id = Collaborator::find(7)->id;
+        $pontussanchez->save();
+
+        //Oriol Rissech
+        $oriolrissech = new Translator();
+        $oriolrissech->collaborator_id = Collaborator::find(8)->id;
+        $oriolrissech->save();
     }
 }

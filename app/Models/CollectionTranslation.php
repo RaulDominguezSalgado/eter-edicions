@@ -16,7 +16,9 @@ class CollectionTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['collection_id','lang', 'name', 'description','slug'];
+    protected $fillable = ['collection_id', 'lang', 'name', 'description', 'slug'];
+
+
     public function collection(){
         return $this->belongsTo(\App\Models\Collection::class);
     }
