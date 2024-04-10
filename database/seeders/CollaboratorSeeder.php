@@ -26,9 +26,8 @@ class CollaboratorSeeder extends Seeder
         $majdkayyalTranslation->first_name = "Majd";
         $majdkayyalTranslation->last_name = "Kayyal";
         $majdkayyalTranslation->biography = <<<HEREDOC
-        Majd Kayyal (1990) és un escriptor, periodista i activista palestí, nascut a Haifa en una família desplaçada del poble d'Al-Birwa. Va estudiar Filosofia i Ciències Polítiques a la Universitat Hebrea de Jerusalem.  L'any 2011 va participar en una vaga de fam en suport dels detinguts palestins. Va participar també en l'intent d'aixecament del setge de Gaza per part de la flotilla “Freedom Waves”; aquesta acció va acabar amb la detenció dels activistes per part de les forces de seguretat d'Israel.
-
-        La seva primera novel·la, La tragèdia d'en Saied Mattar, va guanyar el premi Al-Qattan per a Escriptors Joves del 2015. Posteriorment, ha publicat la col·lecció de contes Death in Haifa (2019) i la novel·la “Carmel River” (2023). És també lletrista dels àlbums “Better than Berlin” (2020) i “Upright piano” (20023), així com de l'àlbum infantil “Fahim” (2021). Finalment, ha publicat també articles en diversos mitjans de comunicació cultural.
+        Majd Kayyal (1990) és un escriptor, activista i periodista palestí. Ha rebut el premi Abdul Mohsen Al-Qattan de Literatura Jove del 2016.
+        És autor de tres novel·les, dos reculls musicats de poesia, a més de diverses investigacions i articles sobre actualitat política del Llevant.
         HEREDOC;
         $majdkayyalTranslation->slug = "majd-kayyal";
         $majdkayyalTranslation->save();
