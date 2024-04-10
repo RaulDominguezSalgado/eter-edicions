@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
-use App\Models\CollectionsTranslation;
+use App\Models\CollectionTranslation;
 use App\Http\Requests\CollectionRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
  */
 class CollectionController extends Controller
 {
-    private $lang = "es";
+    private $lang = "ca";
     /**
      * Display a listing of the resource.
      */
@@ -67,7 +67,7 @@ class CollectionController extends Controller
                 'description' => $validatedData['description'],
                 'slug' => $validatedData['name'],
             ];
-            CollectionsTranslation::create($translationData);
+            CollectionTranslation::create($translationData);
 
             return redirect()->route('collections.index')
                 ->with('success', 'Collection created successfully.');

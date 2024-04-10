@@ -29,7 +29,7 @@ class Collection extends Model
 
 
     public function translations(){
-        return $this->hasMany(\App\Models\Collection::class);
+        return $this->hasMany(\App\Models\CollectionTranslation::class);
     }
 
     public function collections(){
