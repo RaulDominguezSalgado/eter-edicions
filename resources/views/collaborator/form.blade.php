@@ -1,36 +1,43 @@
-<hr>
 <div class="row padding-1 p-1">
     <div class="col-md-12">
 
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Imatge') }}</label>
-            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
+            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
+                value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        {{-- <div id="redes_sociales">
-            <div class="form-group mb-2 mb20" class="red_social">
-                {{-- <label for="social_networks" class="form-label">{{ __('Xarxa social') }}</label>
-                <input type="text" name="red_social[]" placeholder="Nombre de la red social">
-                <input type="text" name="usuario_red_social[]" placeholder="Nombre de usuario">
-                {!! $errors->first('social_networks', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-            </div>
-        </div> --}}
         <div id="redes_sociales">
             <label for="social_networks" class="form-label">{{ __('Xarxes socials') }}</label>
             <button type="button" id="agregar_red_social" class="btn btn-primary">+</button>
             <div class="red_social">
                 <input type="text" name="red_social[]" placeholder="Nombre de la red social">
-                <input type="text" name="usuario_red_social[]" placeholder="Nombre de usuario">
+                <input type="text" name="usuario_red_social[]" placeholder="Url del usuario">
             </div>
         </div>
+        {{-- <div id="redes_sociales">
+            <label for="social_networks" class="form-label">{{ __('Xarxes socials') }}</label>
+            <button type="button" id="agregar_red_social" class="btn btn-primary">+</button>
+
+            @if (isset($collaborator['social_networks']))
+                @foreach ($collaborator['social_networks'] as $social => $url)
+                    <div class="red_social">
+                        <input type="text" name="red_social[]" value="{{ $social }}"
+                            placeholder="Nombre de la red social">
+                        <input type="text" name="usuario_red_social[]" value="{{ $url }}"
+                            placeholder="Url del usuario">
+                    </div>
+                @endforeach
+            @endif
+        </div> --}}
         <div class="form-group mb-2 mb20">
             <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
-                <option value="ca" {{ old('lang', $collaborator['language']) == 'ca' ? 'selected' : '' }}>Català
+                <option value="ca" {{ old('lang', $collaborator['lang']) == 'ca' ? 'selected' : '' }}>Català
                 </option>
-                <option value="es" {{ old('lang', $collaborator['language']) == 'es' ? 'selected' : '' }}>Castellà
+                <option value="es" {{ old('lang', $collaborator['lang']) == 'es' ? 'selected' : '' }}>Castellà
                 </option>
-                <option value="ar-sy" {{ old('lang', $collaborator['language']) == 'ar-sy' ? 'selected' : '' }}>Àrab
+                <option value="ar-sy" {{ old('lang', $collaborator['lang']) == 'ar-sy' ? 'selected' : '' }}>Àrab
                 </option>
             </select>
             {{-- <input type="text" name="lang" class="form-control @error('lang') is-invalid @enderror" value="{{ old('lang', $collaborator['name']) }}" id="lang" placeholder="Llenguatge"> --}}
@@ -38,10 +45,10 @@
         </div>
 
         <div class="form-group mb-2 mb20">
-            <label for="name" class="form-label">{{ __('Nom') }}</label>
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                value="{{ old('name', $collaborator['name']) }}" id="name" placeholder="Nom">
-            {!! $errors->first('name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            <label for="first_name" class="form-label">{{ __('Nom') }}</label>
+            <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror"
+                value="{{ old('first_name', $collaborator['first_name']) }}" id="first_name" placeholder="Nom">
+            {!! $errors->first('first_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
         <div class="form-group mb-2 mb20">
@@ -57,7 +64,12 @@
                 value="{{ old('biography', $collaborator['biography']) }}" id="biography" placeholder="Biografia">
             {!! $errors->first('biography', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-
+        {{-- <div class="form-group mb-2 mb20">
+            <label for="biography" class="form-label">{{ __('Biografia') }}</label>
+            <textarea name="biography" class="form-control @error('biography') is-invalid @enderror" id="biography"
+                placeholder="Biografia">{{ old('biography', $collaborator['biography']) }}</textarea>
+            {!! $errors->first('biography', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div> --}}
         <div class="form-group mb-2 mb20">
             <label for="slug" class="form-label">{{ __('Slug') }}</label>
             <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror"
@@ -71,4 +83,3 @@
     </div>
 </div>
 <script src="{{ asset('js/form/social_networks.js') }}"></script>
-

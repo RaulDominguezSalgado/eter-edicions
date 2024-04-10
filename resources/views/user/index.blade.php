@@ -47,11 +47,11 @@
                                         <tr>
                                             <td>{{ ++$i }}</td>
 
-											<td>{{ $user->name }}</td>
+											<td>{{ $user->first_name }}</td>
 											<td>{{ $user->last_name }}</td>
 											<td>{{ $user->email }}</td>
 											<td>{{ $user->phone }}</td>
-											<td>{{ $user->role_id }}</td>
+											<td>{{ $user->role->name }}</td>
 
                                             <td>
                                                 <form action="{{ route('users.destroy',$user->id) }}" method="POST">

@@ -7,8 +7,6 @@ use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
 use Exception;
 use Illuminate\Validation\ValidationException;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -141,10 +139,10 @@ class CollaboratorController extends Controller
 
             $translationData = [
                 'collaborator_id' => $collaborator->id,
-                'name' => $validatedData['name'],
+                'first_name' => $validatedData['first_name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
                 'lang' => $validatedData['lang']
             ];
             CollaboratorTranslation::create($translationData);
@@ -159,6 +157,12 @@ class CollaboratorController extends Controller
      */
     public function show($id)
     {
+        $collaborator=$this->getFullCollaborator( $id);
+
+        return view('collaborator.show', compact('collaborator'));
+    }
+
+    public function getFullCollaborator($id){
         $collab = Collaborator::find($id);
         $collaborator = [];
         $translation = $collab->translations()->where('lang', $this->lang)->first();
@@ -166,22 +170,22 @@ class CollaboratorController extends Controller
             $collaborator = [
                 'id' => $collab->id,
                 'image' => $collab->image,
-                'name' => $translation->name,
+                'first_name' => $translation->first_name,
                 'last_name' => $translation->last_name,
                 'lang' => $translation->lang,
                 'biography' => $translation->biography,
-                'social_networks' => $collab->social_networks
+                'slug' => $translation->slug,
+                'social_networks' => json_decode($collab->social_networks)
             ];
         }
-        return view('collaborator.show', compact('collaborator'));
+        return $collaborator;
     }
-
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
     {
-        $collaborator = Collaborator::find($id);
+        $collaborator = $this->getFullCollaborator($id);
 
         return view('collaborator.edit', compact('collaborator'));
     }

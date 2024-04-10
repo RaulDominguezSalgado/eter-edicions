@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
  */
 class CollectionController extends Controller
 {
-    private $lang = "ca";
+    private $lang = "es";
     /**
      * Display a listing of the resource.
      */
