@@ -38,7 +38,7 @@ class CollaboratorController extends Controller
                     'name' => $translation->name,
                     'last_name' => $translation->last_name,
                     'lang' => $translation->lang,
-                    'social_networks' => $collaborator->social_networks
+                    'social_networks' => json_decode($collaborator->social_networks,true)
                 ];
             }
         }

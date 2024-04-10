@@ -53,7 +53,11 @@
 											<td>{{ $collaborator["name"] }}</td>
 											<td>{{ $collaborator["last_name"] }}</td>
 											<td>{{ $collaborator["lang"] }}</td>
-											<td>{{ $collaborator["social_networks"] }}</td>
+											<td>
+                                            @foreach ($collaborator["social_networks"] as $key=>$value )
+                                            <p>{{ $key }}: {{ $value }}</p>
+                                            @endforeach ()
+                                            </td>
 
                                             <td>
                                                 <form action="{{ route('collaborators.destroy',$collaborator["id"]) }}" method="POST">
