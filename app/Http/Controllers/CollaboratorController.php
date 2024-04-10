@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collaborator;
-use App\Models\CollaboratorsTranslations;
+use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
 use Exception;
 use Illuminate\Validation\ValidationException;
@@ -148,7 +148,7 @@ class CollaboratorController extends Controller
                 'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
                 'lang' => $validatedData['lang']
             ];
-            CollaboratorsTranslations::create($translationData);
+            CollaboratorTranslation::create($translationData);
             return redirect()->route('collaborators.index')
                 ->with('success', 'Collaborator created successfully.');
         } catch (ValidationException $e) {

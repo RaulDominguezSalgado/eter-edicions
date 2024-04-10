@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('translators', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary(); 
+            $table->id();
+            $table->unsignedBigInteger('collaborator_id')->unique();
             $table->timestamps();
 
-            // Restricción de clave foránea
-            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade');
+            $table->foreign('collaborator_id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -43,19 +43,19 @@ class Post extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function author()
-    {
-        return $this->belongsTo(\App\Models\Author::class, 'author_id', 'id');
-    }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'published_by', 'id');
     }
-    
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(\App\Models\Author::class, 'author_id', 'id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -63,6 +63,6 @@ class Post extends Model
     {
         return $this->belongsTo(\App\Models\Translator::class, 'translator_id', 'id');
     }
-    
+
 
 }

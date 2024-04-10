@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('isbn')->unique();
+            $table->string('title')->unique();
+            $table->text('headline');
+            $table->longText('description');
             $table->string('publisher');
             $table->string('image');
             $table->decimal('pvp', 8, 2);
             $table->integer('iva');
-            $table->decimal('discounted_price', 8, 2);
+            $table->decimal('discounted_price', 8, 2)->nullable();
             $table->integer('stock');
+            $table->string('legal_diposit')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });

@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collaborators_translations', function (Blueprint $table) {
+        Schema::create('page_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('collaborator_id');
+            $table->unsignedBigInteger('page_id');
             $table->string('lang');
-            $table->string('name');
-            $table->string('last_name');
-            $table->text('biography');
+            $table->string('meta_name');
+            $table->text('meta_description');
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('collaborator_id')->references('id')->on('collaborators')->name('collab_trans_collab_id_foreign');
+            $table->foreign('page_id')->references('id')->on('pages')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('lang')->references('iso')->on('languages')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('collaborators_translations');
+        Schema::dropIfExists('page_translations');
     }
 };

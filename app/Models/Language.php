@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Collection
+ * Class Language
  *
- * @property $id
- * @property $created_at
- * @property $updated_at
+ * @property $iso
  *
+ * @property Language $language
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Collection extends Model
+class Language extends Model
 {
-
+    use HasFactory;
 
     protected $perPage = 20;
 
@@ -25,14 +25,9 @@ class Collection extends Model
      *
      * @var array
      */
-    protected $fillable = [];
-
+    protected $fillable = ['iso'];
 
     public function translations(){
-        return $this->hasMany(\App\Models\Collection::class);
-    }
-
-    public function collections(){
-        return $this->belongsToMany(\App\Models\Book::class);
+        return $this->hasMany(\App\Models\LanguageTranslation::class);
     }
 }

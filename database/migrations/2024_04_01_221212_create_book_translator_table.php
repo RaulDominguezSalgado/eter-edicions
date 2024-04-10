@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('translators_books', function (Blueprint $table) {
-            $table->unsignedBigInteger('translator_id');
+        Schema::create('book_translator', function (Blueprint $table) {
+            // $table->id();
             $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('translator_id');
 
-            $table->foreign('translator_id')->references('id')->on('translators')->onDelete('cascade');
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('restrict');
+            $table->foreign('translator_id')->references('id')->on('translators')->onDelete('restrict')->onUpdate('cascade');
 
             $table->primary(['translator_id', 'book_id']);
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('translators_books');
+        Schema::dropIfExists('book_translator');
     }
 };

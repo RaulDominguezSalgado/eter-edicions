@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('illustrators', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
-            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade');
-       });
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('illustrators');
+        Schema::dropIfExists('roles');
     }
 };
