@@ -16,7 +16,25 @@
                     </div>
 
                     <div class="card-body bg-white">
+                        <div class="form-group mb-2 mb20">
+                            <strong>Llenguatge:</strong>
+                            {{ $collection['lang'] ?? '' }}
+                        </div>
 
+                        <div class="form-group mb-2 mb20">
+                            <strong>Nom:</strong>
+                            {{ $collection['name'] ?? '' }}
+                        </div>
+
+                        <div class="form-group mb-2 mb20">
+                            <strong>Descripció:</strong>
+                            {{ $collection['description'] ?? '' }}
+                        </div>
+
+                        <div class="form-group mb-2 mb20">
+                            <strong>Slug:</strong>
+                            {{ $collection['slug'] ?? '' }}
+                        </div>
 
                     </div>
                 </div>
