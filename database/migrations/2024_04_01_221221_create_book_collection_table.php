@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('book_id');
             $table->unsignedBigInteger('collection_id');
-            $table->timestamps();
+            // $table->timestamps();
 
             $table->foreign('book_id')->references('id')->on('books')->onDelete('restrict');
             $table->foreign('collection_id')->references('id')->on('translators')->onDelete('restrict')->onUpdate('cascade');
