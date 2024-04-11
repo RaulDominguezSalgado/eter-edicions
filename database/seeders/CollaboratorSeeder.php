@@ -7,9 +7,6 @@ use App\Models\CollaboratorTranslation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use \App\Models\Collaborator;
-use \App\Models\CollaboratorsTranslation;
-
 class CollaboratorSeeder extends Seeder
 {
     /**

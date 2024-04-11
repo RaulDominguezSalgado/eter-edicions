@@ -38,7 +38,7 @@
                                         <tr>
                                             <td><input type="checkbox"></td>
                                             <td>
-                                                <a href="/catalogo/{{ $book['slug'] }}/"><img style="width: 100px; height: auto;" src="{{ asset('img/book/'.$book['image']) }}" alt="{{ ($book['image']) }}"></a>
+                                                <a href="/catalogo/{{ $book['slug'] }}/"><img style="width: 100px; height: auto;" src="{{ asset('img/books/thumbnails/'.$book['image']') }}" alt="{{ ($book['title']) }}"></a>
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['lang'] }}</td>

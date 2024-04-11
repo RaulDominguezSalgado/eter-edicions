@@ -135,22 +135,19 @@ class BookController extends Controller
     private function create_array($query_data) {
         $books = [];
         foreach ($query_data as $single_data) {
-            if (gettype($single_data->collections) == 'array') {
-                $collections_names = [];
+            $collections_names = [];
+            if (!empty($single_data->collections)) {
                 foreach ($single_data->collections as $collection) {
                     $collections_names[] = $collection->name;
                 }
             }
-            else {
-                $collections_names = $single_data->collections;
-            }
 
             $collaborators = [
-                'authors' => [],
-                'translators' => [],
-                'illustrators' => [],
+                'authors' => Array(),
+                'translators' => Array(),
+                'illustrators' => Array(),
             ];
-            if (gettype($single_data->author) == 'array') {
+            if (!empty($single_data->author)) {
                 foreach ($single_data->author as $author) {
                     $collaborators['authors'] = [
                         'id' => $author->id,
@@ -159,10 +156,7 @@ class BookController extends Controller
                     ];
                 }
             }
-            else {
-                $collaborators['authors'] = $single_data->author;
-            }
-            if (gettype($single_data->translator) == 'array') {
+            if (!empty($single_data->translator)) {
                 foreach ($single_data->translator as $translator) {
                     $collaborators['translators'] = [
                         'id' => $translator->id,
@@ -171,10 +165,7 @@ class BookController extends Controller
                     ];
                 }
             }
-            else {
-                $collaborators['translator'] = $single_data->translator;
-            }
-            if (gettype($single_data->illustrator) == 'array') {
+            if (!empty($single_data->illustrator)) {
                 foreach ($single_data->illustrator as $illustrator) {
                     $collaborators['illustrators'] = [
                         'id' => $illustrator->id,
@@ -182,9 +173,6 @@ class BookController extends Controller
                         'collaborator_id' => $illustrator->collaborator_id,
                     ];
                 }
-            }
-            else {
-                $collaborators['illustrator'] = $single_data->illustrator;
             }
 
             $books[] = [

@@ -36,7 +36,7 @@
                                         <th>ISBN</th>
                                         <th>Lang</th>
                                         <th>Títol</th>
-                                        <th>Autoría</th>
+                                        <th>Autors</th>
                                         <th>PVP </th>
                                         <th>Preu amb descompte</th>
                                         <th colspan="1">Stock</th>
@@ -49,18 +49,23 @@
                                         <tr>
                                             <td><input type="checkbox"></td>
                                             <td>
-                                                <img style="width: 100px; height: auto;" src="{{ asset('img/book/'.$book['image']) }}" alt="{{ ($book['image']) }}"></a>
+                                                <a href="{{ books.edit }}"><img style="width: 100px; height: auto;" src="{{ asset('img/books/thumbnails/'.$book['image']') }}" alt="{{ ($book['title']) }}"></a>
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['lang'] }}</td>
                                             <td>{{ $book['title'] }}</td>
-                                            <td>{{ $book['collaborators']['authors'] }}</td>
+                                            <td>{{ implode(", ", $book['collaborators']['authors']) }}</td>
                                             <td>{{ $book['pvp'] }}€</td>
                                             <?php
-                                                $book['discounted_price'] == -1 ? '0' : $book['discounted_price']
+                                                if ($book['discounted_price'] == null) {
+                                                    $book['discounted_price'] = "N/D";
+                                                }
+                                                else {
+                                                    $book['discounted_price'] = $book['discounted_price']." €";
+                                                }
                                             ?>
-                                            <td>{{ $book['discounted_price'] }}€</td>
-                                            <td><button>-</button>{{ $book['stock'] }}<button>+</button></td>
+                                            <td>{{ $book['discounted_price'] }}</td>
+                                            <td><button style="padding: 0px 10px;">-</button> {{ $book['stock'] }} <button style="padding: 0px 10px;">+</button></td>
                                             @if ($book['visible'])
                                                 <td>✔</td>
                                             @else

@@ -6,8 +6,6 @@ use App\Models\Book;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use \App\Models\Book;
-
 class BookSeeder extends Seeder
 {
     /**
@@ -17,6 +15,8 @@ class BookSeeder extends Seeder
     {
         //Tragèdia d'en Saied Mattar
         $tragedia = new Book();
+        $tragedia->slug = "la-tragedia-den-saied-mattar";
+        $tragedia->lang = "ca";
         $tragedia->isbn = "978-84-127037-1-9";
         $tragedia->title = "La tragèdia d'en Saied Mattar";
         $tragedia->headline = <<<HEREDOC
@@ -27,13 +27,16 @@ class BookSeeder extends Seeder
         Des del lirisme, que frega l’espai del somni, i d’una construcció argumental que encavalca diferents personatges, Kayyal pinta, amb un llenguatge plàstic i suggestiu, la vida d’aquells que pertanyen perquè no pertanyen, mentre basteix un retrat imperdible de la Haifa contemporània.
         HEREDOC;
         $tragedia->publisher = "Èter Edicions";
-        $tragedia->image = "la-tragedia-den-saied-mattar.webp";
+        $tragedia->image = "la-tragedia-den-saied-mattar_thumbnail.webp";
         $tragedia->pvp = 20.80;
         $tragedia->iva = 4;
         $tragedia->discounted_price;
         $tragedia->stock = 400;
         $tragedia->visible = 1;
         $tragedia->legal_diposit = "B 8646-2023";
+        $tragedia->sample_url = "https://eteredicions.com/books_samples/".$tragedia->slug.".pdf";
+        $tragedia->page_num = "240";
+        $tragedia->publication_date = "03/02/2022";
         $tragedia->save();
 
         $tragedia->authors()->attach(1);
@@ -41,6 +44,5 @@ class BookSeeder extends Seeder
         $tragedia->translators()->attach(3);
 
         // Panorama
-
     }
 }
