@@ -18,7 +18,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = $this->create_array(Book::paginate());
+        $books = $this->getData();
         return view('book.index', compact('books'));
     }
 
@@ -27,7 +27,7 @@ class BookController extends Controller
      */
     public function catalogo()
     {
-        $books = $this->create_array(Book::paginate());
+        $books = $this->getData();
         return view('book.catalogo', compact('books'));
     }
 
@@ -69,13 +69,13 @@ class BookController extends Controller
      */
     public function show($slug)
     {
-        $book = Book::where('slug', $slug)->first();
+        $book = $this->getData()[0];
         if (request()->is('admin*')) {
             return redirect()->route('books.edit', $book->id);
         }
-        $book = $this->create_array(Book::paginate())[0];
-
-        return view('book.show', compact('book'));
+        else {
+            return view('book.show', compact('book'));
+        }
     }
 
     /**
@@ -83,7 +83,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = $this->create_array(Book::find($id))[0];
+        $book = $this->getData('id', $id)[0];
         return view('book.edit', compact('book'));
     }
 
@@ -132,8 +132,15 @@ class BookController extends Controller
             ->with('success', 'Book deleted successfully');
     }
 
-    private function create_array($query_data) {
+    private function getData($key = null, $value = null) {
+        if ($key == null || $value == null) {
+            $query_data = Book::paginate();
+        }
+        else {
+            $query_data = Book::where($key, $value)->paginate();
+        }
         $books = [];
+        // dd($query_data);
         foreach ($query_data as $single_data) {
             $collections_names = [];
             if (!empty($single_data->collections)) {
@@ -147,6 +154,7 @@ class BookController extends Controller
                 'translators' => Array(),
                 'illustrators' => Array(),
             ];
+            
             if (!empty($single_data->author)) {
                 foreach ($single_data->author as $author) {
                     $collaborators['authors'] = [
@@ -156,6 +164,7 @@ class BookController extends Controller
                     ];
                 }
             }
+
             if (!empty($single_data->translator)) {
                 foreach ($single_data->translator as $translator) {
                     $collaborators['translators'] = [
@@ -165,6 +174,7 @@ class BookController extends Controller
                     ];
                 }
             }
+            
             if (!empty($single_data->illustrator)) {
                 foreach ($single_data->illustrator as $illustrator) {
                     $collaborators['illustrators'] = [
@@ -174,7 +184,7 @@ class BookController extends Controller
                     ];
                 }
             }
-
+            
             $books[] = [
                 'id' => $single_data->id,
                 'title' => $single_data->title,

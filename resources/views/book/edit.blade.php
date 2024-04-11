@@ -7,7 +7,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
                                 <a href="{{ route('books.index') }}">Torna a l'index</a>
-                                <h1>Editant "{{ $book->title }}"</h1>
+                                <h1>Editant "{{ $book['title'] }}"</h1>
                             </span>
                         </div>
                     </div>
