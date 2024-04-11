@@ -20,20 +20,28 @@ use App\Http\Middleware\AdminCheck;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo']);
+/* Rutas públicas de libros */
+Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo'])->name('catalogo');
+Route::get('catalogo/{slug}', [App\Http\Controllers\BookController::class, 'show'])->name('libro');
 
+/* Rutas públicas de colaboradores */
 Route::resource('authors', App\Http\Controllers\AuthorController::class);
 
 
 /* Admin Backoffice */
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
-        return view('admin.dashboard');
-    });
+        return view('components.layouts.admin.dashboard');
+    })->name('admin_dashboard');
     Route::resource('books', App\Http\Controllers\BookController::class);
     Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+    Route::resource('collections', App\Http\Controllers\CollectionController::class);
+    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::resource('authors', App\Http\Controllers\AuthorController::class);
+    Route::resource('translators', App\Http\Controllers\TranslatorController::class);
+    Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');

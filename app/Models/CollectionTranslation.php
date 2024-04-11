@@ -9,7 +9,6 @@ class CollectionTranslation extends Model
 {
     use HasFactory;
 
-
     protected $perPage = 20;
 
     /**

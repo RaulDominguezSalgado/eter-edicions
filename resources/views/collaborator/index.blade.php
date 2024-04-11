@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.admin.app>
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
     </x-slot> --}}
@@ -10,7 +10,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Collaborator') }}
+                                {{ __('Book') }}
                             </span>
 
                              <div class="float-right">
@@ -25,7 +25,6 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-
                     <div class="card-body bg-white">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
@@ -35,9 +34,8 @@
 
 										<th>Imatge</th>
 										<th>Nom</th>
-										<th>Cognoms</th>
                                         <th>Llenguatge</th>
-										<th>Social Networks</th>
+										<th>Xarxes Socials Networks</th>
 
                                         <th></th>
                                     </tr>
@@ -48,12 +46,15 @@
                                             <td>{{ ++$i }}</td>
 											{{-- <td>{{ $collaborator["image"] }}</td> --}}
                                             <td>
-                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/'. $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
+                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/' . $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
                                             </td>
-											<td>{{ $collaborator["name"] }}</td>
-											<td>{{ $collaborator["last_name"] }}</td>
+											<td>{{ $collaborator["full_name"] }}</td>
 											<td>{{ $collaborator["lang"] }}</td>
-											<td>{{ $collaborator["social_networks"] }}</td>
+											<td>
+                                            @foreach ($collaborator["social_networks"] as $key=>$value )
+                                            <p><a href="{{$value}}">{{ $key }}</a></p>
+                                            @endforeach ()
+                                            </td>
 
                                             <td>
                                                 <form action="{{ route('collaborators.destroy',$collaborator["id"]) }}" method="POST">
@@ -75,4 +76,4 @@
             </div>
         </div>
     </div>
-</x-layouts.app>
+</x-layouts.admin.app>

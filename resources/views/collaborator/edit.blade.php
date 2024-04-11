@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ __('Update') }} Collaborator
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <section class="content container-fluid">
         <div class="">
             <div class="col-md-12">
@@ -14,7 +11,7 @@
                         <span class="card-title">{{ __('Update') }} Collaborator</span>
                     </div>
                     <div class="card-body bg-white">
-                        <form method="POST" action="{{ route('collaborators.update', $collaborator->id) }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('collaborators.update', $collaborator["id"]) }}"  role="form" enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
                             @csrf
 
@@ -26,4 +23,4 @@
             </div>
         </div>
     </section>
-@endsection
+</x-layouts.admin.app>

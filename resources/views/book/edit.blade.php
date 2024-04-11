@@ -1,29 +1,25 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ __('Update') }} Book
-@endsection
-
-@section('content')
-    <section class="content container-fluid">
-        <div class="">
-            <div class="col-md-12">
-
-                <div class="card card-default">
+<x-layouts.admin.app>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Update') }} Book</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span id="card_title">
+                                <a href="{{ route('books.index') }}">Torna a l'index</a>
+                                <h1>Editant "{{ $book->title }}"</h1>
+                            </span>
+                        </div>
                     </div>
-                    <div class="card-body bg-white">
-                        <form method="POST" action="{{ route('books.update', $book->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success m-4">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
 
-                            @include('book.form')
-
-                        </form>
-                    </div>
+                    @include("book.form")
                 </div>
             </div>
         </div>
-    </section>
-@endsection
+    </div>
+</x-layouts.admin.app>

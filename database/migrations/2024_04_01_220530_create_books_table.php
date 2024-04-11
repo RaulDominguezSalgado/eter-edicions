@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('slug');
+            $table->string('lang');
             $table->string('isbn')->unique();
             $table->string('title')->unique();
             $table->string('lang');
@@ -28,6 +30,9 @@ return new class extends Migration
             $table->string('enviromental_footprint')->nullable();
             $table->string('slug');
             $table->boolean('visible')->default(true);
+            $table->string('sample_url');
+            $table->string('page_num');
+            $table->string('publication_date');
             $table->timestamps();
 
 
