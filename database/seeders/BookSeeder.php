@@ -33,6 +33,7 @@ class BookSeeder extends Seeder
         $tragedia->stock = 400;
         $tragedia->visible = 1;
         $tragedia->legal_diposit = "B 8646-2023";
+        $tragedia->slug = "la-tragedia-den-saied-mattar";
         $tragedia->save();
 
         $tragedia->authors()->attach(1);
@@ -60,6 +61,7 @@ class BookSeeder extends Seeder
         $panorama->stock = 300;
         $panorama->visible = 1;
         $panorama->legal_diposit = "B 8647-202";
+        $panorama->slug = "panorama-de-mort-i-desolacio";
         $panorama->save();
 
         $panorama->authors()->attach(2);
@@ -85,6 +87,7 @@ class BookSeeder extends Seeder
         $nenssuecs->stock = 300;
         $nenssuecs->visible = 1;
         $nenssuecs->legal_diposit = "B 16476-2023";
+        $nenssuecs->slug = "si-fossin-nens-suecs";
         $nenssuecs->save();
 
         $nenssuecs->authors()->attach(3);
@@ -108,6 +111,7 @@ class BookSeeder extends Seeder
         $orientalisme->visible = 1;
         $orientalisme->legal_diposit = "B 16476-2023";
         $orientalisme->enviromental_footprint = "527 grams";
+        $orientalisme->slug = "orientalisme-i-orientalisme-invers";
         $orientalisme->save();
 
         $orientalisme->authors()->attach(4);
@@ -132,6 +136,7 @@ class BookSeeder extends Seeder
         $orientalisme->stock = 100;
         $orientalisme->visible = 1;
         $orientalisme->legal_diposit = "pending";
+        $orientalisme->slug = "la-insubmisa-de-gaza";
         $orientalisme->save();
 
         $orientalisme->authors()->attach([5,6]);
