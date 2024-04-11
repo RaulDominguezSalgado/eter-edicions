@@ -36,7 +36,6 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'slug',
         'lang',
         'isbn',
         'title',
@@ -44,15 +43,18 @@ class Book extends Model
         'description',
         'publisher',
         'image',
+        'page_num',
+        'publication_date',
         'pvp',
         'iva',
         'discounted_price',
         'stock',
         'legal_diposit',
-        'visible',
+        'slug',
         'sample_url',
-        'page_num',
-        'publication_date',
+        'visible',
+        'meta_title',
+        'meta_description'
     ];
 
     public function extras(){

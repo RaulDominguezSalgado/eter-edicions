@@ -17,6 +17,15 @@ return new class extends Migration
             $table->string('reference')->unique();
             $table->date('date');
             $table->decimal('total', 8, 2);
+            $table->string('dni');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email');
+            $table->string('phone_number');
+            $table->string('address');
+            $table->string('zip_code');
+            $table->string('city');
+            $table->string('country');
             $table->string('payment_method');
             $table->unsignedBigInteger('status_id');
             $table->string('pdf')->unique();

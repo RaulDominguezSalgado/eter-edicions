@@ -21,7 +21,7 @@ class BookSeeder extends Seeder
         $tragedia->title = "La tragèdia d'en Saied Mattar";
         $tragedia->lang = "ca";
         $tragedia->headline = <<<HEREDOC
-        LA CIUTAT DE HAIFA ÉS EL DECORAT ON ES DESENVOLUPEN DIVERSES HISTÒRIES EN QUATRE TEMPS, GRAVITANT AL VOLTANT D’UN PERSONATGE: EN SAIED MATTAR.
+        La ciutat de Haifa és el decorat on es desenvolupen diverses històries en quatre temps, gravitant al voltant d'un personatge: en Saied Mattar.
         HEREDOC;
         $tragedia->description = <<<HEREDOC
         La tragèdia d’en Saied Mattar’, primera novel·la de l’escriptor palestí Majd Kayyal, és una poderosa al·legoria de l’alienació cultural dels palestins d’Israel.
@@ -39,6 +39,8 @@ class BookSeeder extends Seeder
         $tragedia->legal_diposit = "B 8646-2023";
         $tragedia->slug = "la-tragedia-den-saied-mattar";
         $tragedia->sample = $tragedia->slug.".pdf";
+        $tragedia->meta_title = $tragedia->title;
+        $tragedia->meta_description = $tragedia->headline ?? $tragedia->description;
         $tragedia->save();
 
         $tragedia->authors()->attach(1);
@@ -52,7 +54,7 @@ class BookSeeder extends Seeder
         $panorama->title = "Panorama de mort i desolació";
         $panorama->lang = "ca";
         $panorama->headline = <<<HEREDOC
-        A PANORAMA DE MORT I DESOLACIÓ, RASHA OMRAN PASSA COMPTES AMB LA DEVASTACIÓ DELS ANYS EN UN EXERCICI QUE TRANSITA ENTRE LA REBEL·LIÓ, LA RÀBIA I EL FATALISME.
+        A Panorama de mort i desolació, Rasha Omran passa comptes amb la devastació dels anys en un exercici que transita entre la rebel·lió, la ràbia i el fatalisme.
         HEREDOC;
         $panorama->description = <<<HEREDOC
         Amb versos esquarterats i lúcids, i sense estalviar-se ni la crueltat ni la tendresa, Omran solapa l’exili que els anys imposen sobre el cos a l’exili que els temps imposen sobre l’individu.
@@ -70,6 +72,8 @@ class BookSeeder extends Seeder
         $panorama->legal_diposit = "B 8647-202";
         $panorama->slug = "panorama-de-mort-i-desolacio";
         $panorama->sample = $panorama->slug . ".pdf";
+        $panorama->meta_title = $panorama->title;
+        $panorama->meta_description = $panorama->headline ?? $panorama->description;
         $panorama->save();
 
         $panorama->authors()->attach(2);
@@ -99,6 +103,8 @@ class BookSeeder extends Seeder
         $nenssuecs->legal_diposit = "B 16476-2023";
         $nenssuecs->slug = "si-fossin-nens-suecs";
         $nenssuecs->sample = $nenssuecs->slug . ".pdf";
+        $nenssuecs->meta_title = $nenssuecs->title;
+        $nenssuecs->meta_description = $nenssuecs->headline ?? $nenssuecs->description;
         $nenssuecs->save();
 
         $nenssuecs->authors()->attach(3);
@@ -126,6 +132,8 @@ class BookSeeder extends Seeder
         $orientalisme->enviromental_footprint = "527 grams";
         $orientalisme->slug = "orientalisme-i-orientalisme-invers";
         $orientalisme->sample = $orientalisme->slug . ".pdf";
+        $orientalisme->meta_title = $orientalisme->title;
+        $orientalisme->meta_description = $orientalisme->headline ?? $orientalisme->description;
         $orientalisme->save();
 
         $orientalisme->authors()->attach(4);
@@ -154,6 +162,8 @@ class BookSeeder extends Seeder
         $insubmisa->legal_diposit = "pending";
         $insubmisa->slug = "la-insubmisa-de-gaza";
         $insubmisa->sample = $insubmisa->slug . ".pdf";
+        $insubmisa->meta_title = $insubmisa->title;
+        $insubmisa->meta_description = $insubmisa->headline ?? $insubmisa->description;
         $insubmisa->save();
 
         $insubmisa->authors()->attach([5,6]);

@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Model;
  * Class CollaboratorsTranslation
  *
  * @property $id
- * @property $collaborator_id
+ * @property $page_id
  * @property $lang
- * @property $name
- * @property $last_name
- * @property $biography
+ * @property $slug
+ * @property $meta_title
+ * @property $meta_description
  * @property $created_at
  * @property $updated_at
  *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class CollaboratorTranslation extends Model
+class PageTranslation extends Model
 {
 
 
@@ -31,18 +31,16 @@ class CollaboratorTranslation extends Model
      * @var array
      */
     protected $fillable = [
-        'collaborator_id',
+        'page_id',
         'lang',
-        'first_name',
-        'last_name',
-        'biography',
         'slug',
-        'meta_title',
-        'meta_description'
+        'meta_title', // label form creació / edició: "Títol de la pàgina"
+        'meta_description', // label form creació / edició: "Descripció breu de la pàgina"
+        'biography'
     ];
 
-    public function collaborator()
+    public function language()
     {
-        return $this->belongsTo(\App\Models\Collaborator::class, 'collaborator_id', 'id');
+        return $this->belongsTo(\App\Models\Language::class);
     }
 }

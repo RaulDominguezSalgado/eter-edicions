@@ -16,7 +16,23 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['date', 'total', 'payment_method', 'status', 'pdf', 'tracking_id'];
+    protected $fillable = [
+        'date',
+        'total',
+        'dni',
+        'first_name',
+        'last_name',
+        'email',
+        "phone_number",
+        "address",
+        "zip_code",
+        "city",
+        "country",
+        'payment_method',
+        'status',
+        'pdf',
+        'tracking_id'
+    ];
 
 
     /**
