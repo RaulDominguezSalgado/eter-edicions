@@ -28,7 +28,6 @@ return new class extends Migration
             $table->string('sample_url');
             $table->string('page_num');
             $table->string('publication_date');
-            $table->string('colections');
             $table->timestamps();
         });
     }

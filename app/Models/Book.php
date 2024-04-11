@@ -49,7 +49,6 @@ class Book extends Model
         'sample_url',
         'page_num',
         'publication_date',
-        'colections',
     ];
     
 

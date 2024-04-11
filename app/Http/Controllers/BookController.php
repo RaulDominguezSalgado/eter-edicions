@@ -102,9 +102,6 @@ class BookController extends Controller
             'discounted_price' => 'required',
             'stock' => 'required',
             'visible' => 'required',
-            'authory' => 'required',
-            'ilustration' => 'required',
-            'translation' => 'required',
         ]);
         if ($request->hasFile('image')) {
             $image = $request->file('image');

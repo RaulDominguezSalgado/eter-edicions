@@ -27,13 +27,9 @@ class BookSeeder extends Seeder
             'discounted_price' => -1,
             'stock' => 20,
             'visible' => 1,
-            'authory' => 'Jeanette Winterson',
-            'translation' => 'Bel Olid',
-            'illustration' => '',
             'sample_url' => 'sample1.pdf',
             'page_num' => '208',
             'publication_date' => '01/3/2024',
-            'colections' => 'Jeanette Wintersons best novels',
         ]);
 
         Book::create([
@@ -48,14 +44,9 @@ class BookSeeder extends Seeder
             'iva' => 4,
             'discounted_price' => -1,
             'stock' => 20,
-            'visible' => 1,
-            'authory' => 'Jeanette Wintersons',
-            'translation' => 'Bel Olid',
-            'illustration' => '',
             'sample_url' => 'sample2.pdf',
             'page_num' => '230',
             'publication_date' => '01/3/2024',
-            'colections' => 'Jeanette Wintersons best novels',
         ]);
     }
 }
