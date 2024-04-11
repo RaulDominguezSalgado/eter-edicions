@@ -51,7 +51,7 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="publication_date" class="form-label">{{ __('Data de publicació') }}</label>
-            <input type="date" name="publication_date" class="form-control @error('publication_date') is-invalid @enderror" value="{{ old('publication_date', $post['publication_date']) }}" id="publication_date" placeholder="Data de publicació">
+            <input type="date" name="publication_date" class="form-control @error('publication_date') is-invalid @enderror" value="{{ old('publication_date', $post['publication_date'] ?? date('Y-m-d')) }}" id="publication_date" placeholder="Data de publicació">
             {!! $errors->first('publication_date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
