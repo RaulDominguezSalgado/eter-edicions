@@ -2,27 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class OrdersDetail
- *
- * @property $id
- * @property $order_id
- * @property $product_id
- * @property $quantity
- * @property $price_each
- * @property $created_at
- * @property $updated_at
- *
- * @property Order $order
- * @property Book $book
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
-class OrdersDetail extends Model
+class OrderDetail extends Model
 {
-
+    use HasFactory;
 
     protected $perPage = 20;
 
@@ -49,6 +34,4 @@ class OrdersDetail extends Model
     {
         return $this->belongsTo(\App\Models\Book::class, 'product_id', 'id');
     }
-
-
 }

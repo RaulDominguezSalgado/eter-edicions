@@ -2,25 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Order
- *
- * @property $id
- * @property $date
- * @property $tracking_id
- * @property $status
- * @property $created_at
- * @property $updated_at
- *
- * @property OrdersStatus $ordersStatus
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
 class Order extends Model
 {
-    
+    use HasFactory;
 
     protected $perPage = 20;
 
@@ -29,16 +16,27 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['date', 'tracking_id', 'status'];
+    protected $fillable = ['date', 'total', 'payment_method', 'status', 'pdf', 'tracking_id'];
 
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ordersStatus()
-    {
-        return $this->belongsTo(\App\Models\OrdersStatus::class, 'status', 'id');
+    public function status(){
+        return $this->belongsTo(\App\Models\OrderStatus::class);
     }
-    
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function details(){
+        return $this->hasMany(\App\Models\OrderDetail::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function statusHistory(){
+        return $this->hasMany(\App\Models\OrderStatusHistory::class);;
+    }
 }

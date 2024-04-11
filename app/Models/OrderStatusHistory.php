@@ -2,26 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class OrdersStatusHistory
- *
- * @property $id
- * @property $order_id
- * @property $status_id
- * @property $timestamp
- * @property $created_at
- * @property $updated_at
- *
- * @property Order $order
- * @property OrdersStatus $ordersStatus
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
-class OrdersStatusHistory extends Model
+class OrderStatusHistory extends Model
 {
-
+    use HasFactory;
 
     protected $perPage = 20;
 
@@ -44,10 +30,8 @@ class OrdersStatusHistory extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ordersStatus()
+    public function status()
     {
-        return $this->belongsTo(\App\Models\OrdersStatus::class, 'status_id', 'id');
+        return $this->belongsTo(\App\Models\OrderStatus::class, 'status_id', 'id');
     }
-
-
 }
