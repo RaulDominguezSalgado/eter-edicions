@@ -16,12 +16,36 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::paginate();
+        $orderspag=Order::paginate();
+        $orders = $this->getFullOrder($orderspag);
+        //$orders= [];
 
-        return view('order.index', compact('orders'))
-            ->with('i', (request()->input('page', 1) - 1) * $orders->perPage());
+        // <td>{{ $order['id'] }}</td>
+        // <td>{{ $order['order_code'] }}</td>
+        // <td>{{ $order['client_adress'] }}</td>
+        // <td>{{ $order['client_name'] }}</td>
+        // <td>{{ $order['total_price'] }}</td>
+        // <td>{{ $order['payment_method'] }}</td>
+        // <td>{{ $order['date'] }}</td>
+        // <td>{{ $order['order_pdf'] }}</td>
+        return view('order.index', compact('orders','orderspag'))
+            ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
     }
-
+    public function getFullOrder($orders){
+        $ordersArray=[];
+        foreach ($orders as $order) {
+            $ordersArray[] = [
+                'id' => $order->id,
+                'reference' => $order->reference,
+                'client_name' => $order->client->name,
+                'total_price' => $order->total_price,
+                'payment_method' => $order->payment_method,
+                'date' => $order->date,
+                'order_pdf' => $order->pdf
+            ];
+        }
+        return $ordersArray;
+    }
     /**
      * Show the form for creating a new resource.
      */

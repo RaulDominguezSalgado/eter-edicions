@@ -3,7 +3,7 @@
         <li><a href="">Logo</a></li>
     </ul>
     <ul>
-        <li><a href="">Comandes</a></li>
+        <li><a href="{{ route('orders.index') }}">Comandes</a></li>
         <li><a href="">Stock</a></li>
         <li><a href="">Catàleg</a></li>
         <li><a href="{{ route('collections.index') }}">Col·leccions</a></li>

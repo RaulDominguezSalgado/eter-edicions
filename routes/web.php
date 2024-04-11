@@ -36,6 +36,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
     Route::resource('collections', App\Http\Controllers\CollectionController::class);
     Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::resource('orders', App\Http\Controllers\OrderController::class);
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');
