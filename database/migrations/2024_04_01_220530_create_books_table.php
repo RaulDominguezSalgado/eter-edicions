@@ -22,6 +22,8 @@ return new class extends Migration
             $table->longText('description');
             $table->string('publisher');
             $table->string('image');
+            $table->integer('number_of_pages')->nullable();
+            $table->string('publication_date')->nullable();
             $table->decimal('pvp', 8, 2);
             $table->integer('iva');
             $table->decimal('discounted_price', 8, 2)->nullable();
@@ -29,10 +31,8 @@ return new class extends Migration
             $table->string('legal_diposit')->nullable();
             $table->string('enviromental_footprint')->nullable();
             $table->string('slug');
+            $table->string('sample');
             $table->boolean('visible')->default(true);
-            $table->string('sample_url');
-            $table->string('page_num');
-            $table->string('publication_date');
             $table->timestamps();
 
 

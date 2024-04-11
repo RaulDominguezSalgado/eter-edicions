@@ -28,7 +28,9 @@ class BookSeeder extends Seeder
         Des del lirisme, que frega l’espai del somni, i d’una construcció argumental que encavalca diferents personatges, Kayyal pinta, amb un llenguatge plàstic i suggestiu, la vida d’aquells que pertanyen perquè no pertanyen, mentre basteix un retrat imperdible de la Haifa contemporània.
         HEREDOC;
         $tragedia->publisher = "Èter Edicions";
-        $tragedia->image = "la-tragedia-den-saied-mattar_thumbnail.webp";
+        $tragedia->image = "la-tragedia-den-saied-mattar.webp";
+        $tragedia->number_of_pages = 149;
+        $tragedia->publication_date = "23/04/2023";
         $tragedia->pvp = 20.80;
         $tragedia->iva = 4;
         $tragedia->discounted_price;
@@ -36,6 +38,7 @@ class BookSeeder extends Seeder
         $tragedia->visible = 1;
         $tragedia->legal_diposit = "B 8646-2023";
         $tragedia->slug = "la-tragedia-den-saied-mattar";
+        $tragedia->sample = $tragedia->slug.".pdf";
         $tragedia->save();
 
         $tragedia->authors()->attach(1);
@@ -57,6 +60,8 @@ class BookSeeder extends Seeder
         HEREDOC;
         $panorama->publisher = "Èter Edicions";
         $panorama->image = "panorama-de-mort-i-desolacio.webp";
+        $panorama->number_of_pages = 188;
+        $panorama->publication_date = "20/04/2023";
         $panorama->pvp = 15;
         $panorama->iva = 4;
         $panorama->discounted_price;
@@ -64,6 +69,7 @@ class BookSeeder extends Seeder
         $panorama->visible = 1;
         $panorama->legal_diposit = "B 8647-202";
         $panorama->slug = "panorama-de-mort-i-desolacio";
+        $panorama->sample = $panorama->slug . ".pdf";
         $panorama->save();
 
         $panorama->authors()->attach(2);
@@ -83,6 +89,8 @@ class BookSeeder extends Seeder
         HEREDOC;
         $nenssuecs->publisher = "Èter Edicions i Pol·len Edicions";
         $nenssuecs->image = "si-fossin-nens-suecs.webp";
+        $nenssuecs->number_of_pages = 230;
+        $nenssuecs->publication_date = "01/10/2023";
         $nenssuecs->pvp = 21;
         $nenssuecs->iva = 4;
         $nenssuecs->discounted_price;
@@ -90,6 +98,7 @@ class BookSeeder extends Seeder
         $nenssuecs->visible = 1;
         $nenssuecs->legal_diposit = "B 16476-2023";
         $nenssuecs->slug = "si-fossin-nens-suecs";
+        $nenssuecs->sample = $nenssuecs->slug . ".pdf";
         $nenssuecs->save();
 
         $nenssuecs->authors()->attach(3);
@@ -106,6 +115,8 @@ class BookSeeder extends Seeder
         HEREDOC;
         $orientalisme->publisher = "Èter Edicions";
         $orientalisme->image = "orientalisme-i-orientalisme-invers.webp";
+        $orientalisme->number_of_pages = 118;
+        $orientalisme->publication_date = "2024";
         $orientalisme->pvp = 21;
         $orientalisme->iva = 4;
         $orientalisme->discounted_price;
@@ -114,6 +125,7 @@ class BookSeeder extends Seeder
         $orientalisme->legal_diposit = "B 16476-2023";
         $orientalisme->enviromental_footprint = "527 grams";
         $orientalisme->slug = "orientalisme-i-orientalisme-invers";
+        $orientalisme->sample = $orientalisme->slug . ".pdf";
         $orientalisme->save();
 
         $orientalisme->authors()->attach(4);
@@ -121,27 +133,30 @@ class BookSeeder extends Seeder
 
 
         // La insubmisa de Gaza
-        $orientalisme = new Book();
-        $orientalisme->isbn = "pending";
-        $orientalisme->title = "La insubmisa de Gaza";
-        $orientalisme->lang = "ca";
-        $orientalisme->description = <<<HEREDOC
+        $insubmisa = new Book();
+        $insubmisa->isbn = "pending";
+        $insubmisa->title = "La insubmisa de Gaza";
+        $insubmisa->lang = "ca";
+        $insubmisa->description = <<<HEREDOC
         Filla de Rafah, periodista i escriptora palestina, la vida d’Asmaa Alghoul s’ha vist tenallada pel xoc de dues forces: d’una banda, l’exèrcit d’Israel, els soldats del qual terroritzaven les nits i els dies de la seva infància. De l’altra, l’ascens de l’integrisme religiós de Hamàs, que va prendre el poder polític i social durant la seva joventut, també en el si de la seva família.
         Alghoul, per un caprici del  seu propi temperament i un entorn obert que li ha permès de no tenir pèls a la llengua, s’ha vist sempre sota el punt de mira de totes les faccions que la rodejaven. Liberal, musulmana secular i activista pels drets democràtics, s’ha oposat frontalment a la petrificació islamista de Hamàs, a la corrupció del Fatah i, com a teló de fons, al sempitern setge d’Israel sobre Gaza. Escrit a quatre mans entre ella i l’escriptor libanès Sélim Nassib, La insubmisa de Gaza és al mateix temps una biografia d’Alghoul i una poderosa crònica de trenta anys d’història de la Franja.
         Vitalista a la vegada que greu, amb tant d’humor com de duresa, La insubmisa de Gaza no és només, però, una incisiva anàlisi social i política: és sobretot un cant d’amor a la llibertat i a la cultura, la història d’algú que ha lluitat sempre en favor del seu poble i del seu immens desig de vida. La història d’algú que estima i comprèn, íntimament, Gaza i la seva gent.
         HEREDOC;
-        $orientalisme->publisher = "Èter Edicions";
-        $orientalisme->image = "la-insubmisa-de-gaza.webp";
-        $orientalisme->pvp = 21;
-        $orientalisme->iva = 4;
-        $orientalisme->discounted_price;
-        $orientalisme->stock = 100;
-        $orientalisme->visible = 1;
-        $orientalisme->legal_diposit = "pending";
-        $orientalisme->slug = "la-insubmisa-de-gaza";
-        $orientalisme->save();
+        $insubmisa->publisher = "Èter Edicions";
+        $insubmisa->image = "la-insubmisa-de-gaza.webp";
+        $insubmisa->number_of_pages = 300;
+        $insubmisa->publication_date = "2024";
+        $insubmisa->pvp = 21;
+        $insubmisa->iva = 4;
+        $insubmisa->discounted_price;
+        $insubmisa->stock = 100;
+        $insubmisa->visible = 1;
+        $insubmisa->legal_diposit = "pending";
+        $insubmisa->slug = "la-insubmisa-de-gaza";
+        $insubmisa->sample = $insubmisa->slug . ".pdf";
+        $insubmisa->save();
 
-        $orientalisme->authors()->attach([5,6]);
-        $orientalisme->translators()->attach(5);
+        $insubmisa->authors()->attach([5,6]);
+        $insubmisa->translators()->attach(5);
     }
 }
