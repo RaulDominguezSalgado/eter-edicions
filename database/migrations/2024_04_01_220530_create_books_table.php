@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('sample');
             $table->boolean('visible')->default(true);
             $table->string('meta_title');
-            $table->string('meta_description');
+            $table->text('meta_description');
             $table->timestamps();
 
 

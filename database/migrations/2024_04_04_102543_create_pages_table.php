@@ -24,6 +24,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('pages');
     }
-
-    La tragèdia d'en Saied Mattar
 };

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('biography')->nullable();
             $table->string('slug');
             $table->string('meta_title');
-            $table->string('meta_description');
+            $table->text('meta_description');
             $table->timestamps();
 
             $table->foreign('collaborator_id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');

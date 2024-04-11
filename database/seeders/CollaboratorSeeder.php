@@ -30,6 +30,8 @@ class CollaboratorSeeder extends Seeder
         És autor de tres novel·les, dos reculls musicats de poesia, a més de diverses investigacions i articles sobre actualitat política del Llevant.
         HEREDOC;
         $majdkayyalTranslation->slug = "majd-kayyal";
+        $majdkayyalTranslation->meta_title = $majdkayyalTranslation->first_name . " " . $majdkayyalTranslation->last_name;
+        $majdkayyalTranslation->meta_description = $majdkayyalTranslation->biography;
         $majdkayyalTranslation->save();
 
 
@@ -48,6 +50,8 @@ class CollaboratorSeeder extends Seeder
         Mohamad Bitari és un poeta, traductor, escriptor i periodista palestí de Síria establert a Barcelona. Va néixer el 1990 al camp de refugiats palestins de Yarmouk a Síria, on va viure fins als vint-i-tres anys. La seva família va fugir de la ciutat de Natzaret el 1948 (any de la Nakba) i es va instal·lar a Síria després de l'ocupació del nou Estat d'Israel a Palestina.  Bitari és fundador d'Èter Edicions, especialitzada en traduccions de l'àrab al català i viceversa. Forma part del Comitè d'Escriptors Perseguits de la Fundació Pen Club a Catalunya, i treballa com a traductor de literatura catalana i literatura espanyola; també imparteix classes d'àrab a la Universitat Autònoma de Barcelona i col·labora habitualment amb institucions culturals per establir ponts entre Catalunya i el mon àrab. Ha traduït a l'àrab autors com ara Federico García Lorca, Rafael Alberti, Miguel Hernández, Tomas Cohen i Miquel Martí i Pol. És autor de Jo soc vosaltres, sis poetes de Síria (2019), una versió bilingüe en àrab-català amb traducció de Margarida Castells i Criballés, en col·laboració amb les editorials Polen i Godall i la fundació Sodepau.
         HEREDOC;
         $mohamadbitariTranslation->slug = "mohammad-bitari";
+        $mohamadbitariTranslation->meta_title = $mohamadbitariTranslation->first_name . " " . $mohamadbitariTranslation->last_name;
+        $mohamadbitariTranslation->meta_description = $mohamadbitariTranslation->biography;
         $mohamadbitariTranslation->save();
 
 
@@ -66,6 +70,8 @@ class CollaboratorSeeder extends Seeder
         blablablabla
         HEREDOC;
         $ismaelprofitosTranslation->slug = "ismael-profitos";
+        $ismaelprofitosTranslation->meta_title = $ismaelprofitosTranslation->first_name . " " . $ismaelprofitosTranslation->last_name;
+        $ismaelprofitosTranslation->meta_description = $ismaelprofitosTranslation->biography;
         $ismaelprofitosTranslation->save();
 
         // 4- Margarida Castells
@@ -84,6 +90,8 @@ class CollaboratorSeeder extends Seeder
         Ha estat docent a la Universitat de Barcelona, i s'ha dedicat a les traduccions llatines de l'Alcorà i a la codicologia. Ha col·laborat amb el Museu Egipci de Barcelona (Fundació Arqueològica Clos) com a directora científica d'expedicions culturals a Etiòpia i a l'Uzbekistan. També ha format part de diverses expedicions de catalogació i conservació de manuscrits als països de l'àrea mediterrània. Com a filòloga i arabista és coautora, amb Dolors Cinca, del primer Diccionari àrab-català, que té per objecte l'àrab estàndard modern.
         HEREDOC;
         $margaridacastellsTranslation->slug = "margarida-castells";
+        $margaridacastellsTranslation->meta_title = $margaridacastellsTranslation->first_name . " " . $margaridacastellsTranslation->last_name;
+        $margaridacastellsTranslation->meta_description = $margaridacastellsTranslation->biography;
         $margaridacastellsTranslation->save();
 
 
@@ -102,6 +110,8 @@ class CollaboratorSeeder extends Seeder
         blablablabla
         HEREDOC;
         $rammiabbasTranslation->slug = "rammi-abbas";
+        $rammiabbasTranslation->meta_title = $rammiabbasTranslation->first_name . " " . $rammiabbasTranslation->last_name;
+        $rammiabbasTranslation->meta_description = $rammiabbasTranslation->biography;
         $rammiabbasTranslation->save();
 
         // 6- Rasha Omran
@@ -121,6 +131,8 @@ class CollaboratorSeeder extends Seeder
         Omran ha estat considerada, per la seva aposta estilística. la juntura entre la generació clàssica i les noves generacions en la poesia de Síria.
         HEREDOC;
         $rashaomranTranslation->slug = "rasha-omran";
+        $rashaomranTranslation->meta_title = $rashaomranTranslation->first_name . " " . $rashaomranTranslation->last_name;
+        $rashaomranTranslation->meta_description = $rashaomranTranslation->biography;
         $rashaomranTranslation->save();
 
         // 7- Pontus Sánchez
@@ -138,6 +150,8 @@ class CollaboratorSeeder extends Seeder
         Necessito la descripció del Pontus, no la tinc :)
         HEREDOC;
         $pontussanchezTranslation->slug = "pontus-sanchez";
+        $pontussanchezTranslation->meta_title = $pontussanchezTranslation->first_name . " " . $pontussanchezTranslation->last_name;
+        $pontussanchezTranslation->meta_description = $pontussanchezTranslation->biography;
         $pontussanchezTranslation->save();
 
         // 8- Oriol Rissech
@@ -155,6 +169,8 @@ class CollaboratorSeeder extends Seeder
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lorem orci, interdum vitae ornare sit amet, luctus non diam. Sed nec purus feugiat, tincidunt nisl ac, tincidunt diam. Fusce consequat, tortor eu porttitor tempus, sem lacus lobortis ipsum, id pretium nisi nisi ut libero. Praesent gravida volutpat turpis, eu semper ex ultrices ullamcorper. Aliquam erat volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin lorem elit, euismod sed erat at, suscipit condimentum enim. Donec aliquet at magna sit amet blandit. Curabitur scelerisque pharetra nibh nec sollicitudin. Nam maximus lacus id purus ornare vestibulum. Nulla vitae bibendum purus. Integer auctor luctus placerat. Nullam ultricies sodales eros sed facilisis. Suspendisse tortor nulla, fringilla ut purus a, porta sollicitudin enim. Ut accumsan hendrerit malesuada.
         HEREDOC;
         $oriolrissechTranslation->slug = "oriol-rissech";
+        $oriolrissechTranslation->meta_title = $oriolrissechTranslation->first_name . " " . $oriolrissechTranslation->last_name;
+        $oriolrissechTranslation->meta_description = $oriolrissechTranslation->biography;
         $oriolrissechTranslation->save();
 
 
@@ -175,6 +191,8 @@ class CollaboratorSeeder extends Seeder
         És autora de nombrosos articles, pels quals ha guanyat el Primer Premi d’Assaig de l’Associació de Psicologia mèdica. Així mateix, és l’editora d’un llibre sobre metgesses acadèmiques, i ha participat en la biografia de la doctora Gussander.
         HEREDOC;
         $elisabethhultcrantzTranslation->slug = "elisabeth-hultcrantz";
+        $elisabethhultcrantzTranslation->meta_title = $elisabethhultcrantzTranslation->first_name . " " . $elisabethhultcrantzTranslation->last_name;
+        $elisabethhultcrantzTranslation->meta_description = $elisabethhultcrantzTranslation->biography;
         $elisabethhultcrantzTranslation->save();
 
 
@@ -193,6 +211,8 @@ class CollaboratorSeeder extends Seeder
         Sàdiq Jalal al-Àzem (Damasc, 1934 – Berlín, 2016) fou un dels representants més destacats del pensament marxis ta, nacionalista i laic al món àrab contemporani, i també un conegut defensor de la democràcia, dels drets humans i de la llibertat d’expressió. La redacció d’Orientalisme invers li valgué la fi de l’amistat amb Edward W. Said.
         HEREDOC;
         $sadiqjalalalazemTranslation->slug = "sadiq-jalal-al-azem";
+        $sadiqjalalalazemTranslation->meta_title = $sadiqjalalalazemTranslation->first_name . " " . $sadiqjalalalazemTranslation->last_name;
+        $sadiqjalalalazemTranslation->meta_description = $sadiqjalalalazemTranslation->biography;
         $sadiqjalalalazemTranslation->save();
 
         // 11- Sélim Nassib
@@ -210,6 +230,8 @@ class CollaboratorSeeder extends Seeder
         Sélim Nassib (Beirut, 1946) és un escriptor i periodista libanès. Va exercir com a corresponsal al Pròxim Orient pel mitjà francès Libération. Des del 1990, s’ha dedicat plenament a l’escriptura, tant a l’assaig periodístic com a la narrativa de ficció. És autor dels llibres de relats ‘L’home assegut’ (Balland, 1990) i ‘Un vespre a Beirut’ (Thierry Magnier, 2007); de les novel·les ‘El boig de Beirut’ (Balland, 1992), ‘Clandestí’ (Balland, 1998) i ‘L’aldarull’ (Éditions de l’Olivier, 2022). Ha treballat, igualment, com a coguionista a ‘Els guants d’or d’Akka’ (1992) i a ‘Would you have sex with an Arab?’ (2012). Com a assagista, ha destacat amb ‘Oum’ (Balland, 1994), amb ‘Un amant a Palestina (Robert Laffont, 2004) i amb ‘La insubmisa de Gaza’ (2016).
         HEREDOC;
         $selimnassibTranslation->slug = "selim-nassib";
+        $selimnassibTranslation->meta_title = $selimnassibTranslation->first_name . " " . $selimnassibTranslation->last_name;
+        $selimnassibTranslation->meta_description = $selimnassibTranslation->biography;
         $selimnassibTranslation->save();
 
         // 12- Asmaa Alghoul
@@ -229,6 +251,8 @@ class CollaboratorSeeder extends Seeder
         Des del 2016, i degut a la seva oposició frontal a Hamàs, viu a França, on ha continuat amb la seva activitat a diversos mitjans de comunicació.
         HEREDOC;
         $asmaaalghoulTranslation->slug = "asmaa-alghoul";
+        $asmaaalghoulTranslation->meta_title = $asmaaalghoulTranslation->first_name . " " . $asmaaalghoulTranslation->last_name;
+        $asmaaalghoulTranslation->meta_description = $asmaaalghoulTranslation->biography;
         $asmaaalghoulTranslation->save();
     }
 }

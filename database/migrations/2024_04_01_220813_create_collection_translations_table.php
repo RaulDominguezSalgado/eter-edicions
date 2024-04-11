@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('slug');
             $table->string('meta_title');
-            $table->string('meta_description');
+            $table->text('meta_description');
             $table->timestamps();
 
             $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade')->onUpdate('cascade');
