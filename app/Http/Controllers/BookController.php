@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use \App\Models\BooksTranslation;
+use \App\Models\BookTranslation;
+use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,15 +21,6 @@ class BookController extends Controller
     {
         $books = $this->create_array(Book::paginate());
         return view('book.index', compact('books'));
-    }
-
-    /**
-     * Display a listing of the resource for the public users.
-     */
-    public function catalogo()
-    {
-        $books = $this->create_array(Book::paginate());
-        return view('book.catalogo', compact('books'));
     }
 
     /**
@@ -56,7 +48,7 @@ class BookController extends Controller
         // metaDescription = $request->metaDescription
         // slug = "book/" . $book->id
         //}
-        
+
         //else {
         // metaTitle = $request->name . "| Èter Edicions"
         // metaDescription = $request->metaDescription
@@ -197,5 +189,40 @@ class BookController extends Controller
             ];
         }
         return $books;
+    }
+
+
+    private function create_collection_array($query_data) {
+        $collections = [
+            1 => ["name" => "Col·lecció 1"],
+            2 => ["name" => "Col·lecció 2"],
+            3 => ["name" => "Col·lecció 3"]
+        ];
+
+        // foreach ($query_data as $single_data) {
+        // }
+
+        return $collections;
+    }
+
+
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    public function catalog()
+    {
+        $books = $this->create_array(Book::paginate());
+        $collections = $this->create_collection_array(Collection::all());
+        return view('book.catalog', compact('books', 'collections'));
+    }
+
+
+
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    public function bookDetail($id)
+    {
+        return "BookController > bookDetail({$id})";
     }
 }

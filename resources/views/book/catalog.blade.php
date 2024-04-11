@@ -1,5 +1,35 @@
 <x-layouts.app>
-    <div class="container-fluid">
+
+    <div>
+        <h2>Catàleg</h2>
+
+        <div>
+            <ul>
+                @foreach ($collections as $i => $collection)
+                    <li><a>{{ $collection['name'] }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+
+        <div>
+            @foreach ($books as $i => $book)
+                <div class="book">
+                    <div>
+                        <a href="{{ route('books.show',$book["id"]) }}">
+                            <img src="{{ asset('img/books/thumbnails' . $book["image"]) }}" alt="{{ ($book["image"]." - ") }}">
+                        </a>
+                    </div>
+                    <div class="title">{{ $book['title'] }}</div>
+                    <div class="author">{{ $book['collaborators']['authors'] }}</div>
+                    <div class="translator">{{ $book['collaborators']['translators']}}</div>
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+
+
+    {{-- <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -15,7 +45,7 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-                    
+
                     <div class="card-body bg-white">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
@@ -38,7 +68,7 @@
                                         <tr>
                                             <td><input type="checkbox"></td>
                                             <td>
-                                                <a href="/catalogo/{{ $book['slug'] }}/"><img style="width: 100px; height: auto;" src="{{ asset('img/books/thumbnails/'.$book['image']') }}" alt="{{ ($book['title']) }}"></a>
+                                                <a href="/catalogo/{{ $book['slug'] }}/"><img style="width: 100px; height: auto;" src="{{ asset('img/books/thumbnails/'.$book['image']) }}" alt="{{ ($book['title']) }}"></a>
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['lang'] }}</td>
@@ -59,8 +89,8 @@
                         </div>
                     </div>
                 </div>
-                {{-- {!! $books->links() !!} --}}
+                {!! $books->links() !!}
             </div>
         </div>
-    </div>
+    </div> --}}
 </x-layouts.app>
