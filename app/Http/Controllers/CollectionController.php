@@ -131,7 +131,6 @@ class CollectionController extends Controller
 
         return redirect()->route('collections.index')
             ->with('success', 'Collection updated successfully');
-            
     } catch (ValidationException $e) {
         // Manejar excepciones de validación si es necesario
     }

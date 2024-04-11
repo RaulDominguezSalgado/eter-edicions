@@ -31,13 +31,7 @@ class UserController extends Controller
                 'role' => $user->role->name,
             ];
         }
-
-        // <td>{{ $user->first_name }}</td>
-        // <td>{{ $user->last_name }}</td>
-        // <td>{{ $user->email }}</td>
-        // <td>{{ $user->phone }}</td>
-        // <td>{{ $user->role->name }}</td>
-
+        
         return view('user.index', compact('usersArray', 'users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
     }
@@ -60,9 +54,6 @@ class UserController extends Controller
         try {
             // Validar los datos de la solicitud
             $validatedData = $request->validated();
-
-            // Crear un nuevo usuario con los datos validados
-            //$user = User::create($validatedData);
 
             // Crear una nueva traducción de usuario con los datos validados
             $translationData = [
