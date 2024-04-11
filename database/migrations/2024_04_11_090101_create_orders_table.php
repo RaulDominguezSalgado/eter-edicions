@@ -13,13 +13,19 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('date');
-            $table->string('tracking_id')->unique();
-            $table->unsignedBigInteger('status');
 
-            $table->foreign('status')->references('id')->on('orders_status');
+            $table->string('reference')->unique();
+            $table->date('date');
+            $table->decimal('total', 8, 2);
+            $table->string('payment_method');
+            $table->unsignedBigInteger('status_id');
+            $table->string('pdf')->unique();
+            $table->string('tracking_id')->unique();
 
             $table->timestamps();
+
+
+            $table->foreign('status_id')->references('id')->on('order_statuses')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

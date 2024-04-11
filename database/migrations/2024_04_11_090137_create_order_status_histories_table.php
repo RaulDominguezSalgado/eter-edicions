@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders_status_history', function (Blueprint $table) {
+        Schema::create('order_status_histories', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('status_id');
-            $table->timestamp('timestamp');
-
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('status_id')->references('id')->on('orders_status')->onDelete('restrict')->onUpdate('cascade');
 
             $table->timestamps();
+
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('status_id')->references('id')->on('order_statuses')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders_status_history');
+        Schema::dropIfExists('order_status_histories');
     }
 };
