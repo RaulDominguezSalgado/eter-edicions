@@ -17,8 +17,6 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="translator_id" class="form-label">{{ __('Traductor') }}</label>
-            {{-- <input type="text" name="translator_id" class="form-control @error('translator_id') is-invalid @enderror" value="{{ old('translator_id', $post['translator_id']) }}" id="translator_id" placeholder="Translator">
-            {!! $errors->first('translator_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!} --}}
             <select name="translator_id" class="form-control @error('translator_id') is-invalid @enderror" id="translator_id">
                 <option value="" selected disabled>Selecciona un Traductor</option>
                 @foreach ($collaboratorTranslations as $collaborator)
@@ -58,8 +56,6 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="published_by" class="form-label">{{ __('Publicat per') }}</label>
-            {{-- <input type="text" name="published_by" class="form-control @error('published_by') is-invalid @enderror" value="{{ old('published_by', $post['published_by']) }}" id="published_by" placeholder="Published By">
-            {!! $errors->first('published_by', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!} --}}
             <select name="published_by" class="form-control @error('published_by') is-invalid @enderror" id="published_by">
                 <option value="" selected disabled>Selecciona un Publicador</option>
                 @foreach ($users as $user)
