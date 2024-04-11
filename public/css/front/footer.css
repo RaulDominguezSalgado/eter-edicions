@@ -1,0 +1,12 @@
+.logo {
+    font-size: 45px;
+    text-decoration: none;
+    color: black;
+}
+
+#main-footer {
+    background-color: #ccc;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 5%;
+}

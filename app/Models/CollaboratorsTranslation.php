@@ -30,11 +30,10 @@ class CollaboratorsTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['collaborator_id', 'lang', 'name', 'last_name', 'biography'];
+    protected $fillable = ['collaborator_id', 'lang', 'first_name', 'last_name', 'biography'];
 
     public function collaborator()
     {
         return $this->belongsTo(\App\Models\Collaborator::class, 'collaborator_id', 'id');
     }
 }
-

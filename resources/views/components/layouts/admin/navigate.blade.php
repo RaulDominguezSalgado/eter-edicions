@@ -1,7 +1,7 @@
 <nav id="admin-nav">
-    <a href="" id="logo">Logo</a>
+    <a href="" class="logo">Logo</a>
     <ul>
-        <li><a href="">Portada</a></li>
+        <li><a href="{{ route('admin_dashboard') }}">Portada</a></li>
         <li><a href="">Comandes</a></li>
         <li><a href="{{ route('books.index') }}" @if(Route::currentRouteName() == 'books.index') class="active" @endif>Llibres</a></li>
         <li><a href="">Col·leccions</a></li>
@@ -23,5 +23,5 @@
         <li><a href="">Págines</a></li>
         <li><a href="">Usuaris</a></li>
     </ul>
+    <a href="{{ route('home') }}">Go to public page</a>
 </nav>
-<hr>

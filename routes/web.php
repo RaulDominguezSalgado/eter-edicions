@@ -20,7 +20,7 @@ use App\Http\Middleware\AdminCheck;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 /* Rutas públicas de libros */
 Route::get('catalogo', [App\Http\Controllers\BookController::class, 'catalogo'])->name('catalogo');
@@ -33,8 +33,8 @@ Route::resource('authors', App\Http\Controllers\AuthorController::class);
 /* Admin Backoffice */
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
-        return view('admin.dashboard');
-    });
+        return view('components.layouts.admin.dashboard');
+    })->name('admin_dashboard');
     Route::resource('books', App\Http\Controllers\BookController::class);
     Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
     Route::resource('authors', App\Http\Controllers\AuthorController::class);

@@ -43,8 +43,8 @@
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['lang'] }}</td>
                                             <td>{{ $book['title'] }}</td>
-                                            <td>{{ $book['authory'] }}</td>
-                                            <td>{{ $book['pvp'] }}€</td>
+                                            <td>{{ $book['collaborators']['authors'] }}</td>
+                                            <td>{{ $book['pvp']}}€</td>
                                             <td>{{ $book['discounted_price'] == -1 ? '0' : $book['discounted_price'] }}€</td>
                                             <td><button>-</button>{{ $book['stock'] }}<button>+</button></td>
                                             @if ($book['visible'])

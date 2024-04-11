@@ -54,9 +54,12 @@
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['lang'] }}</td>
                                             <td>{{ $book['title'] }}</td>
-                                            <td>{{ $book['authory'] }}</td>
+                                            <td>{{ $book['collaborators']['authors'] }}</td>
                                             <td>{{ $book['pvp'] }}€</td>
-                                            <td>{{ $book['discounted_price'] == -1 ? '0' : $book['discounted_price'] }}€</td>
+                                            <?php
+                                                $book['discounted_price'] == -1 ? '0' : $book['discounted_price']
+                                            ?>
+                                            <td>{{ $book['discounted_price'] }}€</td>
                                             <td><button>-</button>{{ $book['stock'] }}<button>+</button></td>
                                             @if ($book['visible'])
                                                 <td>✔</td>
@@ -65,7 +68,7 @@
                                             @endif
                                             {{-- Crud --}}
                                             <td>
-                                                <form action="{{ route('books.destroy', $book['id']) }}" method="POST">
+                                            <form action="{{ route('books.destroy', $book['id']) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary "
                                                         href="{{ route('libro', $book['slug']) }}" target="_blank"><i
                                                             class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a>

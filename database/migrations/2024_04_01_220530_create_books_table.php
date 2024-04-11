@@ -25,9 +25,6 @@ return new class extends Migration
             $table->decimal('discounted_price', 8, 2);
             $table->integer('stock');
             $table->boolean('visible')->default(true);
-            $table->string('authory');
-            $table->string('translation');
-            $table->string('ilustration');
             $table->string('sample_url');
             $table->string('page_num');
             $table->string('publication_date');

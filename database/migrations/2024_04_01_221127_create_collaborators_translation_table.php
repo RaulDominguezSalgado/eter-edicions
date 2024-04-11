@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('collaborator_id');
             $table->string('lang');
-            $table->string('name');
+            $table->string('first_name');
             $table->string('last_name');
             $table->text('biography');
             $table->string('slug');

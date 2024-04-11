@@ -18,35 +18,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books_lv = Book::paginate();
-        $books = [];
-        foreach ($books_lv as $book) {
-            $return = [
-                'id' => $book->id,
-                'title' => $book->title,
-                'description' => $book->description,
-                'slug' => $book->slug,
-                'lang' => $book->lang,
-                'isbn' => $book->isbn,
-                'publisher' => $book->publisher,
-                'image' => $book->image,
-                'pvp' => $book->pvp,
-                'iva' => $book->iva,
-                'discounted_price' => $book->discounted_price,
-                'stock' => $book->stock,
-                'visible' => $book->visible,
-                'authory' => $book->authory,
-                'translation' => $book->translation,
-                'ilustration' => $book->ilustration,
-                'sample_url' => $book->sample_url,
-                'page_num' => $book->page_num,
-                'publication_date' => $book->publication_date,
-                'colections' => $book->colections,
-            ];
-
-            $books[] = $return;
-        }
-
+        $books = $this->create_array(Book::paginate());
         return view('book.index', compact('books'));
     }
 
@@ -55,35 +27,7 @@ class BookController extends Controller
      */
     public function catalogo()
     {
-        $books_lv = Book::paginate();
-        $books = [];
-        foreach ($books_lv as $book) {
-            $return = [
-                'id' => $book->id,
-                'title' => $book->title,
-                'description' => $book->description,
-                'slug' => $book->slug,
-                'lang' => $book->lang,
-                'isbn' => $book->isbn,
-                'publisher' => $book->publisher,
-                'image' => $book->image,
-                'pvp' => $book->pvp,
-                'iva' => $book->iva,
-                'discounted_price' => $book->discounted_price,
-                'stock' => $book->stock,
-                'visible' => $book->visible,
-                'authory' => $book->authory,
-                'translation' => $book->translation,
-                'ilustration' => $book->ilustration,
-                'sample_url' => $book->sample_url,
-                'page_num' => $book->page_num,
-                'publication_date' => $book->publication_date,
-                'colections' => $book->colections,
-            ];
-
-            $books[] = $return;
-        }
-
+        $books = $this->create_array(Book::paginate());
         return view('book.catalogo', compact('books'));
     }
 
@@ -100,6 +44,10 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
+        Book::create($request->validated());
+
+        return redirect()->route('books.index')
+            ->with('success', 'Book created successfully.');
         // columnes --> books, books_translation
         // books_translation -> slug, metaTitle, metaDescription
 
@@ -114,11 +62,6 @@ class BookController extends Controller
         // metaDescription = $request->metaDescription
         // slug = $request->name toLowerCase str_replace(" ", "-")
         //}
-
-        Book::create($request->validated());
-
-        return redirect()->route('books.index')
-            ->with('success', 'Book created successfully.');
     }
 
     /**
@@ -126,30 +69,11 @@ class BookController extends Controller
      */
     public function show($slug)
     {
-        $aux = Book::where('slug', $slug)->first();
-
-        $book = [
-            'id' => $aux->id,
-            'title' => $aux->title,
-            'description' => $aux->description,
-            'slug' => $aux->slug,
-            'lang' => $aux->lang,
-            'isbn' => $aux->isbn,
-            'publisher' => $aux->publisher,
-            'image' => $aux->image,
-            'pvp' => $aux->pvp,
-            'iva' => $aux->iva,
-            'discounted_price' => $aux->discounted_price,
-            'stock' => $aux->stock,
-            'visible' => $aux->visible,
-            'authory' => $aux->authory,
-            'translation' => $aux->translation,
-            'ilustration' => $aux->ilustration,
-            'sample_url' => $aux->sample_url,
-            'page_num' => $aux->page_num,
-            'publication_date' => $aux->publication_date,
-            'colections' => $aux->colections,
-        ];
+        $book = Book::where('slug', $slug)->first();
+        if (request()->is('admin*')) {
+            return redirect()->route('books.edit', $book->id);
+        }
+        $book = $this->create_array(Book::paginate())[0];
 
         return view('book.show', compact('book'));
     }
@@ -159,8 +83,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = Book::find($id);
-
+        $book = $this->create_array(Book::find($id))[0];
         return view('book.edit', compact('book'));
     }
 
@@ -179,14 +102,13 @@ class BookController extends Controller
             'discounted_price' => 'required',
             'stock' => 'required',
             'visible' => 'required',
-            'authors' => 'required',
-            'illustrators' => 'required',
-            'translators' => 'required',
-            // Aquí puedes agregar reglas de validación para otros campos si es necesario
+            'authory' => 'required',
+            'ilustration' => 'required',
+            'translation' => 'required',
         ]);
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = $book->isbn . '.webp'; // Nuevo nombre de la imagen
+            $imageName = $book->isbn . '.webp';
 
             // Guardar la nueva imagen
             $image->storeAs('public/images/books', $imageName);
@@ -211,5 +133,84 @@ class BookController extends Controller
 
         return redirect()->route('books.index')
             ->with('success', 'Book deleted successfully');
+    }
+
+    private function create_array($query_data) {
+        $books = [];
+        foreach ($query_data as $single_data) {
+            if (gettype($single_data->collections) == 'array') {
+                $collections_names = [];
+                foreach ($single_data->collections as $collection) {
+                    $collections_names[] = $collection->name;
+                }
+            }
+            else {
+                $collections_names = $single_data->collections;
+            }
+
+            $collaborators = [
+                'authors' => [],
+                'translators' => [],
+                'illustrators' => [],
+            ];
+            if (gettype($single_data->author) == 'array') {
+                foreach ($single_data->author as $author) {
+                    $collaborators['authors'] = [
+                        'id' => $author->id,
+                        'name' => $author->name,
+                        'collaborator_id' => $author->collaborator_id,
+                    ];
+                }
+            }
+            else {
+                $collaborators['authors'] = $single_data->author;
+            }
+            if (gettype($single_data->translator) == 'array') {
+                foreach ($single_data->translator as $translator) {
+                    $collaborators['translators'] = [
+                        'id' => $translator->id,
+                        'name' => $translator->name,
+                        'collaborator_id' => $translator->collaborator_id,
+                    ];
+                }
+            }
+            else {
+                $collaborators['translator'] = $single_data->translator;
+            }
+            if (gettype($single_data->illustrator) == 'array') {
+                foreach ($single_data->illustrator as $illustrator) {
+                    $collaborators['illustrators'] = [
+                        'id' => $illustrator->id,
+                        'name' => $illustrator->name,
+                        'collaborator_id' => $illustrator->collaborator_id,
+                    ];
+                }
+            }
+            else {
+                $collaborators['illustrator'] = $single_data->illustrator;
+            }
+
+            $books[] = [
+                'id' => $single_data->id,
+                'title' => $single_data->title,
+                'description' => $single_data->description,
+                'slug' => $single_data->slug,
+                'lang' => $single_data->lang,
+                'isbn' => $single_data->isbn,
+                'publisher' => $single_data->publisher,
+                'image' => $single_data->image,
+                'pvp' => $single_data->pvp,
+                'iva' => $single_data->iva,
+                'discounted_price' => $single_data->discounted_price,
+                'stock' => $single_data->stock,
+                'visible' => $single_data->visible,
+                'sample_url' => $single_data->sample_url,
+                'page_num' => $single_data->page_num,
+                'publication_date' => $single_data->publication_date,
+                'collections_names' => $collections_names,
+                'collaborators' => $collaborators,
+            ];
+        }
+        return $books;
     }
 }
