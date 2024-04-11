@@ -19,6 +19,7 @@ use Intervention\Image\Encoders\WebpEncoder;
 class CollaboratorController extends Controller
 {
     private $lang = "ca";
+    //private $lang = config('app')['locale'];
     /**
      * Display a listing of the resource.
      */

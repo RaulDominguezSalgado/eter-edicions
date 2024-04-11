@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrdersStatusHistoryRequest extends FormRequest
+class CollectionTranslationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class OrdersStatusHistoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'order_id' => 'required',
-			'status_id' => 'required',
-			'timestamp' => 'required',
+            'lang'=>'required|string|in:ca,es,ar-sy',
+            'name' => 'required',
+            'description' => 'required'
         ];
     }
 }

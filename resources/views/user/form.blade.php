@@ -31,7 +31,7 @@
             <select name="role_id" class="form-control @error('role_id') is-invalid @enderror" id="role_id">
                 <option value="" selected disabled>Selecciona un rol</option>
                 @foreach ($roles as $role)
-                    <option value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                    <option value="{{ $role['id'] }}" {{ old('role_id', $user['role_id']) == $role['id'] ? 'selected' : '' }}>{{ $role['name'] }}</option>
                 @endforeach
             </select>
             {!! $errors->first('role_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}

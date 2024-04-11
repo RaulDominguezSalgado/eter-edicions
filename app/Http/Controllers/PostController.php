@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
+use App\Models\User;
+use App\Models\CollaboratorTranslation;
+use PHPUnit\Metadata\Uses;
 
 /**
  * Class PostController
@@ -11,6 +14,7 @@ use App\Http\Requests\PostRequest;
  */
 class PostController extends Controller
 {
+    private $lang = 'ca';
     /**
      * Display a listing of the resource.
      */
@@ -28,7 +32,9 @@ class PostController extends Controller
     public function create()
     {
         $post = new Post();
-        return view('post.create', compact('post'));
+        $collaboratorTranslations = CollaboratorTranslation::where('lang', $this->lang)->paginate();
+        $users = User::all();
+        return view('post.create', compact('post', 'collaboratorTranslations', 'users'));
     }
 
     /**
@@ -58,8 +64,9 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+        $collaboratorTranslations = CollaboratorTranslation::where('lang', $this->lang)->paginate();
 
-        return view('post.edit', compact('post'));
+        return view('post.edit', compact('post', 'collaboratorTranslations'));
     }
 
     /**

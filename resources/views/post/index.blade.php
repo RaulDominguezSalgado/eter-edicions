@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    Post
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -35,12 +32,13 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Title</th>
-										<th>Author Id</th>
-										<th>Translator Id</th>
+										<th>Author</th>
+										<th>Translator</th>
 										<th>Description</th>
 										<th>Date</th>
+                                        <th>Location</th>
 										<th>Image</th>
 										<th>Content</th>
 										<th>Publication Date</th>
@@ -53,21 +51,22 @@
                                     @foreach ($posts as $post)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $post->title }}</td>
-											<td>{{ $post->author_id }}</td>
-											<td>{{ $post->translator_id }}</td>
-											<td>{{ $post->description }}</td>
-											<td>{{ $post->date }}</td>
-											<td>{{ $post->image }}</td>
-											<td>{{ $post->content }}</td>
-											<td>{{ $post->publication_date }}</td>
-											<td>{{ $post->published_by }}</td>
+
+											<td>{{ $post['title'] }}</td>
+											<td>{{ $post['author_id'] }}</td>
+											<td>{{ $post['translator_id'] }}</td>
+											<td>{{ $post['description'] }}</td>
+											<td>{{ $post['date'] }}</td>
+                                            <td>{{ $post['location'] }}</td>
+											<td>{{ $post['image'] }}</td>
+											<td>{{ $post['content'] }}</td>
+											<td>{{ $post['publication_date'] }}</td>
+											<td>{{ $post['published_by'] }}</td>
 
                                             <td>
-                                                <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('posts.show',$post->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('posts.edit',$post->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('posts.destroy',$post['id']) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('posts.show',$post['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('posts.edit',$post['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
@@ -84,4 +83,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-layouts.admin.app>

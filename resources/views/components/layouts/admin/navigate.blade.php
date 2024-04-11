@@ -8,7 +8,7 @@
         <li><a href="">Catàleg</a></li>
         <li><a href="{{ route('collections.index') }}">Col·leccions</a></li>
         <li><a href="{{ route('collaborators.index') }}">Col·laboradors</a></li>
-        <li><a href="">Publicacions</a></li>
+        <li><a href="{{ route('posts.index') }}">Publicacions</a></li>
         <li><a href="">Pàgines</a></li>
         <li><a href="{{ route('users.index') }}">Usuaris</a></li>
         <li><a href="">Configuració</a></li>

@@ -37,8 +37,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'author_id', 'translator_id', 'description', 'date', 'image', 'content', 'publication_date', 'published_by'];
-
+    protected $fillable = ['title', 'description', 'author_id', 'translator_id','content', 'date', 'location', 'image', 'publication_date', 'published_by'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

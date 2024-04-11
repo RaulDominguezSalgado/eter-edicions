@@ -23,13 +23,15 @@ class PostRequest extends FormRequest
     {
         return [
 			'title' => 'required|string',
-			'author_id' => 'required',
 			'description' => 'required|string',
-			'date' => 'required',
-			'image' => 'required|string',
+            'author_id' => 'required',
+            'translator_id' => 'required',
 			'content' => 'required|string',
+			'date' => 'required',
+            'location' => 'required',
+			'image' => 'required',
 			'publication_date' => 'required',
-			'published_by' => 'required',
+			'published_by' => 'required'
         ];
     }
 }
