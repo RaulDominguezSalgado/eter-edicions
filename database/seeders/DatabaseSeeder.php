@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+
 /* Seeders */
 use Database\Seeders\BookSeeder;
 use Database\Seeders\CollectionSeeder;
@@ -16,6 +18,9 @@ use Database\Seeders\PostSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\RoleSeeder;
 
+/* Factories */
+use Database\Factories\UserFactory;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -23,20 +28,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
 
-        // $this->call(CollaboratorSeeder::class);
-        // $this->call(AuthorSeeder::class);
-        // $this->call(TranslatorSeeder::class);
-        // $this->call(IllustratorSeeder::class);
+        $this->call(CollaboratorSeeder::class);
+        $this->call(AuthorSeeder::class);
+        $this->call(TranslatorSeeder::class);
+        $this->call(IllustratorSeeder::class);
 
-        // $this->call(BookSeeder::class);
-        // $this->call(CollectionSeeder::class);
+        $this->call(BookSeeder::class);
+        $this->call(CollectionSeeder::class);
 
-        // $this->call(OrderSeeder::class);
-        // $this->call(PostSeeder::class);
+        $this->call(OrderSeeder::class);
+        $this->call(PostSeeder::class);
 
 
 
