@@ -24,7 +24,7 @@ class CollaboratorsTranslationsRequest extends FormRequest
         return [
 			'collaborator_id' => 'required',
 			'lang' => 'required|string',
-			'name' => 'required|string',
+			'first_name' => 'required|string',
 			'last_name' => 'required|string',
 			'biography' => 'required|string',
         ];

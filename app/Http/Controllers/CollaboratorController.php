@@ -109,7 +109,7 @@ class CollaboratorController extends Controller
             if ($request->hasFile('image')) {
                 // Obtener el archivo de imagen
                 $imagen = $request->file('image');
-                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
+                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
 
                 $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
@@ -175,7 +175,7 @@ class CollaboratorController extends Controller
                 'lang' => $translation->lang,
                 'biography' => $translation->biography,
                 'slug' => $translation->slug,
-                'social_networks' => json_decode($collab->social_networks)
+                'social_networks' => json_decode($collab->social_networks, true)
             ];
         }
         return $collaborator;
