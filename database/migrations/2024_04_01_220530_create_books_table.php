@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('legal_diposit')->nullable();
             $table->string('enviromental_footprint')->nullable();
+            $table->string('slug');
             $table->boolean('visible')->default(true);
             $table->timestamps();
 
