@@ -33,14 +33,14 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CollaboratorSeeder::class);
         $this->call(AuthorSeeder::class);
-        $this->call(TranslatorSeeder::class);
-        $this->call(IllustratorSeeder::class);
+        // $this->call(TranslatorSeeder::class);
+        // $this->call(IllustratorSeeder::class);
 
         $this->call(BookSeeder::class);
-        $this->call(CollectionSeeder::class);
+        // $this->call(CollectionSeeder::class);
 
-        $this->call(OrderSeeder::class);
-        $this->call(PostSeeder::class);
+        // $this->call(OrderSeeder::class);
+        // $this->call(PostSeeder::class);
 
 
 
