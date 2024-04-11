@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    User
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -50,11 +47,11 @@
                                         <tr>
                                             <td>{{ ++$i }}</td>
 
-											<td>{{ $user->name }}</td>
+											<td>{{ $user->first_name }}</td>
 											<td>{{ $user->last_name }}</td>
 											<td>{{ $user->email }}</td>
 											<td>{{ $user->phone }}</td>
-											<td>{{ $user->role_id }}</td>
+											<td>{{ $user->role->name }}</td>
 
                                             <td>
                                                 <form action="{{ route('users.destroy',$user->id) }}" method="POST">
@@ -76,4 +73,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-layouts.admin.app>

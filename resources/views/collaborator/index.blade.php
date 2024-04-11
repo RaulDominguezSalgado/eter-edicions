@@ -34,9 +34,8 @@
 
 										<th>Imatge</th>
 										<th>Nom</th>
-										<th>Cognoms</th>
                                         <th>Llenguatge</th>
-										<th>Social Networks</th>
+										<th>Xarxes Socials Networks</th>
 
                                         <th></th>
                                     </tr>
@@ -47,12 +46,15 @@
                                             <td>{{ ++$i }}</td>
 											{{-- <td>{{ $collaborator["image"] }}</td> --}}
                                             <td>
-                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/'. $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
+                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/' . $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
                                             </td>
-											<td>{{ $collaborator["name"] }}</td>
-											<td>{{ $collaborator["last_name"] }}</td>
+											<td>{{ $collaborator["full_name"] }}</td>
 											<td>{{ $collaborator["lang"] }}</td>
-											<td>{{ $collaborator["social_networks"] }}</td>
+											<td>
+                                            @foreach ($collaborator["social_networks"] as $key=>$value )
+                                            <p><a href="{{$value}}">{{ $key }}</a></p>
+                                            @endforeach ()
+                                            </td>
 
                                             <td>
                                                 <form action="{{ route('collaborators.destroy',$collaborator["id"]) }}" method="POST">

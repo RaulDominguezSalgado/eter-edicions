@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('translators', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary(); 
+        Schema::create('book_extras', function (Blueprint $table) {
+            $table->unsignedBigInteger('book_id');
+            $table->string('key');
+            $table->string('value');
             $table->timestamps();
 
-            // Restricción de clave foránea
-            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->primary(['book_id', 'key']);
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('translators');
+        Schema::dropIfExists('book_extras');
     }
 };

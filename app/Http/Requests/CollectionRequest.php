@@ -22,6 +22,9 @@ class CollectionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'lang'=>'required|string|in:ca,es,ar-sy',
+            'name' => 'required',
+            'description' => 'required'
         ];
     }
 }

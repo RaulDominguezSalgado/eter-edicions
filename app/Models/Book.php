@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property $id
  * @property $isbn
+ * @property $title
  * @property $publisher
  * @property $image
  * @property $pvp
  * @property $iva
  * @property $discounted_price
  * @property $stock
+ * @property $legal_disposit
  * @property $visible
  * @property $created_at
  * @property $updated_at
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Book extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -33,24 +35,25 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'title',
-        'description',
-        'slug',
-        'lang',
-        'isbn',
-        'publisher',
-        'image',
-        'pvp',
-        'iva',
-        'discounted_price',
-        'stock',
-        'visible',
-        'sample_url',
-        'page_num',
-        'publication_date',
-    ];
-    
+    protected $fillable = ['isbn', 'title', 'publisher', 'image', 'pvp', 'iva', 'discounted_price', 'stock', 'legal_diposit', 'visible'];
 
+    public function extras(){
+        return $this->hasMany(\App\Models\BookExtra::class);
+    }
 
+    public function authors(){
+        return $this->belongsToMany(\App\Models\Author::class);
+    }
+
+    public function translators(){
+        return $this->belongsToMany(\App\Models\Translator::class);
+    }
+
+    public function collections(){
+        return $this->belongsToMany(\App\Models\Collection::class);
+    }
+
+    public function bookstores(){
+        return $this->belongsToMany(\App\Models\Bookstore::class);
+    }
 }

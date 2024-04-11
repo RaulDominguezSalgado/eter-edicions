@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('illustrators', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
-            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade');
-       });
+        Schema::create('languages', function (Blueprint $table) {
+            $table->string('iso');
+
+            $table->timestamps();
+
+            $table->primary('iso');
+        });
     }
 
     /**
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('illustrators');
+        Schema::dropIfExists('languages');
     }
 };

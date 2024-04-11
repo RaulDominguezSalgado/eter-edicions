@@ -37,6 +37,8 @@ Route::prefix('admin')->group(function () {
     })->name('admin_dashboard');
     Route::resource('books', App\Http\Controllers\BookController::class);
     Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+    Route::resource('collections', App\Http\Controllers\CollectionController::class);
+    Route::resource('users', App\Http\Controllers\UserController::class);
     Route::resource('authors', App\Http\Controllers\AuthorController::class);
     Route::resource('translators', App\Http\Controllers\TranslatorController::class);
     Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);

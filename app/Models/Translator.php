@@ -2,22 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Translator
- *
- * @property $id
- * @property $created_at
- * @property $updated_at
- *
- * @property Collaborator $collaborator
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
 class Translator extends Model
 {
-    
+    use HasFactory;
 
     protected $perPage = 20;
 
@@ -26,16 +16,12 @@ class Translator extends Model
      *
      * @var array
      */
-    protected $fillable = [];
-
+    protected $fillable = ['collaborator_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function collaborator()
-    {
-        return $this->belongsTo(\App\Models\Collaborator::class, 'id', 'id');
+    public function collaborator(){
+        return $this->belongsTo(\App\Models\Collaborator::class);
     }
-    
-
 }

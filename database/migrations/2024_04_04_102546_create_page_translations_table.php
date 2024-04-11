@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collections_translation', function (Blueprint $table) {
+        Schema::create('page_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('collection_id');
+            $table->unsignedBigInteger('page_id');
             $table->string('lang');
-            $table->string('name');
-            $table->text('description');
+            $table->string('meta_name');
+            $table->text('meta_description');
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('collection_id')->references('id')->on('collections');
+            $table->foreign('page_id')->references('id')->on('pages')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('lang')->references('iso')->on('languages')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('collections_translation');
+        Schema::dropIfExists('page_translations');
     }
 };
