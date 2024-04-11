@@ -18,7 +18,7 @@
                     <div class="card-body bg-white">
 
                         <div class="form-group mb-2 mb20">
-                            <strong>Name:</strong>
+                            <strong>First Name:</strong>
                             {{ $user->first_name }}
                         </div>
                         <div class="form-group mb-2 mb20">

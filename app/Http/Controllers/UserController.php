@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\UserRequest;
+use App\Models\Role;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\UniqueConstraintViolationException;
 
 /**
  * Class UserController
@@ -18,11 +21,11 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate();
-        $usersArray=[];
+        $usersArray = [];
         foreach ($users as $user) {
             $usersArray[] = [
                 'id' => $user->id,
-                'name' => $user->first_name." ".$user->last_name,
+                'name' => $user->first_name . " " . $user->last_name,
                 'email' => $user->email,
                 'phone' => $user->phone,
                 'role' => $user->role->name,
@@ -35,7 +38,7 @@ class UserController extends Controller
         // <td>{{ $user->phone }}</td>
         // <td>{{ $user->role->name }}</td>
 
-        return view('user.index', compact('usersArray','users'))
+        return view('user.index', compact('usersArray', 'users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
     }
 
@@ -45,37 +48,41 @@ class UserController extends Controller
     public function create()
     {
         $user = new User();
-        return view('user.create', compact('user'));
+        $roles = Role::all();
+        return view('user.create', compact('user', 'roles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(UserRequest $request)
-{
-    try {
-        // Validar los datos de la solicitud
-        $validatedData = $request->validated();
+    {
+        try {
+            // Validar los datos de la solicitud
+            $validatedData = $request->validated();
 
-        // Crear un nuevo usuario con los datos validados
-        $user = User::create($validatedData);
+            // Crear un nuevo usuario con los datos validados
+            //$user = User::create($validatedData);
 
-        // Crear una nueva traducción de usuario con los datos validados
-        $translationData = [
-            'user_id' => $user->id,
-            'first_name' => $validatedData['first_name'],
-            'last_name' => $validatedData['last_name'],
-            'email' => $validatedData['email'],
-            'phone' => $validatedData['phone'],
-            'role' => $validatedData['role'],
-        ];
-        User::create($translationData);
+            // Crear una nueva traducción de usuario con los datos validados
+            $translationData = [
+                //'user_id' => $user->id,
+                'first_name' => $validatedData['first_name'],
+                'last_name' => $validatedData['last_name'],
+                'email' => $validatedData['email'],
+                'password' => $validatedData['password'],
+                'phone' => $validatedData['phone'],
+                'role_id' => $validatedData['role_id'],
+            ];
+            User::create($translationData);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User created successfully.');
-    } catch (ValidationException $e) {
+            return redirect()->route('users.index')
+                ->with('success', 'User created successfully.');
+
+        } catch (QueryException $e) {
+            // Manejar otras excepciones de la base de datos si es necesario
+        }
     }
-}
 
     /**
      * Display the specified resource.
@@ -93,8 +100,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        $roles = Role::all();
 
-        return view('user.edit', compact('user'));
+        return view('user.edit', compact('user','roles'));
     }
 
     /**
