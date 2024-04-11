@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('book_id');
             $table->timestamps();
 
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade'); //no s'hauria de poder eliminar autor amb llibres
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade'); 
 
             $table->primary(['author_id', 'book_id']);
 

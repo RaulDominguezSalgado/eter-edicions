@@ -16,8 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('collection_id');
             $table->timestamps();
 
-            $table->foreign('book_id')->references('id')->on('books')->name('books_collections_book_id_foreign');
-            $table->foreign('collection_id')->references('id')->on('collections')->name('books_collections_collection_id_foreign');
+            // $table->foreign('book_id')->references('id')->on('books')->name('books_collections_book_id_foreign');
+            // $table->foreign('collection_id')->references('id')->on('collections')->name('books_collections_collection_id_foreign');
+
+            $table->foreign('book_id')->references('id')->on('books');
+            $table->foreign('collection_id')->references('id')->on('collections');
         });
     }
 
