@@ -33,16 +33,16 @@
                                     <tr>
                                         <th>No</th>
 
-										<th>Title</th>
-										<th>Author</th>
-										<th>Translator</th>
-										<th>Description</th>
-										<th>Date</th>
-                                        <th>Location</th>
-										<th>Image</th>
-										<th>Content</th>
-										<th>Publication Date</th>
-										<th>Published By</th>
+										<th>Títol</th>
+										<th>Autor</th>
+										<th>Traductor</th>
+										<th>Descripció</th>
+										<th>Data</th>
+                                        <th>Ubicació</th>
+										<th>Imatge</th>
+										<th>Contingut</th>
+										<th>Data de publicació</th>
+										<th>Publicat per</th>
 
                                         <th></th>
                                     </tr>
