@@ -1,10 +1,10 @@
 <?php
-    $collaborators = \App\Models\Collaborator::with('translations')->get();
-    $options = "";
-    foreach ($collaborators as $collaborator) {
-        $translation = $collaborator->translations->where('lang', 'es')->first() ?? $collaborator->translations->first();
-        $options .= "<option>".$translation->first_name." ".$translation->last_name."</option>";
-    }
+    // $collaborators = \App\Models\Collaborator::with('translations')->get();
+    // $options = "";
+    // foreach ($collaborators as $collaborator) {
+    //     $translation = $collaborator->translations->where('lang', 'es')->first() ?? $collaborator->translations->first();
+    //     $options .= "<option>".$translation->first_name." ".$translation->last_name."</option>";
+    // }
 ?>
 
 <div class="card-body bg-white">
@@ -21,7 +21,7 @@
         <label for="authory">Auditoria
             <input list="authory_list" type="text" name="authory" id="authory" value="">
             <datalist name="authory" id="authory_list">
-                <?php echo $options;?>
+                <?//php echo $options;?>
             </datalist>
         </label>
         <label for="translation">Traducció
