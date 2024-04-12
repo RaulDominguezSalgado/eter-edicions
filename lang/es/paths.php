@@ -4,7 +4,7 @@ return [
     'catalog' => 'catalogo',
     'authors' => 'autores',
     'agency' => 'agencia',
-    'activities' => 'activitadades',
+    'activities' => 'actividades',
     'posts' => 'articulos',
     'about' => 'sobre-nosotros',
     'bookstores' => 'libreriass',

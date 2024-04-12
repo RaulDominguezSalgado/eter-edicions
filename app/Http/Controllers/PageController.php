@@ -7,9 +7,21 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     public function home(){
-        // return view pages.home
+        // $locale = config('app')['locale'];
+        $locale = 'ca';
+        $page = [
+            'title' => 'Portada',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
 
-        return "PageController > home";
+        $books = [];
+        $posts = [];
+        $activities = [];
+
+
+        return view('public.home', compact('books', 'posts', 'activities', 'page', 'locale'));
     }
 
 

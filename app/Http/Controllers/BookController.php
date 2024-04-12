@@ -211,9 +211,18 @@ class BookController extends Controller
      */
     public function catalog()
     {
+        // $locale = config('app')['locale'];
+        $locale = 'ca';
+        $page = [
+            'title' => 'Portada',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
         $books = $this->create_array(Book::paginate());
         $collections = $this->create_collection_array(Collection::all());
-        return view('book.catalog', compact('books', 'collections'));
+        return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
     }
 
 

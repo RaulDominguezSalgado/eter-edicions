@@ -1,6 +1,10 @@
+<?php
+$locale = 'ca';
+?>
+
 <footer id="main-footer">
     <div>
-        <a href="{{ route('home') }}" class="logo">Logo</a>
+        <a href="{{ route("home.{$locale}") }}" class="logo">Logo</a>
         <div>
             <p>SERVEIS EDITORIALS ÈTER S.L</p>
             <p>Sant Gil 16, 3-1</p>
