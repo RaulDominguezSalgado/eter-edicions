@@ -48,7 +48,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($posts as $post)
+                                    @foreach ($postsArray as $post)
                                         <tr>
                                             <td>{{ ++$i }}</td>
 
@@ -58,7 +58,10 @@
 											<td>{{ $post['description'] }}</td>
 											<td>{{ $post['date'] }}</td>
                                             <td>{{ $post['location'] }}</td>
-											<td>{{ $post['image'] }}</td>
+											<td>
+                                                {{-- {{ $post['image'] }} --}}
+                                                <img style="width: 100px; height: auto;" src="{{ asset('img/posts/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
+                                            </td>
 											<td>{{ $post['content'] }}</td>
 											<td>{{ $post['publication_date'] }}</td>
 											<td>{{ $post['published_by'] }}</td>

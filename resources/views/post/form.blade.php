@@ -10,8 +10,8 @@
             <label for="author_id" class="form-label">{{ __('Autor') }}</label>
             <select name="author_id" class="form-control @error('author_id') is-invalid @enderror" id="author_id">
                 <option value="" selected disabled>Selecciona un Autor</option>
-                @foreach ($collaboratorTranslations as $collaborator)
-                    <option value="{{ $collaborator->id }}" {{ old('author_id', $collaborator['author_id']) == $collaborator['id'] ? 'selected' : '' }}>{{ $collaborator['first_name'] . " " . $collaborator['last_name']}}</option>
+                @foreach ($authors as $author)
+                    <option value="{{ $author->id }}" {{ old('author_id', $author['author_id']) == $author['id'] ? 'selected' : '' }}>{{ $author->collaborator->translations->first()->first_name. " " . $author->collaborator->translations->first()->last_name}}</option>
                 @endforeach
             </select>
         </div>
@@ -19,8 +19,8 @@
             <label for="translator_id" class="form-label">{{ __('Traductor') }}</label>
             <select name="translator_id" class="form-control @error('translator_id') is-invalid @enderror" id="translator_id">
                 <option value="" selected disabled>Selecciona un Traductor</option>
-                @foreach ($collaboratorTranslations as $collaborator)
-                    <option value="{{ $collaborator->id }}" {{ old('translator_id', $collaborator['translator_id']) == $collaborator['id'] ? 'selected' : '' }}>{{ $collaborator['first_name'] . " " . $collaborator['last_name']}}</option>
+                @foreach ($translators as $translator)
+                    <option value="{{ $translator->id }}" {{ old('translator_id', $translator['translator_id']) == $translator['id'] ? 'selected' : '' }}>{{ $translator->collaborator->translations->first()->first_name . " " . $translator->collaborator->translations->first()->last_name}}</option>
                 @endforeach
             </select>
         </div>
@@ -31,7 +31,7 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="date" class="form-label">{{ __('Data') }}</label>
-            <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date', $post['date']) }}" id="date" placeholder="Data">
+            <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date', $post->date) }}" id="date" placeholder="Data">
             {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
@@ -41,7 +41,7 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Imatge') }}</label>
-            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $post['image']) }}" id="image" placeholder="Imatge">
+            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $post->image) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
@@ -51,7 +51,7 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="publication_date" class="form-label">{{ __('Data de publicació') }}</label>
-            <input type="date" name="publication_date" class="form-control @error('publication_date') is-invalid @enderror" value="{{ old('publication_date', $post['publication_date'] ?? date('Y-m-d')) }}" id="publication_date" placeholder="Data de publicació">
+            <input type="date" name="publication_date" class="form-control @error('publication_date') is-invalid @enderror" value="{{ old('publication_date', $post->publication_date) }}" id="publication_date" placeholder="Data de publicació">
             {!! $errors->first('publication_date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">

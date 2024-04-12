@@ -19,39 +19,39 @@
 
                         <div class="form-group mb-2 mb20">
                             <strong>Title:</strong>
-                            {{ $post->title }}
+                            {{ $post['title'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Author Id:</strong>
-                            {{ $post->author_id }}
+                            {{ $post['author_id'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Translator Id:</strong>
-                            {{ $post->translator_id }}
+                            {{ $post['translator_id'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Description:</strong>
-                            {{ $post->description }}
+                            {{ $post['description'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Date:</strong>
-                            {{ $post->date }}
+                            {{ $post['date'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Image:</strong>
-                            {{ $post->image }}
+                            <img style="width: 100px; height: auto;" src="{{ asset('img/posts/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Content:</strong>
-                            {{ $post->content }}
+                            {{ $post['content'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Publication Date:</strong>
-                            {{ $post->publication_date }}
+                            {{ $post['publication_date'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Published By:</strong>
-                            {{ $post->published_by }}
+                            {{ $post['published_by'] }}
                         </div>
 
                     </div>

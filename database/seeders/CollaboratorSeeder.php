@@ -111,7 +111,7 @@ class CollaboratorSeeder extends Seeder
         $rashaomran->save();
 
         $rashaomranTranslation = new CollaboratorTranslation();
-        $rashaomranTranslation->collaborator_id = 5;
+        $rashaomranTranslation->collaborator_id = 6;
         $rashaomranTranslation->lang = "ca";
         $rashaomranTranslation->first_name = "Rasha";
         $rashaomranTranslation->last_name = "Omran";
@@ -130,7 +130,7 @@ class CollaboratorSeeder extends Seeder
         $pontussanchez->save();
 
         $pontussanchezTranslation = new CollaboratorTranslation();
-        $pontussanchezTranslation->collaborator_id = 5;
+        $pontussanchezTranslation->collaborator_id = 7;
         $pontussanchezTranslation->lang = "ca";
         $pontussanchezTranslation->first_name = "Pontus";
         $pontussanchezTranslation->last_name = "Sánchez";
@@ -147,7 +147,7 @@ class CollaboratorSeeder extends Seeder
         $oriolrissech->save();
 
         $oriolrissechTranslation = new CollaboratorTranslation();
-        $oriolrissechTranslation->collaborator_id = 5;
+        $oriolrissechTranslation->collaborator_id = 8;
         $oriolrissechTranslation->lang = "ca";
         $oriolrissechTranslation->first_name = "Oriol";
         $oriolrissechTranslation->last_name = "Rissech";
@@ -165,7 +165,7 @@ class CollaboratorSeeder extends Seeder
         $elisabethhultcrantz->save();
 
         $elisabethhultcrantzTranslation = new CollaboratorTranslation();
-        $elisabethhultcrantzTranslation->collaborator_id = 5;
+        $elisabethhultcrantzTranslation->collaborator_id = 9;
         $elisabethhultcrantzTranslation->lang = "ca";
         $elisabethhultcrantzTranslation->first_name = "Elisabeth";
         $elisabethhultcrantzTranslation->last_name = "Hultcrantz";
@@ -185,7 +185,7 @@ class CollaboratorSeeder extends Seeder
         $sadiqjalalalazem->save();
 
         $sadiqjalalalazemTranslation = new CollaboratorTranslation();
-        $sadiqjalalalazemTranslation->collaborator_id = 5;
+        $sadiqjalalalazemTranslation->collaborator_id = 10;
         $sadiqjalalalazemTranslation->lang = "ca";
         $sadiqjalalalazemTranslation->first_name = "Sàdiq Jalal";
         $sadiqjalalalazemTranslation->last_name = "al-Àzem";
@@ -202,7 +202,7 @@ class CollaboratorSeeder extends Seeder
         $selimnassib->save();
 
         $selimnassibTranslation = new CollaboratorTranslation();
-        $selimnassibTranslation->collaborator_id = 5;
+        $selimnassibTranslation->collaborator_id = 11;
         $selimnassibTranslation->lang = "ca";
         $selimnassibTranslation->first_name = "Sélim";
         $selimnassibTranslation->last_name = "Nassib";
@@ -219,7 +219,7 @@ class CollaboratorSeeder extends Seeder
         $asmaaalghoul->save();
 
         $asmaaalghoulTranslation = new CollaboratorTranslation();
-        $asmaaalghoulTranslation->collaborator_id = 5;
+        $asmaaalghoulTranslation->collaborator_id = 12;
         $asmaaalghoulTranslation->lang = "ca";
         $asmaaalghoulTranslation->first_name = "Asmaa";
         $asmaaalghoulTranslation->last_name = "Alghoul";
