@@ -64,6 +64,10 @@ class Book extends Model
     'updated_at' => 'datetime:dd/mm/yyyy',
 ];
 
+    public function language(){
+        return $this->belongsTo(\App\Models\Language::class);
+    }
+
     public function extras(){
         return $this->hasMany(\App\Models\BookExtra::class);
     }

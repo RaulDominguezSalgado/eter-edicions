@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('collaborator_id')->unique();
+            // $table->unsignedBigInteger('collaborator_id')->unique();
             $table->boolean('represented_by_agency')->default(false);
             $table->timestamps();
 
-            $table->foreign('collaborator_id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

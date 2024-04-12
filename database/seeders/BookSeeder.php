@@ -76,7 +76,7 @@ class BookSeeder extends Seeder
         $panorama->meta_description = $panorama->headline ?? $panorama->description;
         $panorama->save();
 
-        $panorama->authors()->attach(2);
+        $panorama->authors()->attach(6);
         $panorama->translators()->attach(4);
         $panorama->collections()->attach(1);
 
@@ -108,8 +108,8 @@ class BookSeeder extends Seeder
         $nenssuecs->meta_description = $nenssuecs->headline ?? $nenssuecs->description;
         $nenssuecs->save();
 
-        $nenssuecs->authors()->attach(3);
-        $nenssuecs->translators()->attach([4, 5]);
+        $nenssuecs->authors()->attach(9);
+        $nenssuecs->translators()->attach([7, 8]);
         $nenssuecs->collections()->attach(4);
 
 
@@ -138,7 +138,7 @@ class BookSeeder extends Seeder
         $orientalisme->meta_description = $orientalisme->headline ?? $orientalisme->description;
         $orientalisme->save();
 
-        $orientalisme->authors()->attach(4);
+        $orientalisme->authors()->attach(10);
         $orientalisme->translators()->attach(4);
         $orientalisme->collections()->attach(5);
 
@@ -169,8 +169,8 @@ class BookSeeder extends Seeder
         $insubmisa->meta_description = $insubmisa->headline ?? $insubmisa->description;
         $insubmisa->save();
 
-        $insubmisa->authors()->attach([5,6]);
-        $insubmisa->translators()->attach(5);
+        $insubmisa->authors()->attach([11,12]);
+        $insubmisa->translators()->attach(8);
         $insubmisa->collections()->attach(5);
     }
 }
