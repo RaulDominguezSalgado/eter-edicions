@@ -3,7 +3,7 @@
         <div class="form-group mb-2 mb20">
             <label for="date" class="form-label">{{ __('Date') }}</label>
             <input type="text" name="date" class="form-control @error('date') is-invalid @enderror"
-                value="{{ old('date', $order'[date']) }}" id="date" placeholder="Date">
+                value="{{ old('date', $order['date']) }}" id="date" placeholder="Date">
             {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div id="products">
