@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrdersStatusHistory extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -40,7 +40,7 @@ class OrdersStatusHistory extends Model
     {
         return $this->belongsTo(\App\Models\Order::class, 'order_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -48,6 +48,6 @@ class OrdersStatusHistory extends Model
     {
         return $this->belongsTo(\App\Models\OrdersStatus::class, 'status_id', 'id');
     }
-    
+
 
 }

@@ -1,19 +1,17 @@
-<nav>
-    <ul>
-        <li><a href="">Logo</a></li>
-    </ul>
-    <ul>
-        <li><a href="">Portada</a></li>
-        <li><a href="">Catàleg</a></li>
-        <li><a href="{{ route('collaborators.index') }}">Autors</a></li>
-        <li><a href="">Agència</a></li>
-        <li><a href="">Activitats</a></li>
-        <li><a href="">Articles</a></li>
-        <li><a href="">Qui som</a></li>
+<?php
+$locale = 'ca';
+?>
 
-    </ul>
+<nav id="main-nav">
+    <a href="{{ route("home.{$locale}") }}" class="logo">Logo</a>
     <ul>
+        <li><a href="{{ route("home.{$locale}") }}" @if(Route::currentRouteName() == "home.{$locale}") class="active" @endif>Portada</a></li>
+        <li><a href="{{ route("catalog.{$locale}") }}" @if(Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>Catàleg</a></li>
+        <li><a href="{{ route("collaborators.{$locale}") }}" @if(Route::currentRouteName() == "collaborators.{$locale}") class="active" @endif>Autors</a></li>
+        <li><a href="{{ route("agency.{$locale}") }}" @if(Route::currentRouteName() == "agency.{$locale}") class="active" @endif>Agència</a></li>
+        <li><a href="{{ route("activities.{$locale}") }}" @if(Route::currentRouteName() == "activities.{$locale}") class="active" @endif>Activitats</a></li>
+        <li><a href="{{ route("posts.{$locale}") }}" @if(Route::currentRouteName() == "posts.{$locale}") class="active" @endif>Articles</a></li>
+        <li><a href="{{ route("about.{$locale}") }}" @if(Route::currentRouteName() == "about.{$locale}") class="active" @endif>Qui som</a></li>
         <li><button>Buscar</button></li>
-    </ul>
 </nav>
 <hr>

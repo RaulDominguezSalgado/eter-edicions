@@ -23,6 +23,9 @@ return new class extends Migration
             $table->text('content');
             $table->unsignedBigInteger('published_by')->nullable();
             $table->dateTime('publication_date');
+            $table->string('slug');
+            $table->string('meta_title');
+            $table->text('meta_description');
             $table->timestamps();
 
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('restrict')->onUpdate('cascade');

@@ -37,7 +37,20 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'author_id', 'translator_id', 'description', 'date', 'image', 'content', 'publication_date', 'published_by'];
+    protected $fillable = [
+        'title',
+        'author_id',
+        'translator_id',
+        'description',
+        'date',
+        'image',
+        'content',
+        'publication_date',
+        'published_by',
+        'slug',
+        'meta_name',
+        'meta_description'
+    ];
 
 
     /**

@@ -33,5 +33,15 @@ class AuthorSeeder extends Seeder
         $sadiqjalalalazem = new Author();
         $sadiqjalalalazem->collaborator_id = Collaborator::find(10)->id;
         $sadiqjalalalazem->save();
+
+        //Sélim Nassib
+        $selimnassib = new Author();
+        $selimnassib->collaborator_id = Collaborator::find(11)->id;
+        $selimnassib->save();
+
+        //Asmaa Alghoul
+        $asmaalghoul = new Author();
+        $asmaalghoul->collaborator_id = Collaborator::find(12)->id;
+        $asmaalghoul->save();
     }
 }
