@@ -124,90 +124,6 @@ class BookController extends Controller
             ->with('success', 'Book deleted successfully');
     }
 
-    private function create_array($query_data)
-    {
-        $books = [];
-        foreach ($query_data as $single_data) {
-            $collections_names = [];
-            if (!empty($single_data->collections)) {
-                foreach ($single_data->collections as $collection) {
-                    $collections_names[] = $collection->name;
-                }
-            }
-
-            $collaborators = [
-                'authors' => array(),
-                'translators' => array(),
-                'illustrators' => array(),
-            ];
-            if (!empty($single_data->author)) {
-                foreach ($single_data->author as $author) {
-                    $collaborators['authors'] = [
-                        'id' => $author->id,
-                        'name' => $author->name,
-                        'collaborator_id' => $author->collaborator_id,
-                    ];
-                }
-            }
-            if (!empty($single_data->translator)) {
-                foreach ($single_data->translator as $translator) {
-                    $collaborators['translators'] = [
-                        'id' => $translator->id,
-                        'name' => $translator->name,
-                        'collaborator_id' => $translator->collaborator_id,
-                    ];
-                }
-            }
-            if (!empty($single_data->illustrator)) {
-                foreach ($single_data->illustrator as $illustrator) {
-                    $collaborators['illustrators'] = [
-                        'id' => $illustrator->id,
-                        'name' => $illustrator->name,
-                        'collaborator_id' => $illustrator->collaborator_id,
-                    ];
-                }
-            }
-
-            $books[] = [
-                'id' => $single_data->id,
-                'title' => $single_data->title,
-                'description' => $single_data->description,
-                'slug' => $single_data->slug,
-                'lang' => $single_data->lang,
-                'isbn' => $single_data->isbn,
-                'publisher' => $single_data->publisher,
-                'image' => $single_data->image,
-                'pvp' => $single_data->pvp,
-                'iva' => $single_data->iva,
-                'discounted_price' => $single_data->discounted_price,
-                'stock' => $single_data->stock,
-                'visible' => $single_data->visible,
-                'sample_url' => $single_data->sample_url,
-                'page_num' => $single_data->page_num,
-                'publication_date' => $single_data->publication_date,
-                'collections_names' => $collections_names,
-                'collaborators' => $collaborators,
-            ];
-        }
-        return $books;
-    }
-
-
-    private function create_collection_array($query_data)
-    {
-        $collections = [
-            1 => ["name" => "Col·lecció 1"],
-            2 => ["name" => "Col·lecció 2"],
-            3 => ["name" => "Col·lecció 3"]
-        ];
-
-        // foreach ($query_data as $single_data) {
-        // }
-
-        return $collections;
-    }
-
-
     /**
      * Display a listing of the resource for the public users.
      */
@@ -227,13 +143,70 @@ class BookController extends Controller
             ->paginate(20);
 
         $books = [];
-        foreach ($books_lv as $book) {
-            $result = [
+        foreach($books_lv as $book_lv){
+            $books[$book_lv->slug]=$this->getFullBook($book_lv, $locale);
+        }
+
+        // $books = $this->getFullBook($books_lv, $locale);
+
+        $collections = $this->create_collection_array(Collection::all());
+
+        // return dd($books);
+
+
+        return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
+    }
+
+
+
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    public function bookDetail($id)
+    {
+        // return dd($id);
+
+        // $locale = config('app')['locale'];
+        $locale = 'ca';
+        $page = [
+            'title' => 'Portada',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $book_lv = Book::find($id);
+        // return dd($book_lv->id);
+
+        if(!$book_lv->visible){
+            return view('components.404');
+        }
+
+        $book = $this->getFullBook($book_lv, $locale);
+
+        $related_books = [];
+
+        return view('public.book', compact('book', 'related_books', 'page', 'locale'));
+    }
+
+
+
+
+    /**
+     *
+     */
+    private function getFullBook($book, $locale){
+        $result = [];
+
+        // dd($books);
+
+        // foreach ($books as $book) {
+            $bookResult = [
                 'id' => $book->id,
                 'isbn' => $book->isbn,
                 'title' => $book->title,
-                'authors' => $book->authors()->get(),
-                'translators' => $book->translators()->get(),
+                // 'authors' => [],
+                // 'translators' => [],
                 'lang' => \App\Models\LanguageTranslation::where('iso_language', $book->lang)->where('iso_translation', $locale)->first(),
                 'headline' => $book->headline,
                 'description' => $book->description,
@@ -253,49 +226,137 @@ class BookController extends Controller
 
             foreach($book->authors()->get() as $author){
 
-                // $collaboratorName = \App\Models\CollaboratorTranslation::where('collaborator_id', \App\Models\Collaborator::find($author->collaborator_id)->id)
-                //     ->where('lang', $locale)
-                //     ->first()
-                //     ->first_name
-                //     . " "
-                //     . \App\Models\CollaboratorTranslation::where('collaborator_id', \App\Models\Collaborator::find($author->collaborator_id)->id)
-                //     ->where('lang', $locale)
-                //     ->first()->last_name;
-
-                $collaboratorId = \App\Models\Collaborator::find($author->collaborator_id)->id;
-                $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $collaboratorId)->where('lang', $locale)->first();
+                $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
-                $result['authors']=$collaboratorName;
+                $bookResult['authors'][]=$collaboratorName;
             }
 
             foreach($book->translators()->get() as $translator){
 
-                // $collaboratorId = \App\Models\Collaborator::find($translator->collaborator_id)->id;
-                // $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $collaboratorId)->where('lang', $locale)->first();
-                // $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+                $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $translator->id)->where('lang', $locale)->first();
+                $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
-                $result['translators']=$translator;
+                $bookResult['translators'][]=$collaboratorName;
             }
 
-            $books[$book->slug] = $result;
+            foreach($book->collections()->get() as $collection){
+                $collectionName = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first()->name;
+
+                $bookResult['collections'][]=$collectionName;
+            }
+
+            foreach($book->extras()->get() as $extra){
+                $bookResult['extras'][]=[
+                    $extra->key => $extra->value
+                ];
+            }
+
+            // $result[$book->slug] = $bookResult;
+        // }
+
+        return $bookResult;
+    }
+
+    /**
+     *
+     */
+    private function getFullCollection($collections, $locale)
+    {
+        $result = [];
+
+        foreach($collections as $collection){
+            $collectionTranslation = \App\Models\CollectionTranslation::where('lang', $locale);
+
+            //TO DO
+
         }
 
-        // $collections = $this->create_collection_array(Collection::all());
-
-        return dd($books);
-
-
-        // return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
+        return $result;
     }
 
 
 
-    /**
-     * Display a listing of the resource for the public users.
-     */
-    public function bookDetail($id)
+        // private function create_array($query_data)
+    // {
+    //     $books = [];
+    //     foreach ($query_data as $single_data) {
+    //         $collections_names = [];
+    //         if (!empty($single_data->collections)) {
+    //             foreach ($single_data->collections as $collection) {
+    //                 $collections_names[] = $collection->name;
+    //             }
+    //         }
+
+    //         $collaborators = [
+    //             'authors' => array(),
+    //             'translators' => array(),
+    //             'illustrators' => array(),
+    //         ];
+    //         if (!empty($single_data->author)) {
+    //             foreach ($single_data->author as $author) {
+    //                 $collaborators['authors'] = [
+    //                     'id' => $author->id,
+    //                     'name' => $author->name,
+    //                     'collaborator_id' => $author->collaborator_id,
+    //                 ];
+    //             }
+    //         }
+    //         if (!empty($single_data->translator)) {
+    //             foreach ($single_data->translator as $translator) {
+    //                 $collaborators['translators'] = [
+    //                     'id' => $translator->id,
+    //                     'name' => $translator->name,
+    //                     'collaborator_id' => $translator->collaborator_id,
+    //                 ];
+    //             }
+    //         }
+    //         if (!empty($single_data->illustrator)) {
+    //             foreach ($single_data->illustrator as $illustrator) {
+    //                 $collaborators['illustrators'] = [
+    //                     'id' => $illustrator->id,
+    //                     'name' => $illustrator->name,
+    //                     'collaborator_id' => $illustrator->collaborator_id,
+    //                 ];
+    //             }
+    //         }
+
+    //         $books[] = [
+    //             'id' => $single_data->id,
+    //             'title' => $single_data->title,
+    //             'description' => $single_data->description,
+    //             'slug' => $single_data->slug,
+    //             'lang' => $single_data->lang,
+    //             'isbn' => $single_data->isbn,
+    //             'publisher' => $single_data->publisher,
+    //             'image' => $single_data->image,
+    //             'pvp' => $single_data->pvp,
+    //             'iva' => $single_data->iva,
+    //             'discounted_price' => $single_data->discounted_price,
+    //             'stock' => $single_data->stock,
+    //             'visible' => $single_data->visible,
+    //             'sample_url' => $single_data->sample_url,
+    //             'page_num' => $single_data->page_num,
+    //             'publication_date' => $single_data->publication_date,
+    //             'collections_names' => $collections_names,
+    //             'collaborators' => $collaborators,
+    //         ];
+    //     }
+    //     return $books;
+    // }
+
+
+    private function create_collection_array($query_data)
     {
-        return "BookController > bookDetail({$id})";
+        $collections = [
+            1 => ["name" => "Col·lecció 1"],
+            2 => ["name" => "Col·lecció 2"],
+            3 => ["name" => "Col·lecció 3"]
+        ];
+
+        // foreach ($query_data as $single_data) {
+        // }
+
+        return $collections;
     }
 }

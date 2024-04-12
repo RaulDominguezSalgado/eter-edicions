@@ -19,17 +19,17 @@
             @foreach ($books as $i => $book)
                 <div class="book">
                     <div>
-                        <a href="{{ route('books.show',$book["id"]) }}">
+                        <a href="{{ route("book-detail.{$locale}",$book["id"]) }}">
                             <img src="{{ asset('img/books/thumbnails/' . $book["image"]) }}" alt="{{ ($book["title"]) }}" style="height: 19.7em">
                         </a>
                     </div>
                     <div class="title">{{ $book['title'] }}</div>
-                    @foreach ($book['collaborators'] as $collaborator)
-                        <div class="author">{{ $collaborator }}</div>
+                    @foreach ($book['authors'] as $author)
+                        <div class="author">{{ $author }}</div>
                     @endforeach
-                    {{-- @foreach ($book['collaborators']['translators'])
-                        <div class="translator">{{ $book['collaborators']['translators']}}</div>
-                    @endforeach --}}
+                    @foreach ($book['translators'] as $translator)
+                        <div class="translator">{{ $translator }}</div>
+                    @endforeach
                 </div>
             @endforeach
         </div>
