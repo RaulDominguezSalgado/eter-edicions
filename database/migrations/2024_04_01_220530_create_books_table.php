@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('publisher');
             $table->string('image');
             $table->integer('number_of_pages')->nullable();
-            $table->string('publication_date')->nullable();
+            $table->date('publication_date')->nullable();
             $table->decimal('pvp', 8, 2);
             $table->integer('iva');
             $table->decimal('discounted_price', 8, 2)->nullable();

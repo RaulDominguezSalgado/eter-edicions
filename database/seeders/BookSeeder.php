@@ -30,7 +30,7 @@ class BookSeeder extends Seeder
         $tragedia->publisher = "Èter Edicions";
         $tragedia->image = "la-tragedia-den-saied-mattar.webp";
         $tragedia->number_of_pages = 149;
-        $tragedia->publication_date = "23/04/2023";
+        $tragedia->publication_date = Date("2023/04/23");
         $tragedia->pvp = 20.80;
         $tragedia->iva = 4;
         $tragedia->discounted_price;
@@ -46,7 +46,7 @@ class BookSeeder extends Seeder
         $tragedia->authors()->attach(1);
         $tragedia->translators()->attach(2);
         $tragedia->translators()->attach(3);
-
+        $tragedia->collections()->attach(2);
 
         // Panorama
         $panorama = new Book();
@@ -63,7 +63,7 @@ class BookSeeder extends Seeder
         $panorama->publisher = "Èter Edicions";
         $panorama->image = "panorama-de-mort-i-desolacio.webp";
         $panorama->number_of_pages = 188;
-        $panorama->publication_date = "20/04/2023";
+        $panorama->publication_date = Date("2023/04/20");
         $panorama->pvp = 15;
         $panorama->iva = 4;
         $panorama->discounted_price;
@@ -78,6 +78,7 @@ class BookSeeder extends Seeder
 
         $panorama->authors()->attach(2);
         $panorama->translators()->attach(4);
+        $panorama->collections()->attach(1);
 
 
         // Si fossin nens suecs
@@ -94,7 +95,7 @@ class BookSeeder extends Seeder
         $nenssuecs->publisher = "Èter Edicions i Pol·len Edicions";
         $nenssuecs->image = "si-fossin-nens-suecs.webp";
         $nenssuecs->number_of_pages = 230;
-        $nenssuecs->publication_date = "01/10/2023";
+        $nenssuecs->publication_date = Date("2023/10/01");
         $nenssuecs->pvp = 21;
         $nenssuecs->iva = 4;
         $nenssuecs->discounted_price;
@@ -109,6 +110,7 @@ class BookSeeder extends Seeder
 
         $nenssuecs->authors()->attach(3);
         $nenssuecs->translators()->attach([4, 5]);
+        $nenssuecs->collections()->attach(4);
 
 
         // Orientalisme i orientalisme invers
@@ -122,7 +124,7 @@ class BookSeeder extends Seeder
         $orientalisme->publisher = "Èter Edicions";
         $orientalisme->image = "orientalisme-i-orientalisme-invers.webp";
         $orientalisme->number_of_pages = 118;
-        $orientalisme->publication_date = "2024";
+        $orientalisme->publication_date = Date("2024/01/20");
         $orientalisme->pvp = 21;
         $orientalisme->iva = 4;
         $orientalisme->discounted_price;
@@ -138,6 +140,7 @@ class BookSeeder extends Seeder
 
         $orientalisme->authors()->attach(4);
         $orientalisme->translators()->attach(4);
+        $orientalisme->collections()->attach(5);
 
 
         // La insubmisa de Gaza
@@ -153,7 +156,7 @@ class BookSeeder extends Seeder
         $insubmisa->publisher = "Èter Edicions";
         $insubmisa->image = "la-insubmisa-de-gaza.webp";
         $insubmisa->number_of_pages = 300;
-        $insubmisa->publication_date = "2024";
+        $insubmisa->publication_date = Date("2024/05/01");
         $insubmisa->pvp = 21;
         $insubmisa->iva = 4;
         $insubmisa->discounted_price;
@@ -168,5 +171,6 @@ class BookSeeder extends Seeder
 
         $insubmisa->authors()->attach([5,6]);
         $insubmisa->translators()->attach(5);
+        $insubmisa->collections()->attach(5);
     }
 }

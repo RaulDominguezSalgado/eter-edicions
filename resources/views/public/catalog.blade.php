@@ -24,11 +24,11 @@
                         </a>
                     </div>
                     <div class="title">{{ $book['title'] }}</div>
-                    {{-- @foreach ($book['collaborators']['authors'] as $author)
-                    <div class="author">{{ $author }}</div>
+                    @foreach ($book['collaborators'] as $collaborator)
+                        <div class="author">{{ $collaborator }}</div>
                     @endforeach
-                    @foreach ($book['collaborators']['translators'])
-                    <div class="translator">{{ $book['collaborators']['translators']}}</div>
+                    {{-- @foreach ($book['collaborators']['translators'])
+                        <div class="translator">{{ $book['collaborators']['translators']}}</div>
                     @endforeach --}}
                 </div>
             @endforeach

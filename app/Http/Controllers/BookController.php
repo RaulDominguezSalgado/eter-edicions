@@ -220,8 +220,95 @@ class BookController extends Controller
             'web' => 'Èter Edicions'
         ];
 
-        $books = $this->create_array(Book::paginate());
+        $books_lv = Book::where('visible', "LIKE", 1)
+                            ->orderBy('publication_date', 'desc')
+                            ->paginate(20);
+        $books = [];
+
+
+        // foreach ($books_lv as $book) {
+        //     $books[] = [
+        //         'id' => $book->id,
+        //         // 'isbn' => $book->isbn,
+        //         'title' => $book->title,
+        //         // 'publisher' => $book->publisher,
+        //         'image' => $book->image,
+        //         'pvp' => $book->pvp,
+        //         // 'iva' => $book->iva,
+        //         'discounted_price' => $book->discounted_price,
+        //         // 'stock' => $book->stock,
+        //         'visible' => $book->visible,
+        //         'authors' => $book->authors(),
+        //         'translators' => $book->translators(),
+        //     ];
+        // }
+
+        // $books = [];
+        // foreach ($query_data as $single_data) {
+        //     $collections_names = [];
+        //     if (!empty($single_data->collections)) {
+        //         foreach ($single_data->collections as $collection) {
+        //             $collections_names[] = $collection->name;
+        //         }
+        //     }
+
+        //     $collaborators = [
+        //         'authors' => Array(),
+        //         'translators' => Array(),
+        //         'illustrators' => Array(),
+        //     ];
+        //     if (!empty($single_data->author)) {
+        //         foreach ($single_data->author as $author) {
+        //             $collaborators['authors'] = [
+        //                 'id' => $author->id,
+        //                 'name' => $author->name,
+        //                 'collaborator_id' => $author->collaborator_id,
+        //             ];
+        //         }
+        //     }
+        //     if (!empty($single_data->translator)) {
+        //         foreach ($single_data->translator as $translator) {
+        //             $collaborators['translators'] = [
+        //                 'id' => $translator->id,
+        //                 'name' => $translator->name,
+        //                 'collaborator_id' => $translator->collaborator_id,
+        //             ];
+        //         }
+        //     }
+        //     if (!empty($single_data->illustrator)) {
+        //         foreach ($single_data->illustrator as $illustrator) {
+        //             $collaborators['illustrators'] = [
+        //                 'id' => $illustrator->id,
+        //                 'name' => $illustrator->name,
+        //                 'collaborator_id' => $illustrator->collaborator_id,
+        //             ];
+        //         }
+        //     }
+
+        //     $books[] = [
+        //         'id' => $single_data->id,
+        //         'title' => $single_data->title,
+        //         'description' => $single_data->description,
+        //         'slug' => $single_data->slug,
+        //         'lang' => $single_data->lang,
+        //         'isbn' => $single_data->isbn,
+        //         'publisher' => $single_data->publisher,
+        //         'image' => $single_data->image,
+        //         'pvp' => $single_data->pvp,
+        //         'iva' => $single_data->iva,
+        //         'discounted_price' => $single_data->discounted_price,
+        //         'stock' => $single_data->stock,
+        //         'visible' => $single_data->visible,
+        //         'sample_url' => $single_data->sample_url,
+        //         'page_num' => $single_data->page_num,
+        //         'publication_date' => $single_data->publication_date,
+        //         'collections_names' => $collections_names,
+        //         'collaborators' => $collaborators,
+        //     ];
+
         $collections = $this->create_collection_array(Collection::all());
+
+
         return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
     }
 

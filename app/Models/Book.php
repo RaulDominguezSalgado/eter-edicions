@@ -57,6 +57,13 @@ class Book extends Model
         'meta_description'
     ];
 
+
+ protected $casts = [
+    'publication_date' => 'datetime:dd/mm/yyyy',
+    'created_at' => 'datetime:dd/mm/yyyy', // Change your format
+    'updated_at' => 'datetime:dd/mm/yyyy',
+];
+
     public function extras(){
         return $this->hasMany(\App\Models\BookExtra::class);
     }
