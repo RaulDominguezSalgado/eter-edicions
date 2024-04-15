@@ -17,7 +17,7 @@
                         </div>
                     @endif
 
-                    @include("book.form")
+                    @include("admin.book.form")
                 </div>
             </div>
         </div>

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use \App\Models\BookTranslation;
-use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,8 +17,83 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = $this->create_array(Book::paginate());
-        return view('book.index', compact('books'));
+        $books_lv = Book::paginate();
+        $books = [];
+        $authors= [];
+        $translators= [];
+        foreach ($books_lv as $book) {
+            foreach($book->authors as $author){
+                $authors[]=[
+                    $author->collaborator->translations->first()->first_name
+                ];
+            }
+            foreach($book->translators as $translator){
+                $translators[]=[
+                    $translator->collaborator->translations->first()->first_name
+                ];
+            }
+
+            $books[] = [
+                'id' => $book->id,
+                'isbn' => $book->isbn,
+                'title' => $book->title,
+                'publisher' => $book->publisher,
+                'image' => $book->image,
+                'pvp' => $book->pvp,
+                'iva' => $book->iva,
+                'discounted_price' => $book->discounted_price,
+                'stock' => $book->stock,
+                'visible' => $book->visible,
+
+                'authors' => $authors,
+                'translators' => $translators,
+            ];
+
+            //dd($books);
+        }
+
+
+        return view('admin.book.index', compact('books'));
+    }
+
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    public function catalogo()
+    {
+        $books_lv = Book::all();
+        $books = [];
+        $authors= [];
+        $illustrators= [];
+        foreach ($books_lv as $book) {
+            foreach($book->authors as $author){
+                $authors[]=[
+                    $author->collaborator->translations->first()->first_name
+                ];
+            }
+            foreach($book->illustrators as $illustrator){
+                $illustrators[]=[
+                    $illustrator->collaborator->translations->first()->first_name
+                ];
+            }
+            $books[] = [
+                'id' => $book->id,
+                'isbn' => $book->isbn,
+                'title' => $book->title,
+                'publisher' => $book->publisher,
+                'image' => $book->image,
+                'pvp' => $book->pvp,
+                'iva' => $book->iva,
+                'discounted_price' => $book->discounted_price,
+                'stock' => $book->stock,
+                'visible' => $book->visible,
+
+                'authors' => $authors, //TODO
+                'illustrators' => $illustrators,
+            ];
+        }
+
+        return view('book.catalogo', compact('books'));
     }
 
     /**
@@ -28,7 +101,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('book.edit');
+        $book = new Book();
+        return view('admin.book.create', compact('book'));
     }
 
     /**
@@ -36,10 +110,6 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        Book::create($request->validated());
-
-        return redirect()->route('books.index')
-            ->with('success', 'Book created successfully.');
         // columnes --> books, books_translation
         // books_translation -> slug, metaTitle, metaDescription
 
@@ -54,20 +124,21 @@ class BookController extends Controller
         // metaDescription = $request->metaDescription
         // slug = $request->name toLowerCase str_replace(" ", "-")
         //}
+
+        Book::create($request->validated());
+
+        return redirect()->route('admin.books.index')
+            ->with('success', 'Book created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($slug)
+    public function show($id)
     {
-        $book = Book::where('slug', $slug)->first();
-        if (request()->is('admin*')) {
-            return redirect()->route('books.edit', $book->id);
-        }
-        $book = $this->create_array(Book::paginate())[0];
+        $book = Book::find($id);
 
-        return view('book.show', compact('book'));
+        return view('admin.book.show', compact('book'));
     }
 
     /**
@@ -75,8 +146,9 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = $this->create_array(Book::find($id))[0];
-        return view('book.edit', compact('book'));
+        $book = Book::find($id);
+
+        return view('admin.book.edit', compact('book'));
     }
 
     /**
@@ -94,10 +166,14 @@ class BookController extends Controller
             'discounted_price' => 'required',
             'stock' => 'required',
             'visible' => 'required',
+            'authors' => 'required',
+            'illustrators' => 'required',
+            'translators' => 'required',
+            // Aquí puedes agregar reglas de validación para otros campos si es necesario
         ]);
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = $book->isbn . '.webp';
+            $imageName = $book->isbn . '.webp'; // Nuevo nombre de la imagen
 
             // Guardar la nueva imagen
             $image->storeAs('public/images/books', $imageName);
@@ -112,7 +188,7 @@ class BookController extends Controller
         // Actualizar otros campos del libro
         $book->update($request->validated());
 
-        return redirect()->route('books.index')
+        return redirect()->route('admin.books.index')
             ->with('success', 'Book updated successfully');
     }
 
@@ -120,7 +196,7 @@ class BookController extends Controller
     {
         Book::find($id)->delete();
 
-        return redirect()->route('books.index')
+        return redirect()->route('admin.books.index')
             ->with('success', 'Book deleted successfully');
     }
 

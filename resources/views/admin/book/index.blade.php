@@ -25,47 +25,65 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-                    
+
                     <div class="card-body bg-white">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
+                                    @foreach ($books as $book)
                                     <tr>
                                         <th></th>
                                         <th>Imatge</th>
                                         <th>ISBN</th>
-                                        <th>Lang</th>
                                         <th>Títol</th>
-                                        <th>Autors</th>
+                                        @foreach ($book['authors'] as $author)
+                                        <th>Autor {{$loop->iteration}}</th>
+                                        @endforeach
+
+                                        {{-- @foreach ($book['translators'] as $translator)
+                                        <th>Traductor {{$loop->iteration}} </th>
+                                        @endforeach --}}
                                         <th>PVP </th>
                                         <th>Preu amb descompte</th>
                                         <th colspan="1">Stock</th>
                                         <th>Visible</th>
                                         <th>Opcions</th>
                                     </tr>
+                                    @endforeach
                                 </thead>
                                 <tbody>
-                                    @foreach ($books as $i => $book)
+                                    @foreach ($books as $book)
                                         <tr>
                                             <td><input type="checkbox"></td>
                                             <td>
-                                                <a href="{{ books.edit }}"><img style="width: 100px; height: auto;" src="{{ asset('img/books/thumbnails/'.$book['image']') }}" alt="{{ ($book['title']) }}"></a>
+                                                <a href="{{ route('books.edit', $book['id']) }}"><img
+                                                        style="width: 100px; height: auto;"
+                                                        src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
+                                                        alt="{{ $book['title'] }}"></a>
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
-                                            <td>{{ $book['lang'] }}</td>
                                             <td>{{ $book['title'] }}</td>
-                                            <td>{{ implode(", ", $book['collaborators']['authors']) }}</td>
+
+                                            @foreach ($book['authors'] as $author)
+                                                <td>{{ $author[0] }}</td> {{-- Imprime el primer elemento de cada arreglo de autores --}}
+                                            @endforeach
+
+
+                                            {{-- @foreach ($book['translators'] as $translator)
+                                                <td>{{ $translator[0] }} </td>
+                                            @endforeach --}}
+
                                             <td>{{ $book['pvp'] }}€</td>
                                             <?php
-                                                if ($book['discounted_price'] == null) {
-                                                    $book['discounted_price'] = "N/D";
-                                                }
-                                                else {
-                                                    $book['discounted_price'] = $book['discounted_price']." €";
-                                                }
+                                            if ($book['discounted_price'] == null) {
+                                                $book['discounted_price'] = 'N/D';
+                                            } else {
+                                                $book['discounted_price'] = $book['discounted_price'] . ' €';
+                                            }
                                             ?>
                                             <td>{{ $book['discounted_price'] }}</td>
-                                            <td><button style="padding: 0px 10px;">-</button> {{ $book['stock'] }} <button style="padding: 0px 10px;">+</button></td>
+                                            <td><button style="padding: 0px 10px;">-</button> {{ $book['stock'] }}
+                                                <button style="padding: 0px 10px;">+</button></td>
                                             @if ($book['visible'])
                                                 <td>✔</td>
                                             @else
@@ -73,10 +91,11 @@
                                             @endif
                                             {{-- Crud --}}
                                             <td>
-                                            <form action="{{ route('books.destroy', $book['id']) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary "
+                                                <form action="{{ route('books.destroy', $book['id']) }}"
+                                                    method="POST">
+                                                    {{-- <a class="btn btn-sm btn-primary "
                                                         href="{{ route('libro', $book['slug']) }}" target="_blank"><i
-                                                            class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a>
+                                                            class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a> --}}
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('books.edit', $book['id']) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>

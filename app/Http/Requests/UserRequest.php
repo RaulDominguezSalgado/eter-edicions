@@ -21,12 +21,24 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-			'name' => 'required|string',
-			'last_name' => 'required|string',
-			'email' => 'required|string',
-			'phone' => 'required|string',
-			'role_id' => 'required',
-        ];
+        if ($this->isMethod('post')) {
+            return [
+                'first_name' => 'required|string',
+                'last_name' => 'required|string',
+                'email' => 'required|unique:users,email',// El campo "email" es obligatorio y debe ser único en la tabla "users"
+                'password' => 'required',
+                'phone' => 'required|digits:9',//digits:9 onliga que sea numero y logitud 9
+                'role_id' => 'required',
+            ];
+        } else{
+            return [
+                'first_name' => 'required|string',
+                'last_name' => 'required|string',
+                'email' => 'required',
+                'password' => 'required',
+                'phone' => 'required|digits:9',
+                'role_id' => 'required',
+            ];
+        }
     }
 }

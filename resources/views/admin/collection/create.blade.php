@@ -14,7 +14,7 @@
                         <form method="POST" action="{{ route('collections.store') }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
-                            @include('collection.form')
+                            @include('admin.collection.form')
 
                         </form>
                     </div>
