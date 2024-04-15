@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class BookController extends Controller
 {
+    private $lang='ca';
     /**
      * Display a listing of the resource.
      */
@@ -147,7 +148,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = Book::find($id);
+        $book = $this->getFullBook(Book::find($id),$this->lang);
 
         return view('admin.book.edit', compact('book'));
     }
