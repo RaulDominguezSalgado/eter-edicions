@@ -2,8 +2,10 @@
 $locale = 'ca';
 ?>
 
-<nav id="main-nav">
-    <a href="{{ route("home.{$locale}") }}" class="logo">Logo</a>
+<nav id="main-nav" class="mb-10">
+    <a href="{{ route("home.{$locale}") }}" class="logo">
+        <img src="{{ asset('img/logo/lg/logo_eter_black.webp') }}" alt="Logotip d'Èter Edicions" style="width: 1.33em">
+    </a>
     <ul>
         <li><a href="{{ route("home.{$locale}") }}" @if(Route::currentRouteName() == "home.{$locale}") class="active" @endif>Portada</a></li>
         <li><a href="{{ route("catalog.{$locale}") }}" @if(Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>Catàleg</a></li>
@@ -12,6 +14,9 @@ $locale = 'ca';
         <li><a href="{{ route("activities.{$locale}") }}" @if(Route::currentRouteName() == "activities.{$locale}") class="active" @endif>Activitats</a></li>
         <li><a href="{{ route("posts.{$locale}") }}" @if(Route::currentRouteName() == "posts.{$locale}") class="active" @endif>Articles</a></li>
         <li><a href="{{ route("about.{$locale}") }}" @if(Route::currentRouteName() == "about.{$locale}") class="active" @endif>Qui som</a></li>
-        <li><button>Buscar</button></li>
+    </ul>
+    <a href="">
+        <button>Buscar</button>
+    </a>
 </nav>
-<hr>
+{{-- <hr> --}}

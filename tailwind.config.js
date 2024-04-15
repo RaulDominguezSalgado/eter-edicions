@@ -4,10 +4,15 @@ export default {
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
-    ],
-    theme: {
-        extend: {},
+      ],
+  theme: {
+    extend: {
+        aspectRatio: {
+            '2/3': '2 / 3',
+            '3/5': '3 / 5',
+        }
     },
-    plugins: [],
+  },
+  plugins: [],
 }
 

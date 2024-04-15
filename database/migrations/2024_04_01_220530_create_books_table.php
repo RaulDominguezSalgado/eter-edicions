@@ -15,13 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('isbn')->unique();
             $table->string('title')->unique();
-            $table->string('lang');
+            $table->string('original_title')->nullable();
             $table->text('headline')->nullable();
             $table->longText('description');
             $table->string('publisher');
+            $table->string('original_publisher')->nullable();
             $table->string('image');
             $table->integer('number_of_pages')->nullable();
-            $table->string('publication_date')->nullable();
+            $table->string('size')->nullable();
+            $table->date('publication_date')->nullable();
+            $table->string('original_publication_date')->nullable();
             $table->decimal('pvp', 8, 2);
             $table->integer('iva');
             $table->decimal('discounted_price', 8, 2)->nullable();
@@ -36,7 +39,7 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('lang')->references('iso')->on('languages')->onDelete('restrict')->onUpdate('cascade');
+            // $table->foreign('lang')->references('iso')->on('languages')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

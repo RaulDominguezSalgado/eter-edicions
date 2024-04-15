@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('collaborator_id')->unique();
             $table->timestamps();
 
-            $table->foreign('collaborator_id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

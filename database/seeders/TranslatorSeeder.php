@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Collaborator;
+use App\Models\CollaboratorTranslation;
 use App\Models\Translator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,27 +16,32 @@ class TranslatorSeeder extends Seeder
     {
         //Mohammad bitari
         $mohammadbitari = new Translator();
-        $mohammadbitari->collaborator_id = Collaborator::find(2)->id;
+        $mohammadbitari->id = CollaboratorTranslation::where('last_name', 'LIKE', 'Bitari')->get()->first()->id;
+        $mohammadbitari->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', 'Bitari')->get()->first()->id;
         $mohammadbitari->save();
 
         //Ismael Profitós
         $ismaelprofitos = new Translator();
-        $ismaelprofitos->collaborator_id = Collaborator::find(3)->id;
+        $ismaelprofitos->id = CollaboratorTranslation::where('last_name', 'LIKE', 'Profitós')->get()->first()->id;
+        $ismaelprofitos->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', 'Profitós')->get()->first()->id;
         $ismaelprofitos->save();
 
         //Margarida Castells
         $margaridacastells = new Translator();
-        $margaridacastells->collaborator_id = Collaborator::find(4)->id;
+        $margaridacastells->id = CollaboratorTranslation::where('last_name', 'LIKE', 'Castells')->get()->first()->id;
+        $margaridacastells->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', 'Castells')->get()->first()->id;
         $margaridacastells->save();
 
         //Pontus Sánchez
         $pontussanchez = new Translator();
-        $pontussanchez->collaborator_id = Collaborator::find(7)->id;
+        $pontussanchez->id = CollaboratorTranslation::where('last_name', 'LIKE', 'Sánchez')->get()->first()->id;
+        $pontussanchez->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', 'Sánchez')->get()->first()->id;
         $pontussanchez->save();
 
         //Oriol Rissech
         $oriolrissech = new Translator();
-        $oriolrissech->collaborator_id = Collaborator::find(8)->id;
+        $oriolrissech->id = CollaboratorTranslation::where('last_name', 'LIKE', 'Rissech')->get()->first()->id;
+        $oriolrissech->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', 'Rissech')->get()->first()->id;
         $oriolrissech->save();
     }
 }
