@@ -30,15 +30,12 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
-                                    @foreach ($books as $book)
                                     <tr>
                                         <th></th>
                                         <th>Imatge</th>
                                         <th>ISBN</th>
                                         <th>Títol</th>
-                                        @foreach ($book['authors'] as $author)
-                                        <th>Autor {{$loop->iteration}}</th>
-                                        @endforeach
+                                        <th>Autor/s</th>
 
                                         {{-- @foreach ($book['translators'] as $translator)
                                         <th>Traductor {{$loop->iteration}} </th>
@@ -49,7 +46,6 @@
                                         <th>Visible</th>
                                         <th>Opcions</th>
                                     </tr>
-                                    @endforeach
                                 </thead>
                                 <tbody>
                                     @foreach ($books as $book)
@@ -63,11 +59,11 @@
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['title'] }}</td>
-
+                                            <td>
                                             @foreach ($book['authors'] as $author)
-                                                <td>{{ $author[0] }}</td> {{-- Imprime el primer elemento de cada arreglo de autores --}}
+                                                {{ $author[0] }} <br>  {{-- Imprime el primer elemento de cada arreglo de autores --}}
                                             @endforeach
-
+                                            </td>
 
                                             {{-- @foreach ($book['translators'] as $translator)
                                                 <td>{{ $translator[0] }} </td>
