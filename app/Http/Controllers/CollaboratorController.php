@@ -54,7 +54,7 @@ class CollaboratorController extends Controller
         //         ];
         //     }
         // }
-        return view('collaborator.index', compact('collaboratorsArray', 'collaborators'))
+        return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
 
@@ -160,7 +160,7 @@ class CollaboratorController extends Controller
     {
         $collaborator=$this->getFullCollaborator( $id);
 
-        return view('collaborator.show', compact('collaborator'));
+        return view('admin.collaborator.show', compact('collaborator'));
     }
 
     public function getFullCollaborator($id){
@@ -188,7 +188,7 @@ class CollaboratorController extends Controller
     {
         $collaborator = $this->getFullCollaborator($id);
 
-        return view('collaborator.edit', compact('collaborator'));
+        return view('admin.collaborator.edit', compact('collaborator'));
     }
 
     /**
