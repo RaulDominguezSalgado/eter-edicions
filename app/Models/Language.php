@@ -30,4 +30,8 @@ class Language extends Model
     public function translations(){
         return $this->hasMany(\App\Models\LanguageTranslation::class);
     }
+
+    public function books(){
+        return $this->belongsToMany(\App\Models\Book::class, 'book_language', 'lang_iso', 'book_id', 'iso', 'id');
+    }
 }

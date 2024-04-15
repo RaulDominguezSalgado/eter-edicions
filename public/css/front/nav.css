@@ -21,14 +21,17 @@
     font-size: 20px;
     transition: .3s;
 }
-#main-nav a:hover,
-#main-nav a.active {
-    background-color: #ccc;
+#main-nav li a:hover,
+#main-nav li a.active {
+    /* background-color: #ccc; */
+    border-bottom: 1px solid black;
     transition: .3s;
 }
 
 #main-nav > ul > li {
     position: relative;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
 }
 
 #main-nav > ul > li > ul {

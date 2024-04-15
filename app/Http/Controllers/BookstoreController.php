@@ -80,4 +80,9 @@ class BookstoreController extends Controller
         return redirect()->route('bookstores.index')
             ->with('success', 'Bookstore deleted successfully');
     }
+
+
+    public function bookstores(){
+        return "BookstoreController > bookstores";
+    }
 }

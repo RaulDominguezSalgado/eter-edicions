@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use \App\Models\BooksTranslation;
+use \App\Models\BookTranslation;
+use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,6 +24,7 @@ class BookController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * Display a listing of the resource for the public users.
      */
     public function catalogo()
@@ -32,6 +34,8 @@ class BookController extends Controller
     }
 
     /**
+=======
+>>>>>>> jordi
      * Show the form for creating a new resource.
      */
     public function create()
@@ -56,7 +60,7 @@ class BookController extends Controller
         // metaDescription = $request->metaDescription
         // slug = "book/" . $book->id
         //}
-        
+
         //else {
         // metaTitle = $request->name . "| Èter Edicions"
         // metaDescription = $request->metaDescription
@@ -132,6 +136,7 @@ class BookController extends Controller
             ->with('success', 'Book deleted successfully');
     }
 
+<<<<<<< HEAD
     private function getData($key = null, $value = null) {
         if ($key == null || $value == null) {
             $query_data = Book::paginate();
@@ -204,8 +209,271 @@ class BookController extends Controller
                 'publication_date' => $single_data->publication_date,
                 'collections_names' => $collections_names,
                 'collaborators' => $collaborators,
+=======
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    public function catalog()
+    {
+        // $locale = config('app')['locale'];
+        $locale = 'ca';
+        $page = [
+            'title' => 'Portada',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $books_lv = Book::where('visible', "LIKE", 1)
+            ->orderBy('publication_date', 'desc')
+            ->paginate(20);
+
+        $books = [];
+        foreach ($books_lv as $book_lv) {
+            $books[$book_lv->slug] = $this->getFullBook($book_lv, $locale);
+        }
+
+        // $books = $this->getFullBook($books_lv, $locale);
+
+        $collections = [];
+        $collectionController = new CollectionController();
+        foreach(Collection::all() as $collection){
+            $collections[] = $collectionController->getFullCollection($collection->id, $locale);
+        }
+
+        // return dd($books);
+        // dd($collections);
+
+
+        return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
+    }
+
+
+
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    public function bookDetail($id)
+    {
+        // return dd($id);
+
+        // $locale = config('app')['locale'];
+        $locale = 'ca';
+        $page = [
+            'title' => 'Portada',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $book_lv = Book::find($id);
+        // return dd($book_lv->id);
+
+        if (!$book_lv->visible) {
+            return view('components.404');
+        }
+
+        $book = $this->getFullBook($book_lv, $locale);
+
+
+        $authors = [];
+        foreach ($book_lv->authors()->get() as $author) {
+            $collaboratorController = new CollaboratorController();
+            $collaborator = $collaboratorController->getFullCollaborator($author->id, $locale);
+
+            $authors[] = $collaborator;
+        }
+
+        $translators = [];
+        foreach ($book_lv->translators()->get() as $translator) {
+            $collaboratorController = new CollaboratorController();
+            $collaborator = $collaboratorController->getFullCollaborator($translator->id, $locale);
+
+            $translators[] = $collaborator;
+        }
+
+
+        $related_books = [];
+
+        // dd($authors);
+        // dd($translators);
+
+        return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
+    }
+
+
+
+
+    /**
+     *
+     */
+    private function getFullBook($book, $locale)
+    {
+        // dd($books);
+
+        // foreach ($books as $book) {
+        $bookResult = [
+            'id' => $book->id,
+            'isbn' => $book->isbn,
+            'title' => $book->title,
+            'original_title' => $book->original_title,
+            'headline' => $book->headline,
+            'description' => $book->description,
+            'publisher' => $book->publisher,
+            'original_publisher' => $book->original_publisher,
+            'image' => $book->image,
+            'sample' => $book->sample,
+            'number_of_pages' => $book->number_of_pages,
+            'size' => $book->size,
+            'publication_date' => $book->publication_date->format('Y'),
+            'original_publication_date' => $book->original_publication_date,
+            'pvp' => $book->pvp,
+            'discounted_price' => $book->discounted_price ?? 0,
+            'legal_diposit' => $book->legal_diposit,
+            'enviromental_footprint' => $book->enviromental_footprint,
+            'stock' => $book->stock,
+            'slug' => $book->slug,
+            'meta_title' => $book->meta_title,
+            'meta_description' => $book->meta_description
+        ];
+
+        foreach ($book->authors()->get() as $author) {
+
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['authors'][] = $collaboratorName;
+        }
+
+        foreach ($book->translators()->get() as $translator) {
+
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $translator->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['translators'][] = $collaboratorName;
+        }
+
+        foreach ($book->languages()->orderby('id', 'desc')->get() as $lang) {
+
+            $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
+            $langName = $langTranslation->translation;
+
+            $bookResult['lang'][] = $langName;
+        }
+
+        foreach ($book->collections()->get() as $collection) {
+            $collectionName = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first()->name;
+
+            $bookResult['collections'][] = $collectionName;
+        }
+
+        foreach ($book->extras()->get() as $extra) {
+            $bookResult['extras'][$extra->key] = [
+                "key" => $extra->key,
+                "value" => $extra->value
+>>>>>>> jordi
             ];
         }
-        return $books;
+
+        // $bookResult['technical_sheet'] = [
+        //     'isbn' => ["key" => "ISBN", "value" => $book->isbn],
+        //     'authors' => ["key"=>"Authorship", "value"=>$bookResult['authors']],
+        //     'translators' => ["key"=>"Translation", "value"=>$bookResult['translators']],
+        //     'number_of_pages' => ["key" => "Number of pages", "value" => $book->number_of_pages],
+        //     'publication_date' => ["key" => "Publication date", "value" => $book->publication_date->format('Y')],
+        //     'pvp' => ["key" => "PVP", "value" => $book->pvp],
+        //     'discounted_price' => ["key" => "Discounted price", "value" => $book->discounted_price ?? 0],
+        //     'legal_diposit' => ["key" => "Legal diposit", "value" => $book->legal_diposit],
+        //     'enviromental_footprint' => ["key" => "Enviromental footprint", "value" => $book->enviromental_footprint],
+        // ];
+
+        // dd($bookResult);
+
+        return $bookResult;
+    }
+
+
+
+    // private function create_array($query_data)
+    // {
+    //     $books = [];
+    //     foreach ($query_data as $single_data) {
+    //         $collections_names = [];
+    //         if (!empty($single_data->collections)) {
+    //             foreach ($single_data->collections as $collection) {
+    //                 $collections_names[] = $collection->name;
+    //             }
+    //         }
+
+    //         $collaborators = [
+    //             'authors' => array(),
+    //             'translators' => array(),
+    //             'illustrators' => array(),
+    //         ];
+    //         if (!empty($single_data->author)) {
+    //             foreach ($single_data->author as $author) {
+    //                 $collaborators['authors'] = [
+    //                     'id' => $author->id,
+    //                     'name' => $author->name,
+    //                     'collaborator_id' => $author->collaborator_id,
+    //                 ];
+    //             }
+    //         }
+    //         if (!empty($single_data->translator)) {
+    //             foreach ($single_data->translator as $translator) {
+    //                 $collaborators['translators'] = [
+    //                     'id' => $translator->id,
+    //                     'name' => $translator->name,
+    //                     'collaborator_id' => $translator->collaborator_id,
+    //                 ];
+    //             }
+    //         }
+    //         if (!empty($single_data->illustrator)) {
+    //             foreach ($single_data->illustrator as $illustrator) {
+    //                 $collaborators['illustrators'] = [
+    //                     'id' => $illustrator->id,
+    //                     'name' => $illustrator->name,
+    //                     'collaborator_id' => $illustrator->collaborator_id,
+    //                 ];
+    //             }
+    //         }
+
+    //         $books[] = [
+    //             'id' => $single_data->id,
+    //             'title' => $single_data->title,
+    //             'description' => $single_data->description,
+    //             'slug' => $single_data->slug,
+    //             'lang' => $single_data->lang,
+    //             'isbn' => $single_data->isbn,
+    //             'publisher' => $single_data->publisher,
+    //             'image' => $single_data->image,
+    //             'pvp' => $single_data->pvp,
+    //             'iva' => $single_data->iva,
+    //             'discounted_price' => $single_data->discounted_price,
+    //             'stock' => $single_data->stock,
+    //             'visible' => $single_data->visible,
+    //             'sample_url' => $single_data->sample_url,
+    //             'page_num' => $single_data->page_num,
+    //             'publication_date' => $single_data->publication_date,
+    //             'collections_names' => $collections_names,
+    //             'collaborators' => $collaborators,
+    //         ];
+    //     }
+    //     return $books;
+    // }
+
+
+    private function create_collection_array($query_data)
+    {
+        $collections = [
+            1 => ["name" => "Col·lecció 1"],
+            2 => ["name" => "Col·lecció 2"],
+            3 => ["name" => "Col·lecció 3"]
+        ];
+
+        // foreach ($query_data as $single_data) {
+        // }
+
+        return $collections;
     }
 }

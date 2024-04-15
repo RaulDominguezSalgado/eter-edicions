@@ -30,7 +30,16 @@ class CollaboratorTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['collaborator_id', 'lang', 'first_name', 'last_name', 'biography'];
+    protected $fillable = [
+        'collaborator_id',
+        'lang',
+        'first_name',
+        'last_name',
+        'biography',
+        'slug',
+        'meta_title',
+        'meta_description'
+    ];
 
     public function collaborator()
     {

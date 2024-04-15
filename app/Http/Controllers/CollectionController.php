@@ -90,7 +90,7 @@ class CollectionController extends Controller
      */
     public function show($id)
     {
-        $collection = $this->getFullCollection($id);
+        $collection = $this->getFullCollection($id, $this->lang);
 
         return view('collection.show', compact('collection'));
     }
@@ -101,7 +101,7 @@ class CollectionController extends Controller
      */
     public function edit($id)
     {
-        $collection = $this->getFullCollection($id);
+        $collection = $this->getFullCollection($id, $this->lang);
 
         return view('collection.edit', compact('collection'));
     }
@@ -147,9 +147,9 @@ class CollectionController extends Controller
     /**
      * Para recoger una collection y su traduccion
      */
-    public function getFullCollection($id){
+    public function getFullCollection($id, $locale){
         $collection = Collection::find($id);
-        $translation = $collection->translations()->where('lang', $this->lang)->first();
+        $translation = $collection->translations()->where('lang', $locale)->first();
 
         $collectionData = [];
         if ($translation) {
@@ -158,9 +158,14 @@ class CollectionController extends Controller
                 'lang' => $translation->lang,
                 'name' => $translation->name,
                 'description' => $translation->description,
-                'slug' => $translation->slug
+                'slug' => $translation->slug,
+                'meta_title' => $translation->meta_title,
+                'meta_description' => $translation->meta_description,
             ];
         }
         return $collectionData;
+
+
+
     }
 }

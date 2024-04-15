@@ -17,6 +17,7 @@ use Intervention\Image\Encoders\WebpEncoder;
 class CollaboratorController extends Controller
 {
     private $lang = "ca";
+
     /**
      * Display a listing of the resource.
      */
@@ -157,15 +158,17 @@ class CollaboratorController extends Controller
      */
     public function show($id)
     {
-        $collaborator=$this->getFullCollaborator( $id);
+        $locale = $this->lang;
+
+        $collaborator=$this->getFullCollaborator( $id, $locale);
 
         return view('collaborator.show', compact('collaborator'));
     }
 
-    public function getFullCollaborator($id){
+    public function getFullCollaborator($id, $locale){
         $collab = Collaborator::find($id);
         $collaborator = [];
-        $translation = $collab->translations()->where('lang', $this->lang)->first();
+        $translation = $collab->translations()->where('lang', $locale)->first();
         if ($translation) {
             $collaborator = [
                 'id' => $collab->id,
@@ -178,6 +181,25 @@ class CollaboratorController extends Controller
                 'social_networks' => json_decode($collab->social_networks)
             ];
         }
+        if(!is_null($collab->author)){
+            foreach($collab->author->books()->get() as $book){
+                $collaborator['books'][$book->title] = [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'image' => $book->image
+                ];
+            }
+        }
+        if(!is_null($collab->translator)){
+            foreach($collab->translator->books()->get() as $book){
+                $collaborator['books'][$book->title] = [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'image' => $book->image
+                ];
+            }
+        }
+
         return $collaborator;
     }
     /**
@@ -185,7 +207,9 @@ class CollaboratorController extends Controller
      */
     public function edit($id)
     {
-        $collaborator = $this->getFullCollaborator($id);
+        $locale = $this->lang;
+
+        $collaborator = $this->getFullCollaborator($id, $locale);
 
         return view('collaborator.edit', compact('collaborator'));
     }
@@ -207,5 +231,34 @@ class CollaboratorController extends Controller
 
         return redirect()->route('collaborators.index')
             ->with('success', 'Collaborator deleted successfully');
+    }
+
+
+    public function collaborators(){
+        // $collaborators = Collaborator::paginate();
+        // $collaboratorsArray = [];
+
+        // //mostrar solo en español
+        // foreach ($collaborators as $collaborator) {
+        //     $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+        //     if ($translation) {
+        //         $collaboratorsArray[] = [
+        //             'id' => $collaborator->id,
+        //             'image' => $collaborator->image,
+        //             'full_name' => $translation->last_name.", ".$translation->first_name,
+        //             'lang' => $translation->lang,
+        //             'social_networks' => json_decode($collaborator->social_networks,true)
+        //         ];
+        //     }
+        // }
+
+        // return view('collaborator.collaborators', compact('collaboratorsArray', 'collaborators'))
+        //     ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+
+        return "CollaboratorController > publicIndex";
+    }
+
+    public function agency(){
+        return "CollaboratorController > agency";
     }
 }

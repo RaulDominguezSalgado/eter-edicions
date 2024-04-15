@@ -16,7 +16,15 @@ class CollectionTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['collection_id', 'lang', 'name', 'description', 'slug'];
+    protected $fillable = [
+        'collection_id',
+        'lang',
+        'name',
+        'description',
+        'meta_title',
+        'meta_description',
+        'slug'
+    ];
 
 
     public function collection(){
