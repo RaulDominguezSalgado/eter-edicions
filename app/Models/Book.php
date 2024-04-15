@@ -39,12 +39,16 @@ class Book extends Model
         'lang',
         'isbn',
         'title',
+        'original_title',
         'headline',
         'description',
         'publisher',
+        'original_publisher',
         'image',
         'page_num',
+        'size',
         'publication_date',
+        'original_publication_date',
         'pvp',
         'iva',
         'discounted_price',
@@ -64,8 +68,8 @@ class Book extends Model
     'updated_at' => 'datetime:dd/mm/yyyy',
 ];
 
-    public function language(){
-        return $this->belongsTo(\App\Models\Language::class);
+    public function languages(){
+        return $this->belongsToMany(\App\Models\Language::class, 'book_language', 'book_id', 'lang_iso', 'id', 'iso');
     }
 
     public function extras(){

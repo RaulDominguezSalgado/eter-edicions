@@ -45,7 +45,7 @@ class LanguageSeeder extends Seeder
 
           $arTranslationAr = new LanguageTranslation();
           $arTranslationAr->iso_language = "ar";
-          $arTranslationAr->iso_translation = "ar";
+          $arTranslationAr->iso_translation = "ca";
           $arTranslationAr->translation = "Àrab";
           $arTranslationAr->save();
     }

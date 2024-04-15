@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('collaborator_id')->unique();
+            $table->unsignedBigInteger('collaborator_id')->unique();
             $table->boolean('represented_by_agency')->default(false);
             $table->timestamps();
 

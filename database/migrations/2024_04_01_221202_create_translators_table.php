@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('translators', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('collaborator_id')->unique();
+            $table->unsignedBigInteger('collaborator_id')->unique();
             $table->timestamps();
 
             $table->foreign('id')->references('id')->on('collaborators')->onDelete('cascade')->onUpdate('cascade');

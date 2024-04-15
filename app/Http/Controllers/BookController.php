@@ -143,15 +143,20 @@ class BookController extends Controller
             ->paginate(20);
 
         $books = [];
-        foreach($books_lv as $book_lv){
-            $books[$book_lv->slug]=$this->getFullBook($book_lv, $locale);
+        foreach ($books_lv as $book_lv) {
+            $books[$book_lv->slug] = $this->getFullBook($book_lv, $locale);
         }
 
         // $books = $this->getFullBook($books_lv, $locale);
 
-        $collections = $this->create_collection_array(Collection::all());
+        $collections = [];
+        $collectionController = new CollectionController();
+        foreach(Collection::all() as $collection){
+            $collections[] = $collectionController->getFullCollection($collection->id, $locale);
+        }
 
         // return dd($books);
+        // dd($collections);
 
 
         return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
@@ -178,15 +183,36 @@ class BookController extends Controller
         $book_lv = Book::find($id);
         // return dd($book_lv->id);
 
-        if(!$book_lv->visible){
+        if (!$book_lv->visible) {
             return view('components.404');
         }
 
         $book = $this->getFullBook($book_lv, $locale);
 
+
+        $authors = [];
+        foreach ($book_lv->authors()->get() as $author) {
+            $collaboratorController = new CollaboratorController();
+            $collaborator = $collaboratorController->getFullCollaborator($author->id, $locale);
+
+            $authors[] = $collaborator;
+        }
+
+        $translators = [];
+        foreach ($book_lv->translators()->get() as $translator) {
+            $collaboratorController = new CollaboratorController();
+            $collaborator = $collaboratorController->getFullCollaborator($translator->id, $locale);
+
+            $translators[] = $collaborator;
+        }
+
+
         $related_books = [];
 
-        return view('public.book', compact('book', 'related_books', 'page', 'locale'));
+        // dd($authors);
+        // dd($translators);
+
+        return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
     }
 
 
@@ -195,89 +221,93 @@ class BookController extends Controller
     /**
      *
      */
-    private function getFullBook($book, $locale){
-        $result = [];
-
+    private function getFullBook($book, $locale)
+    {
         // dd($books);
 
         // foreach ($books as $book) {
-            $bookResult = [
-                'id' => $book->id,
-                'isbn' => $book->isbn,
-                'title' => $book->title,
-                // 'authors' => [],
-                // 'translators' => [],
-                'lang' => \App\Models\LanguageTranslation::where('iso_language', $book->lang)->where('iso_translation', $locale)->first(),
-                'headline' => $book->headline,
-                'description' => $book->description,
-                'publisher' => $book->publisher,
-                'image' => $book->image,
-                'sample' => $book->sample,
-                'number_of_pages' => $book->number_of_pages,
-                'publication_date' => $book->publication_date->format('Y'),
-                'pvp' => $book->pvp,
-                'discounted_price' => $book->discounted_price ?? 0,
-                'legal_diposit' => $book->legal_diposit,
-                'enviromental_footprint' => $book->enviromental_footprint,
-                'slug' => $book->slug,
-                'meta_title' => $book->meta_title,
-                'meta_description' => $book->meta_description
+        $bookResult = [
+            'id' => $book->id,
+            'isbn' => $book->isbn,
+            'title' => $book->title,
+            'original_title' => $book->original_title,
+            'headline' => $book->headline,
+            'description' => $book->description,
+            'publisher' => $book->publisher,
+            'original_publisher' => $book->original_publisher,
+            'image' => $book->image,
+            'sample' => $book->sample,
+            'number_of_pages' => $book->number_of_pages,
+            'size' => $book->size,
+            'publication_date' => $book->publication_date->format('Y'),
+            'original_publication_date' => $book->original_publication_date,
+            'pvp' => $book->pvp,
+            'discounted_price' => $book->discounted_price ?? 0,
+            'legal_diposit' => $book->legal_diposit,
+            'enviromental_footprint' => $book->enviromental_footprint,
+            'stock' => $book->stock,
+            'slug' => $book->slug,
+            'meta_title' => $book->meta_title,
+            'meta_description' => $book->meta_description
+        ];
+
+        foreach ($book->authors()->get() as $author) {
+
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['authors'][] = $collaboratorName;
+        }
+
+        foreach ($book->translators()->get() as $translator) {
+
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $translator->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['translators'][] = $collaboratorName;
+        }
+
+        foreach ($book->languages()->orderby('id', 'desc')->get() as $lang) {
+
+            $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
+            $langName = $langTranslation->translation;
+
+            $bookResult['lang'][] = $langName;
+        }
+
+        foreach ($book->collections()->get() as $collection) {
+            $collectionName = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first()->name;
+
+            $bookResult['collections'][] = $collectionName;
+        }
+
+        foreach ($book->extras()->get() as $extra) {
+            $bookResult['extras'][$extra->key] = [
+                "key" => $extra->key,
+                "value" => $extra->value
             ];
+        }
 
-            foreach($book->authors()->get() as $author){
+        // $bookResult['technical_sheet'] = [
+        //     'isbn' => ["key" => "ISBN", "value" => $book->isbn],
+        //     'authors' => ["key"=>"Authorship", "value"=>$bookResult['authors']],
+        //     'translators' => ["key"=>"Translation", "value"=>$bookResult['translators']],
+        //     'number_of_pages' => ["key" => "Number of pages", "value" => $book->number_of_pages],
+        //     'publication_date' => ["key" => "Publication date", "value" => $book->publication_date->format('Y')],
+        //     'pvp' => ["key" => "PVP", "value" => $book->pvp],
+        //     'discounted_price' => ["key" => "Discounted price", "value" => $book->discounted_price ?? 0],
+        //     'legal_diposit' => ["key" => "Legal diposit", "value" => $book->legal_diposit],
+        //     'enviromental_footprint' => ["key" => "Enviromental footprint", "value" => $book->enviromental_footprint],
+        // ];
 
-                $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
-                $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
-
-                $bookResult['authors'][]=$collaboratorName;
-            }
-
-            foreach($book->translators()->get() as $translator){
-
-                $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $translator->id)->where('lang', $locale)->first();
-                $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
-
-                $bookResult['translators'][]=$collaboratorName;
-            }
-
-            foreach($book->collections()->get() as $collection){
-                $collectionName = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first()->name;
-
-                $bookResult['collections'][]=$collectionName;
-            }
-
-            foreach($book->extras()->get() as $extra){
-                $bookResult['extras'][]=[
-                    $extra->key => $extra->value
-                ];
-            }
-
-            // $result[$book->slug] = $bookResult;
-        // }
+        // dd($bookResult);
 
         return $bookResult;
     }
 
-    /**
-     *
-     */
-    private function getFullCollection($collections, $locale)
-    {
-        $result = [];
-
-        foreach($collections as $collection){
-            $collectionTranslation = \App\Models\CollectionTranslation::where('lang', $locale);
-
-            //TO DO
-
-        }
-
-        return $result;
-    }
 
 
-
-        // private function create_array($query_data)
+    // private function create_array($query_data)
     // {
     //     $books = [];
     //     foreach ($query_data as $single_data) {
