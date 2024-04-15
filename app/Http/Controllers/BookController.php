@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Storage;
 
@@ -379,90 +380,5 @@ class BookController extends Controller
         // dd($bookResult);
 
         return $bookResult;
-    }
-
-
-
-    // private function create_array($query_data)
-    // {
-    //     $books = [];
-    //     foreach ($query_data as $single_data) {
-    //         $collections_names = [];
-    //         if (!empty($single_data->collections)) {
-    //             foreach ($single_data->collections as $collection) {
-    //                 $collections_names[] = $collection->name;
-    //             }
-    //         }
-
-    //         $collaborators = [
-    //             'authors' => array(),
-    //             'translators' => array(),
-    //             'illustrators' => array(),
-    //         ];
-    //         if (!empty($single_data->author)) {
-    //             foreach ($single_data->author as $author) {
-    //                 $collaborators['authors'] = [
-    //                     'id' => $author->id,
-    //                     'name' => $author->name,
-    //                     'collaborator_id' => $author->collaborator_id,
-    //                 ];
-    //             }
-    //         }
-    //         if (!empty($single_data->translator)) {
-    //             foreach ($single_data->translator as $translator) {
-    //                 $collaborators['translators'] = [
-    //                     'id' => $translator->id,
-    //                     'name' => $translator->name,
-    //                     'collaborator_id' => $translator->collaborator_id,
-    //                 ];
-    //             }
-    //         }
-    //         if (!empty($single_data->illustrator)) {
-    //             foreach ($single_data->illustrator as $illustrator) {
-    //                 $collaborators['illustrators'] = [
-    //                     'id' => $illustrator->id,
-    //                     'name' => $illustrator->name,
-    //                     'collaborator_id' => $illustrator->collaborator_id,
-    //                 ];
-    //             }
-    //         }
-
-    //         $books[] = [
-    //             'id' => $single_data->id,
-    //             'title' => $single_data->title,
-    //             'description' => $single_data->description,
-    //             'slug' => $single_data->slug,
-    //             'lang' => $single_data->lang,
-    //             'isbn' => $single_data->isbn,
-    //             'publisher' => $single_data->publisher,
-    //             'image' => $single_data->image,
-    //             'pvp' => $single_data->pvp,
-    //             'iva' => $single_data->iva,
-    //             'discounted_price' => $single_data->discounted_price,
-    //             'stock' => $single_data->stock,
-    //             'visible' => $single_data->visible,
-    //             'sample_url' => $single_data->sample_url,
-    //             'page_num' => $single_data->page_num,
-    //             'publication_date' => $single_data->publication_date,
-    //             'collections_names' => $collections_names,
-    //             'collaborators' => $collaborators,
-    //         ];
-    //     }
-    //     return $books;
-    // }
-
-
-    private function create_collection_array($query_data)
-    {
-        $collections = [
-            1 => ["name" => "Col·lecció 1"],
-            2 => ["name" => "Col·lecció 2"],
-            3 => ["name" => "Col·lecció 3"]
-        ];
-
-        // foreach ($query_data as $single_data) {
-        // }
-
-        return $collections;
     }
 }
