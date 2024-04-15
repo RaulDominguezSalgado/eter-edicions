@@ -14,6 +14,13 @@ class FormatDocument {
         // Convertir el texto a minúsculas
         $text = strtolower($text);
 
+        // Reemplazar caracteres especiales por su equivalente sin diacríticos
+        $text = str_replace(
+            ['á', 'é', 'í', 'ó', 'ú', 'ü', 'ñ', 'ç'],
+            ['a', 'e', 'i', 'o', 'u', 'u', 'n', 'c'],
+            $text
+        );
+
         // Eliminar caracteres no deseados
         $text = preg_replace('~[^-\w]+~', '', $text);
 

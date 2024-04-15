@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CollectionSeeder::class);
         $this->call(BookSeeder::class);
 
-        // $this->call(OrderSeeder::class);
+         $this->call(OrderSeeder::class);
         // $this->call(PostSeeder::class);
 
 

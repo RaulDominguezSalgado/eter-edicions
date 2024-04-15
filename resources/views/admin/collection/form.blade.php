@@ -21,10 +21,10 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="description" class="form-label">{{ __('Descripció') }}</label>
-            <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
-                value="{{ old('description', $collection['description']) }}" id="description" placeholder="Descripció">
+            <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="description" rows="3" placeholder="Descripció">{{ old('description', $collection['description']) }}</textarea>
             {!! $errors->first('description', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+
 
     </div>
     <div class="col-md-12 mt20 mt-2">

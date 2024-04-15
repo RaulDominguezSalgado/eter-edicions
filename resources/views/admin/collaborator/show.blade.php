@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Nom:</strong>
-                            {{ $collaborator['name'] ?? '' }}
+                            {{ $collaborator['first_name'] ?? '' }}
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Cognom:</strong>
@@ -45,9 +45,9 @@
                             {{-- {{ $collaborator['social_networks'] ?? '' }} --}}
                             <ul>
                                 @php
-                                    $socialNetworks = json_decode($collaborator['social_networks'], true);
-                                    if (is_array($socialNetworks)) {
-                                        foreach ($socialNetworks as $key => $value) {
+                                    // $socialNetworks = json_decode($collaborator['social_networks'], true);
+                                    if (is_array($collaborator['social_networks'])) {
+                                        foreach ($collaborator['social_networks'] as $key => $value) {
                                             echo "<li>{$key}: {$value}</li>";
                                         }
                                     }

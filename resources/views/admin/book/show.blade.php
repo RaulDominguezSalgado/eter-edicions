@@ -6,7 +6,7 @@
                     <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="float-left">
                             <h1 class="card-title">{{ $book['title'] }}</h1>
-                            <img style="width: 450px;" src="{{ asset('img/books/covers/'.$book['slug'].'_) }}" alt="">
+                            <img style="width: 450px;" src="{{ asset('img/books/covers/'.$book['slug'].'_') }}" alt="">
                         </div>
                         <div class="float-right">
                             <a class="btn btn-primary btn-sm" href="{{ route('catalogo') }}"> {{ __('Back') }}</a>

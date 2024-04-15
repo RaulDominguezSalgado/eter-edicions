@@ -21,7 +21,7 @@
                             {{ method_field('PATCH') }}
                             @csrf
 
-                            @include('collection.form')
+                            @include('admin.collection.form')
 
                         </form>
                     </div>
