@@ -15,7 +15,7 @@
                             {{ method_field('PATCH') }}
                             @csrf
 
-                            @include('collaborator.form')
+                            @include('admin.collaborator.form')
 
                         </form>
                     </div>
