@@ -7,8 +7,6 @@ use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
 use Exception;
 use Illuminate\Validation\ValidationException;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -19,7 +17,7 @@ use Intervention\Image\Encoders\WebpEncoder;
 class CollaboratorController extends Controller
 {
     private $lang = "ca";
-    //private $lang = config('app')['locale'];
+
     /**
      * Display a listing of the resource.
      */
@@ -92,7 +90,7 @@ class CollaboratorController extends Controller
 
         // If size > 560x400, resize to 720x1080
         if ($image->width() > 560 || $image->height() > 400) {
-            $image->resize(720, 1080);
+            $image->resize(560, 400);
         }
 
         // Encode the image to webp format with 80% quality
@@ -112,7 +110,7 @@ class CollaboratorController extends Controller
             if ($request->hasFile('image')) {
                 // Obtener el archivo de imagen
                 $imagen = $request->file('image');
-                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
+                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
 
                 $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
@@ -142,10 +140,10 @@ class CollaboratorController extends Controller
 
             $translationData = [
                 'collaborator_id' => $collaborator->id,
-                'name' => $validatedData['name'],
+                'first_name' => $validatedData['first_name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
                 'lang' => $validatedData['lang']
             ];
             CollaboratorTranslation::create($translationData);
@@ -160,6 +158,12 @@ class CollaboratorController extends Controller
      */
     public function show($id)
     {
+        $collaborator=$this->getFullCollaborator( $id);
+
+        return view('collaborator.show', compact('collaborator'));
+    }
+
+    public function getFullCollaborator($id){
         $collab = Collaborator::find($id);
         $collaborator = [];
         $translation = $collab->translations()->where('lang', $this->lang)->first();
@@ -167,22 +171,22 @@ class CollaboratorController extends Controller
             $collaborator = [
                 'id' => $collab->id,
                 'image' => $collab->image,
-                'name' => $translation->name,
+                'first_name' => $translation->first_name,
                 'last_name' => $translation->last_name,
                 'lang' => $translation->lang,
                 'biography' => $translation->biography,
-                'social_networks' => $collab->social_networks
+                'slug' => $translation->slug,
+                'social_networks' => json_decode($collab->social_networks, true)
             ];
         }
-        return view('collaborator.show', compact('collaborator'));
+        return $collaborator;
     }
-
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
     {
-        $collaborator = Collaborator::find($id);
+        $collaborator = $this->getFullCollaborator($id);
 
         return view('collaborator.edit', compact('collaborator'));
     }
@@ -204,5 +208,34 @@ class CollaboratorController extends Controller
 
         return redirect()->route('collaborators.index')
             ->with('success', 'Collaborator deleted successfully');
+    }
+
+
+    public function collaborators(){
+        // $collaborators = Collaborator::paginate();
+        // $collaboratorsArray = [];
+
+        // //mostrar solo en español
+        // foreach ($collaborators as $collaborator) {
+        //     $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+        //     if ($translation) {
+        //         $collaboratorsArray[] = [
+        //             'id' => $collaborator->id,
+        //             'image' => $collaborator->image,
+        //             'full_name' => $translation->last_name.", ".$translation->first_name,
+        //             'lang' => $translation->lang,
+        //             'social_networks' => json_decode($collaborator->social_networks,true)
+        //         ];
+        //     }
+        // }
+
+        // return view('collaborator.collaborators', compact('collaboratorsArray', 'collaborators'))
+        //     ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+
+        return "CollaboratorController > publicIndex";
+    }
+
+    public function agency(){
+        return "CollaboratorController > agency";
     }
 }

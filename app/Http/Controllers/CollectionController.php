@@ -45,7 +45,7 @@ class CollectionController extends Controller
                 'description' => $collection->description
             ];
         }
-        return view('collection.index', compact('collectionsArray', 'collections'))
+        return view('admin.collection.index', compact('collectionsArray', 'collections'))
             ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
     }
 
@@ -55,7 +55,7 @@ class CollectionController extends Controller
     public function create()
     {
         $collection = new Collection();
-        return view('collection.create', compact('collection'));
+        return view('admin.collection.create', compact('collection'));
     }
 
     /**
@@ -92,7 +92,7 @@ class CollectionController extends Controller
     {
         $collection = $this->getFullCollection($id);
 
-        return view('collection.show', compact('collection'));
+        return view('admin.collection.show', compact('collection'));
     }
 
 
@@ -103,7 +103,7 @@ class CollectionController extends Controller
     {
         $collection = $this->getFullCollection($id);
 
-        return view('collection.edit', compact('collection'));
+        return view('admin.collection.edit', compact('collection'));
     }
 
     /**

@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+
+/* Seeders */
 use Database\Seeders\BookSeeder;
 use Database\Seeders\CollectionSeeder;
 use Database\Seeders\CollaboratorSeeder;
@@ -37,7 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BookSeeder::class);
         // $this->call(CollectionSeeder::class);
 
-        // $this->call(OrderSeeder::class);
+         $this->call(OrderSeeder::class);
         // $this->call(PostSeeder::class);
 
 

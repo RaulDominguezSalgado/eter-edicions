@@ -35,7 +35,26 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['isbn', 'title', 'publisher', 'image', 'pvp', 'iva', 'discounted_price', 'stock', 'legal_diposit', 'visible'];
+    protected $fillable = [
+        'isbn',
+        'title',
+        'headline',
+        'description',
+        'publisher',
+        'image',
+        'page_num',
+        'publication_date',
+        'pvp',
+        'iva',
+        'discounted_price',
+        'stock',
+        'legal_diposit',
+        'slug',
+        'sample_url',
+        'visible',
+        'meta_title',
+        'meta_description'
+    ];
 
     public function extras(){
         return $this->hasMany(\App\Models\BookExtra::class);

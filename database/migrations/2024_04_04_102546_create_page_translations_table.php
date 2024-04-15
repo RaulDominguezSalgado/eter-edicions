@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('page_id');
             $table->string('lang');
-            $table->string('meta_name');
-            $table->text('meta_description');
             $table->string('slug');
+            $table->string('meta_title');
+            $table->text('meta_description');
             $table->timestamps();
 
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('restrict')->onUpdate('cascade');

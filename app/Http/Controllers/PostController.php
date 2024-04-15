@@ -43,7 +43,7 @@ class PostController extends Controller
             ];
         }
         //dd($postsArray);
-        return view('post.index', compact('postsArray', 'posts'))
+        return view('admin.post.index', compact('postsArray', 'posts'))
             ->with('i', (request()->input('page', 1) - 1) * $posts->perPage());
     }
 
@@ -56,7 +56,7 @@ class PostController extends Controller
         $authors = Author::paginate();
         $users = User::all();
         $translators = Translator::all();
-        return view('post.create', compact('post', 'authors', 'users', 'translators'));
+        return view('admin.post.create', compact('post', 'authors', 'users', 'translators'));
     }
 
 
@@ -157,7 +157,7 @@ class PostController extends Controller
         ];
 
 
-        return view('post.show', compact('post'));
+        return view('admin.post.show', compact('post'));
     }
 
     /**
@@ -170,7 +170,7 @@ class PostController extends Controller
         $users = User::all();
         $collaboratorTranslations = CollaboratorTranslation::where('lang', $this->lang)->paginate();
 
-        return view('post.edit', compact('post', 'collaboratorTranslations','authors','users'));
+        return view('admin.post.edit', compact('post', 'collaboratorTranslations','authors','users'));
     }
 
     /**

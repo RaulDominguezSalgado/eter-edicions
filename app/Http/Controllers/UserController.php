@@ -31,8 +31,8 @@ class UserController extends Controller
                 'role' => $user->role->name,
             ];
         }
-        
-        return view('user.index', compact('usersArray', 'users'))
+
+        return view('admin.user.index', compact('usersArray', 'users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
     }
 
@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         $user = new User();
         $roles = Role::all();
-        return view('user.create', compact('user', 'roles'));
+        return view('admin.user.create', compact('user', 'roles'));
     }
 
     /**
@@ -82,7 +82,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        return view('user.show', compact('user'));
+        return view('admin.user.show', compact('user'));
     }
 
     /**
@@ -93,7 +93,7 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::all();
 
-        return view('user.edit', compact('user','roles'));
+        return view('admin.user.edit', compact('user','roles'));
     }
 
     /**
@@ -111,7 +111,7 @@ class UserController extends Controller
     {
         User::find($id)->delete();
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', 'User deleted successfully');
     }
 }

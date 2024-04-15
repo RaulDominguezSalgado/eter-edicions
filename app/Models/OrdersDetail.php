@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrdersDetail extends Model
 {
-    
+
 
     protected $perPage = 20;
 
@@ -41,7 +41,7 @@ class OrdersDetail extends Model
     {
         return $this->belongsTo(\App\Models\Order::class, 'order_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -49,6 +49,6 @@ class OrdersDetail extends Model
     {
         return $this->belongsTo(\App\Models\Book::class, 'product_id', 'id');
     }
-    
+
 
 }

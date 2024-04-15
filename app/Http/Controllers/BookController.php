@@ -17,13 +17,26 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books_lv = Book::all();
+        $books_lv = Book::paginate();
         $books = [];
+        $authors= [];
+        $translators= [];
         foreach ($books_lv as $book) {
+            foreach($book->authors as $author){
+                $authors[]=[
+                    $author->collaborator->translations->first()->first_name
+                ];
+            }
+            foreach($book->translators as $translator){
+                $translators[]=[
+                    $translator->collaborator->translations->first()->first_name
+                ];
+            }
+
             $books[] = [
                 'id' => $book->id,
                 'isbn' => $book->isbn,
-                'title' => "Titulo defecto", //TODO
+                'title' => $book->title,
                 'publisher' => $book->publisher,
                 'image' => $book->image,
                 'pvp' => $book->pvp,
@@ -31,13 +44,16 @@ class BookController extends Controller
                 'discounted_price' => $book->discounted_price,
                 'stock' => $book->stock,
                 'visible' => $book->visible,
-                'authors' => ["Author A", "Author K"], //TODO
-                'illustrators' => ["Ilustrator 1", "Illustrator 2"],
-                'translators' => ["Translators 1"],
+
+                'authors' => $authors,
+                'translators' => $translators,
             ];
+
+            //dd($books);
         }
 
-        return view('book.index', compact('books'));
+
+        return view('admin.book.index', compact('books'));
     }
 
     /**
@@ -47,11 +63,23 @@ class BookController extends Controller
     {
         $books_lv = Book::all();
         $books = [];
+        $authors= [];
+        $illustrators= [];
         foreach ($books_lv as $book) {
+            foreach($book->authors as $author){
+                $authors[]=[
+                    $author->collaborator->translations->first()->first_name
+                ];
+            }
+            foreach($book->illustrators as $illustrator){
+                $illustrators[]=[
+                    $illustrator->collaborator->translations->first()->first_name
+                ];
+            }
             $books[] = [
                 'id' => $book->id,
                 'isbn' => $book->isbn,
-                'title' => "Titulo defecto", //TODO
+                'title' => $book->title,
                 'publisher' => $book->publisher,
                 'image' => $book->image,
                 'pvp' => $book->pvp,
@@ -59,9 +87,9 @@ class BookController extends Controller
                 'discounted_price' => $book->discounted_price,
                 'stock' => $book->stock,
                 'visible' => $book->visible,
-                'authors' => ["Author A", "Author K"], //TODO
-                'illustrators' => ["Ilustrator 1", "Illustrator 2"],
-                'translators' => ["Translators 1"],
+
+                'authors' => $authors, //TODO
+                'illustrators' => $illustrators,
             ];
         }
 
@@ -74,7 +102,7 @@ class BookController extends Controller
     public function create()
     {
         $book = new Book();
-        return view('book.create', compact('book'));
+        return view('admin.book.create', compact('book'));
     }
 
     /**
@@ -90,7 +118,7 @@ class BookController extends Controller
         // metaDescription = $request->metaDescription
         // slug = "book/" . $book->id
         //}
-        
+
         //else {
         // metaTitle = $request->name . "| Èter Edicions"
         // metaDescription = $request->metaDescription
@@ -99,7 +127,7 @@ class BookController extends Controller
 
         Book::create($request->validated());
 
-        return redirect()->route('books.index')
+        return redirect()->route('admin.books.index')
             ->with('success', 'Book created successfully.');
     }
 
@@ -110,7 +138,7 @@ class BookController extends Controller
     {
         $book = Book::find($id);
 
-        return view('book.show', compact('book'));
+        return view('admin.book.show', compact('book'));
     }
 
     /**
@@ -120,7 +148,7 @@ class BookController extends Controller
     {
         $book = Book::find($id);
 
-        return view('book.edit', compact('book'));
+        return view('admin.book.edit', compact('book'));
     }
 
     /**
@@ -160,7 +188,7 @@ class BookController extends Controller
         // Actualizar otros campos del libro
         $book->update($request->validated());
 
-        return redirect()->route('books.index')
+        return redirect()->route('admin.books.index')
             ->with('success', 'Book updated successfully');
     }
 
@@ -168,7 +196,7 @@ class BookController extends Controller
     {
         Book::find($id)->delete();
 
-        return redirect()->route('books.index')
+        return redirect()->route('admin.books.index')
             ->with('success', 'Book deleted successfully');
     }
 }

@@ -24,10 +24,10 @@ class CollaboratorRequest extends FormRequest
         return [
 			'image' => 'required',
 			'social_networks' => '',//TODO VALIDATION
-            'name' => 'required',
+            'first_name' => 'required',
             'last_name' => 'required',
             'biography' => 'required',
-            'lang'=>'required|string|in:ca,es,ar-sy',
+            'lang'=>'required',
             'slug' => 'required',
         ];
     }
