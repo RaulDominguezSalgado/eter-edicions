@@ -160,13 +160,92 @@ class CollaboratorController extends Controller
     {
         $locale = $this->lang;
 
-        $collaborator=$this->getFullCollaborator( $id, $locale);
+        $collab = Collaborator::find($id);
+
+        $collaborator=$this->getFullCollaborator($collab, $locale);
 
         return view('collaborator.show', compact('collaborator'));
     }
 
-    public function getFullCollaborator($id, $locale){
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $locale = $this->lang;
+
         $collab = Collaborator::find($id);
+
+        $collaborator = $this->getFullCollaborator($collab, $locale);
+
+        return view('collaborator.edit', compact('collaborator'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(CollaboratorRequest $request, Collaborator $collaborator)
+    {
+        $collaborator->update($request->validated());
+
+        return redirect()->route('collaborators.index')
+            ->with('success', 'Collaborator updated successfully');
+    }
+
+    public function destroy($id)
+    {
+        Collaborator::find($id)->delete();
+
+        return redirect()->route('collaborators.index')
+            ->with('success', 'Collaborator deleted successfully');
+    }
+
+
+    public function collaborators(){
+        $locale = 'ca';
+        $page = [
+            'title' => 'Portada',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $collaborators_lv = Collaborator::paginate();
+
+        $authors = [];
+        $translators = [];
+
+        foreach($collaborators_lv as $collab){
+            $collaborator=$this->getFullCollaborator($collab, $locale);
+
+            if($collab->author){
+                $authors[]=$collaborator;
+            }
+            if($collab->translator){
+                $translators[]=$collaborator;
+            }
+        }
+
+        $collaboratorTypes = [
+            'authors' => 'Autors',
+            'translators' => "Traductors"
+        ];
+
+        return view('public.collaborators', compact('collaborators_lv', 'authors', 'translators', 'collaboratorTypes', 'page', 'locale'))
+            ->with('i', (request()->input('page', 1) - 1) * $collaborators_lv->perPage());
+    }
+
+    public function collaboratorDetail(){
+        return "CollaboratorController > collaboratorDetail";
+    }
+
+    public function agency(){
+        return "CollaboratorController > agency";
+    }
+
+
+    public function getFullCollaborator($collab, $locale){
+        // $collab = Collaborator::find($id);
         $collaborator = [];
         $translation = $collab->translations()->where('lang', $locale)->first();
         if ($translation) {
@@ -201,64 +280,5 @@ class CollaboratorController extends Controller
         }
 
         return $collaborator;
-    }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $locale = $this->lang;
-
-        $collaborator = $this->getFullCollaborator($id, $locale);
-
-        return view('collaborator.edit', compact('collaborator'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(CollaboratorRequest $request, Collaborator $collaborator)
-    {
-        $collaborator->update($request->validated());
-
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator updated successfully');
-    }
-
-    public function destroy($id)
-    {
-        Collaborator::find($id)->delete();
-
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator deleted successfully');
-    }
-
-
-    public function collaborators(){
-        // $collaborators = Collaborator::paginate();
-        // $collaboratorsArray = [];
-
-        // //mostrar solo en español
-        // foreach ($collaborators as $collaborator) {
-        //     $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-        //     if ($translation) {
-        //         $collaboratorsArray[] = [
-        //             'id' => $collaborator->id,
-        //             'image' => $collaborator->image,
-        //             'full_name' => $translation->last_name.", ".$translation->first_name,
-        //             'lang' => $translation->lang,
-        //             'social_networks' => json_decode($collaborator->social_networks,true)
-        //         ];
-        //     }
-        // }
-
-        // return view('collaborator.collaborators', compact('collaboratorsArray', 'collaborators'))
-        //     ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
-
-        return "CollaboratorController > publicIndex";
-    }
-
-    public function agency(){
-        return "CollaboratorController > agency";
     }
 }
