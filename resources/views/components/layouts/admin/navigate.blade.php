@@ -7,7 +7,7 @@
     <a href="" class="logo">Logo</a>
     <ul>
         <li><a href="{{ route('admin_dashboard') }}">Portada</a></li>
-        <li><a href="">Comandes</a></li>
+        <li><a href="{{ route('orders.index') }}">Comandes</a></li>
         <li><a href="{{ route('books.index') }}" @if(Route::currentRouteName() == 'books.index') class="active" @endif>Llibres</a></li>
         <li><a href="{{ route('collections.index')}}">Col·leccions</a></li>
         <li>

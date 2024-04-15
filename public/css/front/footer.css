@@ -5,8 +5,14 @@
 }
 
 #main-footer {
-    background-color: #ccc;
+    background-color: #292828;
     display: flex;
     justify-content: space-between;
     padding: 20px 5%;
+
+    color: white;
+}
+
+#main-footer a{
+    color: white;
 }

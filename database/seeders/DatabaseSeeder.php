@@ -36,8 +36,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TranslatorSeeder::class);
         // $this->call(IllustratorSeeder::class);
 
+        $this->call(CollectionSeeder::class);
         $this->call(BookSeeder::class);
-        // $this->call(CollectionSeeder::class);
 
          $this->call(OrderSeeder::class);
         // $this->call(PostSeeder::class);

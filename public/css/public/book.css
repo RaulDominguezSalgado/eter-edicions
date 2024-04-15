@@ -1,0 +1,146 @@
+.body {
+    padding-left: 6.6%;
+    padding-right: 6.6%;
+}
+
+.book {
+    width: 61%;
+    min-width: 54.5em;
+    /* width: 54.5em; */
+    /* height: max-content; */
+    min-height: calc(350px + 5em);
+
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cover{
+    /* max-height: 28em; */
+    width: 100%;
+    height: auto;
+
+    /* padding-top: calc(100% / 1.5); */
+}
+
+.cover img{
+    border: solid;
+    border-color: #00000060;
+    border-width: 0.4px;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    box-shadow: -6px 7px 10.6px 1px rgba(0, 0, 0, 0.3);
+}
+
+.book-image{
+    border: solid;
+    border-color: #00000060;
+    border-width: 0.4px;
+
+    width: auto;
+    height: 100%;
+
+    /* background-image: url("{{ asset('img/books/' . $book['image']) }}"); */
+    background-repeat:no-repeat;
+    background-size: cover;
+
+
+
+    box-shadow: -6px 7px 10.6px 1px rgba(0, 0, 0, 0.3);
+}
+
+.details{
+    max-width: 70%;
+
+}
+
+.sample{
+    align-items: baseline;
+
+    width: fit-content;
+}
+
+.add-to-cart{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.add-to-cart input{
+    width: 4.5em;
+
+    padding: 0em 0em 0em 0.375em;
+
+    margin-right: 0.625em;
+}
+
+.add-to-cart button{
+    padding: 0.25em 0.3125em;
+
+    background: #6EB37C;
+
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 10px;
+}
+
+.add-to-cart button span {
+    line-height: 1em;
+    font-size: 1em;
+    padding: 0.25em;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+
+    color: #ffffff;
+}
+
+.details h2{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.details h5 {
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.details p {
+    font-size: 0.875em;
+    text-align: justify;
+    text-justify: auto;
+}
+
+.collab {
+    /* width: 61%; */
+    min-width: 54.5em;
+    /* width: 54.5em; */
+    height: max-content;
+
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    margin: auto;
+}
+.collab .info{
+    max-width: 80%;
+}
+
+/* .collab .pic{
+    height: auto;
+} */
+
+.collab img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    box-shadow: -3px 4px 8px 1px rgba(0, 0, 0, 0.205);
+}
+

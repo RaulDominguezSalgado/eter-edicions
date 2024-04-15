@@ -115,6 +115,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('authors', App\Http\Controllers\AuthorController::class);
     Route::resource('translators', App\Http\Controllers\TranslatorController::class);
     Route::resource('posts', App\Http\Controllers\PostController::class);
+    Route::resource('orders', App\Http\Controllers\OrderController::class);
     Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
 })->middleware(AdminCheck::class);
 

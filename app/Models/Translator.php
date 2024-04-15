@@ -24,4 +24,12 @@ class Translator extends Model
     public function collaborator(){
         return $this->belongsTo(\App\Models\Collaborator::class);
     }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function books(){
+        return $this->belongsToMany(\App\Models\Book::class);
+    }
 }

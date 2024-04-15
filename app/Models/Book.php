@@ -38,12 +38,16 @@ class Book extends Model
     protected $fillable = [
         'isbn',
         'title',
+        'original_title',
         'headline',
         'description',
         'publisher',
+        'original_publisher',
         'image',
         'page_num',
+        'size',
         'publication_date',
+        'original_publication_date',
         'pvp',
         'iva',
         'discounted_price',
@@ -55,6 +59,17 @@ class Book extends Model
         'meta_title',
         'meta_description'
     ];
+
+
+ protected $casts = [
+    'publication_date' => 'datetime:dd/mm/yyyy',
+    'created_at' => 'datetime:dd/mm/yyyy', // Change your format
+    'updated_at' => 'datetime:dd/mm/yyyy',
+];
+
+    public function languages(){
+        return $this->belongsToMany(\App\Models\Language::class, 'book_language', 'book_id', 'lang_iso', 'id', 'iso');
+    }
 
     public function extras(){
         return $this->hasMany(\App\Models\BookExtra::class);

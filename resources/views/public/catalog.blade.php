@@ -4,36 +4,63 @@
         {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $page['web'] }}
     </x-slot>
 
-    <div>
-        <h2>Catàleg</h2>
+    <link rel="stylesheet" href="{{ asset('css/public/catalog.css') }}">
 
-        <div>
-            <ul>
-                @foreach ($collections as $i => $collection)
-                    <li><a>{{ $collection['name'] }}</a></li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="body mt-20">
+        <div class="flex flex-col items-center space-y-14">
+            <div class="flex flex-col items-center space-y-6">
+                <h2>Catàleg</h2>
 
-        <div>
-            @foreach ($books as $i => $book)
-                <div class="book">
-                    <div>
-                        <a href="{{ route('books.show',$book["id"]) }}">
-                            <img src="{{ asset('img/books/thumbnails/' . $book["image"]) }}" alt="{{ ($book["title"]) }}" style="height: 19.7em">
-                        </a>
-                    </div>
-                    <div class="title">{{ $book['title'] }}</div>
-                    {{-- @foreach ($book['collaborators']['authors'] as $author)
-                    <div class="author">{{ $author }}</div>
-                    @endforeach
-                    @foreach ($book['collaborators']['translators'])
-                    <div class="translator">{{ $book['collaborators']['translators']}}</div>
-                    @endforeach --}}
+                <div class="mb-8">
+                    <ul class="flex space-x-4">
+                        @foreach ($collections as $i => $collection)
+                            <li><a>{{ $collection['name'] }}</a></li>
+                        @endforeach
+                    </ul>
                 </div>
-            @endforeach
-        </div>
+            </div>
 
+            <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
+                @foreach ($books as $i => $book)
+                    <div class="book flex flex-col items-center mb-6">
+                        <div class="cover mb-4">
+                            <a href="{{ route("book-detail.{$locale}", $book['id']) }}">
+                                <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
+                                    alt="{{ $book['title'] }}" style="height: 19.7em">
+                            </a>
+                        </div>
+                        <div id="book-info-{{ $book['slug'] }}" class="flex flex-col items-center space-y-2 w-64">
+                            <div class="book-title w-fit h-12 flex justify-center items-center text-center">{{ $book['title'] }}</div>
+                            <div class="flex space-x-1">
+                                @foreach ($book['authors'] as $author)
+                                    {{-- if not last iteration --}}
+                                    @if (!$loop->last)
+                                        <div class="book-author">{{ $author }},</div>
+                                        {{-- if last iteration --}}
+                                    @else
+                                        <div class="book-author">{{ $author }}</div>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                            <div class="book-translator flex space-x-1 text-center">
+                                <div class="book-translator">Traducció de </div>
+                                @foreach ($book['translators'] as $translator)
+                                    @if (!$loop->last)
+                                        <div class="book-translator">{{ $translator }}, </div>
+                                        {{-- if last iteration --}}
+                                    @else
+                                        <div class="book-translator">{{ $translator }}</div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
     </div>
 
 </x-layouts.app>
