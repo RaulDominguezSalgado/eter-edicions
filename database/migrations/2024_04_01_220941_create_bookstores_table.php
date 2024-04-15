@@ -15,7 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
+            $table->string('zip-code');
+            $table->string('city');
+            $table->string('province');
+            $table->string('country');
             $table->string('website');
+
             $table->timestamps();
         });
     }
