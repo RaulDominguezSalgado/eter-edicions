@@ -46,13 +46,13 @@
                                             <td>{{ ++$i }}</td>
 											{{-- <td>{{ $collaborator["image"] }}</td> --}}
                                             <td>
-                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/' . $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
+                                                <img style="width: 100px; height: auto;" src="{{ asset('img/collab/thumbnails/' . $collaborator["image"]) }}" alt="{{ ($collaborator["image"]." - ") }}">
                                             </td>
 											<td>{{ $collaborator["full_name"] }}</td>
 											<td>{{ $collaborator["lang"] }}</td>
 											<td>
                                             @foreach ($collaborator["social_networks"] as $key=>$value )
-                                            <p><a href="{{$value}}">{{ $key }}</a></p>
+                                            <p><a href="{{$value}}" target="blank">{{ $key }}</a></p>
                                             @endforeach ()
                                             </td>
 
