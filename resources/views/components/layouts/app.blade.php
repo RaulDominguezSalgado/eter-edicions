@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/front/nav.css">
     <link rel="stylesheet" href="/css/front/footer.css">
     <title>{{ $title ?? 'Èter Edicions' }}</title>
+    
 </head>
 <body>
     <x-layouts.navigate/>

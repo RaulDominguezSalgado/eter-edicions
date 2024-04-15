@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/admin/nav.css">
     <link rel="stylesheet" href="/css/admin/table.css">
     <title>{{ $title ?? 'Èter Edicions' }}</title>
+    @vite('resources/css/app.css')
 </head>
 <body>
     <x-layouts.admin.navigate/>
