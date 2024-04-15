@@ -212,26 +212,6 @@ class CollaboratorController extends Controller
 
 
     public function collaborators(){
-        // $collaborators = Collaborator::paginate();
-        // $collaboratorsArray = [];
-
-        // //mostrar solo en español
-        // foreach ($collaborators as $collaborator) {
-        //     $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-        //     if ($translation) {
-        //         $collaboratorsArray[] = [
-        //             'id' => $collaborator->id,
-        //             'image' => $collaborator->image,
-        //             'full_name' => $translation->last_name.", ".$translation->first_name,
-        //             'lang' => $translation->lang,
-        //             'social_networks' => json_decode($collaborator->social_networks,true)
-        //         ];
-        //     }
-        // }
-
-        // return view('collaborator.collaborators', compact('collaboratorsArray', 'collaborators'))
-        //     ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
-
         return "CollaboratorController > publicIndex";
     }
 
