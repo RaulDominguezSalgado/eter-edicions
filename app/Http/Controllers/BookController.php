@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
+use App\Models\Collaborator;
+use App\Models\CollaboratorTranslation;
+use App\Models\CollectionTranslation;
+use App\Models\Language;
+use App\Models\LanguageTranslation;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -104,7 +109,11 @@ class BookController extends Controller
     public function create()
     {
         $book = new Book();
-        return view('admin.book.create', compact('book'));
+        $authors=CollaboratorTranslation::where("lang",$this->lang)->get();
+        $translators=CollaboratorTranslation::where("lang",$this->lang)->get();
+        $languages = LanguageTranslation::where("iso_translation",$this->lang)->get();
+        $collections= CollectionTranslation::where("lang", $this->lang)->get();
+        return view('admin.book.create', compact('book','authors','translators','languages','collections'));
     }
 
     /**
@@ -112,25 +121,56 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        // columnes --> books, books_translation
-        // books_translation -> slug, metaTitle, metaDescription
+        dd($request);
+         $validatedData = $request->validate([]);
+        //     'isbn' => 'required|string',
+        //     'title' => 'required|string',
+        //     'original_title' => 'nullable|string',
+        //     'headline' => 'nullable|string',
+        //     'description' => 'nullable|string',
+        //     'publisher' => 'nullable|string',
+        //     'original_publisher' => 'nullable|string',
+        //     'image' => 'nullable|string',
+        //     'number_of_pages' => 'nullable|integer',
+        //     'size' => 'nullable|string',
+        //     'publication_date' => 'nullable|date',
+        //     'original_publication_date' => 'nullable|date',
+        //     'pvp' => 'nullable|numeric',
+        //     'discounted_price' => 'nullable|numeric',
+        //     'legal_diposit' => 'nullable|string',
+        //     'enviromental_footprint' => 'nullable|string',
+        //     'stock' => 'nullable|integer',
+        //     'slug' => 'nullable|string',
+        //     'sample_url' => 'nullable|string',
+        //     'visible' => 'required|boolean',
+        //     'meta_title' => 'nullable|string',
+        //     'meta_description' => 'nullable|string',
+        //     'authors' => 'nullable|array',
+        //     'translators' => 'nullable|array',
+        //     'languages' => 'nullable|array',
+        //     'collections' => 'nullable|array',
+        // ]);
 
-        //if ($request->lang != "ar-sy"){
-        // metaTitle = $request->name . "| Èter Edicions"
-        // metaDescription = $request->metaDescription
-        // slug = "book/" . $book->id
-        //}
 
-        //else {
-        // metaTitle = $request->name . "| Èter Edicions"
-        // metaDescription = $request->metaDescription
-        // slug = $request->name toLowerCase str_replace(" ", "-")
-        //}
+        $book = Book::create($validatedData);
 
-        Book::create($request->validated());
+        if ($request->has('authors')) {
+            $book->authors()->attach($request->input('authors'));
+        }
 
-        return redirect()->route('admin.books.index')
-            ->with('success', 'Book created successfully.');
+        if ($request->has('translators')) {
+            $book->translators()->attach($request->input('translators'));
+        }
+
+        if ($request->has('languages')) {
+            $book->languages()->attach($request->input('languages'));
+        }
+
+        if ($request->has('collections')) {
+            $book->collections()->attach($request->input('collections'));
+        }
+        return redirect()->route('books.index')->with('success', '¡Libro creado con éxito!');
+
     }
 
     /**
