@@ -40,11 +40,20 @@ class OrderController extends Controller
         return [
             'id' => $order->id,
             'reference' => $order->reference,
-            'client_name' => $order->client->name,
             'total_price' => $order->total_price,
+            'client_name' => $order->first_name." ".$order->last_name,
+            'client_dni' => $order->client->dni,
+            'client_email' => $order->client->email,
+            'client_phone_number' => $order->client->phone_number,
+            'client_adress' => $order->client->adress,
+            'client_zip_code' => $order->client->zip_code,
+            'client_city' => $order->client->city,
+            'client_coutry' => $order->client->country,
             'payment_method' => $order->payment_method,
             'date' => $order->date,
-            'order_pdf' => $order->pdf
+            'status' => $order->status->name,
+            'pdf' => $order->pdf,
+            'tracking_id' => $order->pdf
         ];
     }
     /**
