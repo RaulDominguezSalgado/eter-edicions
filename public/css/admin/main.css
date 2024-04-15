@@ -1,0 +1,17 @@
+body > nav,
+body > main {
+    display: inline-block;
+}
+body > nav {
+    float: left;
+    width: 15%;
+}
+body > main {
+    float: right;
+    width: 85%;
+    overflow: auto;
+    padding: 40px;
+}
+body > main::after {
+    clear: both;
+}

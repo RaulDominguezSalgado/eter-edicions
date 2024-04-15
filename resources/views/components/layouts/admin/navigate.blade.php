@@ -1,5 +1,8 @@
+<?php
+$locale = 'ca';
+?>
 <nav id="admin-nav">
-    <a href="" class="logo">Logo</a>
+    <a href="" class="logo"><img src="/img/logo/lg/logo_eter_black.webp"></a>
     <ul>
         <li><a href="{{ route('admin_dashboard') }}">Portada</a></li>
         <li><a href="">Comandes</a></li>
@@ -23,5 +26,5 @@
         <li><a href="">Págines</a></li>
         <li><a href="">Usuaris</a></li>
     </ul>
-    <a href="{{ route('home') }}">Go to public page</a>
+    <a href="{{ route("home.{$locale}") }}">Go to public page</a>
 </nav>
