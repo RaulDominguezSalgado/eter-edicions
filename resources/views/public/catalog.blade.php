@@ -44,15 +44,16 @@
                             </div>
 
                             <div class="book-translator flex space-x-1 text-center">
-                                <div class="book-translator">Traducció de </div>
+                                <div class="book-translator">Traducció de
                                 @foreach ($book['translators'] as $translator)
                                     @if (!$loop->last)
-                                        <div class="book-translator">{{ $translator }}, </div>
+                                        {{ $translator }},
                                         {{-- if last iteration --}}
                                     @else
-                                        <div class="book-translator">{{ $translator }}</div>
+                                        {{ $translator }}
                                     @endif
                                 @endforeach
+                                </div>
                             </div>
                         </div>
 

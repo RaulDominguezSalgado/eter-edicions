@@ -32,7 +32,7 @@ class Collection extends Model
         return $this->hasMany(\App\Models\CollectionTranslation::class);
     }
 
-    public function collections(){
+    public function books(){
         return $this->belongsToMany(\App\Models\Book::class);
     }
 }

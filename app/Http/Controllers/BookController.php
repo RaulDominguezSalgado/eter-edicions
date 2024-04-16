@@ -20,16 +20,16 @@ class BookController extends Controller
     {
         $books_lv = Book::paginate();
         $books = [];
-        $authors= [];
-        $translators= [];
+        $authors = [];
+        $translators = [];
         foreach ($books_lv as $book) {
-            foreach($book->authors as $author){
-                $authors[]=[
+            foreach ($book->authors as $author) {
+                $authors[] = [
                     $author->collaborator->translations->first()->first_name
                 ];
             }
-            foreach($book->translators as $translator){
-                $translators[]=[
+            foreach ($book->translators as $translator) {
+                $translators[] = [
                     $translator->collaborator->translations->first()->first_name
                 ];
             }
@@ -64,16 +64,16 @@ class BookController extends Controller
     {
         $books_lv = Book::all();
         $books = [];
-        $authors= [];
-        $illustrators= [];
+        $authors = [];
+        $illustrators = [];
         foreach ($books_lv as $book) {
-            foreach($book->authors as $author){
-                $authors[]=[
+            foreach ($book->authors as $author) {
+                $authors[] = [
                     $author->collaborator->translations->first()->first_name
                 ];
             }
-            foreach($book->illustrators as $illustrator){
-                $illustrators[]=[
+            foreach ($book->illustrators as $illustrator) {
+                $illustrators[] = [
                     $illustrator->collaborator->translations->first()->first_name
                 ];
             }
@@ -221,14 +221,14 @@ class BookController extends Controller
 
         $books = [];
         foreach ($books_lv as $book_lv) {
-            $books[$book_lv->slug] = $this->getFullBook($book_lv, $locale);
+            $books[$book_lv->slug] = $this->getPreviewBook($book_lv, $locale);
         }
 
         // $books = $this->getFullBook($books_lv, $locale);
 
         $collections = [];
         $collectionController = new CollectionController();
-        foreach(Collection::all() as $collection){
+        foreach (Collection::all() as $collection) {
             $collections[] = $collectionController->getFullCollection($collection->id, $locale);
         }
 
@@ -250,13 +250,6 @@ class BookController extends Controller
 
         // $locale = config('app')['locale'];
         $locale = 'ca';
-        $page = [
-            'title' => 'Portada',
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
-
         $book_lv = Book::find($id);
         // return dd($book_lv->id);
 
@@ -284,10 +277,20 @@ class BookController extends Controller
         }
 
 
-        $related_books = [];
+        //RELATED BOOKS
+        $related_books = $this->getRelatedBooks($book_lv, $locale);
+
+
+        $page = [
+            'title' => $book_lv->title,
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
 
         // dd($authors);
         // dd($translators);
+        // dd($related_books);
 
         return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
     }
@@ -380,5 +383,140 @@ class BookController extends Controller
         // dd($bookResult);
 
         return $bookResult;
+    }
+
+
+    /**
+     *
+     */
+    private function getPreviewBook($book, $locale)
+    {
+        // dd($books);
+
+        // foreach ($books as $book) {
+        $bookResult = [
+            'id' => $book->id,
+            'isbn' => $book->isbn,
+            'title' => $book->title,
+            'image' => $book->image,
+            'pvp' => $book->pvp,
+            'discounted_price' => $book->discounted_price ?? 0,
+            'stock' => $book->stock,
+            'slug' => $book->slug,
+        ];
+
+        foreach ($book->authors()->get() as $author) {
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['authors'][] = $collaboratorName;
+        }
+
+        foreach ($book->translators()->get() as $translator) {
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $translator->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['translators'][] = $collaboratorName;
+        }
+
+        // dd($bookResult);
+
+        return $bookResult;
+    }
+
+    /**
+     *
+     *
+     * Algorithm recommendation criteria:
+     * 1. Related books --> books that are related, manually established by admins
+     * 2. Books by the same authors. Authors are sorted based on how many books they have written
+     * 3. Books from the same collections
+     * 4. Books by the same translators. Translators are sorted based on how many books they have written
+     * 5. Newest books
+     */
+    private function getRelatedBooks($book, $locale)
+    {
+        $result = [];
+
+        // Related books (manual)
+        $relatedBooks = [];
+
+
+        //Books by the same authors
+        $authors = [];
+        foreach ($book->authors as $author) {
+            // Count the number of books associated with the author
+            $bookCount = $author->books()->where('visible', 1)->count();
+
+            // Store the author and their book count in an array
+            $authors[$author->id] = [
+                'author_id' => $author->id,
+                'book_count' => $bookCount,
+            ];
+        }
+        // Sort authors based on the book count in descending order
+        usort($authors, function ($a, $b) {
+            return $b['book_count'] <=> $a['book_count'];
+        });
+
+        foreach ($authors as $author) {
+            foreach (\App\Models\Author::find($author['author_id'])->books()->get()->where('visible', "LIKE", 1)->where('title', "!=", $book->title) as $authorBook) {
+                // $bookResult = $this->getPreviewBook($authorBook, $locale);
+                // dd($bookResult);
+                $result[$authorBook->title] = $this->getPreviewBook($authorBook, $locale);
+            }
+        }
+
+
+        //Books from the same collections
+        foreach ($book->collections as $collection) {
+            foreach ($collection->books()->get()->where('visible', "LIKE", 1)->where('title', "!=", $book->title) as $collectionBook) {
+                $result[$collectionBook->title] = $this->getPreviewBook($collectionBook, $locale);
+            }
+        }
+
+
+        //Books by the same translators
+        $translators = [];
+        foreach ($book->translators as $translator) {
+            // Count the number of books associated with the translators
+            $bookCount = $translator->books()->where('visible', 1)->count();
+
+            // Store the translators and their book count in an array
+            $translators[$translator->id] = [
+                'translator_id' => $translator->id,
+                'book_count' => $bookCount,
+            ];
+        }
+        // Sort translators based on the book count in descending order
+        usort($translators, function ($a, $b) {
+            return $b['book_count'] <=> $a['book_count'];
+        });
+
+        // dd($translators[0]['translator_id']);
+        // dd(\App\Models\Translator::find($translators[0]['translator_id'])->books()->get());
+
+        foreach ($translators as $translator) {
+            foreach (\App\Models\Translator::find($translator['translator_id'])->books()->get()->where('visible', "LIKE", 1)->where('title', "!=", $book->title) as $translatorBook) {
+                $result[$translatorBook->title] = $this->getPreviewBook($translatorBook, $locale);
+            }
+        }
+
+
+        // Get the newest 4 books
+        $newestBooks = Book::where('visible', 1)
+        ->where('title', "!=", $book->title)
+        ->orderBy('publication_date', 'desc')
+        ->take(4)
+        ->get();
+        foreach($newestBooks as $book){
+            $result[$book->title] = $this->getPreviewBook($book, $locale);
+        }
+
+
+        //Get the first 4 books (they will always be the more relevant)
+        $result = array_slice($result, 0, 4);
+
+        return $result;
     }
 }

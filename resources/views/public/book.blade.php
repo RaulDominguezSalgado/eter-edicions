@@ -6,8 +6,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/book.css') }}">
 
-    <div class="body">
-        <div class="book mb-12">
+    <div class="body space-y-24 mb-12">
+        <div class="book">
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
                     {{-- <div id="book-image" class="book-image"></div> --}}
@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        <div class="">
+        <div class="" id="infoTab">
             <div class="mb-4">
                 <ul class="flex flex-wrap -mb-px" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     <li class="mr-2" role="presentation">
@@ -288,6 +288,31 @@
                 </div>
             </div>
         </div>
+
+        @if(count($related_books)>0)
+        <div id="related-books" class="flex flex-col items-center space-y-4">
+            <h2>També et poden agradar</h2>
+
+            <div class="flex">
+                @foreach ($related_books as $i => $relatedBook)
+                <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
+                    <div class="cover mb-4 flex justify-center">
+                        <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
+                            <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
+                                alt="{{ $relatedBook['title'] }}" style="height: 13.75em" class="aspect-[2/3]">
+                        </a>
+                    </div>
+                    <div id="book-info-{{ $relatedBook['slug'] }}" class="flex flex-col items-center space-y-2 w-full">
+                        <div class="book-title flex justify-center items-center text-center">
+                            {{ $relatedBook['title'] }}
+                        </div>
+                    </div>
+
+                </div>
+            @endforeach
+            </div>
+        </div>
+        @endif
     </div>
 
     {{-- Inline script for dynamic height in book cover image --}}
