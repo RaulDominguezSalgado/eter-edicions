@@ -534,4 +534,17 @@ class BookController extends Controller
 
         return $result;
     }
+
+
+
+    public function redirectViewStock($id)
+    {
+        $locale = "ca";
+
+        // Obtener el libro con el ID especificado
+        $book = $this->getFullBook(Book::findOrFail($id),$locale);
+
+        // Devolver la vista con los datos del libro
+        return view('admin.book.stock', compact('book'));
+    }
 }
