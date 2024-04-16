@@ -249,7 +249,7 @@ class BookSeeder extends Seeder
         $insubmisa->iva = 4;
         $insubmisa->discounted_price;
         $insubmisa->stock = 100;
-        $insubmisa->visible = 1;
+        $insubmisa->visible = 0;
         $insubmisa->legal_diposit = "pending";
         $insubmisa->slug = "la-insubmisa-de-gaza";
         $insubmisa->sample = $insubmisa->slug . ".pdf";

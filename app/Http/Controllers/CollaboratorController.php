@@ -167,7 +167,7 @@ class CollaboratorController extends Controller
 
     public function getFullCollaborator($id, $locale){
         $collab = Collaborator::find($id);
-        $collaborator = [];
+        // $collaborator = [];
         $translation = $collab->translations()->where('lang', $locale)->first();
         if ($translation) {
             $collaborator = [

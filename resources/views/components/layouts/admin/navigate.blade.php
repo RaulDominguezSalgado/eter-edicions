@@ -4,7 +4,7 @@
 ?>
 
 <nav id="admin-nav">
-    <a href="" class="logo">Logo</a>
+    <img src="{{ asset('img/logo/lg/logo_eter_black.webp') }}" alt="Logotip d'Èter Edicions" style="width: 5em">
     <ul>
         <li><a href="{{ route('admin_dashboard') }}">Portada</a></li>
         <li><a href="{{ route('orders.index') }}">Comandes</a></li>

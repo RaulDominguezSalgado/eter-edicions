@@ -385,7 +385,6 @@ class BookController extends Controller
 
     public function redirectViewStock($id)
     {
-
         // Obtener el libro con el ID especificado
         $book = $this->getFullBook(Book::findOrFail($id),$this->lang);
 

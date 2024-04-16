@@ -14,7 +14,7 @@
                 <div class="mb-8">
                     <ul class="flex space-x-4">
                         @foreach ($collections as $i => $collection)
-                            <li><a>{{ $collection['name'] }}</a></li>
+                            <li><a><h5>{{ $collection['name'] }}</h5></a></li>
                         @endforeach
                     </ul>
                 </div>
