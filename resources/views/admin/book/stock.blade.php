@@ -36,6 +36,10 @@
                                         <h2>{{ $book['title'] }}</h2>
                                         <h5>Stock en magatzem: <span>{{ $book['stock'] }}</span></h5>
                                         <h5>Llibreries:</h5>
+
+                                        @foreach ($book['bookstores'] as $store)
+                                                <span>{{ $store["name"] }} (Stock: {{ $store["stock"] }})</span>
+                                            @endforeach
                                         <div id="book-description">
                                             <h5>Descripció:</h5>
                                             <span>{{ $book['description'] }}</span>

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $created_at
  * @property $updated_at
  *
+ *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -32,6 +33,6 @@ class Bookstore extends Model
 
 
     public function books(){
-        return $this->belongsToMany(\App\Models\Book::class);
+        return $this->belongsToMany(Book::class)->withPivot('stock');
     }
 }

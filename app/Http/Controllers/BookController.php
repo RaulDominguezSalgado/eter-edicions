@@ -365,6 +365,16 @@ class BookController extends Controller
                 "value" => $extra->value
             ];
         }
+        foreach ($book->bookstores as $bookstore) {
+            // dd($book->bookstores);
+
+            $bookResult['bookstores'][$bookstore->name] = [
+                "name" => $bookstore->name,
+                "stock" => $bookstore->pivot->stock
+            ];
+        }
+
+        //dd($bookResult);
 
         // $bookResult['technical_sheet'] = [
         //     'isbn' => ["key" => "ISBN", "value" => $book->isbn],
@@ -391,4 +401,6 @@ class BookController extends Controller
         // Devolver la vista con los datos del libro
         return view('admin.book.stock', compact('book'));
     }
+
+
 }

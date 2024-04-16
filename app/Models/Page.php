@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Collaborator extends Model
+class Page extends Model
 {
 
 
