@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/catalog.css') }}">
 
-    <div class="body mt-20">
+    <div class="body">
         <div class="flex flex-col items-center space-y-14">
             <div class="flex flex-col items-center space-y-6">
                 <h2>Catàleg</h2>

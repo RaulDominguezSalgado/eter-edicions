@@ -44,5 +44,61 @@ class BookstoreSeeder extends Seeder
         $altair->province = "Barcelona";
         $altair->website = "https://www.altair.es/cat/";
         $altair->save();
+
+        $lesvoltes = new Bookstore();
+        $lesvoltes->name = "Les Voltes";
+        $lesvoltes->address = "Plaça del Vi, 2";
+        $lesvoltes->city = "Girona";
+        $lesvoltes->province = "Girona";
+        $lesvoltes->website = "https://www.llibrerialesvoltes.cat/cat/";
+        $lesvoltes->save();
+
+        $argonauta = new Bookstore();
+        $argonauta->name = "L'Argonauta";
+        $argonauta->address = "Barcelona, 28";
+        $argonauta->city = "Balaguer";
+        $argonauta->province = "Lleida";
+        $argonauta->website = "https://www.largonauta.cat/";
+        $argonauta->save();
+
+        $refugi = new Bookstore();
+        $refugi->name = "El Refugi";
+        $refugi->address = "Canonges, 9";
+        $refugi->city = "La Seu d'Urgell";
+        $refugi->province = "Lleida";
+        $refugi->website = "https://elrefugi.cat/";
+        $refugi->save();
+
+        $capona = new Bookstore();
+        $capona->name = "La Capona";
+        $capona->address = "Gasòmetre, 41";
+        $capona->city = "Tarragona";
+        $capona->province = "Tarragona";
+        $capona->website = "https://www.lacapona.coop/";
+        $capona->save();
+
+        $adsera = new Bookstore();
+        $adsera->name = "Adserà";
+        $adsera->address = "Rambla Nova, 94";
+        $adsera->city = "Tarragona";
+        $adsera->province = "Tarragona";
+        $adsera->website = "https://www.adsera.com/";
+        $adsera->save();
+
+        $paperdarros = new Bookstore();
+        $paperdarros->name = "Paper d'arròs, llibres";
+        $paperdarros->address = "Ronda del Borx, 72";
+        $paperdarros->city = "Sueca";
+        $paperdarros->province = "País Valencià";
+        $paperdarros->website = "https://www.facebook.com/paperdarros/";
+        $paperdarros->save();
+
+        $fanset = new Bookstore();
+        $fanset->name = "Fan set";
+        $fanset->address = "Sant Ferran, 12";
+        $fanset->city = "València";
+        $fanset->province = "País Valencià";
+        $fanset->website = "https://www.facebook.com/llibreriafanset/";
+        $fanset->save();
     }
 }

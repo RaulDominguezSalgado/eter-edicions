@@ -22,10 +22,10 @@ class BookBookstoreSeeder extends Seeder
         $orientalisme = Book::find(4);
 
         //Bookstores
-        $llibreriaona = Bookstore::find(1);
-        $etcetera = Bookstore::find(2);
-        $laimpossible = Bookstore::find(3);
-        $altair = Bookstore::find(4);
+        $llibreriaona = Bookstore::where('name', 'LIKE', 'Llibreria Ona')->first();
+        $etcetera = Bookstore::where('name', 'LIKE', 'Etcètera')->first();
+        $laimpossible = Bookstore::where('name', 'LIKE', 'La impossible')->first();
+        $altair = Bookstore::where('name', 'LIKE', 'Altaïr')->first();
 
         $llibreriaona->books()->attach([
             $tragedia->id => ['stock' => 15],
