@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class BookController extends Controller
 {
-    private $lang='ca';
+    private $lang = 'ca';
     /**
      * Display a listing of the resource.
      */
@@ -21,16 +22,16 @@ class BookController extends Controller
     {
         $books_lv = Book::paginate();
         $books = [];
-        $authors= [];
-        $translators= [];
+        $authors = [];
+        $translators = [];
         foreach ($books_lv as $book) {
-            foreach($book->authors as $author){
-                $authors[]=[
+            foreach ($book->authors as $author) {
+                $authors[] = [
                     $author->collaborator->translations->first()->first_name
                 ];
             }
-            foreach($book->translators as $translator){
-                $translators[]=[
+            foreach ($book->translators as $translator) {
+                $translators[] = [
                     $translator->collaborator->translations->first()->first_name
                 ];
             }
@@ -65,16 +66,16 @@ class BookController extends Controller
     {
         $books_lv = Book::all();
         $books = [];
-        $authors= [];
-        $illustrators= [];
+        $authors = [];
+        $illustrators = [];
         foreach ($books_lv as $book) {
-            foreach($book->authors as $author){
-                $authors[]=[
+            foreach ($book->authors as $author) {
+                $authors[] = [
                     $author->collaborator->translations->first()->first_name
                 ];
             }
-            foreach($book->illustrators as $illustrator){
-                $illustrators[]=[
+            foreach ($book->illustrators as $illustrator) {
+                $illustrators[] = [
                     $illustrator->collaborator->translations->first()->first_name
                 ];
             }
@@ -148,7 +149,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = $this->getFullBook(Book::find($id),$this->lang);
+        $book = $this->getFullBook(Book::find($id), $this->lang);
 
         return view('admin.book.edit', compact('book'));
     }
@@ -229,7 +230,7 @@ class BookController extends Controller
 
         $collections = [];
         $collectionController = new CollectionController();
-        foreach(Collection::all() as $collection){
+        foreach (Collection::all() as $collection) {
             $collections[] = $collectionController->getFullCollection($collection->id, $locale);
         }
 
@@ -365,12 +366,15 @@ class BookController extends Controller
                 "value" => $extra->value
             ];
         }
-        foreach ($book->bookstores as $bookstore) {
-            // dd($book->bookstores);
 
+        // $bookResult['bookstores'] = [];
+        // dd($book->bookstores);
+        foreach ($book->bookstores as $bookstore) {
             $bookResult['bookstores'][$bookstore->name] = [
                 "name" => $bookstore->name,
-                "stock" => $bookstore->pivot->stock
+                "stock" => $bookstore->pivot->stock,
+                "address" => $bookstore->address,
+                "city" => $bookstore->city,
             ];
         }
 
@@ -393,10 +397,13 @@ class BookController extends Controller
         return $bookResult;
     }
 
+    //STOCK
     public function redirectViewStock($id)
     {
         // Obtener el libro con el ID especificado
-        $book = $this->getFullBook(Book::findOrFail($id),$this->lang);
+        $book = $this->getFullBook(Book::findOrFail($id), $this->lang);
+
+        // dd($book);
 
         // Devolver la vista con los datos del libro
         return view('admin.book.stock', compact('book'));

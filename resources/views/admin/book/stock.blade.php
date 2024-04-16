@@ -17,42 +17,32 @@
                         </div>
                     @endif
 
-                    {{-- @include("admin.book.form") --}}
                     <div class="book mb-12">
-                        <div class="book-detail flex justify-between mb-4">
-                            {{-- Img --}}
-                            <div class="mr-6 cover">
-                                {{-- <div id="book-image" class="book-image"></div> --}}
-                                {{-- <div class="object-fill cover border-guide-2"> --}}
-                                <img class="" src="{{ asset('img/books/covers/' . $book['image']) }}"
+                        <div class="container-fluid flex">
+                            <div class="mr-6">
+                                <img class="w-64" src="{{ asset('img/books/covers/' . $book['image']) }}"
                                     alt="{{ $book['title'] }}">
-                                {{-- </div> --}}
                             </div>
-
-                            <div class="details flex flex-col justify-between h-auto">
-
+                            <div class="flex flex-col justify-between">
                                 <div class="flex flex-col space-y-3">
                                     <div class="title-author flex flex-col space-y-">
                                         <h2>{{ $book['title'] }}</h2>
-                                        <h5>Stock en magatzem: <span>{{ $book['stock'] }}</span></h5>
+                                        <h5>Stock en magatzem: <input type="text" id="defaultStock" value="{{ $book['stock'] }}" disabled></h5>
                                         <h5>Llibreries:</h5>
-
-                                        @foreach ($book['bookstores'] as $store)
-                                                <span>{{ $store["name"] }} (Stock: {{ $store["stock"] }})</span>
+                                        @if($book['bookstores'])
+                                            @foreach ($book['bookstores'] as $store)
+                                                <hr>
+                                                <span>{{ $store['name'] }}</span>
+                                                <input type="text" id="storeStock_{{ $loop->index }}" value="{{ $store['stock'] }}" disabled>
+                                                <span>{{ $store['address'] }}, {{ $store['city'] }}</span>
+                                                <button id="edit_{{ $loop->index }}">Editar</button>
                                             @endforeach
-                                        <div id="book-description">
-                                            <h5>Descripció:</h5>
-                                            <span>{{ $book['description'] }}</span>
-                                        </div>
+                                        @endif
 
-
+                                        <button>Desar canvis</button>
                                     </div>
                                 </div>
-
                             </div>
-
-
-
                         </div>
                     </div>
 
@@ -60,4 +50,8 @@
             </div>
         </div>
     </div>
+
+
 </x-layouts.admin.app>
+
+<script src="{{ asset('js/form/store.js') }}"></script>
