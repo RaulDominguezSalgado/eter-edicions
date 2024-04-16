@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/catalog.css') }}">
 
-    <div class="body mt-20">
+    <div class="body">
         <div class="flex flex-col items-center space-y-14">
             <div class="flex flex-col items-center space-y-6">
                 <h2>Catàleg</h2>
@@ -44,15 +44,16 @@
                             </div>
 
                             <div class="book-translator flex space-x-1 text-center">
-                                <div class="book-translator">Traducció de </div>
+                                <div class="book-translator">Traducció de
                                 @foreach ($book['translators'] as $translator)
                                     @if (!$loop->last)
-                                        <div class="book-translator">{{ $translator }}, </div>
+                                        {{ $translator }},
                                         {{-- if last iteration --}}
                                     @else
-                                        <div class="book-translator">{{ $translator }}</div>
+                                        {{ $translator }}
                                     @endif
                                 @endforeach
+                                </div>
                             </div>
                         </div>
 

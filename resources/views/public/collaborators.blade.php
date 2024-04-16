@@ -6,15 +6,15 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/collaborators.css') }}">
 
-    <div class="body mt-20">
-        <div class="flex flex-col items-center space-y-14">
-            <div class="flex flex-col items-center space-y-6 mb-8">
+    <div class="body mb-20">
+        <div class="flex flex-col items-center space-y-40">
+            {{-- <div class="flex flex-col items-center space-y-6">
                 <ul class="flex space-x-4">
                     @foreach ($collaboratorTypes as $i => $type)
                         <li><a><h5>{{ $type }}</h5></a></li>
                     @endforeach
                 </ul>
-            </div>
+            </div> --}}
             <div class="flex flex-col items-center justify-center space-y-5">
                 <h2>Autors</h2>
                 <div class="w-full grid grid-cols-4 px-16" id="catalog">
