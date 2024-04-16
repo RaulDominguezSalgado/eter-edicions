@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
-            $table->string('zip-code');
+            $table->string('zip_code')->nullable();
             $table->string('city');
             $table->string('province');
-            $table->string('country');
+            $table->string('country')->nullable();
             $table->string('website');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
 
             $table->timestamps();
         });

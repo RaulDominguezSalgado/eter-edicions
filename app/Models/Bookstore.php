@@ -28,10 +28,10 @@ class Bookstore extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'address', 'website'];
+    protected $fillable = ['name', 'address', 'zip_code', 'city', 'province', 'country', 'website', 'email', 'phone'];
 
 
     public function books(){
-        return $this->belongsToMany(\App\Models\Book::class);
+        return $this->belongsToMany(\App\Models\Book::class)->withPivot('stock');
     }
 }
