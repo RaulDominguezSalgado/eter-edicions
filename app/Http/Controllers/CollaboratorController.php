@@ -160,9 +160,9 @@ class CollaboratorController extends Controller
     {
         $locale = $this->lang;
 
-        $collab = Collaborator::find($id);
+        // $collab = Collaborator::find($id);
 
-        $collaborator=$this->getFullCollaborator($collab, $locale);
+        $collaborator=$this->getFullCollaborator($id, $locale);
 
         return view('collaborator.show', compact('collaborator'));
     }
@@ -174,9 +174,9 @@ class CollaboratorController extends Controller
     {
         $locale = $this->lang;
 
-        $collab = Collaborator::find($id);
+        // $collab = Collaborator::find($id);
 
-        $collaborator = $this->getFullCollaborator($collab, $locale);
+        $collaborator = $this->getFullCollaborator($id, $locale);
 
         return view('collaborator.edit', compact('collaborator'));
     }
@@ -216,7 +216,7 @@ class CollaboratorController extends Controller
         $translators = [];
 
         foreach($collaborators_lv as $collab){
-            $collaborator=$this->getFullCollaborator($collab, $locale);
+            $collaborator=$this->getFullCollaborator($collab->id, $locale);
 
             if($collab->author){
                 $authors[]=$collaborator;
@@ -244,9 +244,9 @@ class CollaboratorController extends Controller
     }
 
 
-    public function getFullCollaborator($collab, $locale){
-        // $collab = Collaborator::find($id);
-        $collaborator = [];
+    public function getFullCollaborator($id, $locale){
+        $collab = Collaborator::find($id);
+        // $collaborator = [];
         $translation = $collab->translations()->where('lang', $locale)->first();
         if ($translation) {
             $collaborator = [

@@ -11,12 +11,12 @@
 }
 @media only screen and (min-width: 641px) and (max-width: 768px) {
     *{
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
     *{
-        font-size: 12px;
+        font-size: 15px;
     }
 }
 @media only screen and (min-width: 1025px) and (max-width: 1280px) {

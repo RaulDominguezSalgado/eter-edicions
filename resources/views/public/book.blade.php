@@ -16,7 +16,7 @@
                     {{-- </div> --}}
                 </div>
 
-                <div class="details flex flex-col justify-between h-auto">
+                <div class="details flex flex-col space-y-3 justify-between h-auto">
 
                     <div class="flex flex-col space-y-2">
                         <div class="flex justify-between">
@@ -28,48 +28,42 @@
                                     @foreach ($book['authors'] as $author)
                                         {{-- if not last iteration --}}
                                         @if (!$loop->last)
-                                            <h5>{{ $author }},</h5>
+                                            <h4>{{ $author }},</h4>
                                             {{-- if last iteration --}}
                                         @else
-                                            <h5>{{ $author }}</h5>
+                                            <h4>{{ $author }}</h4>
                                         @endif
                                     @endforeach
                                 </div>
                             </div>
                         </div>
 
+                        <div class="flex space-x-5 items-baseline">
+                            <div class="flex space-x-1.5" id="pvp">
+                                @if ($book['discounted_price'])
+                                    <h5 class="line-through text-red-600">{{ $book['pvp'] }}€</h5>
+                                    <h5 class="">{{ $book['discounted_price'] }}€</h5>
+                                @else
+                                    <h5 class="">{{ $book['pvp'] }}€</h5>
+                                @endif
+                            </div>
+                        </div>
+
                         <div id="book-description" class="">
                             @if ($book['headline'])
-                            <p class=""><strong>{{ $book['headline'] }}</strong></p>
+                                <p class=""><strong>{{ $book['headline'] }}</strong></p>
                             @endif
                             <p>{{ $book['description'] }}</p>
                         </div>
                     </div>
 
-                    <div class="space-y-1">
-                        <div class="flex space-x-5 items-baseline">
-                            <div class="flex space-x-1.5" id="pvp">
-                                @if ($book['discounted_price'])
-                                    <h4 class="line-through text-red-600">{{ $book['pvp'] }}€</h4>
-                                    <h4 class="">{{ $book['discounted_price'] }}€</h4>
-                                @else
-                                    <h4 class="">{{ $book['pvp'] }}€</45>
-                                @endif
-                            </div>
-                            @if ($book['stock'])
-                                <div>
-                                    <small class="text-green-700">Disponible</small>
-                                </div>
-                            @else
-                                <div>
-                                    <small class="text-red-700">Ho sentim! Aquest llibre no està disponible</small>
-                                    <br>
-                                    <small>Pots trobar-lo a les <a href=""
-                                            class="text-decoration-line: underline">llibreries amb
-                                            qui treballem</a></small>
-                                </div>
-                            @endif
-                        </div>
+                    <div class="space-y-3">
+                        <a href="" class="sample flex space-x-2.5">
+                            <img src="{{ asset('img/icons/download.webp') }}"
+                                alt="Descarregar sample de {{ $book['title'] }}" class="clickable" style="width: 15px">
+                            <small class="text-slate-600">Comença a llegir</small>
+                        </a>
+
                         <div class="add-to-cart">
                             <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
                                 value="1">
@@ -83,11 +77,19 @@
                 </div>
             </div>
             <div>
-                <a href="" class="sample flex space-x-2.5">
-                    <img src="{{ asset('img/icons/download.webp') }}" alt="Descarregar sample de {{ $book['title'] }}"
-                        class="clickable" style="width: 15px">
-                    <small class="text-slate-600">Comença a llegir</small>
-                </a>
+                @if ($book['stock'])
+                    <div>
+                        <small class="text-green-700">Disponible</small>
+                    </div>
+                @else
+                    <div>
+                        <small class="text-red-700">Ho sentim! Aquest llibre no està disponible</small>
+                        <br>
+                        <small>Pots trobar-lo a les <a href="" class="text-decoration-line: underline">llibreries
+                                amb
+                                qui treballem</a></small>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -103,8 +105,8 @@
                     <li class="mr-2" role="presentation">
                         <button
                             class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b"
-                            id="technical-sheet-tab" data-tabs-target="#technical-sheet" type="button"
-                            role="tab" aria-controls="technical-sheet" aria-selected="false">Fitxa
+                            id="technical-sheet-tab" data-tabs-target="#technical-sheet" type="button" role="tab"
+                            aria-controls="technical-sheet" aria-selected="false">Fitxa
                             tècnica</button>
                     </li>
                 </ul>
@@ -300,5 +302,5 @@
 
     {{-- tab component script --}}
     <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
-    <script src={{asset('js/components/popover.js')}}></script>
+    <script src={{ asset('js/components/popover.js') }}></script>
 </x-layouts.app>
