@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Http\Requests\OrderRequest;
+use App\Models\Book;
 
 /**
  * Class OrderController
@@ -37,24 +38,34 @@ class OrderController extends Controller
     //TODO CHECK ERROR CASES
     public function getFullOrder($order)
     {
-        return [
+        $orderResult= [
             'id' => $order->id,
             'reference' => $order->reference,
-            'total_price' => $order->total_price,
+            'total_price' => $order->total,
             'client_name' => $order->first_name." ".$order->last_name,
-            'client_dni' => $order->client->dni,
-            'client_email' => $order->client->email,
-            'client_phone_number' => $order->client->phone_number,
-            'client_adress' => $order->client->adress,
-            'client_zip_code' => $order->client->zip_code,
-            'client_city' => $order->client->city,
-            'client_coutry' => $order->client->country,
+            'client_dni' => $order->dni,
+            'client_email' => $order->email,
+            'client_phone_number' => $order->phone_number,
+            'client_adress' => $order->address,
+            'client_zip_code' => $order->zip_code,
+            'client_city' => $order->city,
+            'client_coutry' => $order->country,
             'payment_method' => $order->payment_method,
             'date' => $order->date,
             'status' => $order->status->name,
             'pdf' => $order->pdf,
-            'tracking_id' => $order->pdf
+            'tracking_id' => $order->tracking_id
         ];
+        foreach($order->details as $details){
+            $orderResult['details'][$details->book->isbn] = [
+                "name"=>$details->book->isbn,
+                "price_each"=>$details->price_each,
+                "quantity"=>$details->quantity
+            ];
+        }
+        //dd($orderResult);
+
+        return $orderResult;
     }
     /**
      * Show the form for creating a new resource.
@@ -62,7 +73,8 @@ class OrderController extends Controller
     public function create()
     {
         $order = new Order();
-        return view('admin.order.create', compact('order'));
+        $books = Book::all();
+        return view('admin.order.create', compact('order','books'));
     }
 
     /**
@@ -91,7 +103,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        $order = Order::find($id);
+        $order = $this->getFullOrder(Order::find($id));
 
         return view('admin.order.edit', compact('order'));
     }

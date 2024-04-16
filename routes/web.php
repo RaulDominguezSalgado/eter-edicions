@@ -37,6 +37,7 @@ foreach (config('languages') as $locale) {
 
         // Authors (collaborators)
         Route::get(__('paths.authors', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'collaborators'])->name("collaborators.{$locale}");
+        Route::get(__('paths.authors', [], $locale)  . '/{id}', [App\Http\Controllers\CollaboratorController::class, 'collaboratorDetail'])->name("collaborator-detail.{$locale}");
 
         // Agency
         Route::get(__('paths.agency', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'agency'])->name("agency.{$locale}");

@@ -80,8 +80,6 @@
 }
 
 .add-to-cart button{
-    padding: 0.25em 0.3125em;
-
     background: #6EB37C;
 
     border: solid;
@@ -90,15 +88,9 @@
     border-radius: 10px;
 }
 
-.add-to-cart button span {
-    line-height: 1em;
-    font-size: 1em;
-    padding: 0.25em;
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-
-    color: #ffffff;
+.add-to-cart button:hover{
+    background: #E6CE76;
+    transition: 100ms ease-in-out;
 }
 
 .details h2{

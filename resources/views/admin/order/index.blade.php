@@ -47,7 +47,7 @@
                                 <tbody>
                                     @foreach ($orders as $order)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
+                                            {{-- <td>{{ ++$i }}</td> --}}
 
 											<td>{{ $order['id'] }}</td>
 											<td>{{ $order['reference'] }}</td>
@@ -55,8 +55,9 @@
 											<td>{{ $order['client_name'] }}</td>
 											<td>{{ $order['total_price'] }}</td>
 											<td>{{ $order['payment_method'] }}</td>
+											<td>{{ $order['status'] }}</td>
 											<td>{{ $order['date'] }}</td>
-											<td>{{ $order['order_pdf'] }}</td>
+											<td>{{ $order['pdf'] }}</td>
                                             <td>
                                                 <form action="{{ route('orders.destroy',$order['id']) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('orders.show',$order['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>

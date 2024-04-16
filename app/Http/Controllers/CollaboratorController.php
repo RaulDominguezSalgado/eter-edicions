@@ -121,6 +121,8 @@ class CollaboratorController extends Controller
                 $this->editImage($rutaImagen);
 
                 $validatedData['image'] = $nombreImagenOriginal;
+            }else{
+                $validatedData['image']="default.webp";
             }
             $redes_sociales = [];
             if ($request->filled('red_social')) {
@@ -170,7 +172,7 @@ class CollaboratorController extends Controller
 
     public function getFullCollaborator($id, $locale){
         $collab = Collaborator::find($id);
-        $collaborator = [];
+        // $collaborator = [];
         $translation = $collab->translations()->where('lang', $locale)->first();
         if ($translation) {
             $collaborator = [
@@ -222,8 +224,53 @@ class CollaboratorController extends Controller
      */
     public function update(CollaboratorRequest $request, Collaborator $collaborator)
     {
-        $collaborator->update($request->validated());
+        //$collaborator->update($request->validated());
 
+        $validatedData = $request->validated();
+        if ($request->hasFile('image')) {
+            // Obtener el archivo de imagen
+            $imagen = $request->file('image');
+            $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
+
+            $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+
+            // // Procesar y guardar la imagen
+            $rutaImagen = public_path('img/collab/covers/' . $nombreImagenOriginal);
+            $imagen->move(public_path('img/collab/covers/'), $nombreImagenOriginal);
+            $this->editImage($rutaImagen);
+
+            $validatedData['image'] = $nombreImagenOriginal;
+        }else{
+            $validatedData['image']=$collaborator->image;
+        }
+        $redes_sociales = [];
+        if ($request->filled('red_social')) {
+            foreach ($request->input('red_social') as $index => $red_social) {
+                if ($request->filled('usuario_red_social.' . $index)) {
+                    $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $index);
+                }
+            }
+        }
+        $redes_sociales_json = json_encode($redes_sociales);
+
+        $collaborator->update([
+            'image' => $validatedData['image'],
+            'social_networks' => $redes_sociales_json
+        ]);
+
+        $translation=$collaborator->translations()->where('lang',$this->lang)->first();
+        if($translation){
+            $translation->update( [
+                'collaborator_id' => $collaborator->id,
+                'first_name' => $validatedData['first_name'],
+                'last_name' => $validatedData['last_name'],
+                'biography' => $validatedData['biography'],
+                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'lang' => $validatedData['lang'],
+                'meta_title'=>\App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'meta_description'=>$validatedData['biography']
+            ]);
+        }
         return redirect()->route('collaborators.index')
             ->with('success', 'Collaborator updated successfully');
     }
@@ -232,9 +279,9 @@ class CollaboratorController extends Controller
     {
         try {
             Collaborator::find($id)->delete();
-            return redirect()->route('collaborators.index')->with('success', 'Collaborator deleted successfully');
+            return redirect()->route('collaborators.index')->with('success', 'Col·laborador eliminat correctament');
         } catch (QueryException $e) {
-            return redirect()->route('collaborators.index')->with('error', 'Cannot delete collaborator. There are related records in other tables.');
+            return redirect()->route('collaborators.index')->with('error', 'No es possible eliminar aquest autor, ja que té dades relacionades');
         }
     }
 

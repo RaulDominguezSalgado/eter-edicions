@@ -2,10 +2,15 @@
     <div class="col-md-12">
         <div class="form-group mb-2 mb20">
             <label for="date" class="form-label">{{ __('Date') }}</label>
-            <input type="text" name="date" class="form-control @error('date') is-invalid @enderror"
+            <input type="date" name="date" class="form-control @error('date') is-invalid @enderror"
                 value="{{ old('date', $order['date']) }}" id="date" placeholder="Date">
             {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        <select name="book_id" class="form-control @error('book_id') is-invalid @enderror" id="book_id">
+            @foreach ($books as $book)
+                <option value="{{ $book->id }}">{{ $book->title}}</option>
+            @endforeach
+        </select>
         <div id="products">
             <label for="products" class="form-label">{{ __('Productes') }}</label>
             <button type="button" id="add_product" class="btn btn-primary">+</button>
@@ -13,8 +18,11 @@
             @if (isset($collaborator['products']))
                 @foreach ($collaborator['products'] as $social => $url)
                     <div class="product">
-                        <input type="text" name="product_name[]" value="{{ $social }}"
-                            placeholder="Nom">
+                        <select name="book_id" class="form-control @error('book_id') is-invalid @enderror" id="book_id">
+                            @foreach ($books as $book)
+                                <option value="{{ $book->id }}">{{ $book->title}}</option>
+                            @endforeach
+                        </select>
                         <input type="text" name="product_price[]" value="{{ $social }}"
                         placeholder="Preu">
                         <input type="text" name="product_quantity[]" value="{{ $url }}"
@@ -137,7 +145,7 @@
         <div class="form-group mb-2 mb20">
             <label for="order_status" class="form-label">{{ __('Order Status') }}</label>
             <input type="text" name="order_status" class="form-control @error('order_status') is-invalid @enderror"
-                value="{{ old('order_status', $order['total_price']) }}" id="order_status" placeholder="Total Price">
+                value="{{ old('order_status', $order['status']) }}" id="order_status" placeholder="Order status">
             {!! $errors->first('order_status', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">

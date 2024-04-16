@@ -22,7 +22,6 @@ class CollaboratorRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'image' => 'required',
 			'social_networks' => '',//TODO VALIDATION
             'first_name' => 'required',
             'last_name' => 'required',
