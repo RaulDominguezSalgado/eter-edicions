@@ -6,8 +6,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/book.css') }}">
 
-    <div class="body space-y-32 mb-12">
-        <div class="book mt-16">
+    <div class="body space-y-4 mb-12">
+        <div class="book">
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
                     {{-- <div id="book-image" class="book-image"></div> --}}
@@ -93,25 +93,28 @@
             </div>
         </div>
 
-        <div class="" id="infoTab">
-            <div class="mb-4">
+        <div class="mb-8" id="infoTab">
+            <div class="mb-8">
                 <ul class="flex flex-wrap -mb-px" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     <li class="mr-2" role="presentation">
                         <button
                             class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b active"
                             id="description-tab" data-tabs-target="#description" type="button" role="tab"
-                            aria-controls="description" aria-selected="true">Descripció</button>
+                            aria-controls="description" aria-selected="true">
+                            <h5 class="">Descripció</h5>
+                        </button>
                     </li>
                     <li class="mr-2" role="presentation">
                         <button
                             class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b"
                             id="technical-sheet-tab" data-tabs-target="#technical-sheet" type="button" role="tab"
-                            aria-controls="technical-sheet" aria-selected="false">Fitxa
-                            tècnica</button>
+                            aria-controls="technical-sheet" aria-selected="false">
+                            <h5 class="">Fitxa tècnica</h5>
+                        </button>
                     </li>
                 </ul>
             </div>
-            <div id="myTabContent" class="mb-8">
+            <div id="myTabContent" class="mb-20">
                 <div class="description flex flex-col space-y-4" id="description" role="tabpanel"
                     aria-labelledby="profile-tab">
                     @foreach ($authors as $author)
@@ -314,16 +317,6 @@
         </div>
         @endif
     </div>
-
-    {{-- Inline script for dynamic height in book cover image --}}
-    <script>
-        // Get the image URL from the Blade variable
-        var imageUrl = "{{ asset('img/books/covers/' . $book['image']) }}";
-
-        // Set the background image of the div
-        document.getElementById("book-image").style.backgroundImage = "url('" + imageUrl + "')";
-    </script>
-
 
     {{-- tab component script --}}
     <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
