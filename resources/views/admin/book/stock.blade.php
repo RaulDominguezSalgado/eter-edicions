@@ -54,4 +54,4 @@
 
 </x-layouts.admin.app>
 
-<script src="{{ asset('js/form/store.js') }}"></script>
+<script src="{{ asset('js/form/stock.js') }}"></script>
