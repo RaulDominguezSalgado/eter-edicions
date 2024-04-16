@@ -6,8 +6,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/book.css') }}">
 
-    <div class="body space-y-24 mb-12">
-        <div class="book flex flex-col min-h-screen">
+    <div class="body space-y-32 mb-12">
+        <div class="book mt-16">
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
                     {{-- <div id="book-image" class="book-image"></div> --}}
