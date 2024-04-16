@@ -33,5 +33,6 @@ class Bookstore extends Model
 
     public function books(){
         return $this->belongsToMany(\App\Models\Book::class)->withPivot('stock');
+
     }
 }

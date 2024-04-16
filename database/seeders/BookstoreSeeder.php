@@ -26,7 +26,7 @@ class BookstoreSeeder extends Seeder
         $etcetera->address = "Llull, 23";
         $etcetera->city = "Barcelona";
         $etcetera->province = "Barcelona";
-        $etcetera->website = "https://etc-llibres.com/";
+        $etcetera->website = "https://www.llibreriaetcetera.com/cat/index.php";
         $etcetera->save();
 
         $laimpossible = new Bookstore();

@@ -15,13 +15,43 @@ class BookBookstoreSeeder extends Seeder
      */
     public function run(): void
     {
+        //Books
         $tragedia = Book::find(1);
-        $tragedia->bookstores()->attach(1);
-
         $panorama = Book::find(2);
-
         $nenssuecs = Book::find(3);
-
         $orientalisme = Book::find(4);
+
+        //Bookstores
+        $llibreriaona = Bookstore::find(1);
+        $etcetera = Bookstore::find(2);
+        $laimpossible = Bookstore::find(3);
+        $altair = Bookstore::find(4);
+
+        $llibreriaona->books()->attach([
+            $tragedia->id => ['stock' => 15],
+            $panorama->id => ['stock' => 12],
+            $nenssuecs->id => ['stock' => 21],
+            $orientalisme->id => ['stock' => 6]
+        ]);
+
+        $etcetera->books()->attach([
+            $tragedia->id => ['stock' => 9],
+            $panorama->id => ['stock' => 4],
+            $nenssuecs->id => ['stock' => 1]
+        ]);
+
+        $laimpossible->books()->attach([
+            $tragedia->id => ['stock' => 10],
+            $panorama->id => ['stock' => 18],
+            $nenssuecs->id => ['stock' => 11],
+            $orientalisme->id => ['stock' => 4]
+        ]);
+
+        $altair->books()->attach([
+            $tragedia->id => ['stock' => 5],
+            $panorama->id => ['stock' => 9],
+            $nenssuecs->id => ['stock' => 7],
+            $orientalisme->id => ['stock' => 16]
+        ]);
     }
 }
