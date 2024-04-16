@@ -28,7 +28,6 @@ class CollaboratorRequest extends FormRequest
             'last_name' => 'required',
             'biography' => 'required',
             'lang'=>'required',
-            'slug' => 'required',
         ];
     }
 }

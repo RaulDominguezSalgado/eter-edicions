@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
+use Illuminate\Database\QueryException;
 /**
  * Class CollaboratorController
  * @package App\Http\Controllers
@@ -115,8 +116,8 @@ class CollaboratorController extends Controller
                 $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
                 // // Procesar y guardar la imagen
-                $rutaImagen = public_path('img/collab/' . $nombreImagenOriginal);
-                $imagen->move(public_path('img/collab/'), $nombreImagenOriginal);
+                $rutaImagen = public_path('img/collab/covers/' . $nombreImagenOriginal);
+                $imagen->move(public_path('img/collab/covers/'), $nombreImagenOriginal);
                 $this->editImage($rutaImagen);
 
                 $validatedData['image'] = $nombreImagenOriginal;
@@ -144,7 +145,9 @@ class CollaboratorController extends Controller
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
                 'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'lang' => $validatedData['lang']
+                'lang' => $validatedData['lang'],
+                'meta_title'=>\App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'meta_description'=>$validatedData['biography']
             ];
             CollaboratorTranslation::create($translationData);
             return redirect()->route('collaborators.index')
@@ -227,10 +230,12 @@ class CollaboratorController extends Controller
 
     public function destroy($id)
     {
-        Collaborator::find($id)->delete();
-
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator deleted successfully');
+        try {
+            Collaborator::find($id)->delete();
+            return redirect()->route('collaborators.index')->with('success', 'Collaborator deleted successfully');
+        } catch (QueryException $e) {
+            return redirect()->route('collaborators.index')->with('error', 'Cannot delete collaborator. There are related records in other tables.');
+        }
     }
 
 

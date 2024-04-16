@@ -121,8 +121,8 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        dd($request);
-         $validatedData = $request->validate([]);
+        var_dump($_POST);
+        return dd($request);
         //     'isbn' => 'required|string',
         //     'title' => 'required|string',
         //     'original_title' => 'nullable|string',
@@ -152,24 +152,25 @@ class BookController extends Controller
         // ]);
 
 
-        $book = Book::create($validatedData);
+        // $book = Book::create($validatedData);
 
-        if ($request->has('authors')) {
-            $book->authors()->attach($request->input('authors'));
-        }
+        // if ($request->has('authors')) {
+        //     $book->authors()->attach($request->input('authors'));
+        // }
 
-        if ($request->has('translators')) {
-            $book->translators()->attach($request->input('translators'));
-        }
+        // if ($request->has('translators')) {
+        //     $book->translators()->attach($request->input('translators'));
+        // }
 
-        if ($request->has('languages')) {
-            $book->languages()->attach($request->input('languages'));
-        }
+        // if ($request->has('languages')) {
+        //     $book->languages()->attach($request->input('languages'));
+        // }
 
-        if ($request->has('collections')) {
-            $book->collections()->attach($request->input('collections'));
-        }
-        return redirect()->route('books.index')->with('success', '¡Libro creado con éxito!');
+        // if ($request->has('collections')) {
+        //     $book->collections()->attach($request->input('collections'));
+        // }
+
+        // return redirect()->route('books.index')->with('success', '¡Libro creado con éxito!');
 
     }
 
