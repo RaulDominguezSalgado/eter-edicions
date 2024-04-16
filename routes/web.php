@@ -117,6 +117,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('posts', App\Http\Controllers\PostController::class);
     Route::resource('orders', App\Http\Controllers\OrderController::class);
     Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
+    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'redirectViewStock'])->name('book.stock');
+
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');
