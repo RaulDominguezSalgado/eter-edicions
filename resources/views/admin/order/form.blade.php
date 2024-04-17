@@ -6,11 +6,17 @@
                 value="{{ old('date', $order['date']) }}" id="date" placeholder="Date">
             {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        <select name="book_id" class="form-control @error('book_id') is-invalid @enderror" id="book_id">
-            @foreach ($books as $book)
-                <option value="{{ $book->id }}">{{ $book->title}}</option>
-            @endforeach
-        </select>
+        <div class="product">
+            <select name="book_id" class="form-control @error('book_id') is-invalid @enderror" id="book_id">
+                @foreach ($books as $book)
+                    <option value="{{ $book->id }}">{{ $book->title}}</option>
+                @endforeach
+            </select>
+            <input type="text" name="product_price[]" value=""
+            placeholder="Preu">
+            <input type="text" name="product_quantity[]" value=""
+                placeholder="Quantitat">
+        </div>
         <div id="products">
             <label for="products" class="form-label">{{ __('Productes') }}</label>
             <button type="button" id="add_product" class="btn btn-primary">+</button>

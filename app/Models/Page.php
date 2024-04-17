@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Collaborator
+ * Class Page
  *
  * @property $id
- * @property $image
- * @property $social_networks
  * @property $created_at
  * @property $updated_at
  *

@@ -170,10 +170,43 @@ class CollaboratorController extends Controller
         return view('admin.collaborator.show', compact('collaborator'));
     }
 
+    public function collaboratorDetail($id){
+        $locale = 'ca';
+        $page = [
+            'title' => 'Autors i traductors',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        // $collaborator_lv = Collaborator::find($id);
+        // return dd($book_lv->id);
+
+        $collaborator = $this->getFullCollaborator($id, $locale);
+
+        // dd($collaborator);
+
+        $page = [
+            'title' => $collaborator['first_name'] . " " . $collaborator['last_name'],
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        // dd($page);
+
+        return view('public.collaborator', compact('collaborator', 'page', 'locale'));
+    }
+
+    public function agency(){
+        return "CollaboratorController > agency";
+    }
+
+
     public function getFullCollaborator($id, $locale){
         $collab = Collaborator::find($id);
         // $collaborator = [];
-        $translation = $collab->translations()->where('lang', $locale)->first();
+        $translation = $collab->translations->where('lang', $locale)->first();
         if ($translation) {
             $collaborator = [
                 'id' => $collab->id,
@@ -191,7 +224,8 @@ class CollaboratorController extends Controller
                 $collaborator['books'][$book->title] = [
                     'id' => $book->id,
                     'title' => $book->title,
-                    'image' => $book->image
+                    'image' => $book->image,
+                    'slug' => $book->slug
                 ];
             }
         }
@@ -200,7 +234,8 @@ class CollaboratorController extends Controller
                 $collaborator['books'][$book->title] = [
                     'id' => $book->id,
                     'title' => $book->title,
-                    'image' => $book->image
+                    'image' => $book->image,
+                    'slug' => $book->slug
                 ];
             }
         }
@@ -290,7 +325,4 @@ class CollaboratorController extends Controller
         return "CollaboratorController > publicIndex";
     }
 
-    public function agency(){
-        return "CollaboratorController > agency";
-    }
 }
