@@ -270,10 +270,16 @@ class PageSeeder extends Seeder
         $pageCaContentFormSubject = new PageContent();
         $pageCaContentFormSubject->page_translation_id = $pageTranslationCa->id;
         $pageCaContentFormSubject->key = "form-subject";
-        $pageCaContentFormSubject->content = <<<HEREDOC
+        $pageCaContentFormSubject->content = "Assumpte";
+        $pageCaContentFormSubject->save();
+
+        $pageCaContentFormSubjects = new PageContent();
+        $pageCaContentFormSubjects->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentFormSubjects->key = "form-subject";
+        $pageCaContentFormSubjects->content = <<<HEREDOC
         {"Comandes", "Premsa i comunicació", "Foreign rights", "Drets d'autor", "Manuscrits", "Altres"}
         HEREDOC;
-        $pageCaContentFormSubject->save();
+        $pageCaContentFormSubjects->save();
 
         $pageCaContentFormName = new PageContent();
         $pageCaContentFormName->page_translation_id = $pageTranslationCa->id;

@@ -20,10 +20,10 @@ $locale = 'ca';
     </div>
     <div>
         <ul>
-            <li><a href="{{route("contact.{$locale}")}}">Política de privacitat</a></li>
+            <li><a href="">Política de privacitat</a></li>
             <li><a href="">Política de cookies</a></li>
             <li><a href="">Avís legal</a></li>
-            <li><a href="">Contacta</a></li>
+            <li><a href="{{route("contact.{$locale}")}}">Contacta</a></li>
         </ul>
     </div>
     <div>
