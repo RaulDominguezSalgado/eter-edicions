@@ -547,4 +547,6 @@ class BookController extends Controller
         // Devolver la vista con los datos del libro
         return view('admin.book.stock', compact('book'));
     }
+
+    
 }
