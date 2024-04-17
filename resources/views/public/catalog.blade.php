@@ -11,13 +11,13 @@
             <div class="flex flex-col items-center space-y-6">
                 <h2>Catàleg</h2>
 
-                <div class="mb-8">
+                {{-- <div class="mb-8">
                     <ul class="flex space-x-4">
                         @foreach ($collections as $i => $collection)
                             <li><a><h5>{{ $collection['name'] }}</h5></a></li>
                         @endforeach
                     </ul>
-                </div>
+                </div> --}}
             </div>
 
             <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">

@@ -120,15 +120,18 @@
                     @foreach ($authors as $author)
                         <div class="collab flex space-x-6">
                             <div class="max-h-fit pic">
-                                {{-- <a href="{{ route("collaborator-detail.{$locale}",$author["id"]) }}"> --}}
-                                <img class="" src="{{ asset('img/collab/covers/' . $author['image']) }}"
-                                    alt="Fotografia de {{ $author['first_name'] }} {{ $author['last_name'] }}">
-                                {{-- </a> --}}
+                                <a href="{{ route("collaborator-detail.{$locale}", $author['id']) }}">
+                                    <img class="" src="{{ asset('img/collab/covers/' . $author['image']) }}"
+                                        alt="Fotografia de {{ $author['first_name'] }} {{ $author['last_name'] }}">
+                                </a>
                             </div>
                             <div class="info">
                                 <div class="mb-6">
-                                    <h3 class="font-bold mb-3">{{ $author['first_name'] }} {{ $author['last_name'] }}
-                                    </h3>
+                                    <a href="{{ route("collaborator-detail.{$locale}", $author['id']) }}">
+                                        <h3 class="font-bold mb-3">{{ $author['first_name'] }}
+                                            {{ $author['last_name'] }}
+                                        </h3>
+                                    </a>
                                     <p class="text-justify">{{ $author['biography'] }}</p>
                                 </div>
                                 <div>
@@ -150,12 +153,14 @@
                     @endforeach
                     <hr>
                     @foreach ($translators as $translator)
-                        <div class="collab flex space-x-6">
+                        <div class="collab flex space-x-6 justify-between">
                             <div class="info">
                                 <div class="mb-8">
-                                    <h3 class="font-bold mb-3">{{ $translator['first_name'] }}
-                                        {{ $translator['last_name'] }}
-                                    </h3>
+                                    <a href="{{ route("collaborator-detail.{$locale}", $translator['id']) }}">
+                                        <h3 class="font-bold mb-3">{{ $translator['first_name'] }}
+                                            {{ $translator['last_name'] }}
+                                        </h3>
+                                    </a>
                                     <p class="text-justify">{{ $translator['biography'] }}</p>
                                 </div>
                                 <div>
@@ -174,10 +179,10 @@
                                 </div>
                             </div>
                             <div class="pic">
-                                {{-- <a href="{{ route("collaborator-detail.{$locale}",$author["id"]) }}"> --}}
+                                <a href="{{ route("collaborator-detail.{$locale}",$translator["id"]) }}">
                                 <img class="" src="{{ asset('img/collab/covers/' . $translator['image']) }}"
                                     alt="Fotografia de {{ $translator['first_name'] }} {{ $translator['last_name'] }}">
-                                {{-- </a> --}}
+                                </a>
                             </div>
                         </div>
                     @endforeach
@@ -292,29 +297,31 @@
             </div>
         </div>
 
-        @if(count($related_books)>0)
-        <div id="related-books" class="flex flex-col items-center space-y-4">
-            <h2>També et poden agradar</h2>
+        @if (count($related_books) > 0)
+            <div id="related-books" class="flex flex-col items-center space-y-4">
+                <h2>També et poden agradar</h2>
 
-            <div class="flex">
-                @foreach ($related_books as $i => $relatedBook)
-                <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
-                    <div class="cover mb-4 flex justify-center">
-                        <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
-                            <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
-                                alt="{{ $relatedBook['title'] }}" style="height: 13.75em" class="aspect-[2/3]">
-                        </a>
-                    </div>
-                    <div id="book-info-{{ $relatedBook['slug'] }}" class="flex flex-col items-center space-y-2 w-full">
-                        <div class="book-title flex justify-center items-center text-center">
-                            {{ $relatedBook['title'] }}
+                <div class="flex">
+                    @foreach ($related_books as $i => $relatedBook)
+                        <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
+                            <div class="cover mb-4 flex justify-center">
+                                <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
+                                    <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
+                                        alt="{{ $relatedBook['title'] }}" style="height: 13.75em"
+                                        class="aspect-[2/3]">
+                                </a>
+                            </div>
+                            <div id="book-info-{{ $relatedBook['slug'] }}"
+                                class="flex flex-col items-center space-y-2 w-full">
+                                <div class="book-title flex justify-center items-center text-center">
+                                    {{ $relatedBook['title'] }}
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-
+                    @endforeach
                 </div>
-            @endforeach
             </div>
-        </div>
         @endif
     </div>
 
