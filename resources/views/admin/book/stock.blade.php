@@ -33,13 +33,17 @@
                                             @foreach ($book['bookstores'] as $store)
                                                 <hr>
                                                 <span>{{ $store['name'] }}</span>
-                                                <input type="text" id="storeStock_{{ $loop->index }}" value="{{ $store['stock'] }}" disabled>
+                                                <form action="{{ route('books.bookstores.stock.update', ['book' => $book['id'], 'bookstore' => $store['id']]) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="number" name="stock" id="storeStock_{{ $loop->index }}" value="{{ $store['stock'] }}" disabled>
+                                                    <button type="submit" class="btn btn-primary">Desa canvis</button>
+                                                </form>
                                                 <span>{{ $store['address'] }}, {{ $store['city'] }}</span>
                                                 <button id="edit_{{ $loop->index }}">Editar</button>
                                             @endforeach
                                         @endif
 
-                                        <button>Desar canvis</button>
                                     </div>
                                 </div>
                             </div>

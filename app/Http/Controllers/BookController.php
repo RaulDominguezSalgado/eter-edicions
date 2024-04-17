@@ -7,6 +7,7 @@ use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Models\BookBookstore;
 
 /**
  * Class BookController
@@ -374,6 +375,7 @@ class BookController extends Controller
         // dd($book->bookstores);
         foreach ($book->bookstores as $bookstore) {
             $bookResult['bookstores'][$bookstore->name] = [
+                "id" => $bookstore->id,
                 "name" => $bookstore->name,
                 "stock" => $bookstore->pivot->stock,
                 "address" => $bookstore->address,
@@ -520,11 +522,11 @@ class BookController extends Controller
 
         // Get the newest 4 books
         $newestBooks = Book::where('visible', 1)
-        ->where('title', "!=", $book->title)
-        ->orderBy('publication_date', 'desc')
-        ->take(4)
-        ->get();
-        foreach($newestBooks as $book){
+            ->where('title', "!=", $book->title)
+            ->orderBy('publication_date', 'desc')
+            ->take(4)
+            ->get();
+        foreach ($newestBooks as $book) {
             $result[$book->title] = $this->getPreviewBook($book, $locale);
         }
 
@@ -542,11 +544,45 @@ class BookController extends Controller
         $locale = "ca";
 
         // Obtener el libro con el ID especificado
-        $book = $this->getFullBook(Book::findOrFail($id),$locale);
-
+        $book = $this->getFullBook(Book::findOrFail($id), $locale);
+        //dd($book);
         // Devolver la vista con los datos del libro
         return view('admin.book.stock', compact('book'));
     }
 
+    public function editStock($id)
+    {
+        $locale = "ca";
 
+        $book = $this->getFullBook(Book::findOrFail($id), $locale);
+
+        return view('admin.user.edit', compact('book'));
+    }
+
+    public function updateBookstoreStock(BookRequest $request, $bookId, $bookstoreId)
+    {
+        $book = Book::findOrFail($bookId);
+        $bookstore = Bookstore::findOrFail($bookstoreId);
+
+        $stock = $request->input('stock');
+
+        // Validate the stock value
+        $request->validate([
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        // Check if the bookstore has a stock value for the book
+        $bookBookstore = $book->bookstores()->where('bookstores.id', $bookstoreId)->first();
+
+        if ($bookBookstore) {
+            // Update the existing stock value
+            $bookBookstore->pivot->stock = $stock;
+            $bookBookstore->pivot->save();
+        } else {
+            // Create a new stock record for the bookstore
+            $book->bookstores()->attach($bookstore, ['stock' => $stock]);
+        }
+
+        return redirect()->back()->with('success', 'Stock updated successfully.');
+    }
 }

@@ -119,7 +119,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('orders', App\Http\Controllers\OrderController::class);
     Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
     Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'redirectViewStock'])->name('book.stock');
-
+    Route::put('/books/{book}/bookstores/{bookstore}/stock', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('books.bookstores.stock.update');
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');

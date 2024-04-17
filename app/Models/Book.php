@@ -61,34 +61,44 @@ class Book extends Model
     ];
 
 
- protected $casts = [
-    'publication_date' => 'datetime:dd/mm/yyyy',
-    'created_at' => 'datetime:dd/mm/yyyy', // Change your format
-    'updated_at' => 'datetime:dd/mm/yyyy',
-];
+    protected $casts = [
+        'publication_date' => 'datetime:dd/mm/yyyy',
+        'created_at' => 'datetime:dd/mm/yyyy', // Change your format
+        'updated_at' => 'datetime:dd/mm/yyyy',
+    ];
 
-    public function languages(){
+    public function languages()
+    {
         return $this->belongsToMany(\App\Models\Language::class, 'book_language', 'book_id', 'lang_iso', 'id', 'iso');
     }
 
-    public function extras(){
+    public function extras()
+    {
         return $this->hasMany(\App\Models\BookExtra::class);
     }
 
-    public function authors(){
+    public function authors()
+    {
         return $this->belongsToMany(\App\Models\Author::class);
     }
 
-    public function translators(){
+    public function translators()
+    {
         return $this->belongsToMany(\App\Models\Translator::class);
     }
 
-    public function collections(){
+    public function collections()
+    {
         return $this->belongsToMany(\App\Models\Collection::class);
     }
 
-    public function bookstores(){
-        return $this->belongsToMany(\App\Models\Bookstore::class)->withPivot('stock');
-
+    // public function bookstores(){
+    //     return $this->belongsToMany(\App\Models\Bookstore::class)->withPivot('stock');
+    // }
+    public function bookstores()
+    {
+        return $this->belongsToMany(Bookstore::class)
+            ->using(BookBookstore::class)
+            ->withPivot('stock');
     }
 }
