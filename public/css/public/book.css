@@ -110,7 +110,7 @@
 }
 
 .collab {
-    /* width: 61%; */
+    width: 100%;
     min-width: 54.5em;
     /* width: 54.5em; */
     height: max-content;
@@ -121,7 +121,7 @@
     margin: auto;
 }
 .collab .info{
-    max-width: 80%;
+    width: 80%;
 }
 
 /* .collab .pic{
@@ -129,6 +129,9 @@
 } */
 
 .collab img {
+    min-width: 13.5em;
+    max-width: 18em;
+
     width: 100%;
     height: 100%;
     object-fit: cover;

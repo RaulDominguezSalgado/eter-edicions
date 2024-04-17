@@ -548,5 +548,5 @@ class BookController extends Controller
         return view('admin.book.stock', compact('book'));
     }
 
-    
+
 }
