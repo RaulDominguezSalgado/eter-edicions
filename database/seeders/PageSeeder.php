@@ -23,6 +23,7 @@ class PageSeeder extends Seeder
 
     private function foreignrights(){
         $foreignrights = new Page();
+        $foreignrights->tag = "foreign-rights";
         $foreignrights->save();
 
         $foreignrightsTranslationCa = new PageTranslation();
@@ -142,13 +143,14 @@ class PageSeeder extends Seeder
 
     private function about(){
         $page = new Page();
+        $page->tag = "about";
         $page->save();
 
         $pageTranslationCa = new PageTranslation();
         $pageTranslationCa->page_id = $page->id;
         $pageTranslationCa->lang = "ca";
-        $pageTranslationCa->slug = "qui-som";
-        $pageTranslationCa->meta_title = "Qui som";
+        $pageTranslationCa->slug = "sobre-nosaltres";
+        $pageTranslationCa->meta_title = "Sobre nosaltres";
         $pageTranslationCa->meta_description = "Informació sobre l'editorial Èter Edicions, especialitzada en traduccions de l'àrab al català i del català a l'àrab d’obres de poesia, pensament, novel·les i teatre";
         $pageTranslationCa->save();
 
@@ -162,9 +164,8 @@ class PageSeeder extends Seeder
         $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
         $pageCaContentP1->key = "p1";
         $pageCaContentP1->content = <<<HEREDOC
-        És una editorial radicada a Barcelona i fundada l'any 2023, nascuda amb la voluntat d'apropar les tradicions literàries en català i àrab. La nostra activitat es basa, doncs, a traduir publicacions contemporànies de cadascuna de les llengües a l'altra, així com de publicar textos inèdits en una i altra llengua.
-
-        L'editorial apareix principalment per culpa d'en Mohammad Bitari. Aquest poeta, dramaturg i traductor palestí trobava a faltar accés a un món que coneix bé i que no arriba suficientment a l’altre costat del Mediterrani: la producció escrita en àrab. A pesar de l’enorme qualitat i varietat de les publicacions -siguin de poesia, teatre, novel·la o pensament-, les traduccions que ens arriben a Occident, i sobretot al català, són, o bé escasses, o bé no existeixen.
+        És una editorial radicada a Barcelona i fundada l'any 2023, nascuda amb la voluntat d'apropar les tradicions literàries en català i àrab. La nostra activitat es basa, doncs, a traduir publicacions contemporànies de cadascuna de les llengües a l'altra, així com de publicar textos inèdits en una i altra llengua.\n
+        L'editorial apareix principalment per culpa d'en Mohammad Bitari. Aquest poeta, dramaturg i traductor palestí trobava a faltar accés a un món que coneix bé i que no arriba suficientment a l’altre costat del Mediterrani: la producció escrita en àrab. A pesar de l’enorme qualitat i varietat de les publicacions -siguin de poesia, teatre, novel·la o pensament-, les traduccions que ens arriben a Occident, i sobretot al català, són, o bé escasses, o bé no existeixen.\n
         Per resoldre això, va fundar Èter, conjuntament amb el poeta i crític literari Oriol Rissech.
         HEREDOC;;
         $pageCaContentP1->save();
@@ -219,6 +220,7 @@ class PageSeeder extends Seeder
 
     private function contact(){
         $page = new Page();
+        $page->tag = "contact";
         $page->save();
 
         $pageTranslationCa = new PageTranslation();
