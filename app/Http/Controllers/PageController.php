@@ -41,8 +41,9 @@ class PageController extends Controller
         $locale = 'ca';
 
         $page = $this->getFullPage('foreign-rights', $locale);
+        $pageEn = $this->getFullPage('foreign-rights', "en");
 
-        return view('public.foreign-rights', compact('page', 'locale'));
+        return view('public.foreign-rights', compact('page', 'pageEn', 'locale'));
     }
 
 
@@ -63,6 +64,8 @@ class PageController extends Controller
 
         $translation = $page_lv->translations->where('lang', $locale)->first();
 
+        // dd($translation);
+
         $page = ['id' => $page_lv->id,];
 
         if ($translation) {
@@ -72,6 +75,7 @@ class PageController extends Controller
             $page['web'] = 'Èter Edicions';
             $page['slug'] = $translation->slug;
         }
+        // dd($translation->contents);
         foreach($translation->contents as $content){
             $page['contents'][$content->key] = $content->content;
         }
