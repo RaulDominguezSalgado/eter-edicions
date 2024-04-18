@@ -118,8 +118,10 @@ Route::prefix('admin')->group(function () {
     Route::resource('posts', App\Http\Controllers\PostController::class);
     Route::resource('orders', App\Http\Controllers\OrderController::class);
     Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
-    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'redirectViewStock'])->name('book.stock');
-    Route::put('/books/{book}/bookstores/{bookstore}/stock', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('books.bookstores.stock.update');
+    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'redirectViewStock'])->name('stock.edit');
+    Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('stock.update');
+    // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
+    
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');

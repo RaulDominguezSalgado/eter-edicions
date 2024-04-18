@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
+use App\Http\Requests\StockRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\BookBookstore;
 
@@ -328,7 +329,7 @@ class BookController extends Controller
             'discounted_price' => $book->discounted_price ?? 0,
             'legal_diposit' => $book->legal_diposit,
             'enviromental_footprint' => $book->enviromental_footprint,
-            'stock' => $book->stock,
+            'stock' => (int) $book->stock,
             'slug' => $book->slug,
             'meta_title' => $book->meta_title,
             'meta_description' => $book->meta_description
@@ -559,28 +560,25 @@ class BookController extends Controller
         return view('admin.user.edit', compact('book'));
     }
 
-    public function updateBookstoreStock(BookRequest $request, $bookId, $bookstoreId)
+    public function updateBookstoreStock(StockRequest $request, $bookId)
     {
         $book = Book::findOrFail($bookId);
-        $bookstore = Bookstore::findOrFail($bookstoreId);
 
-        $stock = $request->input('stock');
+        $book->stock = intval($request->input('stock'));
 
-        // Validate the stock value
-        $request->validate([
-            'stock' => 'required|integer|min:0',
-        ]);
+        $book->save();
 
-        // Check if the bookstore has a stock value for the book
-        $bookBookstore = $book->bookstores()->where('bookstores.id', $bookstoreId)->first();
 
-        if ($bookBookstore) {
-            // Update the existing stock value
-            $bookBookstore->pivot->stock = $stock;
-            $bookBookstore->pivot->save();
-        } else {
-            // Create a new stock record for the bookstore
-            $book->bookstores()->attach($bookstore, ['stock' => $stock]);
+        $bookstoresRequest = $request->input('bookstores');
+
+        $bookstores = $book->bookstores;
+
+
+        foreach ($bookstores as $bookstore) {
+
+            $stock = isset($bookstoresRequest[$bookstore->id]) ? intval($bookstoresRequest[$bookstore->id]['stock']) : 0;
+
+            $bookstore->books()->sync([$book->id => ['stock' => $stock]]);
         }
 
         return redirect()->back()->with('success', 'Stock updated successfully.');

@@ -273,7 +273,4 @@ class CollaboratorController extends Controller
         return "CollaboratorController > publicIndex";
     }
 
-    public function agency(){
-        return "CollaboratorController > agency";
-    }
 }

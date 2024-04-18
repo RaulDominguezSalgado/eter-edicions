@@ -7,4 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
             stockInput.disabled = false;
         });
     });
+
+    //mostrar valor del stock en consola 
+    const stockInputs = document.querySelectorAll('input[name="stock"]');
+    stockInputs.forEach(function(input) {
+        input.addEventListener('input', function(event) {
+            console.log('Stock value:', event.target.value);
+        });
+    });
 });

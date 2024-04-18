@@ -38,8 +38,8 @@ class Bookstore extends Model
 
     }
 
-    public function stocks()
-{
-    return $this->hasMany(BookBookstore::class);
-}
+//     public function stocks()
+// {
+//     return $this->hasMany(BookBookstore::class);
+// }
 }
