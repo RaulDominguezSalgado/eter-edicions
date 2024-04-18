@@ -36,7 +36,6 @@ class BookRequest extends FormRequest
             'sample_url' => '',
             'number_of_pages' => '',
             'publication_date' => '',
-            'collections' => '',
             'collaborators' => '',
             'original_title' => '',
             'original_publication_date' => '',

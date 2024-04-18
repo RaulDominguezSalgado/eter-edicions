@@ -135,10 +135,32 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        $request->validated();
-        $book->update($request->validated()); //Actualizar el contenido del libro
+        $new_data = $request->validated();
 
+        if ($request->input('visible') != null) {
+            $request->merge([
+                'visible' => $request->input('visible') == 'on' ? 1 : 0,
+            ]);
+            $new_data['visible'] = $new_data['visible']  == 'on' ? 1 : 0;
+        }
+        else {
+            $request->merge([
+                'visible' => 0,
+            ]);
+            $new_data['visible'] = 0;
+        }
+
+        if ($request->input('slug_options') && $request->input('title') != null) {
+            $request->merge([
+                'slug' => \App\Http\Actions\FormatDocument::slugify($request['title'])
+            ]);
+            $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
+        }
+        
+        $book->update($new_data); //Actualizar el contenido del libro
+        // dd($request->all());
         $this->setBookData($book, $request);
+
 
         // Controla la selección del usuario
         if ($request->input('action') == 'redirect') {

@@ -1,4 +1,5 @@
 <?php
+
     function getCollaborators($selected=-1) {
         $collaborators = \App\Models\Collaborator::with('translations')->get();
         $col_options = "<option selected disabled>Selecciona una opció</option>";
@@ -14,6 +15,21 @@
         }
         echo $col_options;
     }
+
+    $selected = 4;
+    $collections = \App\Models\Collection::with('translations')->get();
+        $col_options = "<option selected disabled>Selecciona una opció</option>";
+        foreach ($collections as $content) {
+            foreach ($content->translations->where('lang', 'ca') as $collection) {
+                if ($content->id == $selected) {
+                    $col_options .= "<option selected value='$content->id'>Selected: ".$collection->name."</option>";
+                }
+                else {
+                    $col_options .= "<option value='$content->id'>".$collection->name."</option>";
+                }
+            }
+        }
+        echo $col_options;
 
     function getCollections($selected=-1) {
         $collections = \App\Models\Collection::with('translations')->get();
@@ -31,11 +47,21 @@
         echo $col_options;
     }
 
-    $languages = \App\Models\Language::get();
-    $lang_options = "";
-    foreach ($languages as $language) {
-        $lang_options .= "<option value='$language->iso'>".$language->iso."</option>";
+    function getLanguages($selected=.1) {
+        $languages = \App\Models\Language::get();
+        $lang_options = "";
+        foreach ($languages as $language) {
+            if ($language->iso == $selected) {
+                $lang_options .= "<option selected value='$language->iso'>".$language->iso."</option>";
+            }
+            else {
+                $lang_options .= "<option value='$language->iso'>".$language->iso."</option>";
+            }
+        }
+        echo $lang_options;
     }
+
+    
 ?>
 @if ($errors->any())
     <div class="alert alert-danger m-4">
@@ -70,10 +96,9 @@
 <fieldset>
     <legend>Informació general del llibre</legend>
     <label for="languages">Idioma
-        <input list="lang_list" type="text" name="languages" id="languages" value="{{ $book['lang'] ?? '' }}">
-        <datalist name="lang_list" id="lang_list">
-            <?php echo $lang_options;?>
-        </datalist>
+        <select name="languages" id="languages">
+            <?php getLanguages($book['lang']);?>
+        </select>
     </label>
     <label for="isbn">ISBN
         <input type="text" name="isbn" id="isbn" value="{{ $book['isbn'] ?? '' }}">
@@ -102,16 +127,18 @@
                 <select name="collections[]" id="collections_{{$i}}">
                     <?php getCollections($book['collections'][$i]['id'] ?? '');?>
                 </select>
+                <a class="remove-content-button">Quitar</a>
             </label>
         @endfor
     @else
         <label for="collections_0">Col·lecció 1
-            <select name="collections[]" id="collections_0">
-                <?php getCollections();?>
+        <select name="collections[]" id="collections_0">
+                <?php getCollections($book['collections'][0]['id'] ?? '');?>
             </select>
+            <a class="remove-content-button">Quitar</a>
         </label>
     @endif
-    <button id="add_collection" class="add-content-button">Afegir una col·lecció més</button>
+    <a id="add_collection" class="add-content-button">Afegir una col·lecció més</a>
 </fieldset>
 <fieldset>
     <legend>Col·laboradors</legend>
@@ -122,27 +149,35 @@
                 <select name="authors[]" id="authors_{{$i}}">
                     <?php getCollaborators($book['collaborators']['authors'][$i]['collaborator_id'] ?? '');?>
                 </select>
+        <a class="remove-content-button">Quitar</a>
             </label>
         @endfor
+        <a id="add_author" class="add-content-button">Afegir un autor més</a>
         @for($i = 0; $i < count($book['collaborators']['translators']); $i++)
             <label for="translators_{{$i}}">Traducció {{ $i + 1 }}
                 <select name="translators[]" id="translators_{{$i}}">
                     <?php getCollaborators($book['collaborators']['translators'][$i]['collaborator_id'] ?? '');?>
                 </select>
+                <a class="remove-content-button">Quitar</a>
             </label>
         @endfor
+        <a id="add_translator" class="add-content-button">Afegir un traductor més</a>
     @else 
         <!-- Create -->
         <label for="authors_0">Autor 1
             <select name="authors[]" id="authors_0">
                 <?php getCollaborators();?>
             </select>
+            <a class="remove-content-button">Quitar</a>
         </label>
+        <a id="add_author" class="add-content-button">Afegir un autor més</a>
         <label for="translators_0">Traducció 1
             <select name="translators[]" id="translators_0">
                 <?php getCollaborators();?>
             </select>
+            <a class="remove-content-button">Quitar</a>
         </label>
+        <a id="add_translator" class="add-content-button">Afegir un traductor més</a>
     @endif
 </fieldset>
 <fieldset>
@@ -162,6 +197,9 @@
 </fieldset>
 <fieldset>
     <legend>Meta dades</legend>
+    <label for="slug">Slug
+        <input type="text" name="slug" id="slug" value="{{ $book['slug'] ?? '' }}" disabled>
+    </label>
     <label for="meta_title">Titol meta (apariencia en buscadors)
         <input type="text" name="meta_title" id="meta_title" value="{{ $book['meta_title'] ?? '' }}">
     </label>
@@ -184,7 +222,7 @@
         <input type="checkbox" id="visible" name="visible" @if (isset($book) && $book['visible']) checked @endif;> Visible
     </label>
 </fieldset>
-<div>
+<div id="editor-fast-actions">
     <button type="submit" value="redirect" name="action">Guardar canvis</button>
     <button type="submit" value="stay" name="action">Guardar canvis y romandre a la página</button>
 </div>

@@ -26,7 +26,7 @@
                         <form action="{{ route( 'books.update', $book['id'] ) }}" method="POST" role="form" enctype="multipart/form-data">
                             @csrf
                             {{ method_field('PATCH') }}
-                            @include("admin.book.form");
+                            @include("admin.book.form")
                         </form>
                     </div>
                 </div>

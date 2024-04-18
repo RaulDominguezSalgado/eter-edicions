@@ -1,3 +1,6 @@
+form {
+    position: relative;
+}
 input:not([type="checkbox"]),
 textarea {
     margin-top: 5px;
@@ -24,4 +27,35 @@ fieldset > legend {
     margin-left: 20px;
     padding: 0 10px;
     font-size: 20px;
+}
+a.remove-content-button,
+a.add-content-button,
+#editor-fast-actions button {
+    user-select: none;
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 25px;
+    border: 1px solid #ccc;
+    background: #ccc;
+    color: black;
+    cursor: pointer;
+    transition: .3s;
+}
+a.remove-content-button:hover,
+a.add-content-button:hover,
+#editor-fast-actions button:hover {
+    background: white;
+    transition: .3s;
+}
+
+#editor-fast-actions {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 99999;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 20px;
 }
