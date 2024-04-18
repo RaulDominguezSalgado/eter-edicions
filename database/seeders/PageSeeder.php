@@ -235,6 +235,14 @@ class PageSeeder extends Seeder
         $pageCaContentH1->content = "Contacte";
         $pageCaContentH1->save();
 
+        $pageCaContentP1 = new PageContent();
+        $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentP1->key = "p1";
+        $pageCaContentP1->content = <<<HEREDOC
+        A Èter estem constantment buscant obres interessants en àrab per portar-les a Catalunya, i obres en català per exportar-les al món àrab. Centrem els nostres esforços i recursos en apropar el món àrab i el català a través de la lectura, sempre amb una perspectiva crítica i decolonial. Si el teu manuscrit encaixa en aquests paràmetres, sigui una obra de ficció, poesia, teatre, pensament o assaig, ens la pots fer arribar i estarem encantats de llegir-la.\n\nTens algun dubte o suggeriment? Algun problema amb la teva comanda? Vols que et recomanem el llibre que t'agradarà més? Vols preguntar-nos sobre els drets d'autor o portar al teu país un llibre que hem editat? Posa't en contacte amb nosaltres.\nEt contestarem l'abans possible.
+        HEREDOC;
+        $pageCaContentP1->save();
+
         $pageCaContentCompanyName = new PageContent();
         $pageCaContentCompanyName->page_translation_id = $pageTranslationCa->id;
         $pageCaContentCompanyName->key = "company-name";
@@ -273,12 +281,11 @@ class PageSeeder extends Seeder
         $pageCaContentFormSubject->content = "Assumpte";
         $pageCaContentFormSubject->save();
 
+        $subjects = json_encode(["Comandes", "Premsa i comunicació", "Foreign rights", "Drets d'autor", "Manuscrits", "Altres"]);
         $pageCaContentFormSubjects = new PageContent();
         $pageCaContentFormSubjects->page_translation_id = $pageTranslationCa->id;
-        $pageCaContentFormSubjects->key = "form-subject";
-        $pageCaContentFormSubjects->content = <<<HEREDOC
-        {"Comandes", "Premsa i comunicació", "Foreign rights", "Drets d'autor", "Manuscrits", "Altres"}
-        HEREDOC;
+        $pageCaContentFormSubjects->key = "form-subjects";
+        $pageCaContentFormSubjects->content = $subjects;
         $pageCaContentFormSubjects->save();
 
         $pageCaContentFormName = new PageContent();

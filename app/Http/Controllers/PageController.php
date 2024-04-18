@@ -57,6 +57,10 @@ class PageController extends Controller
     }
 
 
+    public function sendContactForm(){
+        return "email sent";
+    }
+
 
 
     private function getFullPage($tag, $locale){

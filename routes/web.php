@@ -61,6 +61,7 @@ foreach (config('languages') as $locale) {
 
         // Contact
         Route::get(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
+        Route::post(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'sendContactForm'])->name("contact.{$locale}");
     }
     else {
 
