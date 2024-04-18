@@ -1,4 +1,7 @@
 <x-layouts.admin.app>
+    <?php
+        // dd($books[0]);
+    ?>
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
     </x-slot> --}}
@@ -30,53 +33,48 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
-                                    @foreach ($books as $book)
-                                    <tr>
                                         <th></th>
                                         <th>Imatge</th>
                                         <th>ISBN</th>
                                         <th>Títol</th>
-                                        @foreach ($book['authors'] as $author)
-                                        <th>Autor {{$loop->iteration}}</th>
-                                        @endforeach
-
-                                        {{-- @foreach ($book['translators'] as $translator)
-                                        <th>Traductor {{$loop->iteration}} </th>
-                                        @endforeach --}}
+                                        <th>Autors</th>
+                                        <th>Traductors</th>
                                         <th>PVP </th>
                                         <th>Preu amb descompte</th>
                                         <th colspan="1">Stock</th>
                                         <th>Visible</th>
                                         <th>Opcions</th>
                                     </tr>
-                                    @endforeach
                                 </thead>
                                 <tbody>
                                     @foreach ($books as $book)
                                         <tr>
                                             <td><input type="checkbox"></td>
                                             <td>
-<<<<<<< HEAD
                                                 <a href="{{ route('books.edit', $book['id']) }}"><img style="width: 100px; height: auto;" src="{{ asset('img/books/thumbnails/'.$book['image']) }}" alt="{{ ($book['title']) }}"></a>
-=======
-                                                <a href="{{ route('books.edit', $book['id']) }}"><img
-                                                        style="width: 100px; height: auto;"
-                                                        src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
-                                                        alt="{{ $book['title'] }}"></a>
->>>>>>> jordi
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['title'] }}</td>
-
-                                            @foreach ($book['authors'] as $author)
-                                                <td>{{ $author[0] }}</td> {{-- Imprime el primer elemento de cada arreglo de autores --}}
-                                            @endforeach
-
-
-                                            {{-- @foreach ($book['translators'] as $translator)
-                                                <td>{{ $translator[0] }} </td>
-                                            @endforeach --}}
-
+                                            <td>
+                                            <?php
+                                                for ($i = 0; $i < count($book['collaborators']['authors']); $i++) {
+                                                    if ($i != 0) {
+                                                        echo ", ";
+                                                    }
+                                                    echo $book['collaborators']['authors'][$i]['full_name'];
+                                                }
+                                            ?>
+                                            </td>
+                                            <td>
+                                            <?php
+                                                for ($i = 0; $i < count($book['collaborators']['translators']); $i++) {
+                                                    if ($i != 0) {
+                                                        echo ", ";
+                                                    }
+                                                    echo $book['collaborators']['translators'][$i]['full_name'];
+                                                }
+                                            ?>
+                                            </td>
                                             <td>{{ $book['pvp'] }}€</td>
                                             <?php
                                             if ($book['discounted_price'] == null) {

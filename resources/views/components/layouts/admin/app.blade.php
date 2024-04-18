@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/admin/form.css">
     <link rel="stylesheet" href="/css/admin/nav.css">
     <link rel="stylesheet" href="/css/admin/table.css">
+    <script src="/js/admin/nav.js"></script>
     <title>{{ $title ?? 'Èter Edicions' }}</title>
 </head>
 <body>
