@@ -6,32 +6,17 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/static.css') }}">
 
-    <?php
-    // dd($page);
-    // dd(json_decode(($page['contents']['form-subjects'])));
-    ?>
-
     <div class="body flex flex-col justify-between items-center space-y-8 mb-12">
-        {{-- <div class="space-y-4 ">
+        <div class="space-y-4 content w-2/3">
             <div id="title">
                 <h2>{{ $page['contents']['h1'] }}</h2>
             </div>
             <div class="space-y-1">
-                <h5 class="font-bold">{!! nl2br($page['contents']['company-name']) !!}</h5>
-                <p>{!! nl2br($page['contents']['address']) !!}</p>
-                <p>{!! nl2br($page['contents']['zip-code-city']) !!}</p>
-            </div>
-        </div> --}}
-        <div class="space-y-4 w-1/2">
-            <div id="title">
-                <h2>{{ $page['contents']['h1'] }}</h2>
-            </div>
-            <div class="space-y-1">
-                <p>{{ $page['contents']['p1'] }}</p>
+                <p class="text-justify">{{ $page['contents']['p1'] }}</p>
             </div>
         </div>
         {{-- <hr> --}}
-        <div class="w-1/2">
+        <div class="content w-2/3">
             <h4>{{$page['contents']['form-title']}}</h4>
             <form action="" method="POST" class="w-full flex flex-col items-center space-y-4">
                 @csrf

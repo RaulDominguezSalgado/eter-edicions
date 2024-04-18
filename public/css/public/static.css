@@ -6,3 +6,7 @@
 .height-36{
     height: 36em;
 }
+
+.content{
+    min-width: 55em;
+}

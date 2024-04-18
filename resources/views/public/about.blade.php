@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/public/static.css') }}">
 
     <div class="body space-y-16 mb-32">
-        <div class="space-y-4">
+        <div class="content w-2/3  space-y-4">
             <div id="title">
                 <h2>{{$page['contents']['h1']}}</h2>
             </div>
