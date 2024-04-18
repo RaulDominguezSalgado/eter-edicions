@@ -515,7 +515,7 @@ class BookController extends Controller
 
 
         //Get the first 4 books (they will always be the more relevant)
-        $result = array_slice($result, 0, 4);
+        $result = array_slice($result, 0, 3);
 
         return $result;
     }

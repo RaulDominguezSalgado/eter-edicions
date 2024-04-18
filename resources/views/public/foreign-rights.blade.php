@@ -35,13 +35,13 @@
                 </div>
             </div>
         </div>
-        <hr>
+        {{-- <hr>
         <div>
             <a href="{{asset("files/foreign-rights/{$page['contents']['download-file']}")}}" class="flex space-x-4">
                 <img src="{{asset('img/icons/pdf-download.webp')}}" alt="Download PDF" style="width: 1.8125em">
                 <p>{{$pageEn['contents']['download-label']}}</p>
             </a>
-        </div>
+        </div> --}}
     </div>
 
 </x-layouts.app>
