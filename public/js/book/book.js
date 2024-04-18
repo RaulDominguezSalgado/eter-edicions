@@ -1,20 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let collection_options = "";
-    document.querySelectorAll('[name="collections[]"] option').forEach(function (e) {
-        if (e.selected) {
-            e.removeAttribute('selected');
-        }
-        collection_options += e.outerHTML;
-    });
-
-    let collaborators_options = "";
-    document.querySelectorAll('[name="authors[]"]:first-of-type option').forEach(function (e) {
-        if (e.selected) {
-            e.removeAttribute('selected');
-        }
-        collaborators_options += e.outerHTML;
-    });
-
+    let collection_options = document.getElementById("getCollections");
+    console.log(collection_options);
+    let collaborators_options = document.getElementById("getCollaborators");
+    console.log(collaborators_options);
 
     document.getElementById('add_collection').addEventListener('click', function() {
         var contador = document.querySelectorAll('[name="collections[]"]').length+1;
@@ -22,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         new_collection.innerHTML = `
         <label for="collections_${contador}">Col·lecció ${contador}
             <select name="collections[]" id="collections_${contador}">
-                ${collection_options}
+                ${collection_options.innerHTML}
             </select>
             <a class="remove-content-button">Quitar</a>
         </label>
@@ -39,9 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
         var contador = document.querySelectorAll('[name="authors[]"]').length+1;
         let new_author = document.createElement('div');
         new_author.innerHTML = `
-        <label for="authors_${contador}">Col·lecció ${contador}
+        <label for="authors_${contador}">Autor ${contador}
             <select name="authors[]" id="authors__${contador}">
-                ${collaborators_options}
+                ${collaborators_options.innerHTML}
             </select>
             <a class="remove-content-button">Quitar</a>
         </label>
@@ -60,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         new_translator.innerHTML = `
         <label for="authors_${contador}">Traductor ${contador}
             <select name="translators[]" id="translators_${contador}">
-                ${collaborators_options}
+                ${collaborators_options.innerHTML}
             </select>
             <a class="remove-content-button">Quitar</a>
         </label>

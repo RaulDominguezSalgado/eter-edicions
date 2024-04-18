@@ -1,5 +1,4 @@
 <?php
-
     function getCollaborators($selected=-1) {
         $collaborators = \App\Models\Collaborator::with('translations')->get();
         $col_options = "<option selected disabled>Selecciona una opció</option>";
@@ -15,21 +14,6 @@
         }
         echo $col_options;
     }
-
-    $selected = 4;
-    $collections = \App\Models\Collection::with('translations')->get();
-        $col_options = "<option selected disabled>Selecciona una opció</option>";
-        foreach ($collections as $content) {
-            foreach ($content->translations->where('lang', 'ca') as $collection) {
-                if ($content->id == $selected) {
-                    $col_options .= "<option selected value='$content->id'>Selected: ".$collection->name."</option>";
-                }
-                else {
-                    $col_options .= "<option value='$content->id'>".$collection->name."</option>";
-                }
-            }
-        }
-        echo $col_options;
 
     function getCollections($selected=-1) {
         $collections = \App\Models\Collection::with('translations')->get();
@@ -61,7 +45,12 @@
         echo $lang_options;
     }
 
-    
+    echo '<select id="getCollaborators" style="display: none;">';
+    getCollaborators();
+    echo '</select>';
+    echo '<select id="getCollections" style="display: none;">';
+    getCollections();
+    echo '</select>';
 ?>
 @if ($errors->any())
     <div class="alert alert-danger m-4">
@@ -123,7 +112,7 @@
     </label>
     @if (isset($book))
         @for($i = 0; $i < count($book['collections']); $i++)
-            <label for="collections_{{$i}}">Col·lecció {{ $i + 1 }}
+            <label for="collections_{{$i}}">Col·lecció {{ $i + 1 }}    
                 <select name="collections[]" id="collections_{{$i}}">
                     <?php getCollections($book['collections'][$i]['id'] ?? '');?>
                 </select>

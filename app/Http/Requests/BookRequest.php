@@ -22,10 +22,11 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => '',
-            'description' => '',
+            'slug' => '',
+            'title' => 'required',
+            'description' => 'required',
             'lang' => '',
-            'isbn' => '',
+            'isbn' => 'required',
             'publisher' => '',
             'image' => '',
             'pvp' => '',
@@ -33,7 +34,7 @@ class BookRequest extends FormRequest
             'discounted_price' => '',
             'stock' => '',
             'visible' => '',
-            'sample_url' => '',
+            'sample' => '',
             'number_of_pages' => '',
             'publication_date' => '',
             'collaborators' => '',

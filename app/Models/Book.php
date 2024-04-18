@@ -48,7 +48,7 @@ class Book extends Model
         'discounted_price',
         'stock',
         'visible',
-        'sample_url',
+        'sample',
         'number_of_pages',
         'publication_date',
         'collections',
