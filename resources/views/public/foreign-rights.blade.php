@@ -10,7 +10,7 @@
     // dd($page);
     ?>
 
-    <div class="body content w-2/3 flex flex-col justify-between space-y-8 mb-4">
+    <main class="body content w-2/3 flex flex-col justify-between space-y-8 mb-4">
         <div class="space-y-4">
             <div id="title">
                 <h2>{{ $page['contents']['title'] }}</h2>
@@ -42,6 +42,6 @@
                 <p>{{$pageEn['contents']['download-label']}}</p>
             </a>
         </div> --}}
-    </div>
+    </main>
 
 </x-layouts.app>

@@ -4,6 +4,8 @@
         {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $page['web'] }}
     </x-slot>
 
-    <p>Page under construction</p>
+    <main>
+        <p>Page under construction</p>
+    </main>
 
 </x-layouts.app>

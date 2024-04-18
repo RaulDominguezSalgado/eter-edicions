@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Models\Author;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
+
+use Carbon\Carbon;
 use PHPUnit\Metadata\Uses;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -60,7 +63,8 @@ class PostController extends Controller
     }
 
 
-    public function editImage($rutaImagen){
+    public function editImage($rutaImagen)
+    {
         $manager = new ImageManager(new Driver());
         $image = $manager->read($rutaImagen);
         // Crop a 1.4 / 1 aspect ratio
@@ -163,14 +167,14 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)//todo
+    public function edit($id) //todo
     {
         $post = Post::find($id);
         $authors = Author::paginate();
         $users = User::all();
         $collaboratorTranslations = CollaboratorTranslation::where('lang', $this->lang)->paginate();
 
-        return view('admin.post.edit', compact('post', 'collaboratorTranslations','authors','users'));
+        return view('admin.post.edit', compact('post', 'collaboratorTranslations', 'authors', 'users'));
     }
 
     /**
@@ -194,7 +198,102 @@ class PostController extends Controller
 
 
 
-    public function posts(){
-        return "PostController > posts";
+    public function posts()
+    {
+        $locale = "ca";
+
+        $posts_lv = Post::whereNull('date')
+            ->whereNull('location')
+            ->orderBy('publication_date', 'desc')
+            ->paginate(20);
+
+        $posts = [];
+        foreach ($posts_lv as $post_lv) {
+            $posts[$post_lv->slug] = $this->getPreviewPost($post_lv);
+        }
+
+
+        $page = [
+            'title' => "Articles",
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        // dd($authors);
+        // dd($translators);
+        // dd($related_books);
+
+        return view('public.posts', compact('posts', 'page', 'locale'));
+    }
+
+    public function postDetail($id){
+        return "PostController > postDetail";
+    }
+
+
+    public function activities()
+    {
+        $activities_lv = Post::whereNotNull('date')
+            ->whereNotNull('location')
+            ->orderBy('date', 'desc')
+            ->paginate(20);
+
+        $activities = [];
+        foreach ($activities_lv as $activity_lv) {
+            $activities[$activities_lv->slug] = $this->getPreviewActivity($activity_lv);
+        }
+
+        return "PostController > activities";
+    }
+
+
+
+    private function getFullPost($post)
+    {
+
+    }
+
+    private function getPreviewPost($post)
+    {
+        $postResult = [
+            'id' => $post->id,
+            'title' => $post->title,
+            'description' => $post->description,
+            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'image' => $post->image,
+            'post_type' => "ARTICLES",
+            'slug' => $post->slug,
+            'meta_title' => $post->meta_title,
+            'meta_description' => $post->meta_description
+        ];
+
+        return $postResult;
+    }
+
+
+    private function getFullActivity($activity)
+    {
+
+    }
+
+    private function getPreviewActivity($activity)
+    {
+        @dump($activity->date);
+
+        $activityResult = [
+            'id' => $activity->id,
+            'title' => $activity->title,
+            'description' => $activity->description,
+            'date' => Carbon::createFromFormat('Y-m-d m:i:s', $activity->date)->format('d/m/Y'),
+            'location' => substr($$activity->location, 0, strpos($$activity->location, '.')),
+            'image' => $activity->image,
+            'post_type' => "ACTIVITATS",
+            'slug' => $activity->slug,
+            'meta_title' => $activity->meta_title,
+            'meta_description' => $activity->meta_description
+        ];
+
+        return $activityResult;
     }
 }

@@ -1,0 +1,31 @@
+.post {
+    width: 23.8125em;
+    /* height: 24.4375em; */
+
+    padding: 1.5625em;
+}
+
+.post .cover {
+    width: 20, 6875em;
+    height: 11, 6875em;
+}
+
+.post .cover img {
+    border: solid;
+    border-color: #00000060;
+    border-width: 0.4px;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    box-shadow: -6px 7px 10.6px 1px rgba(0, 0, 0, 0.3);
+}
+
+.post .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

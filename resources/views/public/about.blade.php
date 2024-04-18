@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/static.css') }}">
 
-    <div class="body space-y-16 mb-32">
+    <main class="body flex flex-col items-center px-8 space-y-16 mb-32">
         <div class="content w-2/3  space-y-4">
             <div id="title">
                 <h2>{{$page['contents']['h1']}}</h2>
@@ -18,6 +18,6 @@
         <div class="flex justify-center">
             <img src="{{asset('img/logo/xl/logo_eter_black.webp')}}" alt="Logotip d'Èter Edicions" style="height: 15em">
         </div>
-    </div>
+    </main>
 
 </x-layouts.app>

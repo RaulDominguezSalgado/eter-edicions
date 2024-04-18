@@ -14,9 +14,9 @@ $locale = 'ca';
         </div>
     </div>
     <div class="flex space-x-6 items-center">
-        <a href="https://www.facebook.com/people/%C3%88ter-Edicions-%D8%AF%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D8%AB%D9%8A%D8%B1/100089381536837"><img src="{{asset('img/icons/FacebookF.webp')}}" alt="Instagram d'Èter Edicions" style="width:45px"></a>
-        <a href="https://www.instagram.com/eteredicions/"><img src="{{asset('img/icons/Instagram.webp')}}" alt="Facebook d'Èter Edicions" style="width:45px"></a>
-        <a href="https://twitter.com/eteredicions"><img src="{{asset('img/icons/TwitterX.webp')}}" alt="Twitter d'Èter Edicions" style="width:45px"></a>
+        <a href="https://www.facebook.com/people/%C3%88ter-Edicions-%D8%AF%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D8%AB%D9%8A%D8%B1/100089381536837" target="_blank"><img src="{{asset('img/icons/FacebookF.webp')}}" alt="Instagram d'Èter Edicions" style="width:45px"></a>
+        <a href="https://www.instagram.com/eteredicions/" target="_blank"><img src="{{asset('img/icons/Instagram.webp')}}" alt="Facebook d'Èter Edicions" style="width:45px"></a>
+        <a href="https://twitter.com/eteredicions" target="_blank"><img src="{{asset('img/icons/TwitterX.webp')}}" alt="Twitter d'Èter Edicions" style="width:45px"></a>
     </div>
     <div>
         <ul>

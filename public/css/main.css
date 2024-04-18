@@ -8,6 +8,14 @@ body{
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
+    /* padding-left: 1.5em;
+    padding-right: 1.5em; */
+}
+
+main{
+    padding-left: 1.25em;
+    padding-right: 1.25em;
 }
 
 @media only screen and (max-width: 640px) {
@@ -57,11 +65,17 @@ h5{
 h5.caps{
     text-transform: uppercase;
 }
+p.p18{
+    font-size: 1.125em;
+}
 p.p16{
     font-size: 1em;
 }
 p.p14{
     font-size: 0.8125em;
+}
+p.p12{
+    font-size: 0.75em;
 }
 p.p10{
     font-size: 0.625em;

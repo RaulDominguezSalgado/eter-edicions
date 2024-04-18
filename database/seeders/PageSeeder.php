@@ -92,49 +92,49 @@ class PageSeeder extends Seeder
         $foreignrightsTranslationEn->save();
 
         $foreignrightsEnContentTitle = new PageContent();
-        $foreignrightsEnContentTitle->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentTitle->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentTitle->key = "title";
         $foreignrightsEnContentTitle->content = "Foreign rights";
         $foreignrightsEnContentTitle->save();
 
         $foreignrightsEnContentP1 = new PageContent();
-        $foreignrightsEnContentP1->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentP1->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentP1->key = "p1";
         $foreignrightsEnContentP1->content = "Our Foreign Rights are hold by  Serveis Editorials Èter S.L.";
         $foreignrightsEnContentP1->save();
 
         $foreignrightsEnContentMoreInfo = new PageContent();
-        $foreignrightsEnContentMoreInfo->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentMoreInfo->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentMoreInfo->key = "more-info";
         $foreignrightsEnContentMoreInfo->content = "For further information, please contact:";
         $foreignrightsEnContentMoreInfo->save();
 
         $foreignrightsEnContentContactPerson = new PageContent();
-        $foreignrightsEnContentContactPerson->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentContactPerson->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentContactPerson->key = "contact-person";
         $foreignrightsEnContentContactPerson->content = "Oriol Rissech";
         $foreignrightsEnContentContactPerson->save();
 
         $foreignrightsEnContentContactEmail = new PageContent();
-        $foreignrightsEnContentContactEmail->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentContactEmail->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentContactEmail->key = "contact-email";
         $foreignrightsEnContentContactEmail->content = "orissech@eteredicions.com";
         $foreignrightsEnContentContactEmail->save();
 
         $foreignrightsEnContentAgency = new PageContent();
-        $foreignrightsEnContentAgency->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentAgency->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentAgency->key = "agency";
         $foreignrightsEnContentAgency->content = "Serveis Editorials Èter S.L.";
         $foreignrightsEnContentAgency->save();
 
         $foreignrightsEnContentDownloadLabel = new PageContent();
-        $foreignrightsEnContentDownloadLabel->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentDownloadLabel->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentDownloadLabel->key = "download-label";
         $foreignrightsEnContentDownloadLabel->content = "Foreign Rights Catalogue ";
         $foreignrightsEnContentDownloadLabel->save();
 
         $foreignrightsEnContentDownloadFile = new PageContent();
-        $foreignrightsEnContentDownloadFile->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentDownloadFile->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentDownloadFile->key = "download-file";
         $foreignrightsEnContentDownloadFile->content = "foreign-rights-catalogue.pdf";
         $foreignrightsEnContentDownloadFile->save();

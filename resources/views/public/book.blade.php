@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/book.css') }}">
 
-    <div class="body space-y-4 mb-12">
+    <main class="body space-y-4 mb-12">
         <div class="book">
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
@@ -323,7 +323,7 @@
                 </div>
             </div>
         @endif
-    </div>
+        </main>
 
     {{-- tab component script --}}
     <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>

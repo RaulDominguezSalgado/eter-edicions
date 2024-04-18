@@ -41,12 +41,12 @@ class DatabaseSeeder extends Seeder
 
         // $this->call(OrderSeeder::class);
 
-        $this->call(PostSeeder::class);
+        // $this->call(PostSeeder::class);
 
         // $this->call(BookstoreSeeder::class);
         // $this->call(BookBookstoreSeeder::class);
 
-        // $this->call(PageSeeder::class);
+        $this->call(PageSeeder::class);
 
         // \App\Models\User::factory(10)->create();
 

@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/static.css') }}">
 
-    <div class="body flex flex-col justify-between items-center space-y-8 mb-12">
+    <main class="body flex flex-col justify-between items-center space-y-8 mb-12">
         <div class="space-y-4 content w-2/3">
             <div id="title">
                 <h2>{{ $page['contents']['h1'] }}</h2>
@@ -46,6 +46,6 @@
                 <button type="submit" class="px-6 py-3 border border-black bg-black text-white hover:bg-white hover:text-black disabled:bg-slate-500 disabled:hover:text-white" disabled>{{$page['contents']['send-button']}}</button>
             </form>
         </div>
-    </div>
+    </main>
 
 </x-layouts.app>

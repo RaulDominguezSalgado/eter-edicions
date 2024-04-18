@@ -9,6 +9,7 @@ use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Models\Author;
 use App\Models\Translator;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,14 +20,21 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
+        $oriol_collabTranslation = CollaboratorTranslation::where('first_name', 'LIKE', '%Oriol%')->where('last_name', 'LIKE', '%Rissech%')->first();
+        $oriol_collab = $oriol_collabTranslation->collaborator;
+        $oriol_author = $oriol_collab->author;
+        $oriol_translator = $oriol_collab->translator;
+        $oriol_user = User::where('first_name', 'LIKE', '%Oriol%')->where('last_name', 'LIKE', '%Rissech%')->first();
+
         $post1 = new Post();
         $post1->title = "'Síndrome de gel', una reflexió sobre el trauma del desarrelament dels refugiats";
-        $post1->author_id = CollaboratorTranslation::where('first_name', 'LIKE', 'Oriol')->where('last_name', 'LIKE', 'Rissech')->first()->collaborator_id;
+        $post1->author_id = $oriol_author->id;
         $post1->image = "sindrome-de-gel.webp";
+        $post1->description ="Què fa que un adolescent comenci per negar-se a parlar fins enfonsar-se ràpidament en un son aparentment inacable?";
         $post1->content = <<<HEREDOC
         El director Xicu Masó, amb els dramaturgs Mohammad Bitari i Claudia Cedó, estrenen al Teatre Lliure de Gràcia Síndrome de gel, un espectacle de nova creació sobre l'anomenada 'síndrome de resignació' que tracta el trauma del desarrelament dels refugiats que arriben a Europa.\nLa 'síndrome de resignació' és una misteriosa malaltia que, des de la dècada dels anys 90 a Suècia, afecta només els nens i joves provinents de l'Est, de Síria, i particularment la minoria religiosa jazidita. Una malaltia que porta a la letargia en resposta al trauma del desarrelament i la por de ser tornats al país d'origen on tant han patit. «Els nens deixen de jugar, de parlar, de menjar i entren en un estat catatònic, gairebé en estat de coma», explica Cedó: «Et preguntes què deuen haver viscut aquests nens -els éssers més adaptables del món- per voler apagar-se'n forma».\nLa font principal d'informació d'aquest espectacle, que sense ser un documental vol mantenir el rigor de les dades que es donen, és el llibre de la metgessa sueca Elisabeth Hultcrantz, la primera persona que va identificar aquest fenomen i va donar legalitat a aquesta malaltia, inexistent per al sistema mèdic suec i per al món.\nXicu Masó torna, doncs, a abordar el tema de la migració després del seu espectacle El metge de Lampedusa, estrenat al mateix teatre la temporada passada. Si aleshores se centrava en el viatge migratori, ara ho fa en els efectes i traumes dels refugiats una vegada establerts. Síndrome de gel explica la història d'Eman i les seves dues filles adolescents, Barán i Ginar, a qui deneguen el permís de residència. Davant el terror d'haver de tornar a l'Iraq, on el Daesh segueix present malgrat la fi oficial de la guerra armada, desenvolupen la síndrome. La història dibuixa una Suècia, cinquena essència de la socialdemocràcia amb una política del benestar i un concepte de la independència molt avançats, en el moment que el país tanca fronteres a causa del creixement de la ultradreta.\nEl repartiment està format pels intèrprets Sílvia Albert Sopale, Muntsa Alcanyís, Judit Farrés, Carles Martínez, Roc Martínez, Ramon Micó, Jana Punsola i Manar Taljo. Asma Ismail, malgrat no ser actriu professional, se suma a aquest repartiment aprofitant la seva experiència de vida que, com a refugiada palestina arribada a Catalunya el 2010, aporta un testimoni en primera persona molt valuós.
         HEREDOC;
-        $post1->published_by = CollaboratorTranslation::where('first_name', 'LIKE', 'Oriol')->where('last_name', 'LIKE', 'Rissech')->first()->collaborator_id;
+        $post1->published_by = $oriol_user->id;
         $post1->publication_date = Carbon::createFromFormat('Y/m/d', '2022/03/23')->toDateTimeString();
         $post1->slug = "sindrome-de-gel-una-reflexio-sobre-el-trauma-del-desarrelament-dels-refugiats";
         $post1->meta_title = "Síndrome de gel, el trauma dels refugiats";
@@ -43,7 +51,7 @@ class PostSeeder extends Seeder
         HEREDOC;
         $post2->date = Carbon::createFromFormat('Y/m/d', '2024/04/15')->toDateTimeString();
         $post2->location = "Residència d'Investigadors-CSIC. Carrer de l'Hospital, 64. Barcelona";
-        $post2->published_by = CollaboratorTranslation::where('first_name', 'LIKE', 'Oriol')->where('last_name', 'LIKE', 'Rissech')->first()->collaborator_id;
+        $post2->published_by = $oriol_user->id;
         $post2->publication_date = Carbon::createFromFormat('Y/m/d', '2024/03/23')->toDateTimeString();
         $post2->slug = "colloqui-orientalisme-i-orientalisme-invers";
         $post2->meta_title = "Col·loqui Orientalisme i orientalisme invers";
@@ -59,7 +67,7 @@ class PostSeeder extends Seeder
         HEREDOC;
         $post3->date = Carbon::createFromFormat('Y/m/d', '2024/02/24')->toDateTimeString();
         $post3->location = "Espai Cultural La Figaflor";
-        $post3->published_by = CollaboratorTranslation::where('first_name', 'LIKE', 'Oriol')->where('last_name', 'LIKE', 'Rissech')->first()->collaborator_id;
+        $post3->published_by = $oriol_user->id;
         $post3->publication_date = Carbon::createFromFormat('Y/m/d', '2024/01/31')->toDateTimeString();
         $post3->slug = "presentacio-llibre-saied-mattar";
         $post3->meta_title = "Presentació de llibre";
