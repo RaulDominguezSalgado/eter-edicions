@@ -9,9 +9,7 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
-                            <span id="card_title">
-                                {{ __('Gestió de comandes') }}
-                            </span>
+                            <h2>Gestió de comandes</h2>
 
                             <div class="float-right">
 
@@ -39,7 +37,7 @@
                                         <th>Data</th>
                                         <th>PDF</th>
 
-                                        <th> <a href="{{ route('books.create') }}">
+                                        <th> <a href="{{ route('orders.create') }}">
                                                 <div
                                                     class="navigation-button form-button flex items-center space-x-1 max-w-10">
                                                     <img src="{{ asset('img/icons/plus.webp') }}"

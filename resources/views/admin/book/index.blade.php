@@ -11,9 +11,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span id="card_title">
-                                <h1>{{ __('Llibres') }}</h1>
-                            </span>
+                            <h2>Gestió del catàleg</h2>
 
                             <div class="float-right">
 

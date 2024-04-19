@@ -2,8 +2,12 @@ table {
     width: 100%;
 }
 th, td {
-    text-align: center;
+    text-align: start;
     padding: 10px 20px;
+
+    /* border: solid;
+    border-color: red;
+    border-width: 2px; */
 }
 th {
     /* background-color: #66f; */
