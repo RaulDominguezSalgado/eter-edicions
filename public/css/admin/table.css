@@ -6,11 +6,14 @@ th, td {
     padding: 10px 20px;
 }
 th {
-    background-color: #66f;
+    /* background-color: #66f; */
+    border-bottom: solid;
+    border-bottom-color: black;
+    border-bottom-width: 1px
 }
 tr:nth-of-type(even) > td {
-    background-color: #ccc;
+    background-color: #F8FAFC;
 }
 tr:nth-of-type(odd) > td {
-    background-color: #eee;
+    background-color: #fff;
 }

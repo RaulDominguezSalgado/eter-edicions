@@ -17,8 +17,11 @@
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('collaborators-translations.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                <a href="{{ route('books.create') }}">
+                                    <div  class="navigation-button form-button flex items-center space-x-1 max-w-10">
+                                        <img src="{{asset('img/icons/plus.webp')}}" alt="Afegir nou llibre" class="add w-2.5 h-2.5">
+                                        <p class="">Nou</p>
+                                    </div>
                                 </a>
                               </div>
                         </div>
@@ -35,7 +38,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Collaborator Id</th>
 										<th>Lang</th>
 										<th>Name</th>
@@ -49,7 +52,7 @@
                                     @foreach ($collaboratorsTranslations as $collaboratorsTranslation)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+
 											<td>{{ $collaboratorsTranslation->collaborator_id }}</td>
 											<td>{{ $collaboratorsTranslation->lang }}</td>
 											<td>{{ $collaboratorsTranslation->name }}</td>

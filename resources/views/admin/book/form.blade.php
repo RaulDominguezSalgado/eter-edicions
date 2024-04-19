@@ -61,8 +61,8 @@
         </ul>
     </div>
 @endif
-<fieldset>
-    <legend>Contingut</legend>
+<fieldset class="">
+    {{-- <legend>Contingut</legend> --}}
     <label for="title">Títol llibre
         <input type="text" name="title" id="title" value="{{ $book['title'] ?? '' }}">
     </label>
@@ -116,7 +116,7 @@
                 <select name="collections[]" id="collections_{{$i}}">
                     <?php getCollections($book['collections'][$i]['id'] ?? '');?>
                 </select>
-                <a class="remove-content-button">Quitar</a>
+                <a class="remove-content-button">Eliminar</a>
             </label>
         @endfor
     @else
@@ -124,10 +124,10 @@
         <select name="collections[]" id="collections_0">
                 <?php getCollections($book['collections'][0]['id'] ?? '');?>
             </select>
-            <a class="remove-content-button">Quitar</a>
+            <a class="remove-content-button">Eliminar</a>
         </label>
     @endif
-    <a id="add_collection" class="add-content-button">Afegir una col·lecció més</a>
+    <a id="add_collection" class="add-content-button">Afegir una col·lecció</a>
 </fieldset>
 <fieldset>
     <legend>Col·laboradors</legend>
@@ -138,35 +138,35 @@
                 <select name="authors[]" id="authors_{{$i}}">
                     <?php getCollaborators($book['collaborators']['authors'][$i]['collaborator_id'] ?? '');?>
                 </select>
-        <a class="remove-content-button">Quitar</a>
+        <a class="remove-content-button">Eliminar</a>
             </label>
         @endfor
-        <a id="add_author" class="add-content-button">Afegir un autor més</a>
+        <a id="add_author" class="add-content-button">Afegir autor</a>
         @for($i = 0; $i < count($book['collaborators']['translators']); $i++)
             <label for="translators_{{$i}}">Traducció {{ $i + 1 }}
                 <select name="translators[]" id="translators_{{$i}}">
                     <?php getCollaborators($book['collaborators']['translators'][$i]['collaborator_id'] ?? '');?>
                 </select>
-                <a class="remove-content-button">Quitar</a>
+                <a class="remove-content-button">Eliminar</a>
             </label>
         @endfor
-        <a id="add_translator" class="add-content-button">Afegir un traductor més</a>
+        <a id="add_translator" class="add-content-button">Afegir traductor</a>
     @else
         <!-- Create -->
         <label for="authors_0">Autor 1
             <select name="authors[]" id="authors_0">
                 <?php getCollaborators();?>
             </select>
-            <a class="remove-content-button">Quitar</a>
+            <a class="remove-content-button">Eliminar</a>
         </label>
-        <a id="add_author" class="add-content-button">Afegir un autor més</a>
+        <a id="add_author" class="add-content-button">Afegir autor</a>
         <label for="translators_0">Traducció 1
             <select name="translators[]" id="translators_0">
                 <?php getCollaborators();?>
             </select>
-            <a class="remove-content-button">Quitar</a>
+            <a class="remove-content-button">Eliminar</a>
         </label>
-        <a id="add_translator" class="add-content-button">Afegir un traductor més</a>
+        <a id="add_translator" class="add-content-button">Afegir traductor</a>
     @endif
 </fieldset>
 <fieldset>
@@ -189,10 +189,10 @@
     <label for="slug">Slug
         <input type="text" name="slug" id="slug" value="{{ $book['slug'] ?? '' }}" disabled>
     </label>
-    <label for="meta_title">Titol meta (apariencia en buscadors)
+    <label for="meta_title">Títol de la pàgina (aparença en buscadors i navegador)
         <input type="text" name="meta_title" id="meta_title" value="{{ $book['meta_title'] ?? '' }}">
     </label>
-    <label for="meta_description">Descripció meta (apariencia en buscadors)
+    <label for="meta_description">Descripció de la pàgina (aparença en buscadors i navegador)
         <textarea name="meta_description" id="meta_description">{{ $book['meta_description'] ?? '' }}</textarea>
     </label>
     <label for="publication_date">Data de publicació
@@ -212,8 +212,8 @@
     </label>
 </fieldset>
 <div id="editor-fast-actions">
-    <button type="submit" value="redirect" name="action">Guardar canvis</button>
-    <button type="submit" value="stay" name="action">Guardar canvis y romandre a la página</button>
+    <button type="submit" value="redirect" name="action">Desar canvis</button>
+    <button type="submit" value="stay" name="action">Desar canvis i romandre a la pàgina</button>
 </div>
 @if ($errors->any())
     <div class="alert alert-danger m-4">

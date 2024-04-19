@@ -14,8 +14,11 @@
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                <a href="{{ route('books.create') }}">
+                                    <div  class="navigation-button form-button flex items-center space-x-1 max-w-10">
+                                        <img src="{{asset('img/icons/plus.webp')}}" alt="Afegir nou llibre" class="add w-2.5 h-2.5">
+                                        <p class="">Nou</p>
+                                    </div>
                                 </a>
                               </div>
                         </div>

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <select name="collections[]" id="collections_${contador}">
                 ${collection_options.innerHTML}
             </select>
-            <a class="remove-content-button">Quitar</a>
+            <a class="remove-content-button">Eliminar</a>
         </label>
         `;
         this.parentNode.insertBefore(new_collection, this);
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <select name="authors[]" id="authors__${contador}">
                 ${collaborators_options.innerHTML}
             </select>
-            <a class="remove-content-button">Quitar</a>
+            <a class="remove-content-button">Eliminar</a>
         </label>
         `;
         this.parentNode.insertBefore(new_author, this);
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <select name="translators[]" id="translators_${contador}">
                 ${collaborators_options.innerHTML}
             </select>
-            <a class="remove-content-button">Quitar</a>
+            <a class="remove-content-button">Eliminar</a>
         </label>
         `;
         this.parentNode.insertBefore(new_translator, this);

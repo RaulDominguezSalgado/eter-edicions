@@ -1,6 +1,6 @@
 <x-layouts.admin.app>
     <?php
-        // dd($books[0]);
+    // dd($books[0]);
     ?>
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
@@ -30,19 +30,21 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
-                                        <th></th>
-                                        <th>Imatge</th>
-                                        <th>ISBN</th>
-                                        <th>Títol</th>
-                                        <th>Autors</th>
-                                        <th>Traductors</th>
-                                        <th>PVP </th>
-                                        <th>Preu amb descompte</th>
-                                        <th colspan="1">Stock</th>
-                                        <th>Visible</th>
-                                        <th>                                <a href="{{ route('books.create') }}" class="btn btn-primary btn-sm float-right"
-                                            data-placement="left">
-                                            {{ __('Create New') }}
+                                    <th></th>
+                                    <th>Imatge</th>
+                                    <th>ISBN</th>
+                                    <th>Títol</th>
+                                    <th>Autors</th>
+                                    <th>Traductors</th>
+                                    <th>PVP </th>
+                                    <th>Preu amb descompte</th>
+                                    <th colspan="1">Stock</th>
+                                    <th>Visible</th>
+                                    <th> <a href="{{ route('books.create') }}">
+                                            <div  class="navigation-button form-button flex items-center space-x-1 max-w-10">
+                                                <img src="{{asset('img/icons/plus.webp')}}" alt="Afegir nou llibre" class="add w-2.5 h-2.5">
+                                                <p class="">Nou</p>
+                                            </div>
                                         </a></th>
                                     </tr>
                                 </thead>
@@ -51,29 +53,32 @@
                                         <tr>
                                             <td><input type="checkbox"></td>
                                             <td>
-                                                <a href="{{ route('books.edit', $book['id']) }}"><img style="width: 100px; height: auto;" src="{{ asset('img/books/thumbnails/'.$book['image']) }}" alt="{{ ($book['title']) }}"></a>
+                                                <a href="{{ route('books.edit', $book['id']) }}"><img
+                                                        style="width: 100px; height: auto;"
+                                                        src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
+                                                        alt="{{ $book['title'] }}"></a>
                                             </td>
                                             <td>{{ $book['isbn'] }}</td>
                                             <td>{{ $book['title'] }}</td>
                                             <td>
-                                            <?php
+                                                <?php
                                                 for ($i = 0; $i < count($book['collaborators']['authors']); $i++) {
                                                     if ($i != 0) {
-                                                        echo ", ";
+                                                        echo ', ';
                                                     }
                                                     echo $book['collaborators']['authors'][$i]['full_name'];
                                                 }
-                                            ?>
+                                                ?>
                                             </td>
                                             <td>
-                                            <?php
+                                                <?php
                                                 for ($i = 0; $i < count($book['collaborators']['translators']); $i++) {
                                                     if ($i != 0) {
-                                                        echo ", ";
+                                                        echo ', ';
                                                     }
                                                     echo $book['collaborators']['translators'][$i]['full_name'];
                                                 }
-                                            ?>
+                                                ?>
                                             </td>
                                             <td>{{ $book['pvp'] }}€</td>
                                             <?php
@@ -84,8 +89,7 @@
                                             }
                                             ?>
                                             <td>{{ $book['discounted_price'] }}</td>
-                                            <td><button style="padding: 0px 10px;">-</button> {{ $book['stock'] }}
-                                                <button style="padding: 0px 10px;">+</button></td>
+                                            <td>{{ $book['stock'] }}</td>
                                             @if ($book['visible'])
                                                 <td>✔</td>
                                             @else
@@ -100,11 +104,12 @@
                                                             class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a> --}}
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('books.edit', $book['id']) }}"><i
-                                                            class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                            class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                            class="fa fa-fw fa-trash"></i>
+                                                        {{ __('Eliminar') }}</button>
                                                 </form>
                                             </td>
                                         </tr>

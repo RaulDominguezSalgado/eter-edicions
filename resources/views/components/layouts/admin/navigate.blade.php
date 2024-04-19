@@ -11,7 +11,7 @@ $locale = 'ca';
         <li><a class="has-icon" href="{{ route('books.index') }}" @if(Route::currentRouteName() == 'books.index') class="active" @endif><img src="/img/icons/catalog.webp"><span>Catàleg</span></a></li>
         <li><a class="has-icon" href="{{ route('collections.index')}}" @if(Route::currentRouteName() == 'collections.index') class="active" @endif><img src="/img/icons/collections.webp"><span>Col·leccions</span></a></li>
         <li class="has-child">
-            <a class="has-icon" href="{{ route('collaborators.index') }}" @if(Route::currentRouteName() == 'collaborators.index') class="active" @endif><img src="/img/icons/collaborators.webp"><span>Colaboradors</span></a>
+            <a class="has-icon" href="{{ route('collaborators.index') }}" @if(Route::currentRouteName() == 'collaborators.index') class="active" @endif><img src="/img/icons/collaborators.webp"><span>Col·laboradors</span></a>
             {{-- <ul>
                 <li><a href="{{ route('authors.index') }}">Autors</a></li>
                 <li><a href="{{ route('translators.index') }}">Traductors</a></li>
