@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use App\Models\Collaborator;
@@ -10,7 +11,9 @@ use App\Models\CollaboratorTranslation;
 use App\Models\CollectionTranslation;
 use App\Models\Language;
 use App\Models\LanguageTranslation;
+use App\Http\Requests\StockRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Models\BookBookstore;
 
 /**
  * Class BookController
@@ -18,7 +21,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class BookController extends Controller
 {
-    private $lang='ca';
+    private $lang = 'ca';
     /**
      * Display a listing of the resource.
      */
@@ -189,7 +192,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = $this->getFullBook(Book::find($id),$this->lang);
+        $book = $this->getFullBook(Book::find($id), $this->lang);
 
         return view('admin.book.edit', compact('book'));
     }
@@ -367,7 +370,7 @@ class BookController extends Controller
             'discounted_price' => $book->discounted_price ?? 0,
             'legal_diposit' => $book->legal_diposit,
             'enviromental_footprint' => $book->enviromental_footprint,
-            'stock' => $book->stock,
+            'stock' => (int) $book->stock,
             'slug' => $book->slug,
             'meta_title' => $book->meta_title,
             'meta_description' => $book->meta_description
@@ -409,6 +412,20 @@ class BookController extends Controller
                 "value" => $extra->value
             ];
         }
+
+        // $bookResult['bookstores'] = [];
+        // dd($book->bookstores);
+        foreach ($book->bookstores as $bookstore) {
+            $bookResult['bookstores'][$bookstore->name] = [
+                "id" => $bookstore->id,
+                "name" => $bookstore->name,
+                "stock" => $bookstore->pivot->stock,
+                "address" => $bookstore->address,
+                "city" => $bookstore->city,
+            ];
+        }
+
+        //dd($bookResult);
 
         // $bookResult['technical_sheet'] = [
         //     'isbn' => ["key" => "ISBN", "value" => $book->isbn],
@@ -547,11 +564,11 @@ class BookController extends Controller
 
         // Get the newest 4 books
         $newestBooks = Book::where('visible', 1)
-        ->where('title', "!=", $book->title)
-        ->orderBy('publication_date', 'desc')
-        ->take(4)
-        ->get();
-        foreach($newestBooks as $book){
+            ->where('title', "!=", $book->title)
+            ->orderBy('publication_date', 'desc')
+            ->take(4)
+            ->get();
+        foreach ($newestBooks as $book) {
             $result[$book->title] = $this->getPreviewBook($book, $locale);
         }
 
@@ -569,9 +586,45 @@ class BookController extends Controller
         $locale = "ca";
 
         // Obtener el libro con el ID especificado
-        $book = $this->getFullBook(Book::findOrFail($id),$locale);
-
+        $book = $this->getFullBook(Book::findOrFail($id), $locale);
+        //dd($book);
         // Devolver la vista con los datos del libro
         return view('admin.book.stock', compact('book'));
     }
+
+    //STOCK
+    public function editStock($id)
+    {
+        $locale = "ca";
+
+        $book = $this->getFullBook(Book::findOrFail($id), $locale);
+
+
+        return view('admin.user.edit', compact('book'));
+    }
+
+    public function updateBookstoreStock(StockRequest $request, $bookId)
+    {
+        $book = Book::findOrFail($bookId);
+
+        $book->stock = intval($request->input('stock'));
+
+        $book->save();
+
+
+        $bookstoresRequest = $request->input('bookstores');
+
+        $bookstores = $book->bookstores;
+
+        foreach ($bookstores as $bookstore) {
+
+            $stock = isset($bookstoresRequest[$bookstore->id]) ? intval($bookstoresRequest[$bookstore->id]['stock']) : 0;
+
+            $bookstore->books()->sync([$book->id => ['stock' => $stock]]);
+        }
+
+        return redirect()->back()->with('success', 'Stock updated successfully.');
+    }
+
+
 }

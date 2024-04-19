@@ -167,6 +167,7 @@ class CollaboratorController extends Controller
         $locale = $this->lang;
 
         $collaborator=$this->getFullCollaborator( $id, $locale);
+        $collaborator=$this->getFullCollaborator( $id, $locale);
 
         return view('admin.collaborator.show', compact('collaborator'));
     }

@@ -154,7 +154,7 @@ class OrderController extends Controller
 
         // Actualiza los detalles de la orden
         foreach ($request->products as $productId => $productData) {
-            if ($productData["quantity" > 0]) {
+            if ($productData["quantity"]> 0) {
                 $orderDetail = OrderDetail::where('order_id', $order->id)
                     ->where('product_id', $productId)
                     ->first();

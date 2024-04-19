@@ -18,7 +18,7 @@ class BookstoreController extends Controller
     {
         $bookstores = Bookstore::paginate();
 
-        return view('bookstore.index', compact('bookstores'))
+        return view('admin.bookstore.index', compact('bookstores'))
             ->with('i', (request()->input('page', 1) - 1) * $bookstores->perPage());
     }
 
@@ -28,7 +28,7 @@ class BookstoreController extends Controller
     public function create()
     {
         $bookstore = new Bookstore();
-        return view('bookstore.create', compact('bookstore'));
+        return view('admin.bookstore.create', compact('bookstore'));
     }
 
     /**
@@ -49,7 +49,7 @@ class BookstoreController extends Controller
     {
         $bookstore = Bookstore::find($id);
 
-        return view('bookstore.show', compact('bookstore'));
+        return view('admin.bookstore.show', compact('bookstore'));
     }
 
     /**
@@ -59,7 +59,7 @@ class BookstoreController extends Controller
     {
         $bookstore = Bookstore::find($id);
 
-        return view('bookstore.edit', compact('bookstore'));
+        return view('admin.bookstore.edit', compact('bookstore'));
     }
 
     /**

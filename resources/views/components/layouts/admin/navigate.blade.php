@@ -19,7 +19,7 @@ $locale = 'ca';
             </ul> --}}
             {{-- <span class="icon">&#8964;</span> --}}
         </li>
-        <li><a class="has-icon" href="{{ route('users.index')}}"><img src="/img/icons/bookstores.webp"><span>Llibreries</span></a></li>
+        <li><a class="has-icon" href="{{ route('bookstores.index')}}"><img src="/img/icons/bookstores.webp"><span>Llibreries</span></a></li>
         <li class="has-child">
             <a class="has-icon" href=""><img src="/img/icons/posts.webp"><span>Publicacions</span></a>
             {{-- <ul>

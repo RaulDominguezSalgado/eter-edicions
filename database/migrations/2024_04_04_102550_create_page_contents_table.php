@@ -19,8 +19,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('page_translation_id')->references('id')->on('page_translations')->onDelete('cascade')->onUpdate('cascade');
-
-            // $table->primary(['page_translation_id', 'key']);
         });
     }
 
