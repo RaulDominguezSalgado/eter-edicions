@@ -27,7 +27,7 @@ class PostSeeder extends Seeder
         $oriol_user = User::where('first_name', 'LIKE', '%Oriol%')->where('last_name', 'LIKE', '%Rissech%')->first();
 
         $post1 = new Post();
-        $post1->title = "'Síndrome de gel', una reflexió sobre el trauma del desarrelament dels refugiats";
+        $post1->title = "Síndrome de gel";
         $post1->author_id = $oriol_author->id;
         $post1->image = "sindrome-de-gel.webp";
         $post1->description ="Què fa que un adolescent comenci per negar-se a parlar fins enfonsar-se ràpidament en un son aparentment inacable?";
