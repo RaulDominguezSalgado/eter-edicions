@@ -48,7 +48,7 @@ class Post extends Model
         'publication_date',
         'published_by',
         'slug',
-        'meta_name',
+        'meta_title',
         'meta_description'
     ];
 

@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('title');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->unsignedBigInteger('translator_id')->nullable();
-            $table->text('description')->nullable();
-            $table->dateTime('date')->nullable();
+            $table->text('description');
+            $table->timestamp('date')->nullable();
             $table->string('location')->nullable();
             $table->string('image');
             $table->text('content');
             $table->unsignedBigInteger('published_by')->nullable();
-            $table->dateTime('publication_date');
+            $table->date('publication_date');
             $table->string('slug');
             $table->string('meta_title');
             $table->text('meta_description');

@@ -140,6 +140,9 @@ class PostController extends Controller
             'date' => $validatedData['date'],
             'location' => $validatedData['location'],
             'image' => $validatedData['image'],
+            'slug' =>  \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+            'meta_title' =>  \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+            'meta_description' =>  \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
             'publication_date' => $validatedData['publication_date'],
             'published_by' => $validatedData['published_by']
         ];
@@ -184,9 +187,9 @@ class PostController extends Controller
         $post = Post::find($id);
         $authors = Author::paginate();
         $users = User::all();
-        $collaboratorTranslations = CollaboratorTranslation::where('lang', $this->lang)->paginate();
+        $translators = CollaboratorTranslation::where('lang', $this->lang)->paginate();
 
-        return view('admin.post.edit', compact('post', 'collaboratorTranslations', 'authors', 'users'));
+        return view('admin.post.edit', compact('post', 'translators','authors','users'));
     }
 
     /**

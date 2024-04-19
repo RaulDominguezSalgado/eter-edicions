@@ -11,7 +11,7 @@
             <select name="author_id" class="form-control @error('author_id') is-invalid @enderror" id="author_id">
                 <option value="" selected disabled>Selecciona un Autor</option>
                 @foreach ($authors as $author)
-                    <option value="{{ $author->id }}" {{ old('author_id', $author['author_id']) == $author['id'] ? 'selected' : '' }}>{{ $author->collaborator->translations->first()->first_name. " " . $author->collaborator->translations->first()->last_name}}</option>
+                    <option value="{{ $author->id }}" {{ old('author_id', $author['author_id']) == $author['id'] ? 'selected' : '' }} @if ($author->id ==$post['author_id']) selected @endif>{{ $author->collaborator->translations->first()->first_name. " " . $author->collaborator->translations->first()->last_name}}</option>
                 @endforeach
             </select>
         </div>
@@ -20,7 +20,7 @@
             <select name="translator_id" class="form-control @error('translator_id') is-invalid @enderror" id="translator_id">
                 <option value="" selected disabled>Selecciona un Traductor</option>
                 @foreach ($translators as $translator)
-                    <option value="{{ $translator->id }}" {{ old('translator_id', $translator['translator_id']) == $translator['id'] ? 'selected' : '' }}>{{ $translator->collaborator->translations->first()->first_name . " " . $translator->collaborator->translations->first()->last_name}}</option>
+                    <option value="{{ $translator->id }}" {{ old('translator_id', $translator['translator_id']) == $translator['id'] ? 'selected' : '' }} @if ($translator->id ==$post['translator_id']) selected @endif>{{ $translator->collaborator->translations->first()->first_name . " " . $translator->collaborator->translations->first()->last_name}}</option>
                 @endforeach
             </select>
         </div>
@@ -51,7 +51,7 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="publication_date" class="form-label">{{ __('Data de publicació') }}</label>
-            <input type="date" name="publication_date" class="form-control @error('publication_date') is-invalid @enderror" value="{{ old('publication_date', $post->publication_date) }}" id="publication_date" placeholder="Data de publicació">
+            <input type="date" name="publication_date" class="form-control @error('publication_date') is-invalid @enderror" value="{{ old('publication_date', $post['publication_date']) }}" id="publication_date" placeholder="Data de publicació">
             {!! $errors->first('publication_date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
@@ -59,7 +59,7 @@
             <select name="published_by" class="form-control @error('published_by') is-invalid @enderror" id="published_by">
                 <option value="" selected disabled>Selecciona un Publicador</option>
                 @foreach ($users as $user)
-                    <option value="{{ $user->id }}" {{ old('published_by', $user['user_id']) == $user['id'] ? 'selected' : '' }}>{{ $user['first_name'] . " " . $user['last_name']}}</option>
+                    <option value="{{ $user->id }}" {{ old('published_by', $user['user_id']) == $user['id'] ? 'selected' : '' }} @if ($user->id ==$post['published_by']) selected @endif >{{ $user['first_name'] . " " . $user['last_name']}}</option>
                 @endforeach
             </select>
         </div>
