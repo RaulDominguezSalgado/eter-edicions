@@ -1,3 +1,8 @@
+/* body {
+    display: flex;
+    flex-direction: row !important;
+} */
+
 body > nav,
 body > main {
     display: inline-block;
@@ -7,6 +12,7 @@ body > nav {
     width: 10%;
     overflow-y: auto;
     overflow-x: visible;
+    height: 100vh;
 }
 body > main {
     float: right;
@@ -16,4 +22,43 @@ body > main {
 }
 body > main::after {
     clear: both;
+}
+
+
+.border-guide-1{
+    border: solid;
+    border-width: 2px;
+    border-color: orange;
+}
+.border-guide-2{
+    border: solid;
+    border-width: 2px;
+    border-color: red;
+}
+
+
+@media only screen and (max-width: 640px) {
+    *{
+        font-size: 12px;
+    }
+}
+@media only screen and (min-width: 641px) and (max-width: 768px) {
+    *{
+        font-size: 14px;
+    }
+}
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    *{
+        font-size: 15px;
+    }
+}
+@media only screen and (min-width: 1025px) and (max-width: 1280px) {
+    *{
+        font-size: 16px;
+    }
+}
+@media only screen and (min-width: 1281px) {
+    *{
+        font-size: 16px;
+    }
 }

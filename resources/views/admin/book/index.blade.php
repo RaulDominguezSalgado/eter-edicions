@@ -16,10 +16,7 @@
                             </span>
 
                             <div class="float-right">
-                                <a href="{{ route('books.create') }}" class="btn btn-primary btn-sm float-right"
-                                    data-placement="left">
-                                    {{ __('Create New') }}
-                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -43,7 +40,10 @@
                                         <th>Preu amb descompte</th>
                                         <th colspan="1">Stock</th>
                                         <th>Visible</th>
-                                        <th>Opcions</th>
+                                        <th>                                <a href="{{ route('books.create') }}" class="btn btn-primary btn-sm float-right"
+                                            data-placement="left">
+                                            {{ __('Create New') }}
+                                        </a></th>
                                     </tr>
                                 </thead>
                                 <tbody>

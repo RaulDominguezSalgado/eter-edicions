@@ -4,7 +4,7 @@
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Imatge') }}</label>
             <img style="width: 100px; height: auto;"
-            src="{{ asset('img/collab/' . ($collaborator['image'] ?? 'collab-default.webp')) }}"
+            src="{{ asset('img/collab/covers/' . ($collaborator['image'] ?? 'collab-default.webp')) }}"
             alt="{{ ($collaborator['image'] ?? 'collab-default.webp') . ' - ' }}">
             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
                 value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
@@ -73,12 +73,12 @@
                 placeholder="Biografia">{{ old('biography', $collaborator['biography']) }}</textarea>
             {!! $errors->first('biography', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div> --}}
-        <div class="form-group mb-2 mb20">
+        {{-- <div class="form-group mb-2 mb20">
             <label for="slug" class="form-label">{{ __('Slug') }}</label>
             <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror"
                 value="{{ old('slug', $collaborator['slug']) }}" id="slug" placeholder="Slug">
             {!! $errors->first('slug', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
+        </div> --}}
 
     </div>
     <div class="col-md-12 mt20 mt-2">

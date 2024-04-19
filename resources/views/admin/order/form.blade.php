@@ -1,164 +1,163 @@
 <div class="row padding-1 p-1">
     <div class="col-md-12">
         <div class="form-group mb-2 mb20">
-            <label for="date" class="form-label">{{ __('Date') }}</label>
-            <input type="text" name="date" class="form-control @error('date') is-invalid @enderror"
-                value="{{ old('date', $order['date']) }}" id="date" placeholder="Date">
+            <label for="date" class="form-label">{{ __('Data') }}</label>
+            <input type="date" name="date" class="form-control @error('date') is-invalid @enderror"
+                value="{{ old('date', $order['date']) }}" id="date" placeholder="Data">
             {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        <div id="products">
-            <label for="products" class="form-label">{{ __('Productes') }}</label>
-            <button type="button" id="add_product" class="btn btn-primary">+</button>
 
-            @if (isset($collaborator['products']))
-                @foreach ($collaborator['products'] as $social => $url)
-                    <div class="product">
-                        <input type="text" name="product_name[]" value="{{ $social }}"
-                            placeholder="Nom">
-                        <input type="text" name="product_price[]" value="{{ $social }}"
-                        placeholder="Preu">
-                        <input type="text" name="product_quantity[]" value="{{ $url }}"
-                            placeholder="Quantitat">
-                    </div>
-                @endforeach
-            @endif
-        </div>
-        {{-- <div class="form-group mb-2 mb20">
-            <label for="id" class="form-label">{{ __('ID') }}</label>
-            <input type="text" name="id" class="form-control @error('id') is-invalid @enderror" value="{{ old('id', $order?->id) }}" id="id" placeholder="ID">
-            {!! $errors->first('id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
         <div class="form-group mb-2 mb20">
-            <label for="reference" class="form-label">{{ __('Reference') }}</label>
-            <input type="text" name="reference" class="form-control @error('reference') is-invalid @enderror" value="{{ old('reference', $order?->reference) }}" id="reference" placeholder="Reference">
-            {!! $errors->first('reference', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div> --}}
-        <div class="card card-default">
-            <hr>
-            <div class="card-header">
-                <span class="card-title">{{ __('Client') }}:</span>
-            </div>
-            <div class="form-group mb-2 mb20">
-                <label for="client_dni" class="form-label">{{ __('Client DNI') }}</label>
-                <input type="text" name="client_dni" class="form-control @error('client_dni') is-invalid @enderror"
-                    value="{{ old('client_dni', $order['client_dni']) }}" id="client_dni" placeholder="Client DNI">
-                {!! $errors->first('client_dni', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_first_name" class="form-label">{{ __('Client First Name') }}</label>
-                <input type="text" name="client_first_name"
-                    class="form-control @error('client_first_name') is-invalid @enderror"
-                    value="{{ old('client_first_name', $order['client_first_name']) }}" id="client_first_name"
-                    placeholder="Client First Name">
-                {!! $errors->first(
-                    'client_first_name',
-                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                ) !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_last_name" class="form-label">{{ __('Client Last Name') }}</label>
-                <input type="text" name="client_last_name"
-                    class="form-control @error('client_last_name') is-invalid @enderror"
-                    value="{{ old('client_last_name', $order['client_last_name']) }}" id="client_last_name"
-                    placeholder="Client Last Name">
-                {!! $errors->first(
-                    'client_last_name',
-                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                ) !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_email" class="form-label">{{ __('Client Email') }}</label>
-                <input type="email" name="client_email"
-                    class="form-control @error('client_email') is-invalid @enderror"
-                    value="{{ old('client_email', $order['client_email']) }}" id="client_email"
-                    placeholder="Client Email">
-                {!! $errors->first('client_email', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_phone_number" class="form-label">{{ __('Client Phone Number') }}</label>
-                <input type="text" name="client_phone_number"
-                    class="form-control @error('client_phone_number') is-invalid @enderror"
-                    value="{{ old('client_phone_number', $order['client_phone_number']) }}" id="client_phone_number"
-                    placeholder="Client Phone Number">
-                {!! $errors->first(
-                    'client_phone_number',
-                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                ) !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_address" class="form-label">{{ __('Client Address') }}</label>
-                <input type="text" name="client_address"
-                    class="form-control @error('client_address') is-invalid @enderror"
-                    value="{{ old('client_address', $order['client_address']) }}" id="client_address"
-                    placeholder="Client Address">
-                {!! $errors->first(
-                    'client_address',
-                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                ) !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_zip_code" class="form-label">{{ __('Client Zip Code') }}</label>
-                <input type="text" name="client_zip_code"
-                    class="form-control @error('client_zip_code') is-invalid @enderror"
-                    value="{{ old('client_zip_code', $order['client_zip_code']) }}" id="client_zip_code"
-                    placeholder="Client Zip Code">
-                {!! $errors->first(
-                    'client_zip_code',
-                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                ) !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_city" class="form-label">{{ __('Client City') }}</label>
-                <input type="text" name="client_city" class="form-control @error('client_city') is-invalid @enderror"
-                    value="{{ old('client_city', $order['client_city']) }}" id="client_city" placeholder="Client City">
-                {!! $errors->first('client_city', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-            </div>
-
-            <div class="form-group mb-2 mb20">
-                <label for="client_country" class="form-label">{{ __('Client Country') }}</label>
-                <input type="text" name="client_country"
-                    class="form-control @error('client_country') is-invalid @enderror"
-                    value="{{ old('client_country', $order['client_country']) }}" id="client_country"
-                    placeholder="Client Country">
-                {!! $errors->first(
-                    'client_country',
-                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                ) !!}
-            </div>
-            <hr>
+            <label for="dni" class="form-label">{{ __('DNI del client') }}</label>
+            <input type="text" name="dni" class="form-control @error('dni') is-invalid @enderror"
+                value="{{ old('dni', $order['dni']) }}" id="dni" placeholder="DNI del client">
+            {!! $errors->first('dni', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+
         <div class="form-group mb-2 mb20">
-            <label for="order_status" class="form-label">{{ __('Order Status') }}</label>
-            <input type="text" name="order_status" class="form-control @error('order_status') is-invalid @enderror"
-                value="{{ old('order_status', $order['total_price']) }}" id="order_status" placeholder="Total Price">
-            {!! $errors->first('order_status', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            <label for="first_name" class="form-label">{{ __('Nom del client') }}</label>
+            <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror"
+                value="{{ old('first_name', $order['first_name']) }}" id="first_name" placeholder="Nom del client">
+            {!! $errors->first('first_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+
         <div class="form-group mb-2 mb20">
-            <label for="payment_method" class="form-label">{{ __('Payment Method') }}</label>
-            <input type="text" name="payment_method"
-                class="form-control @error('payment_method') is-invalid @enderror"
-                value="{{ old('payment_method', $order['payment_method']) }}" id="payment_method"
-                placeholder="Payment Method">
-            {!! $errors->first(
-                'payment_method',
-                '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-            ) !!}
+            <label for="last_name" class="form-label">{{ __('Cognoms del client') }}</label>
+            <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror"
+                value="{{ old('last_name', $order['last_name']) }}" id="last_name" placeholder="Cognoms del client">
+            {!! $errors->first('last_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        {{-- <div class="form-group mb-2 mb20">
-            <label for="order_pdf" class="form-label">{{ __('Order PDF') }}</label>
-            <input type="text" name="order_pdf" class="form-control @error('order_pdf') is-invalid @enderror" value="{{ old('order_pdf', $order?->order_pdf) }}" id="order_pdf" placeholder="Order PDF">
-            {!! $errors->first('order_pdf', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div> --}}
+
+        <div class="form-group mb-2 mb20">
+            <label for="email" class="form-label">{{ __('Correu electrònic del client') }}</label>
+            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                value="{{ old('email', $order['email']) }}" id="email" placeholder="Correu electrònic del client">
+            {!! $errors->first('email', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        <div class="form-group mb-2 mb20">
+            <label for="phone_number" class="form-label">{{ __('Número de contacte del client') }}</label>
+            <input type="text" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror"
+                value="{{ old('phone_number', $order['phone_number']) }}" id="phone_number"
+                placeholder="Número de contacte del client">
+            {!! $errors->first('phone_number', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        <div class="form-group mb-2 mb20">
+            <label for="address" class="form-label">{{ __('Adreça del client') }}</label>
+            <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"
+                value="{{ old('address', $order['address']) }}" id="address" placeholder="Adreça del client">
+            {!! $errors->first('address', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        <div class="form-group mb-2 mb20">
+            <label for="zip_code" class="form-label">{{ __('Codi postal del client') }}</label>
+            <input type="text" name="zip_code" class="form-control @error('zip_code') is-invalid @enderror"
+                value="{{ old('zip_code', $order['zip_code']) }}" id="zip_code"
+                placeholder="'Codi postal del client'">
+            {!! $errors->first('zip_code', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        <div class="form-group mb-2 mb20">
+            <label for="city" class="form-label">{{ __('Ciutat del client') }}</label>
+            <input type="text" name="city" class="form-control @error('city') is-invalid @enderror"
+                value="{{ old('city', $order['city']) }}" id="city" placeholder="Ciutat del client">
+            {!! $errors->first('city', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        <div class="form-group mb-2 mb20">
+            <label for="country" class="form-label">{{ __('País del client') }}</label>
+            <input type="text" name="country" class="form-control @error('country') is-invalid @enderror"
+                value="{{ old('country', $order['country']) }}" id="country" placeholder="País del client">
+            {!! $errors->first('country', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+        <hr>
     </div>
+    <div class="form-group mb-2 mb20">
+        <label for="status_id" class="form-label">{{ __('Estat de la comanda') }}</label>
+        <select name="status_id" class="form-control @error('status_id') is-invalid @enderror" id="status_id">
+            @foreach ($statuses as $status)
+                <option value="{{ $status->id }}" @if ($order['status'] == $status->name) selected @endif>
+                    {{ $status->name }}</option>
+            @endforeach
+        </select>
+        {!! $errors->first('status_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+    </div>
+    <div class="form-group mb-2 mb20">
+        <label for="payment_method" class="form-label">{{ __('Metode de pagament') }}</label>
+        <input type="text" name="payment_method"
+            class="form-control @error('payment_method') is-invalid @enderror"
+            value="{{ old('payment_method', $order['payment_method']) }}" id="payment_method"
+            placeholder="Payment Method">
+        {!! $errors->first(
+            'payment_method',
+            '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+        ) !!}
+    </div>
+    <div class="form-group mb-2 mb20">
+        <label for="reference" class="form-label">{{ __('Referencia') }}</label>
+        <input type="text" name="reference" class="form-control @error('reference') is-invalid @enderror"
+            value="{{ old('reference', $order['reference']) }}" id="reference" placeholder="Referencia">
+        {!! $errors->first('reference', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+    </div>
+    <div class="form-group mb-2 mb20">
+        <label for="tracking_id" class="form-label">{{ __('Codi d\'enviament') }}</label>
+        <input type="text" name="tracking_id" class="form-control @error('tracking_id') is-invalid @enderror"
+            value="{{ old('tracking_id', $order['tracking_id']) }}" id="tracking_id" placeholder="Codi d'enviament">
+        {!! $errors->first('tracking_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+    </div>
+
+    <div class="form-group mb-2 mb20">
+        <label for="pdf" class="form-label">{{ __('PDF') }}</label>
+        <input type="text" name="pdf" class="form-control @error('pdf') is-invalid @enderror"
+            value="{{ old('pdf', $order['pdf']) }}" id="pdf" placeholder="PDF">
+        {!! $errors->first('pdf', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+    </div>
+
+    <div id="products" class="flex flex-wrap">
+        <label for="products" class="form-label">{{ __('Productes') }}</label>
+        @foreach ($books as $book)
+            <div class="product flex items-center mb-4" style="width: 100%;">
+                <label for="product_names[]" class="form-label" style="width: 50%">{{ $book->title }} </label>
+                <input type="text" hidden name="products[{{ $book->id }}][product_id]"
+                    value="{{ $book->id }}">
+                <input readonly type="text" name="products[{{ $book->id }}][price_each]"
+                    style="width: 25%; border: none;"
+                    value="{{ $order['products'][$book->id]['price_each'] ?? ($book->discounted_price ?? $book->pvp) }}"
+                    placeholder="Preu">
+                <input type="number" name="products[{{ $book->id }}][quantity]" style="width: 25%"
+                    value="{{ $order['products'][$book->id]['quantity'] ?? 0 }}" placeholder="Quantitat"
+                    min="0" onchange="calculateTotal()">
+            </div>
+        @endforeach
+    </div>
+
+    <div class="form-group">
+        <div class="flex items-center mb-4">
+            <label for="total" style="width: 100%" class="mr-2">{{ __('Preu total') }}</label>
+            <input type="text" name="total" class="form-control @error('total') is-invalid @enderror"
+                value="{{ old('total', $order['total'] ?? 0) }}" style="border: none" id="total"
+                placeholder="Preu total">
+        </div>
+        {!! $errors->first('total', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+    </div>
+    {{-- <script>
+        function calculateTotal(product) {
+            console.log("Product:", product);
+            if (product) {
+                var priceInput = product.querySelector('input[name="product_price[]"]');
+                var quantityInput = product.querySelector('input[name="product_quantity[]"]');
+
+                if (priceInput && quantityInput) {
+                    console.log("Price input:", priceInput);
+                    console.log("Quantity input:", quantityInput);
+                }
+            }
+        }
+    </script> --}}
+
     <div class="col-md-12 mt20 mt-2">
-        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+        <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
     </div>
 </div>
 <script src="{{ asset('js/form/products.js') }}"></script>

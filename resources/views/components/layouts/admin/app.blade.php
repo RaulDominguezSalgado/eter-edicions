@@ -16,7 +16,7 @@
     <title>{{ $title ?? 'Èter Edicions' }}</title>
     @vite('resources/css/app.css')
 </head>
-<body>
+<body class="flex space-x-10">
     <x-layouts.admin.navigate/>
     <main>
         {{$slot}}

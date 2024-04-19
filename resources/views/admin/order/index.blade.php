@@ -10,13 +10,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Order') }}
+                                {{ __('Gestió de comandes') }}
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('orders.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
-                                </a>
+
                               </div>
                         </div>
                     </div>
@@ -41,22 +39,25 @@
 										<th>Data</th>
 										<th>PDF</th>
 
-                                        <th></th>
+                                        <th>                                <a href="{{ route('orders.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                            {{ __('Create New') }}
+                                          </a></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($orders as $order)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
+                                            {{-- <td>{{ ++$i }}</td> --}}
 
 											<td>{{ $order['id'] }}</td>
 											<td>{{ $order['reference'] }}</td>
-											<td>{{ $order['client_adress'] }}</td>
-											<td>{{ $order['client_name'] }}</td>
-											<td>{{ $order['total_price'] }}</td>
+											<td>{{ $order['address'] }}</td>
+											<td>{{ $order['first_name']." ".$order['last_name'] }}</td>
+											<td>{{ $order['total'] }}</td>
 											<td>{{ $order['payment_method'] }}</td>
+											<td>{{ $order['status'] }}</td>
 											<td>{{ $order['date'] }}</td>
-											<td>{{ $order['order_pdf'] }}</td>
+											<td>{{ $order['pdf'] }}</td>
                                             <td>
                                                 <form action="{{ route('orders.destroy',$order['id']) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('orders.show',$order['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>

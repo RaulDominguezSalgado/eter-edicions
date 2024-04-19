@@ -112,7 +112,7 @@
     </label>
     @if (isset($book))
         @for($i = 0; $i < count($book['collections']); $i++)
-            <label for="collections_{{$i}}">Col·lecció {{ $i + 1 }}    
+            <label for="collections_{{$i}}">Col·lecció {{ $i + 1 }}
                 <select name="collections[]" id="collections_{{$i}}">
                     <?php getCollections($book['collections'][$i]['id'] ?? '');?>
                 </select>
@@ -151,7 +151,7 @@
             </label>
         @endfor
         <a id="add_translator" class="add-content-button">Afegir un traductor més</a>
-    @else 
+    @else
         <!-- Create -->
         <label for="authors_0">Autor 1
             <select name="authors[]" id="authors_0">

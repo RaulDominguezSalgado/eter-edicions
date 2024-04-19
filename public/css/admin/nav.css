@@ -52,9 +52,12 @@
 }
 #admin-nav a {
     text-align: center;
+    text-align: center;
     display: block;
     color: black;
     text-decoration: none;
+    padding: 0.625em 1.25em;
+    font-size: 1em;
     padding: 0.625em 1.25em;
     font-size: 1em;
     transition: .3s;
@@ -62,11 +65,13 @@
 #admin-nav a:hover,
 #admin-nav a.active {
     background-color: white;
+    background-color: white;
     transition: .3s;
 }
 
 #admin-nav > ul > li {
     position: relative;
+    width: 100%;
     width: 100%;
 }
 
@@ -80,10 +85,30 @@
     height: 0px;
     overflow: hidden;
     transition: .3s;
+    height: 0px;
+    overflow: hidden;
+    transition: .3s;
 }
 #admin-nav > ul > li > ul li a {
     text-align: center;
 }
+#admin-nav > ul > li > ul li a:hover {
+    background-color: #ccc;
+}
+#admin-nav > ul > li.has-child > .icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ccc;
+    padding: 5px;
+    width: 100%;
+    cursor: pointer;
+    user-select: none;
+}
+#admin-nav > ul > li.has-child > .icon:hover{
+    background-color: white !important;
+}
+/* #admin-nav > ul > li:hover > ul {
 #admin-nav > ul > li > ul li a:hover {
     background-color: #ccc;
 }

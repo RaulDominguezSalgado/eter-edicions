@@ -6,6 +6,11 @@ use App\Models\Book;
 use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
+use App\Models\Collaborator;
+use App\Models\CollaboratorTranslation;
+use App\Models\CollectionTranslation;
+use App\Models\Language;
+use App\Models\LanguageTranslation;
 use Exception;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\StockRequest;
@@ -116,7 +121,11 @@ class BookController extends Controller
                 'meta_title' => '',
                 'meta_description' => '',
             ];
-            return view('admin.book.create', compact('book'));
+        $authors=CollaboratorTranslation::where("lang",$this->lang)->get();
+        $translators=CollaboratorTranslation::where("lang",$this->lang)->get();
+        $languages = LanguageTranslation::where("iso_translation",$this->lang)->get();
+        $collections= CollectionTranslation::where("lang", $this->lang)->get();
+            return view('admin.book.create', compact('book','authors','translators','languages','collections'));
         } catch (Exception $e) {
             abort(500, 'Server Error');
         }
