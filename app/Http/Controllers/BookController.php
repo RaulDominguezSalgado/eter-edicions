@@ -557,6 +557,7 @@ class BookController extends Controller
         $locale = "ca";
 
         $book = $this->getFullBook(Book::findOrFail($id), $locale);
+        
 
         return view('admin.user.edit', compact('book'));
     }
