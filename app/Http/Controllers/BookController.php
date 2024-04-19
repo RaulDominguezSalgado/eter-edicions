@@ -30,8 +30,7 @@ class BookController extends Controller
         try {
             $books = $this->getData();
             return view('admin.book.index', compact('books'));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -44,16 +43,16 @@ class BookController extends Controller
         try {
             $books_lv = Book::all();
             $books = [];
-            $authors= [];
-            $illustrators= [];
+            $authors = [];
+            $illustrators = [];
             foreach ($books_lv as $book) {
-                foreach($book->authors as $author){
-                    $authors[]=[
+                foreach ($book->authors as $author) {
+                    $authors[] = [
                         $author->collaborator->translations->first()->first_name
                     ];
                 }
-                foreach($book->illustrators as $illustrator){
-                    $illustrators[]=[
+                foreach ($book->illustrators as $illustrator) {
+                    $illustrators[] = [
                         $illustrator->collaborator->translations->first()->first_name
                     ];
                 }
@@ -75,8 +74,7 @@ class BookController extends Controller
             }
 
             return view('book.catalogo', compact('books'));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -119,8 +117,7 @@ class BookController extends Controller
                 'meta_description' => '',
             ];
             return view('admin.book.create', compact('book'));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -178,14 +175,12 @@ class BookController extends Controller
             // Controla la selección del usuario
             if ($request->input('action') == 'redirect') {
                 return redirect()->route('books.index')
-                ->with('success', 'Book created successfully');
-            }
-            else if ($request->input('action') == 'stay') {
+                    ->with('success', 'Book created successfully');
+            } else if ($request->input('action') == 'stay') {
                 return redirect()->route('books.edit', $book->id)
-                ->with('success', 'Book created successfully');
+                    ->with('success', 'Book created successfully');
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -199,12 +194,10 @@ class BookController extends Controller
             $book = $this->getData()[0];
             if (request()->is('admin*')) {
                 return redirect()->route('books.edit', $book->id);
-            }
-            else {
+            } else {
                 return view('book.show', compact('book'));
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -217,8 +210,7 @@ class BookController extends Controller
         try {
             $book = $this->getData('id', $id)[0];
             return view('admin.book.edit', compact('book'));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -276,14 +268,12 @@ class BookController extends Controller
             // Controla la selección del usuario
             if ($request->input('action') == 'redirect') {
                 return redirect()->route('books.index')
-                ->with('success', 'Book created successfully');
-            }
-            else if ($request->input('action') == 'stay') {
+                    ->with('success', 'Book created successfully');
+            } else if ($request->input('action') == 'stay') {
                 return redirect()->route('books.edit', $book->id)
-                ->with('success', 'Book created successfully');
+                    ->with('success', 'Book created successfully');
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -295,8 +285,7 @@ class BookController extends Controller
 
             return redirect()->route('admin.books.index')
                 ->with('success', 'Book deleted successfully');
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -320,26 +309,25 @@ class BookController extends Controller
                 ->orderBy('publication_date', 'desc')
                 ->paginate(20);
 
-        $books = [];
-        foreach ($books_lv as $book_lv) {
-            $books[$book_lv->slug] = $this->getPreviewBook($book_lv, $locale);
-        }
+            $books = [];
+            foreach ($books_lv as $book_lv) {
+                $books[$book_lv->slug] = $this->getPreviewBook($book_lv, $locale);
+            }
 
             // $books = $this->getFullBook($books_lv, $locale);
 
-        $collections = [];
-        $collectionController = new CollectionController();
-        foreach (Collection::all() as $collection) {
-            $collections[] = $collectionController->getFullCollection($collection->id, $locale);
-        }
+            $collections = [];
+            $collectionController = new CollectionController();
+            foreach (Collection::all() as $collection) {
+                $collections[] = $collectionController->getFullCollection($collection->id, $locale);
+            }
 
             // return dd($books);
             // dd($collections);
 
 
             return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -386,24 +374,23 @@ class BookController extends Controller
             }
 
 
-        //RELATED BOOKS
-        $related_books = $this->getRelatedBooks($book_lv, $locale);
+            //RELATED BOOKS
+            $related_books = $this->getRelatedBooks($book_lv, $locale);
 
 
-        $page = [
-            'title' => $book_lv->title,
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
+            $page = [
+                'title' => $book_lv->title,
+                'shortDescription' => '',
+                'longDescription' => '',
+                'web' => 'Èter Edicions'
+            ];
 
-        // dd($authors);
-        // dd($translators);
-        // dd($related_books);
+            // dd($authors);
+            // dd($translators);
+            // dd($related_books);
 
             return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
@@ -472,43 +459,32 @@ class BookController extends Controller
                 $bookResult['collections'][] = $collectionName;
             }
 
-        foreach ($book->extras()->get() as $extra) {
-            $bookResult['extras'][$extra->key] = [
-                "key" => $extra->key,
-                "value" => $extra->value
-            ];
+            foreach ($book->extras()->get() as $extra) {
+                $bookResult['extras'][$extra->key] = [
+                    "key" => $extra->key,
+                    "value" => $extra->value
+                ];
+            }
+
+            // $bookResult['bookstores'] = [];
+            // dd($book->bookstores);
+            foreach ($book->bookstores as $bookstore) {
+                $bookResult['bookstores'][$bookstore->name] = [
+                    "id" => $bookstore->id,
+                    "name" => $bookstore->name,
+                    "stock" => $bookstore->pivot->stock,
+                    "address" => $bookstore->address,
+                    "city" => $bookstore->city,
+                ];
+            }
+
+            return $bookResult;
+
+        } catch (Exception $e) {
+            abort(500, 'Server Error');
         }
-
-        // $bookResult['bookstores'] = [];
-        // dd($book->bookstores);
-        foreach ($book->bookstores as $bookstore) {
-            $bookResult['bookstores'][$bookstore->name] = [
-                "id" => $bookstore->id,
-                "name" => $bookstore->name,
-                "stock" => $bookstore->pivot->stock,
-                "address" => $bookstore->address,
-                "city" => $bookstore->city,
-            ];
-        }
-
-        //dd($bookResult);
-
-        // $bookResult['technical_sheet'] = [
-        //     'isbn' => ["key" => "ISBN", "value" => $book->isbn],
-        //     'authors' => ["key"=>"Authorship", "value"=>$bookResult['authors']],
-        //     'translators' => ["key"=>"Translation", "value"=>$bookResult['translators']],
-        //     'number_of_pages' => ["key" => "Number of pages", "value" => $book->number_of_pages],
-        //     'publication_date' => ["key" => "Publication date", "value" => $book->publication_date->format('Y')],
-        //     'pvp' => ["key" => "PVP", "value" => $book->pvp],
-        //     'discounted_price' => ["key" => "Discounted price", "value" => $book->discounted_price ?? 0],
-        //     'legal_diposit' => ["key" => "Legal diposit", "value" => $book->legal_diposit],
-        //     'enviromental_footprint' => ["key" => "Enviromental footprint", "value" => $book->enviromental_footprint],
-        // ];
-
-        // dd($bookResult);
-
-        return $bookResult;
     }
+
 
 
     /**
@@ -646,14 +622,15 @@ class BookController extends Controller
     }
 
 
-    public function getNewestBooks($locale){
+    public function getNewestBooks($locale)
+    {
         $books_lv = Book::where('visible', 1)
-        ->orderBy('publication_date', 'desc')
-        ->take(4)
-        ->get();
+            ->orderBy('publication_date', 'desc')
+            ->take(4)
+            ->get();
 
         $books = [];
-        foreach($books_lv as $book_lv){
+        foreach ($books_lv as $book_lv) {
             $books[$book_lv->slug] = $this->getPreviewBook($book_lv, $locale);
         }
 
@@ -706,6 +683,4 @@ class BookController extends Controller
 
         return redirect()->back()->with('success', 'Stock updated successfully.');
     }
-
-
 }
