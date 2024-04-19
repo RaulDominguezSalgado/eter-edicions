@@ -33,12 +33,44 @@
                                     <tr>
                                         <th>No</th>
 
+										<th>Títol</th>
+										<th>Autor</th>
+										<th>Traductor</th>
+										<th>Descripció</th>
+										<th>Data</th>
+                                        <th>Ubicació</th>
+										<th>Imatge</th>
+										<th>Contingut</th>
+										<th>Data de publicació</th>
+										<th>Publicat per</th>
 										<th>Represented By Agency</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($postsArray as $post)
+                                        <tr>
+                                            <td>{{ ++$i }}</td>
+
+											<td>{{ $post['title'] }}</td>
+											<td>{{ $post['author_id'] }}</td>
+											<td>{{ $post['translator_id'] }}</td>
+											<td>{{ $post['description'] }}</td>
+											<td>{{ $post['date'] }}</td>
+                                            <td>{{ $post['location'] }}</td>
+											<td>
+                                                {{-- {{ $post['image'] }} --}}
+                                                <img style="width: 100px; height: auto;" src="{{ asset('img/posts/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
+                                            </td>
+											<td>{{ $post['content'] }}</td>
+											<td>{{ $post['publication_date'] }}</td>
+											<td>{{ $post['published_by'] }}</td>
+
+                                            <td>
+                                                <form action="{{ route('posts.destroy',$post['id']) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('posts.show',$post['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('posts.edit',$post['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                     @foreach ($authors as $author)
                                         <tr>
                                             <td>{{ ++$i }}</td>

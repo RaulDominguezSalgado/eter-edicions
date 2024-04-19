@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Exception;
 use Intervention\Image\Drivers\Gd\Driver;
+use App\Http\Requests\StockRequest;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
 use PhpParser\Node\Stmt\TryCatch;
+use App\Models\BookBookstore;
 
 /**
  * Class BookController
@@ -18,6 +21,7 @@ use PhpParser\Node\Stmt\TryCatch;
  */
 class BookController extends Controller
 {
+    private $lang = 'ca';
     /**
      * Display a listing of the resource.
      */
@@ -468,168 +472,81 @@ class BookController extends Controller
                 $bookResult['collections'][] = $collectionName;
             }
 
-            foreach ($book->extras()->get() as $extra) {
-                $bookResult['extras'][$extra->key] = [
-                    "key" => $extra->key,
-                    "value" => $extra->value
-                ];
-            }
-            return $bookResult;
-        }
-        catch (Exception $e) {
-            abort(500, 'Server Error');
-        }
-    }
-
-    /**
-     * Display a listing of the resource for the public users.
-     */
-    private function getCollaboratorsArray($id)
-    {
-        try {
-            $locale = 'ca';
-
-            $book = Book::find($id);
-
-            $authors = [];
-            foreach ($book->authors()->get() as $author) {
-                $collaborator = \App\Models\Collaborator::find($author->collaborator_id);
-                $translation = $collaborator->translations()->where('lang', 'ca')->first();
-
-                $authors[] = [
-                    'id' => $author->id,
-                    'collaborator_id' => $author->collaborator_id,
-                    'first_name' => $translation->first_name,
-                    'last_name' => $translation->last_name,
-                    'full_name' => $translation->first_name." ".$translation->last_name,
-                    'biography' => $translation->biography,
-                    'image' => $collaborator->image,
-                ];
-            }
-
-            $translators = [];
-            foreach ($book->translators()->get() as $translator) {
-                $collaborator = \App\Models\Collaborator::find($translator->collaborator_id);
-                $translation = $collaborator->translations()->where('lang', 'ca')->first();
-                $translators[] = [
-                    'id' => $translator->id,
-                    'collaborator_id' => $translator->collaborator_id,
-                    'first_name' => $translation->first_name,
-                    'last_name' => $translation->last_name,
-                    'full_name' => $translation->first_name." ".$translation->last_name,
-                    'biography' => $translation->biography,
-                    'image' => $collaborator->image,
-                ];
-            }
-            return [
-                'authors' => $authors,
-                'translators' => $translators,
+        foreach ($book->extras()->get() as $extra) {
+            $bookResult['extras'][$extra->key] = [
+                "key" => $extra->key,
+                "value" => $extra->value
             ];
         }
-        catch (Exception $e) {
-            abort(500, 'Server Error');
+
+        // $bookResult['bookstores'] = [];
+        // dd($book->bookstores);
+        foreach ($book->bookstores as $bookstore) {
+            $bookResult['bookstores'][$bookstore->name] = [
+                "id" => $bookstore->id,
+                "name" => $bookstore->name,
+                "stock" => $bookstore->pivot->stock,
+                "address" => $bookstore->address,
+                "city" => $bookstore->city,
+            ];
         }
+
+        //dd($bookResult);
+
+        // $bookResult['technical_sheet'] = [
+        //     'isbn' => ["key" => "ISBN", "value" => $book->isbn],
+        //     'authors' => ["key"=>"Authorship", "value"=>$bookResult['authors']],
+        //     'translators' => ["key"=>"Translation", "value"=>$bookResult['translators']],
+        //     'number_of_pages' => ["key" => "Number of pages", "value" => $book->number_of_pages],
+        //     'publication_date' => ["key" => "Publication date", "value" => $book->publication_date->format('Y')],
+        //     'pvp' => ["key" => "PVP", "value" => $book->pvp],
+        //     'discounted_price' => ["key" => "Discounted price", "value" => $book->discounted_price ?? 0],
+        //     'legal_diposit' => ["key" => "Legal diposit", "value" => $book->legal_diposit],
+        //     'enviromental_footprint' => ["key" => "Enviromental footprint", "value" => $book->enviromental_footprint],
+        // ];
+
+        // dd($bookResult);
+
+        return $bookResult;
     }
 
-    private function getData($key = null, $value = null) {
-        try {
-            $locale = 'ca';
 
-            if ($key == null || $value == null) {
-                $query_data = Book::paginate();
-            }
-            else {
-                $query_data = Book::where($key, $value)->paginate();
-            }
-            $books = [];
-            foreach ($query_data as $single_data) {
-                $collections_names = [];
-                if (!empty($single_data->collections)) {
-                    foreach ($single_data->collections as $collection) {
-                        // dd($collection);
-                        $name = $collection->translations()->first()->name;
-                        $collections_names[] = [
-                            'id' => $collection->id,
-                            'name' => $name,
-                        ];
-                    }
-                    // dd($collections_names);
-                }
-                $collaborators = $this->getCollaboratorsArray($single_data->id);
-                // dd($single_data);
-                $books[] = [
-                    'id' => $single_data->id,
-                    'title' => $single_data->title,
-                    'description' => $single_data->description,
-                    'slug' => $single_data->slug,
-                    'lang' => $single_data->languages()->first()->iso,
-                    'isbn' => $single_data->isbn,
-                    'publisher' => $single_data->publisher,
-                    'image' => $single_data->image,
-                    'pvp' => $single_data->pvp,
-                    'iva' => $single_data->iva,
-                    'discounted_price' => $single_data->discounted_price,
-                    'stock' => $single_data->stock,
-                    'visible' => $single_data->visible,
-                    'sample_url' => $single_data->sample,
-                    'number_of_pages' => $single_data->number_of_pages,
-                    'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
-                    'collections' => $collections_names,
-                    'collaborators' => $collaborators,
-                    'original_title' => $single_data->original_title,
-                    'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
-                    'original_publisher' => $single_data->original_publisher,
-                    'legal_diposit' => $single_data->legal_diposit,
-                    'headline' => $single_data->headline,
-                    'size' => $single_data->size,
-                    'enviromental_footprint' => $single_data->enviromental_footprint,
-                    'meta_title' => $single_data->meta_title,
-                    'meta_description' => $single_data->meta_description,
-                ];
-            }
-            return $books;
+    /**
+     *
+     */
+    private function getPreviewBook($book, $locale)
+    {
+        // dd($books);
+
+        // foreach ($books as $book) {
+        $bookResult = [
+            'id' => $book->id,
+            'isbn' => $book->isbn,
+            'title' => $book->title,
+            'image' => $book->image,
+            'pvp' => $book->pvp,
+            'discounted_price' => $book->discounted_price ?? 0,
+            'stock' => $book->stock,
+            'slug' => $book->slug,
+        ];
+
+        foreach ($book->authors()->get() as $author) {
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['authors'][] = $collaboratorName;
         }
-        catch (Exception $e) {
-            abort(500, 'Server Error');
+
+        foreach ($book->translators()->get() as $translator) {
+            $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $translator->id)->where('lang', $locale)->first();
+            $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
+
+            $bookResult['translators'][] = $collaboratorName;
         }
-    }
 
-    public function editImage($rutaImagen){
-        try {
-            $manager = new ImageManager(new Driver());
-            $image = $manager->read($rutaImagen);
-            // Crop a 1.4 / 1 aspect ratio
-            if ($image->width() > $image->height()) {
-                $heightStd = $image->width() / 1.4;
-                $cropNum = $image->height() - $heightStd;
-                if ($cropNum > 0) {
-                    $image->crop($image->width(), $heightStd);
-                }
-            } else {
-                $heightStd = $image->width() / 1.4;
-                $cropNum = $image->height() - $heightStd;
-                if ($cropNum > 0) {
-                    $image->crop($heightStd, $image->height());
-                }
-            }
+        // dd($bookResult);
 
-            // Resize the image to 560x400
-            $image->resize(560, 400);
-
-            // If size > 560x400, resize to 720x1080
-            if ($image->width() > 560 || $image->height() > 400) {
-                $image->resize(560, 400);
-            }
-
-            // Encode the image to webp format with 80% quality
-            $image->encode(new WebpEncoder(), 80);
-
-            // Save the processed image
-            $image->save($rutaImagen);
-        }
-        catch (Exception $e) {
-            abort(500, 'Server Error');
-        }
+        return $bookResult;
     }
 
     /**
@@ -713,11 +630,11 @@ class BookController extends Controller
 
         // Get the newest 4 books
         $newestBooks = Book::where('visible', 1)
-        ->where('title', "!=", $book->title)
-        ->orderBy('publication_date', 'desc')
-        ->take(4)
-        ->get();
-        foreach($newestBooks as $book){
+            ->where('title', "!=", $book->title)
+            ->orderBy('publication_date', 'desc')
+            ->take(4)
+            ->get();
+        foreach ($newestBooks as $book) {
             $result[$book->title] = $this->getPreviewBook($book, $locale);
         }
 
@@ -750,9 +667,45 @@ class BookController extends Controller
         $locale = "ca";
 
         // Obtener el libro con el ID especificado
-        $book = $this->getFullBook(Book::findOrFail($id),$locale);
-
+        $book = $this->getFullBook(Book::findOrFail($id), $locale);
+        //dd($book);
         // Devolver la vista con los datos del libro
         return view('admin.book.stock', compact('book'));
     }
+
+    //STOCK
+    public function editStock($id)
+    {
+        $locale = "ca";
+
+        $book = $this->getFullBook(Book::findOrFail($id), $locale);
+
+
+        return view('admin.user.edit', compact('book'));
+    }
+
+    public function updateBookstoreStock(StockRequest $request, $bookId)
+    {
+        $book = Book::findOrFail($bookId);
+
+        $book->stock = intval($request->input('stock'));
+
+        $book->save();
+
+
+        $bookstoresRequest = $request->input('bookstores');
+
+        $bookstores = $book->bookstores;
+
+        foreach ($bookstores as $bookstore) {
+
+            $stock = isset($bookstoresRequest[$bookstore->id]) ? intval($bookstoresRequest[$bookstore->id]['stock']) : 0;
+
+            $bookstore->books()->sync([$book->id => ['stock' => $stock]]);
+        }
+
+        return redirect()->back()->with('success', 'Stock updated successfully.');
+    }
+
+
 }

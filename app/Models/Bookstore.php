@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BookBookstore;
 
 /**
  * Class Bookstore
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $website
  * @property $created_at
  * @property $updated_at
+ *
  *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -35,4 +37,9 @@ class Bookstore extends Model
         return $this->belongsToMany(\App\Models\Book::class)->withPivot('stock');
 
     }
+
+//     public function stocks()
+// {
+//     return $this->hasMany(BookBookstore::class);
+// }
 }

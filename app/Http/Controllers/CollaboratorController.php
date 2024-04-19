@@ -55,7 +55,7 @@ class CollaboratorController extends Controller
         //         ];
         //     }
         // }
-        return view('collaborator.index', compact('collaboratorsArray', 'collaborators'))
+        return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
 
@@ -65,7 +65,7 @@ class CollaboratorController extends Controller
     public function create()
     {
         $collaborator = new Collaborator();
-        return view('collaborator.create', compact('collaborator'));
+        return view('admin.collaborator.create', compact('collaborator'));
     }
 
     public function editImage($rutaImagen){
@@ -161,79 +161,9 @@ class CollaboratorController extends Controller
     {
         $locale = $this->lang;
 
-        // $collab = Collaborator::find($id);
+        $collaborator=$this->getFullCollaborator( $id, $locale);
 
-        $collaborator=$this->getFullCollaborator($id, $locale);
-
-        return view('collaborator.show', compact('collaborator'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $locale = $this->lang;
-
-        // $collab = Collaborator::find($id);
-
-        $collaborator = $this->getFullCollaborator($id, $locale);
-
-        return view('collaborator.edit', compact('collaborator'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(CollaboratorRequest $request, Collaborator $collaborator)
-    {
-        $collaborator->update($request->validated());
-
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator updated successfully');
-    }
-
-    public function destroy($id)
-    {
-        Collaborator::find($id)->delete();
-
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator deleted successfully');
-    }
-
-
-    public function collaborators(){
-        $locale = 'ca';
-        $page = [
-            'title' => 'Autors i traductors',
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
-
-        $collaborators_lv = Collaborator::paginate();
-
-        $authors = [];
-        $translators = [];
-
-        foreach($collaborators_lv as $collab){
-            $collaborator=$this->getFullCollaborator($collab->id, $locale);
-
-            if($collab->author){
-                $authors[]=$collaborator;
-            }
-            if($collab->translator){
-                $translators[]=$collaborator;
-            }
-        }
-
-        $collaboratorTypes = [
-            'authors' => 'Autors',
-            'translators' => "Traductors"
-        ];
-
-        return view('public.collaborators', compact('collaborators_lv', 'authors', 'translators', 'collaboratorTypes', 'page', 'locale'))
-            ->with('i', (request()->input('page', 1) - 1) * $collaborators_lv->perPage());
+        return view('admin.collaborator.show', compact('collaborator'));
     }
 
     public function collaboratorDetail($id){
@@ -340,4 +270,40 @@ class CollaboratorController extends Controller
 
         return $collaborator;
     }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $locale = $this->lang;
+
+        $collaborator = $this->getFullCollaborator($id, $locale);
+
+        return view('admin.collaborator.edit', compact('collaborator'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(CollaboratorRequest $request, Collaborator $collaborator)
+    {
+        $collaborator->update($request->validated());
+
+        return redirect()->route('collaborators.index')
+            ->with('success', 'Collaborator updated successfully');
+    }
+
+    public function destroy($id)
+    {
+        Collaborator::find($id)->delete();
+
+        return redirect()->route('collaborators.index')
+            ->with('success', 'Collaborator deleted successfully');
+    }
+
+
+    public function collaborators(){
+        return "CollaboratorController > publicIndex";
+    }
+
 }
