@@ -24,7 +24,7 @@ class StockRequest extends FormRequest
         return [
 			'id' => 'required',
 			'stock' => 'required',
-			'bookstores' => 'required',
+			'bookstores' => '',
             // ''
         ];
     }

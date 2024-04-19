@@ -36,7 +36,7 @@ class OrderRequest extends FormRequest
 			'country' => 'required',
 			'payment_method' => 'required',
 			'status_id' => 'required',
-            'pdf'=>'required',
+            'pdf'=>'',
 			'tracking_id' => 'required|string',
         ];
     }

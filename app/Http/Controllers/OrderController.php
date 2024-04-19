@@ -8,6 +8,8 @@ use App\Models\Book;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\OrderStatusHistory;
+use Exception;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * Class OrderController
@@ -100,9 +102,16 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $orderDetails = $request->input('products');
+        //save pdf file
+        $newFileName = $request['reference'] . ".pdf";
+        $request->file('pdf')->move(public_path('files/orders'), $newFileName);
+
+        //$this->saveFile(,public_path('files/orders'),$newFileName, $request['id']);
         //return dd($request);
-        $request['total'] = $this->getTotalPrice($orderDetails);
-        $order = Order::create($request->validated());
+        $validatedData= $request->validated();
+        $validatedData['pdf']=$newFileName;
+        // $validatedData['total'] = $this->getTotalPrice($orderDetails);
+        $order = Order::create($validatedData);
         if ($request->has('products')) {
             foreach ($orderDetails as $productId => $productData) {
                 if ($productData['quantity'] > 0) {
@@ -124,6 +133,17 @@ class OrderController extends Controller
             ->with('success', 'Order created successfully.');
     }
 
+    public function saveFile($file, $path, $filename, $id){
+        try{
+            $file->move($path,$filename);
+        }
+        catch(FileException $e){
+
+        }
+        catch(Exception $e){
+            
+        }
+    }
     /**
      * Display the specified resource.
      */
@@ -150,7 +170,20 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, Order $order)
     {
-        $order->update($request->validated());
+        //dd($request);
+            $newFileName = $request['reference'] . ".pdf";
+        if($request->hasFile('pdf')){
+            $pdfFile = $request->file('pdf');
+
+        $this->saveFile($request->file('pdf'),public_path('files/orders'),$newFileName, $request['id']);
+            //return dd($request);
+        }
+
+
+
+        $validatedData= $request->validated();
+        $validatedData['pdf']=$newFileName;
+        $order->update($validatedData);
 
         // Actualiza los detalles de la orden
         foreach ($request->products as $productId => $productData) {

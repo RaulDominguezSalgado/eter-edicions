@@ -587,9 +587,10 @@ class BookController extends Controller
 
         // Obtener el libro con el ID especificado
         $book = $this->getFullBook(Book::findOrFail($id), $locale);
+        $bookstores=Bookstore::all();
         //dd($book);
         // Devolver la vista con los datos del libro
-        return view('admin.book.stock', compact('book'));
+        return view('admin.book.stock', compact('book','bookstores'));
     }
 
     //STOCK
@@ -598,13 +599,17 @@ class BookController extends Controller
         $locale = "ca";
 
         $book = $this->getFullBook(Book::findOrFail($id), $locale);
-
+        $bookstores=Bookstore::all();
 
         return view('admin.user.edit', compact('book'));
     }
 
     public function updateBookstoreStock(StockRequest $request, $bookId)
     {
+        // dd($request);
+        // if($request){
+
+        // }
         $book = Book::findOrFail($bookId);
 
         $book->stock = intval($request->input('stock'));

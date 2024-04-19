@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use App\Models\CollectionTranslation;
 use App\Http\Requests\CollectionRequest;
+use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -138,10 +139,15 @@ class CollectionController extends Controller
 
     public function destroy($id)
     {
+        try{
+
         Collection::find($id)->delete();
 
         return redirect()->route('collections.index')
-            ->with('success', 'Collection deleted successfully');
+            ->with('success', 'Col·lecció eliminada correctament');
+        } catch (QueryException $e) {
+            return redirect()->route('collections.index')->with('error', 'No es possible eliminar aquesta col·lecció, ja que té dades relacionades');
+        }
     }
 
     /**

@@ -25,6 +25,12 @@ class BookstoreRequest extends FormRequest
 			'name' => 'required|string',
 			'address' => 'required|string',
 			'website' => 'required|string',
+			'zip_code' => '',
+			'city' => '',
+			'province' => '',
+			'country' => '',
+			'email' => '',
+			'phone' => '',
         ];
     }
 }

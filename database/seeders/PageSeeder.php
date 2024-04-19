@@ -23,6 +23,7 @@ class PageSeeder extends Seeder
 
     private function foreignrights(){
         $foreignrights = new Page();
+        $foreignrights->tag = "foreign-rights";
         $foreignrights->save();
 
         $foreignrightsTranslationCa = new PageTranslation();
@@ -142,6 +143,7 @@ class PageSeeder extends Seeder
 
     private function about(){
         $page = new Page();
+        $page->tag="about";
         $page->save();
 
         $pageTranslationCa = new PageTranslation();
@@ -219,6 +221,7 @@ class PageSeeder extends Seeder
 
     private function contact(){
         $page = new Page();
+        $page->tag="contact";
         $page->save();
 
         $pageTranslationCa = new PageTranslation();
