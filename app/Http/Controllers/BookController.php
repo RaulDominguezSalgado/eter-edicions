@@ -27,12 +27,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        try {
+        // try {
             $books = $this->getData();
             return view('admin.book.index', compact('books'));
-        } catch (Exception $e) {
-            abort(500, 'Server Error');
-        }
+        // } catch (Exception $e) {
+        //     abort(500, 'Server Error');
+        // }
     }
 
     /**

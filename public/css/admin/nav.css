@@ -1,6 +1,6 @@
 #admin-nav {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
 
     /* height: 100vh;
@@ -27,10 +27,11 @@
     /* justify-content: space-between; */
     /* align-items: center; */
     height: 100vh;
+    width: max-content;
 }
 #admin-nav .logo {
     width: 100%;
-    height: 5em;
+    height: 5.625em;
 }
 #admin-nav .logo img {
     display: block;
@@ -45,7 +46,7 @@
     justify-content: flex-end;
     list-style: none;
     width: 100%;
-    margin: 0 0 60px;
+    /* margin: 0 0 60px; */
 }
 #admin-nav > a {
     width: 100%;
