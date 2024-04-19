@@ -1,0 +1,19 @@
+body > nav,
+body > main {
+    display: inline-block;
+}
+body > nav {
+    float: left;
+    width: 10%;
+    overflow-y: auto;
+    overflow-x: visible;
+}
+body > main {
+    float: right;
+    width: 90%;
+    overflow: auto;
+    padding: 40px;
+}
+body > main::after {
+    clear: both;
+}
