@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
+use App\Models\Author;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -264,7 +265,39 @@ class CollaboratorController extends Controller
     }
 
     public function agency(){
-        return "CollaboratorController > agency";
+        $locale = 'ca';
+        $page = [
+            'title' => 'Autors i traductors',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $authors_lv = Author::where('represented_by_agency', 'LIKE', 1)->paginate();
+
+        $collaborators_lv = [];
+        foreach($authors_lv as $author){
+            $collaborators_lv[]=$author->collaborator;
+        }
+
+        // $authors = [];
+        // $translators = [];
+
+        $collaborators = [];
+
+        foreach($collaborators_lv as $collab){
+            $collaborator=$this->getFullCollaborator($collab->id, $locale);
+            $collaborators[]=$collaborator;
+
+            // if($collab->author){
+            //     $authors[]=$collaborator;
+            // }
+            // if($collab->translator){
+            //     $translators[]=$collaborator;
+            // }
+        }
+
+        return view('public.agency', compact('collaborators_lv', 'collaborators', 'page', 'locale'));
     }
 
 
