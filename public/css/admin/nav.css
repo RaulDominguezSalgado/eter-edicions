@@ -1,13 +1,12 @@
 #admin-nav {
-    display: flex;
+    /* display: flex; */
     /* justify-content: space-between; */
-    align-items: center;
+    /* align-items: center; */
 
     /* height: 100vh;
     max-height: 100vh; */
 }
 #admin-nav .logo {
-    font-size: 16px;
     text-decoration: none;
     color: black;
 }
@@ -113,7 +112,7 @@
 }
 #admin-nav a.has-icon span {
     margin-top: 0.625em;
-    font-size: 1.25em;
+    font-size: 1em;
 }
 #admin-nav a.has-icon img {
     width: 2em;

@@ -684,6 +684,59 @@ class BookController extends Controller
         return redirect()->back()->with('success', 'Stock updated successfully.');
     }
 
+
+
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    private function getCollaboratorsArray($id)
+    {
+        try {
+            $locale = 'ca';
+
+            $book = Book::find($id);
+
+            $authors = [];
+            foreach ($book->authors()->get() as $author) {
+                $collaborator = \App\Models\Collaborator::find($author->collaborator_id);
+                $translation = $collaborator->translations()->where('lang', 'ca')->first();
+
+                $authors[] = [
+                    'id' => $author->id,
+                    'collaborator_id' => $author->collaborator_id,
+                    'first_name' => $translation->first_name,
+                    'last_name' => $translation->last_name,
+                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'biography' => $translation->biography,
+                    'image' => $collaborator->image,
+                ];
+            }
+
+            $translators = [];
+            foreach ($book->translators()->get() as $translator) {
+                $collaborator = \App\Models\Collaborator::find($translator->collaborator_id);
+                $translation = $collaborator->translations()->where('lang', 'ca')->first();
+                $translators[] = [
+                    'id' => $translator->id,
+                    'collaborator_id' => $translator->collaborator_id,
+                    'first_name' => $translation->first_name,
+                    'last_name' => $translation->last_name,
+                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'biography' => $translation->biography,
+                    'image' => $collaborator->image,
+                ];
+            }
+            return [
+                'authors' => $authors,
+                'translators' => $translators,
+            ];
+        }
+        catch (Exception $e) {
+            abort(500, 'Server Error');
+        }
+    }
+
+
     private function getData($key = null, $value = null) {
         // try {
             $locale = 'ca';
