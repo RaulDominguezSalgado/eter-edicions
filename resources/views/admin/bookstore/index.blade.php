@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    Bookstore
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -35,7 +32,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Name</th>
 										<th>Address</th>
 										<th>Website</th>
@@ -47,10 +44,10 @@
                                     @foreach ($bookstores as $bookstore)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+
 											<td>{{ $bookstore->name }}</td>
 											<td>{{ $bookstore->address }}</td>
-											<td>{{ $bookstore->website }}</td>
+											<td><a href="{{$bookstore->website}}" target="_blank" rel="noopener noreferrer">{{$bookstore->website}}</a></td>
 
                                             <td>
                                                 <form action="{{ route('bookstores.destroy',$bookstore->id) }}" method="POST">
@@ -72,4 +69,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-layouts.admin.app>

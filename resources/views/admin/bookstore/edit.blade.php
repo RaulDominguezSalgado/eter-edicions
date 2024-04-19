@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ __('Update') }} Bookstore
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <section class="content container-fluid">
         <div class="">
             <div class="col-md-12">
@@ -18,7 +15,7 @@
                             {{ method_field('PATCH') }}
                             @csrf
 
-                            @include('bookstore.form')
+                            @include('admin.bookstore.form')
 
                         </form>
                     </div>
@@ -26,4 +23,4 @@
             </div>
         </div>
     </section>
-@endsection
+</x-layouts.admin.app>
