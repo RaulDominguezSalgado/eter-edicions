@@ -3,7 +3,7 @@ $locale = 'ca';
 //TODO Change locale
 ?>
 <nav id="admin-nav" class="flex flex-col justify-between items-center">
-    <a href="" class="logo"><img src="/img/logo/lg/logo_eter_black.webp"></a>
+    <a href="{{ route("home.{$locale}") }}" class="logo"><img src="/img/logo/lg/logo_eter_black.webp"></a>
 
     <ul class="">
         {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
@@ -32,5 +32,4 @@ $locale = 'ca';
         <li><a class="has-icon" href="{{ route('users.index')}}"><img src="/img/icons/users.webp"><span>Usuaris</span></a></li>
         <li><a class="has-icon" href="{{ route('users.index')}}"><img src="/img/icons/settings.webp"><span>Configuració</span></a></li>
     </ul>
-    <a href="{{ route("home.{$locale}") }}">Go to public page</a>
 </nav>

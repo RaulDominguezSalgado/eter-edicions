@@ -77,7 +77,8 @@
         <label for="status_id" class="form-label">{{ __('Estat de la comanda') }}</label>
         <select name="status_id" class="form-control @error('status_id') is-invalid @enderror" id="status_id">
             @foreach ($statuses as $status)
-                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                <option value="{{ $status->id }}" @if ($order['status'] == $status->name) selected @endif>
+                    {{ $status->name }}</option>
             @endforeach
         </select>
         {!! $errors->first('status_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
@@ -112,6 +113,7 @@
             value="{{ old('pdf', $order['pdf']) }}" id="pdf" placeholder="PDF">
         {!! $errors->first('pdf', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>
+
     <div id="products" class="flex flex-wrap">
         <label for="products" class="form-label">{{ __('Productes') }}</label>
         @foreach ($books as $book)
@@ -120,22 +122,40 @@
                 <input type="text" hidden name="products[{{ $book->id }}][product_id]"
                     value="{{ $book->id }}">
                 <input readonly type="text" name="products[{{ $book->id }}][price_each]"
-                    style="width: 25%; border: none;" value="{{ $book->discounted_price ?? $book->pvp }}"
+                    style="width: 25%; border: none;"
+                    value="{{ $order['products'][$book->id]['price_each'] ?? ($book->discounted_price ?? $book->pvp) }}"
                     placeholder="Preu">
                 <input type="number" name="products[{{ $book->id }}][quantity]" style="width: 25%"
-                    value="0" placeholder="Quantitat" min="0">
+                    value="{{ $order['products'][$book->id]['quantity'] ?? 0 }}" placeholder="Quantitat"
+                    min="0" onchange="calculateTotal()">
             </div>
         @endforeach
     </div>
+
     <div class="form-group">
-        <div class="flex items-center mb-4" >
+        <div class="flex items-center mb-4">
             <label for="total" style="width: 100%" class="mr-2">{{ __('Preu total') }}</label>
-            <input readonly type="text" name="total" class="form-control @error('total') is-invalid @enderror"
+            <input type="text" name="total" class="form-control @error('total') is-invalid @enderror"
                 value="{{ old('total', $order['total'] ?? 0) }}" style="border: none" id="total"
                 placeholder="Preu total">
         </div>
         {!! $errors->first('total', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>
+    {{-- <script>
+        function calculateTotal(product) {
+            console.log("Product:", product);
+            if (product) {
+                var priceInput = product.querySelector('input[name="product_price[]"]');
+                var quantityInput = product.querySelector('input[name="product_quantity[]"]');
+
+                if (priceInput && quantityInput) {
+                    console.log("Price input:", priceInput);
+                    console.log("Quantity input:", quantityInput);
+                }
+            }
+        }
+    </script> --}}
+
     <div class="col-md-12 mt20 mt-2">
         <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
     </div>

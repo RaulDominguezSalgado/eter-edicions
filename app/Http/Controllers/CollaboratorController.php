@@ -68,37 +68,37 @@ class CollaboratorController extends Controller
         return view('admin.collaborator.create', compact('collaborator'));
     }
 
-    public function editImage($rutaImagen){
+    public function editImage($rutaImagen, $rutaThumbnail){
         $manager = new ImageManager(new Driver());
         $image = $manager->read($rutaImagen);
-        // Crop a 1.4 / 1 aspect ratio
-        if ($image->width() > $image->height()) {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($image->width(), $heightStd);
-            }
-        } else {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($heightStd, $image->height());
-            }
+
+        $width = $image->width();
+        $height = $image->height();
+
+        $widthStd = $height / 1.5;
+        $cropNum = $width - $widthStd;
+
+        if ($cropNum > 0) {
+            $image->crop($widthStd, $height, position: 'center');
         }
 
         // Resize the image to 560x400
         $image->resize(560, 400);
 
-        // If size > 560x400, resize to 720x1080
-        if ($image->width() > 560 || $image->height() > 400) {
-            $image->resize(560, 400);
-        }
+        // // If size > 560x400, resize to 720x1080
+        // if ($image->width() > 560 || $image->height() > 400) {
+        //     $image->resize(560, 400);
+        // }
 
         // Encode the image to webp format with 80% quality
         $image->encode(new WebpEncoder(), 80);
 
         // Save the processed image
         $image->save($rutaImagen);
+
+        //saving thumbanil
+        $image->resize(315,210 );
+        $image->save($rutaThumbnail);
     }
     /**
      * Store a newly created resource in storage.
@@ -117,8 +117,9 @@ class CollaboratorController extends Controller
 
                 // // Procesar y guardar la imagen
                 $rutaImagen = public_path('img/collab/covers/' . $nombreImagenOriginal);
+                $rutaMiniatura = public_path('img/collab/thumbnails/' . $nombreImagenOriginal);
                 $imagen->move(public_path('img/collab/covers/'), $nombreImagenOriginal);
-                $this->editImage($rutaImagen);
+                $this->editImage($rutaImagen, $rutaMiniatura);
 
                 $validatedData['image'] = $nombreImagenOriginal;
             }else{
@@ -271,8 +272,9 @@ class CollaboratorController extends Controller
 
             // // Procesar y guardar la imagen
             $rutaImagen = public_path('img/collab/covers/' . $nombreImagenOriginal);
+            $rutaMiniatura = public_path('img/collab/thumbnails/' . $nombreImagenOriginal);
             $imagen->move(public_path('img/collab/covers/'), $nombreImagenOriginal);
-            $this->editImage($rutaImagen);
+            $this->editImage($rutaImagen,$rutaMiniatura);
 
             $validatedData['image'] = $nombreImagenOriginal;
         }else{
