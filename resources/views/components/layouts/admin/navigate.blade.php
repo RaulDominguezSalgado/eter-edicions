@@ -2,7 +2,7 @@
 $locale = 'ca';
 //TODO Change locale
 ?>
-<nav id="admin-nav" class="flex flex-col justify-between items-center">
+<nav id="admin-nav" class="flex flex-col space-y-8 items-center">
     <a href="{{ route("home.{$locale}") }}" class="logo"><img src="/img/logo/lg/logo_eter_black.webp"></a>
 
     <ul class="">
@@ -28,7 +28,7 @@ $locale = 'ca';
             </ul>
             <span class="icon">&#8964;</span> --}}
         </li>
-        <li><a class="has-icon" href=""><img src="/img/icons/pages.webp"><span>Págines</span></a></li>
+        <li><a class="has-icon" href=""><img src="/img/icons/pages.webp"><span>Pàgines</span></a></li>
         <li><a class="has-icon" href="{{ route('users.index')}}"><img src="/img/icons/users.webp"><span>Usuaris</span></a></li>
         <li><a class="has-icon" href="{{ route('users.index')}}"><img src="/img/icons/settings.webp"><span>Configuració</span></a></li>
     </ul>
