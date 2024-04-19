@@ -285,7 +285,7 @@ class CollaboratorController extends Controller
             ];
         }
         if(!is_null($collab->author)){
-            foreach($collab->author->books()->get() as $book){
+            foreach($collab->author->books()->where('visible', 'LIKE', 1)->get() as $book){
                 $collaborator['books'][$book->title] = [
                     'id' => $book->id,
                     'title' => $book->title,
@@ -295,7 +295,7 @@ class CollaboratorController extends Controller
             }
         }
         if(!is_null($collab->translator)){
-            foreach($collab->translator->books()->get() as $book){
+            foreach($collab->translator->books()->where('visible', 'LIKE', 1)->get() as $book){
                 $collaborator['books'][$book->title] = [
                     'id' => $book->id,
                     'title' => $book->title,
