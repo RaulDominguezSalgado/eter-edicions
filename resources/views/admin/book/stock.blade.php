@@ -32,12 +32,36 @@
                                             @csrf
                                             @method('PUT')
 
-                                            <input type="text" name="id" value={{$book['id']}} hidden>
+                                            <input type="text" name="id" value={{ $book['id'] }} hidden>
 
                                             <h5>Stock en magatzem:</h5>
-                                            <input type="number" id="defaultStock" name="stock" value="{{ $book['stock'] }}"
-                                                >
+                                            <input type="number" id="defaultStock" name="stock"
+                                                value="{{ $book['stock'] }}">
                                             <br><br>
+                                            {{-- Boton que al darle salga select de todas las librerias con nombre de la libreria
+                                                y como value el id de la libreria. y abajo un inpunt del stock:
+                                                <input type="number" name="bookstores[{{$store['id']}}][stock]"
+                                                            id="storeStock_{{ $loop->index }}"
+                                                            value="{{ $store['stock'] }}">
+                                                y tambien un boton de guardar stock, y hacer los metodos correspondientes en el controllador
+                                                 --}}
+                                            <button id="add-stock-button" class="btn btn-primary">+</button>
+
+                                            <div id="option-form" style="display: none;">
+                                                <select name="bookstore_id" id="bookstore_id">
+                                                    <option value="">Select a bookstore</option>
+                                                    @foreach ($book['bookstores'] as $bookstore)
+                                                        <option value="{{ $bookstore['id'] }}"
+                                                            @if (in_array($bookstore['id'], old('bookstores', []))) selected @endif>
+                                                            {{ $bookstore['name'] }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="number" name="input-value[]" class="form-control">
+                                                <button class="btn btn-primary">Añadir</button>
+                                            </div>
+
+                                            {{-- Mostrar librerias y stocks --}}
                                             @if (array_key_exists('bookstores', $book))
                                                 <div class="space-y-4">
                                                     <h5>Llibreries:</h5>
@@ -47,17 +71,20 @@
                                                         <span>{{ $store['name'] }}</span>
 
 
-                                                        <input type="text" name="bookstores[{{$store['id']}}][id]"
+                                                        <input type="text"
+                                                            name="bookstores[{{ $store['id'] }}][id]"
                                                             value={{ $store['id'] }} hidden>
-                                                        <input type="number" name="bookstores[{{$store['id']}}][stock]"
+                                                        <input type="number"
+                                                            name="bookstores[{{ $store['id'] }}][stock]"
                                                             id="storeStock_{{ $loop->index }}"
                                                             value="{{ $store['stock'] }}">
                                                         <span>{{ $store['address'] }}, {{ $store['city'] }}</span>
 
                                                         <button id="edit_{{ $loop->index }}">Editar</button>
                                                     @endforeach
-                                                    <input type="submit" class="btn btn-primary" value="Desa Canvis"></input>
-                                                    <!-- Movido fuera del foreach -->
+                                                    <input type="submit" class="btn btn-primary"
+                                                        value="Desa Canvis"></input>
+
                                                 </div>
                                             @endif
                                         </form>
@@ -75,4 +102,4 @@
 
 </x-layouts.admin.app>
 
-{{-- <script src="{{ asset('js/form/stock.js') }}"></script> --}}
+<script src="{{ asset('js/form/stock.js') }}"></script>

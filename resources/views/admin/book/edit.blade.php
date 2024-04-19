@@ -124,7 +124,7 @@
                         <div>
                             {{-- Col·leccions --}}
                             <div>
-                                <a href="{{ route('book.stock', $book['id']) }}">Gestionar stock</a>
+                                <a href="{{ route('stock.edit', $book['id']) }}">Gestionar stock</a>
                             </div>
                         </div>
                     </div>

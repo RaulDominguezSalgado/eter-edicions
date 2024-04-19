@@ -551,6 +551,7 @@ class BookController extends Controller
         return view('admin.book.stock', compact('book'));
     }
 
+    //STOCK
     public function editStock($id)
     {
         $locale = "ca";
@@ -573,7 +574,6 @@ class BookController extends Controller
 
         $bookstores = $book->bookstores;
 
-
         foreach ($bookstores as $bookstore) {
 
             $stock = isset($bookstoresRequest[$bookstore->id]) ? intval($bookstoresRequest[$bookstore->id]['stock']) : 0;
@@ -583,4 +583,6 @@ class BookController extends Controller
 
         return redirect()->back()->with('success', 'Stock updated successfully.');
     }
+
+
 }
