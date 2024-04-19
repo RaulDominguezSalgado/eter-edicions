@@ -77,11 +77,13 @@ class CollectionController extends Controller
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
                 'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']),
+                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']),
+                'meta_description' => \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
             ];
             CollectionTranslation::create($translationData);
 
             return redirect()->route('collections.index')
-                ->with('success', 'Collection created successfully.');
+                ->with('success', 'Col·lecció afegida correctament.');
         } catch (ValidationException $e) {
         }
     }
@@ -131,7 +133,7 @@ class CollectionController extends Controller
         }
 
         return redirect()->route('collections.index')
-            ->with('success', 'Collection updated successfully');
+            ->with('success', 'Col·lecció actualitzada correctament.');
     } catch (ValidationException $e) {
         // Manejar excepciones de validación si es necesario
     }

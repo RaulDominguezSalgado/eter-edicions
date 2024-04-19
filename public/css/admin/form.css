@@ -1,27 +1,63 @@
+form {
+    position: relative;
+}
 input:not([type="checkbox"]),
 textarea {
-    margin-top: 5px;
+    font-size: 16px;
+    margin-top: 0.3125em;
     width: 100%;
-    min-height: 25px;
-    padding: 10px;
-    font-size: 20px;
+    min-height: 1.5625em;
+    padding: 0.625em;
 }
 label {
     display: block;
-    padding: 10px 30px 30px;
-    font-size: 20px;
+    padding: 0.625em 1.875em 1.875em;
+    font-size: 16px;
+    user-select: none;
+    cursor: pointer;
     user-select: none;
     cursor: pointer;
 }
 textarea {
     resize: vertical;
-    height: 200px;
+    height: 12.5em;
 }
 fieldset {
-    margin: 20px 0;
+    margin: 1.25em 0;
 }
 fieldset > legend {
-    margin-left: 20px;
-    padding: 0 10px;
-    font-size: 20px;
+    margin-left: 1.25em;
+    padding: 0 0.625em;
+    font-size: 1.25em;
+}
+a.remove-content-button,
+a.add-content-button,
+#editor-fast-actions button {
+    user-select: none;
+    display: inline-block;
+    margin: 1.25em;
+    padding: 0.625em 25px;
+    border: 1px solid #ccc;
+    background: #ccc;
+    color: black;
+    cursor: pointer;
+    transition: .3s;
+}
+a.remove-content-button:hover,
+a.add-content-button:hover,
+#editor-fast-actions button:hover {
+    background: white;
+    transition: .3s;
+}
+
+#editor-fast-actions {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 99999;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 1.25em;
 }

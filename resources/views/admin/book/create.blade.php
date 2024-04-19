@@ -20,8 +20,12 @@
 
                         @csrf
 
-                        @include('admin.book.form')
-                    </form>
+                    <div class="card-body bg-white">
+                        <form action="{{ route( 'books.store' )}}" method="POST" role="form" enctype="multipart/form-data">
+                            @csrf
+                            @include("admin.book.form")
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

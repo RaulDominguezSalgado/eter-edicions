@@ -24,6 +24,7 @@ class PageSeeder extends Seeder
     private function foreignrights(){
         $foreignrights = new Page();
         $foreignrights->tag = "foreign-rights";
+        $foreignrights->tag = "foreign-rights";
         $foreignrights->save();
 
         $foreignrightsTranslationCa = new PageTranslation();
@@ -92,49 +93,49 @@ class PageSeeder extends Seeder
         $foreignrightsTranslationEn->save();
 
         $foreignrightsEnContentTitle = new PageContent();
-        $foreignrightsEnContentTitle->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentTitle->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentTitle->key = "title";
         $foreignrightsEnContentTitle->content = "Foreign rights";
         $foreignrightsEnContentTitle->save();
 
         $foreignrightsEnContentP1 = new PageContent();
-        $foreignrightsEnContentP1->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentP1->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentP1->key = "p1";
         $foreignrightsEnContentP1->content = "Our Foreign Rights are hold by  Serveis Editorials Èter S.L.";
         $foreignrightsEnContentP1->save();
 
         $foreignrightsEnContentMoreInfo = new PageContent();
-        $foreignrightsEnContentMoreInfo->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentMoreInfo->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentMoreInfo->key = "more-info";
         $foreignrightsEnContentMoreInfo->content = "For further information, please contact:";
         $foreignrightsEnContentMoreInfo->save();
 
         $foreignrightsEnContentContactPerson = new PageContent();
-        $foreignrightsEnContentContactPerson->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentContactPerson->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentContactPerson->key = "contact-person";
         $foreignrightsEnContentContactPerson->content = "Oriol Rissech";
         $foreignrightsEnContentContactPerson->save();
 
         $foreignrightsEnContentContactEmail = new PageContent();
-        $foreignrightsEnContentContactEmail->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentContactEmail->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentContactEmail->key = "contact-email";
         $foreignrightsEnContentContactEmail->content = "orissech@eteredicions.com";
         $foreignrightsEnContentContactEmail->save();
 
         $foreignrightsEnContentAgency = new PageContent();
-        $foreignrightsEnContentAgency->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentAgency->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentAgency->key = "agency";
         $foreignrightsEnContentAgency->content = "Serveis Editorials Èter S.L.";
         $foreignrightsEnContentAgency->save();
 
         $foreignrightsEnContentDownloadLabel = new PageContent();
-        $foreignrightsEnContentDownloadLabel->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentDownloadLabel->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentDownloadLabel->key = "download-label";
         $foreignrightsEnContentDownloadLabel->content = "Foreign Rights Catalogue ";
         $foreignrightsEnContentDownloadLabel->save();
 
         $foreignrightsEnContentDownloadFile = new PageContent();
-        $foreignrightsEnContentDownloadFile->page_translation_id = $foreignrightsTranslationCa->id;
+        $foreignrightsEnContentDownloadFile->page_translation_id = $foreignrightsTranslationEn->id;
         $foreignrightsEnContentDownloadFile->key = "download-file";
         $foreignrightsEnContentDownloadFile->content = "foreign-rights-catalogue.pdf";
         $foreignrightsEnContentDownloadFile->save();
@@ -149,8 +150,8 @@ class PageSeeder extends Seeder
         $pageTranslationCa = new PageTranslation();
         $pageTranslationCa->page_id = $page->id;
         $pageTranslationCa->lang = "ca";
-        $pageTranslationCa->slug = "qui-som";
-        $pageTranslationCa->meta_title = "Qui som";
+        $pageTranslationCa->slug = "sobre-nosaltres";
+        $pageTranslationCa->meta_title = "Sobre nosaltres";
         $pageTranslationCa->meta_description = "Informació sobre l'editorial Èter Edicions, especialitzada en traduccions de l'àrab al català i del català a l'àrab d’obres de poesia, pensament, novel·les i teatre";
         $pageTranslationCa->save();
 
@@ -164,10 +165,7 @@ class PageSeeder extends Seeder
         $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
         $pageCaContentP1->key = "p1";
         $pageCaContentP1->content = <<<HEREDOC
-        És una editorial radicada a Barcelona i fundada l'any 2023, nascuda amb la voluntat d'apropar les tradicions literàries en català i àrab. La nostra activitat es basa, doncs, a traduir publicacions contemporànies de cadascuna de les llengües a l'altra, així com de publicar textos inèdits en una i altra llengua.
-
-        L'editorial apareix principalment per culpa d'en Mohammad Bitari. Aquest poeta, dramaturg i traductor palestí trobava a faltar accés a un món que coneix bé i que no arriba suficientment a l’altre costat del Mediterrani: la producció escrita en àrab. A pesar de l’enorme qualitat i varietat de les publicacions -siguin de poesia, teatre, novel·la o pensament-, les traduccions que ens arriben a Occident, i sobretot al català, són, o bé escasses, o bé no existeixen.
-        Per resoldre això, va fundar Èter, conjuntament amb el poeta i crític literari Oriol Rissech.
+        És una <strong>editorial</strong> radicada a <strong>Barcelona</strong> i fundada l'any 2023, nascuda amb la voluntat d'apropar les tradicions literàries en <strong>català i àrab</strong>. La nostra activitat es basa, doncs, a traduir publicacions contemporànies de cadascuna de les llengües a l'altra, així com de publicar textos inèdits en una i altra llengua.\nL'editorial apareix principalment per culpa d'en <strong>Mohammad Bitari</strong>. Aquest poeta, dramaturg i traductor palestí trobava a faltar accés a un món que coneix bé i que no arriba suficientment a l’altre costat del Mediterrani: la producció escrita en àrab. A pesar de l’enorme qualitat i varietat de les publicacions -siguin de poesia, teatre, novel·la o pensament-, les traduccions que ens arriben a Occident, i sobretot al català, són, o bé escasses, o bé no existeixen.\nPer resoldre això, va fundar Èter, conjuntament amb el poeta i crític literari <strong>Oriol Rissech</strong>.
         HEREDOC;;
         $pageCaContentP1->save();
 
@@ -238,6 +236,14 @@ class PageSeeder extends Seeder
         $pageCaContentH1->content = "Contacte";
         $pageCaContentH1->save();
 
+        $pageCaContentP1 = new PageContent();
+        $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentP1->key = "p1";
+        $pageCaContentP1->content = <<<HEREDOC
+        A Èter estem constantment buscant obres interessants en àrab per portar-les a Catalunya, i obres en català per exportar-les al món àrab. Centrem els nostres esforços i recursos en apropar el món àrab i el català a través de la lectura, sempre amb una perspectiva crítica i decolonial. Si el teu manuscrit encaixa en aquests paràmetres, sigui una obra de ficció, poesia, teatre, pensament o assaig, ens la pots fer arribar i estarem encantats de llegir-la.\n\nTens algun dubte o suggeriment? Algun problema amb la teva comanda? Vols que et recomanem el llibre que t'agradarà més? Vols preguntar-nos sobre els drets d'autor o portar al teu país un llibre que hem editat? Posa't en contacte amb nosaltres.\nEt contestarem l'abans possible.
+        HEREDOC;
+        $pageCaContentP1->save();
+
         $pageCaContentCompanyName = new PageContent();
         $pageCaContentCompanyName->page_translation_id = $pageTranslationCa->id;
         $pageCaContentCompanyName->key = "company-name";
@@ -273,10 +279,15 @@ class PageSeeder extends Seeder
         $pageCaContentFormSubject = new PageContent();
         $pageCaContentFormSubject->page_translation_id = $pageTranslationCa->id;
         $pageCaContentFormSubject->key = "form-subject";
-        $pageCaContentFormSubject->content = <<<HEREDOC
-        {"Comandes", "Premsa i comunicació", "Foreign rights", "Drets d'autor", "Manuscrits", "Altres"}
-        HEREDOC;
+        $pageCaContentFormSubject->content = "Assumpte";
         $pageCaContentFormSubject->save();
+
+        $subjects = json_encode(["Comandes", "Premsa i comunicació", "Foreign rights", "Drets d'autor", "Manuscrits", "Altres"]);
+        $pageCaContentFormSubjects = new PageContent();
+        $pageCaContentFormSubjects->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentFormSubjects->key = "form-subjects";
+        $pageCaContentFormSubjects->content = $subjects;
+        $pageCaContentFormSubjects->save();
 
         $pageCaContentFormName = new PageContent();
         $pageCaContentFormName->page_translation_id = $pageTranslationCa->id;

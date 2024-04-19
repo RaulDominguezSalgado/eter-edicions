@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('book_bookstore', function (Blueprint $table) {
             $table->unsignedBigInteger('book_id');
             $table->unsignedBigInteger('bookstore_id');
-            $table->integer('stock');
             $table->timestamps();
 
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');

@@ -47,6 +47,7 @@ foreach (config('languages') as $locale) {
 
         // Posts
         Route::get(__('paths.posts', [], $locale), [App\Http\Controllers\PostController::class, 'posts'])->name("posts.{$locale}");
+        Route::get(__('paths.posts', [], $locale)  . '/{id}', [App\Http\Controllers\PostController::class, 'postDetail'])->name("post-detail.{$locale}");
 
         // About
         Route::get(__('paths.about', [], $locale), [App\Http\Controllers\PageController::class, 'about'])->name("about.{$locale}");
@@ -61,6 +62,7 @@ foreach (config('languages') as $locale) {
 
         // Contact
         Route::get(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
+        Route::post(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'sendContactForm'])->name("contact.send.{$locale}");
     }
     else {
 

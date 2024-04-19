@@ -9,16 +9,7 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
-                            <span id="card_title">
-                                {{ __('Collection') }}
-                            </span>
-
-                            <div class="float-right">
-                                <a href="{{ route('collections.create') }}" class="btn btn-primary btn-sm float-right"
-                                    data-placement="left">
-                                    {{ __('Create New') }}
-                                </a>
-                            </div>
+                            <h2>Gestió de col·leccions</h2>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -42,7 +33,16 @@
                                         <th>Nom</th>
                                         <th>Descripció</th>
 
-                                        <th></th>
+                                        <th>
+                                            <a href="{{ route('collections.create') }}">
+                                                <div
+                                                    class="navigation-button form-button flex items-center space-x-1 max-w-10">
+                                                    <img src="{{ asset('img/icons/plus.webp') }}"
+                                                        alt="Afegir nou llibre" class="add w-2.5 h-2.5">
+                                                    <p class="">Nou</p>
+                                                </div>
+                                            </a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>

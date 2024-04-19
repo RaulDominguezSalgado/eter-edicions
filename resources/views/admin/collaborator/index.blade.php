@@ -9,16 +9,8 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
-                            <span id="card_title">
-                                {{ __('Col·laboradors') }}
-                            </span>
+                            <h2>Gestió de col·laboradors</h2>
 
-                            <div class="float-right">
-                                <a href="{{ route('collaborators.create') }}" class="btn btn-primary btn-sm float-right"
-                                    data-placement="left">
-                                    {{ __('Create New') }}
-                                </a>
-                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -42,7 +34,12 @@
                                         <th>Llenguatge</th>
                                         <th>Xarxes Socials Networks</th>
 
-                                        <th></th>
+                                        <th><a href="{{ route('collaborators.create') }}">
+                                            <div  class="navigation-button form-button flex items-center space-x-1 max-w-10">
+                                                <img src="{{asset('img/icons/plus.webp')}}" alt="Afegir nou llibre" class="add w-2.5 h-2.5">
+                                                <p class="">Nou</p>
+                                            </div>
+                                        </a></th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
+use App\Models\Author;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -172,78 +173,7 @@ class CollaboratorController extends Controller
         return view('admin.collaborator.show', compact('collaborator'));
     }
 
-    public function collaboratorDetail($id){
-        $locale = 'ca';
-        $page = [
-            'title' => 'Autors i traductors',
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
 
-        // $collaborator_lv = Collaborator::find($id);
-        // return dd($book_lv->id);
-
-        $collaborator = $this->getFullCollaborator($id, $locale);
-
-        // dd($collaborator);
-
-        $page = [
-            'title' => $collaborator['first_name'] . " " . $collaborator['last_name'],
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
-
-        // dd($page);
-
-        return view('public.collaborator', compact('collaborator', 'page', 'locale'));
-    }
-
-    public function agency(){
-        return "CollaboratorController > agency";
-    }
-
-
-    public function getFullCollaborator($id, $locale){
-        $collab = Collaborator::find($id);
-        // $collaborator = [];
-        $translation = $collab->translations->where('lang', $locale)->first();
-        if ($translation) {
-            $collaborator = [
-                'id' => $collab->id,
-                'image' => $collab->image,
-                'first_name' => $translation->first_name,
-                'last_name' => $translation->last_name,
-                'lang' => $translation->lang,
-                'biography' => $translation->biography,
-                'slug' => $translation->slug,
-                'social_networks' => json_decode($collab->social_networks, true)
-            ];
-        }
-        if(!is_null($collab->author)){
-            foreach($collab->author->books()->get() as $book){
-                $collaborator['books'][$book->title] = [
-                    'id' => $book->id,
-                    'title' => $book->title,
-                    'image' => $book->image,
-                    'slug' => $book->slug
-                ];
-            }
-        }
-        if(!is_null($collab->translator)){
-            foreach($collab->translator->books()->get() as $book){
-                $collaborator['books'][$book->title] = [
-                    'id' => $book->id,
-                    'title' => $book->title,
-                    'image' => $book->image,
-                    'slug' => $book->slug
-                ];
-            }
-        }
-
-        return $collaborator;
-    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -325,7 +255,142 @@ class CollaboratorController extends Controller
 
 
     public function collaborators(){
-        return "CollaboratorController > publicIndex";
+        $locale = 'ca';
+        $page = [
+            'title' => 'Autors i traductors',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $collaborators_lv = Collaborator::paginate();
+
+        $authors = [];
+        $translators = [];
+
+        foreach($collaborators_lv as $collab){
+            $collaborator=$this->getFullCollaborator($collab->id, $locale);
+
+            if($collab->author){
+                $authors[]=$collaborator;
+            }
+            if($collab->translator){
+                $translators[]=$collaborator;
+            }
+        }
+
+        $collaboratorTypes = [
+            'authors' => 'Autors',
+            'translators' => "Traductors"
+        ];
+
+        return view('public.collaborators', compact('collaborators_lv', 'authors', 'translators', 'collaboratorTypes', 'page', 'locale'))
+            ->with('i', (request()->input('page', 1) - 1) * $collaborators_lv->perPage());
+    }
+
+    public function collaboratorDetail($id){
+        $locale = 'ca';
+        $page = [
+            'title' => 'Autors i traductors',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        // $collaborator_lv = Collaborator::find($id);
+        // return dd($book_lv->id);
+
+        $collaborator = $this->getFullCollaborator($id, $locale);
+
+        // dd($collaborator);
+
+        $page = [
+            'title' => $collaborator['first_name'] . " " . $collaborator['last_name'],
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        // dd($page);
+
+        return view('public.collaborator', compact('collaborator', 'page', 'locale'));
+    }
+
+    public function agency(){
+        $locale = 'ca';
+        $page = [
+            'title' => 'Autors i traductors',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $authors_lv = Author::where('represented_by_agency', 'LIKE', 1)->paginate();
+
+        $collaborators_lv = [];
+        foreach($authors_lv as $author){
+            $collaborators_lv[]=$author->collaborator;
+        }
+
+        // $authors = [];
+        // $translators = [];
+
+        $collaborators = [];
+
+        foreach($collaborators_lv as $collab){
+            $collaborator=$this->getFullCollaborator($collab->id, $locale);
+            $collaborators[]=$collaborator;
+
+            // if($collab->author){
+            //     $authors[]=$collaborator;
+            // }
+            // if($collab->translator){
+            //     $translators[]=$collaborator;
+            // }
+        }
+
+        return view('public.agency', compact('collaborators_lv', 'collaborators', 'page', 'locale'));
+    }
+
+
+    public function getFullCollaborator($id, $locale){
+        $collab = Collaborator::find($id);
+        // $collaborator = [];
+        $translation = $collab->translations->where('lang', $locale)->first();
+        if ($translation) {
+            $collaborator = [
+                'id' => $collab->id,
+                'image' => $collab->image,
+                'first_name' => $translation->first_name,
+                'last_name' => $translation->last_name,
+                'lang' => $translation->lang,
+                'biography' => $translation->biography,
+                'slug' => $translation->slug,
+                'social_networks' => json_decode($collab->social_networks, true)
+            ];
+        }
+        if(!is_null($collab->author)){
+            foreach($collab->author->books()->where('visible', 'LIKE', 1)->get() as $book){
+                $collaborator['books'][$book->title] = [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'image' => $book->image,
+                    'slug' => $book->slug
+                ];
+            }
+        }
+        if(!is_null($collab->translator)){
+            foreach($collab->translator->books()->where('visible', 'LIKE', 1)->get() as $book){
+                $collaborator['books'][$book->title] = [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'image' => $book->image,
+                    'slug' => $book->slug
+                ];
+            }
+        }
+
+        return $collaborator;
     }
 
 }
