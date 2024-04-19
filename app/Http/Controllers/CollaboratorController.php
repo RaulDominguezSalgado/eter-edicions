@@ -173,6 +173,121 @@ class CollaboratorController extends Controller
         return view('admin.collaborator.show', compact('collaborator'));
     }
 
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $locale = $this->lang;
+
+        $collaborator = $this->getFullCollaborator($id, $locale);
+
+        return view('admin.collaborator.edit', compact('collaborator'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(CollaboratorRequest $request, Collaborator $collaborator)
+    {
+        //$collaborator->update($request->validated());
+
+        $validatedData = $request->validated();
+        if ($request->hasFile('image')) {
+            // Obtener el archivo de imagen
+            $imagen = $request->file('image');
+            $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
+
+            $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+
+            // // Procesar y guardar la imagen
+            $rutaImagen = public_path('img/collab/covers/' . $nombreImagenOriginal);
+            $rutaMiniatura = public_path('img/collab/thumbnails/' . $nombreImagenOriginal);
+            $imagen->move(public_path('img/collab/covers/'), $nombreImagenOriginal);
+            $this->editImage($rutaImagen,$rutaMiniatura);
+
+            $validatedData['image'] = $nombreImagenOriginal;
+        }else{
+            $validatedData['image']=$collaborator->image;
+        }
+        $redes_sociales = [];
+        if ($request->filled('red_social')) {
+            foreach ($request->input('red_social') as $index => $red_social) {
+                if ($request->filled('usuario_red_social.' . $index)) {
+                    $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $index);
+                }
+            }
+        }
+        $redes_sociales_json = json_encode($redes_sociales);
+
+        $collaborator->update([
+            'image' => $validatedData['image'],
+            'social_networks' => $redes_sociales_json
+        ]);
+
+        $translation=$collaborator->translations()->where('lang',$this->lang)->first();
+        if($translation){
+            $translation->update( [
+                'collaborator_id' => $collaborator->id,
+                'first_name' => $validatedData['first_name'],
+                'last_name' => $validatedData['last_name'],
+                'biography' => $validatedData['biography'],
+                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'lang' => $validatedData['lang'],
+                'meta_title'=>\App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'meta_description'=>$validatedData['biography']
+            ]);
+        }
+        return redirect()->route('collaborators.index')
+            ->with('success', 'Collaborator updated successfully');
+    }
+
+    public function destroy($id)
+    {
+        try {
+            Collaborator::find($id)->delete();
+            return redirect()->route('collaborators.index')->with('success', 'Col·laborador eliminat correctament');
+        } catch (QueryException $e) {
+            return redirect()->route('collaborators.index')->with('error', 'No es possible eliminar aquest autor, ja que té dades relacionades');
+        }
+    }
+
+
+    public function collaborators(){
+        $locale = 'ca';
+        $page = [
+            'title' => 'Autors i traductors',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        $collaborators_lv = Collaborator::paginate();
+
+        $authors = [];
+        $translators = [];
+
+        foreach($collaborators_lv as $collab){
+            $collaborator=$this->getFullCollaborator($collab->id, $locale);
+
+            if($collab->author){
+                $authors[]=$collaborator;
+            }
+            if($collab->translator){
+                $translators[]=$collaborator;
+            }
+        }
+
+        $collaboratorTypes = [
+            'authors' => 'Autors',
+            'translators' => "Traductors"
+        ];
+
+        return view('public.collaborators', compact('collaborators_lv', 'authors', 'translators', 'collaboratorTypes', 'page', 'locale'))
+            ->with('i', (request()->input('page', 1) - 1) * $collaborators_lv->perPage());
+    }
+
     public function collaboratorDetail($id){
         $locale = 'ca';
         $page = [
@@ -276,89 +391,6 @@ class CollaboratorController extends Controller
         }
 
         return $collaborator;
-    }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $locale = $this->lang;
-
-        $collaborator = $this->getFullCollaborator($id, $locale);
-
-        return view('admin.collaborator.edit', compact('collaborator'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(CollaboratorRequest $request, Collaborator $collaborator)
-    {
-        //$collaborator->update($request->validated());
-
-        $validatedData = $request->validated();
-        if ($request->hasFile('image')) {
-            // Obtener el archivo de imagen
-            $imagen = $request->file('image');
-            $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
-
-            $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
-
-            // // Procesar y guardar la imagen
-            $rutaImagen = public_path('img/collab/covers/' . $nombreImagenOriginal);
-            $rutaMiniatura = public_path('img/collab/thumbnails/' . $nombreImagenOriginal);
-            $imagen->move(public_path('img/collab/covers/'), $nombreImagenOriginal);
-            $this->editImage($rutaImagen,$rutaMiniatura);
-
-            $validatedData['image'] = $nombreImagenOriginal;
-        }else{
-            $validatedData['image']=$collaborator->image;
-        }
-        $redes_sociales = [];
-        if ($request->filled('red_social')) {
-            foreach ($request->input('red_social') as $index => $red_social) {
-                if ($request->filled('usuario_red_social.' . $index)) {
-                    $redes_sociales[$red_social] = $request->input('usuario_red_social.' . $index);
-                }
-            }
-        }
-        $redes_sociales_json = json_encode($redes_sociales);
-
-        $collaborator->update([
-            'image' => $validatedData['image'],
-            'social_networks' => $redes_sociales_json
-        ]);
-
-        $translation=$collaborator->translations()->where('lang',$this->lang)->first();
-        if($translation){
-            $translation->update( [
-                'collaborator_id' => $collaborator->id,
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'lang' => $validatedData['lang'],
-                'meta_title'=>\App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'meta_description'=>$validatedData['biography']
-            ]);
-        }
-        return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator updated successfully');
-    }
-
-    public function destroy($id)
-    {
-        try {
-            Collaborator::find($id)->delete();
-            return redirect()->route('collaborators.index')->with('success', 'Col·laborador eliminat correctament');
-        } catch (QueryException $e) {
-            return redirect()->route('collaborators.index')->with('error', 'No es possible eliminar aquest autor, ja que té dades relacionades');
-        }
-    }
-
-
-    public function collaborators(){
-        return "CollaboratorController > publicIndex";
     }
 
 }
