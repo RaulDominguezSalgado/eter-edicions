@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use \App\Models\Page;
+use App\Models\Book;
+use App\Models\Post;
+
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\PostController;
+
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -17,12 +23,15 @@ class PageController extends Controller
             'web' => 'Èter Edicions'
         ];
 
-        $books = [];
-        $posts = [];
-        $activities = [];
+        $bookController = new BookController();
+        $books = $bookController->getNewestBooks($locale);
+        // dd($books);
 
+        $postController = new PostController();
+        $posts = $postController->getLatestPosts($locale);
+        // dd($posts);
 
-        return view('public.home', compact('books', 'posts', 'activities', 'page', 'locale'));
+        return view('public.home', compact('books', 'posts', 'page', 'locale'));
     }
 
 

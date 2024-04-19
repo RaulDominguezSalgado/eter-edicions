@@ -1,7 +1,6 @@
 .post {
     width: 23.8125em;
     /* height: 24.4375em; */
-    height: auto;
 
     display: flex;
     flex-direction: column;
@@ -11,23 +10,17 @@
 }
 
 .post .cover {
-    width: 20.6875em;
-    height: 11.6875em;
+    width: 20, 6875em;
+    height: 11, 6875em;
 }
 
-.post .cover-min{
-    width: 20.6875em;
-    height: 4.6875em;
-}
-
-.post .cover img,
-.post .cover-min img {
+.post .cover img {
     border: solid;
     border-color: #00000060;
     border-width: 0.4px;
 
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     object-fit: cover;
 
     box-shadow: -6px 7px 10.6px 1px rgba(0, 0, 0, 0.3);

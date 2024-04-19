@@ -521,6 +521,21 @@ class BookController extends Controller
     }
 
 
+    public function getNewestBooks($locale){
+        $books_lv = Book::where('visible', 1)
+        ->orderBy('publication_date', 'desc')
+        ->take(4)
+        ->get();
+
+        $books = [];
+        foreach($books_lv as $book_lv){
+            $books[$book_lv->slug] = $this->getPreviewBook($book_lv, $locale);
+        }
+
+        return $books;
+    }
+
+
 
     public function redirectViewStock($id)
     {

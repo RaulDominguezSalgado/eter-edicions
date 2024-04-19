@@ -225,6 +225,32 @@ class PostController extends Controller
         return view('public.posts', compact('posts', 'page', 'locale'));
     }
 
+    public function activities()
+    {
+        $locale = "ca";
+
+        $posts_lv = Post::whereNotNull('date')
+            ->whereNotNull('location')
+            ->orderBy('date', 'desc')
+            ->paginate(20);
+
+        // dd($activities_lv);
+
+        $posts = [];
+        foreach ($posts_lv as $post_lv) {
+            $posts[$post_lv->slug] = $this->getPreviewActivity($post_lv, $locale);
+        }
+
+        $page = [
+            'title' => "Articles",
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        return view('public.activities', compact('posts', 'page', 'locale'));
+    }
+
     public function postDetail($id)
     {
         $locale = "ca";
@@ -251,33 +277,6 @@ class PostController extends Controller
 
             return view('public.post', compact('post', 'page', 'locale'));
         }
-    }
-
-
-    public function activities()
-    {
-        $locale = "ca";
-
-        $posts_lv = Post::whereNotNull('date')
-            ->whereNotNull('location')
-            ->orderBy('date', 'desc')
-            ->paginate(20);
-
-        // dd($activities_lv);
-
-        $posts = [];
-        foreach ($posts_lv as $post_lv) {
-            $posts[$post_lv->slug] = $this->getPreviewActivity($post_lv, $locale);
-        }
-
-        $page = [
-            'title' => "Articles",
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
-
-        return view('public.activities', compact('posts', 'page', 'locale'));
     }
 
 
@@ -382,5 +381,47 @@ class PostController extends Controller
         ];
 
         return $activityResult;
+    }
+
+    public function getPreviewGenericPost($post, $locale){
+        $postType = (is_null($post->date) && is_null($post->location)) ? "ARTICLES" : "ACTIVITATS";
+        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : ($post->date);
+        // @dump($post->date);
+        // @dump(Carbon::createFromFormat('Y-m-d H:i:s', $post->date)->format('d/m/Y'));
+
+        $postResult = [
+            'id' => $post->id,
+            'title' => $post->title,
+            'description' => $post->description,
+            'date' => $date,
+            'location' => str_contains($post->location, ".") ? substr($post->location, 0, strpos($post->location, '.')) : $post->location,
+            'image' => $post->image,
+            'post_type' => $postType,
+            'slug' => $post->slug,
+            'meta_title' => $post->meta_title,
+            'meta_description' => $post->meta_description
+        ];
+
+        // @dump($postResult);
+
+        return $postResult;
+    }
+
+
+    public function getLatestPosts($locale){
+
+        $posts_lv = Post::orderBy('publication_date', 'desc')
+            ->take(3)->get();
+
+        // @dump($posts_lv);
+
+        $posts = [];
+        foreach ($posts_lv as $post_lv) {
+            $posts[$post_lv->slug] = $this->getPreviewGenericPost($post_lv, $locale);
+        }
+
+        // @dump($posts);
+
+        return $posts;
     }
 }
