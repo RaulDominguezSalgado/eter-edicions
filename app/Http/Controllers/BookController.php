@@ -683,4 +683,105 @@ class BookController extends Controller
 
         return redirect()->back()->with('success', 'Stock updated successfully.');
     }
+
+    private function getData($key = null, $value = null) {
+        // try {
+            $locale = 'ca';
+
+            if ($key == null || $value == null) {
+                $query_data = Book::paginate();
+            }
+            else {
+                $query_data = Book::where($key, $value)->paginate();
+            }
+            $books = [];
+            foreach ($query_data as $single_data) {
+                $collections_names = [];
+                if (!empty($single_data->collections)) {
+                    foreach ($single_data->collections as $collection) {
+                        // dd($collection);
+                        $name = $collection->translations()->first()->name;
+                        $collections_names[] = [
+                            'id' => $collection->id,
+                            'name' => $name,
+                        ];
+                    }
+                    // dd($collections_names);
+                }
+                $collaborators = $this->getCollaboratorsArray($single_data->id);
+                // dd($single_data);
+                $books[] = [
+                    'id' => $single_data->id,
+                    'title' => $single_data->title,
+                    'description' => $single_data->description,
+                    'slug' => $single_data->slug,
+                    'lang' => $single_data->languages()->first()->iso,
+                    'isbn' => $single_data->isbn,
+                    'publisher' => $single_data->publisher,
+                    'image' => $single_data->image,
+                    'pvp' => $single_data->pvp,
+                    'iva' => $single_data->iva,
+                    'discounted_price' => $single_data->discounted_price,
+                    'stock' => $single_data->stock,
+                    'visible' => $single_data->visible,
+                    'sample_url' => $single_data->sample,
+                    'number_of_pages' => $single_data->number_of_pages,
+                    'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
+                    'collections' => $collections_names,
+                    'collaborators' => $collaborators,
+                    'original_title' => $single_data->original_title,
+                    'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
+                    'original_publisher' => $single_data->original_publisher,
+                    'legal_diposit' => $single_data->legal_diposit,
+                    'headline' => $single_data->headline,
+                    'size' => $single_data->size,
+                    'enviromental_footprint' => $single_data->enviromental_footprint,
+                    'meta_title' => $single_data->meta_title,
+                    'meta_description' => $single_data->meta_description,
+                ];
+            }
+            return $books;
+        // }
+        // catch (Exception $e) {
+        //     abort(500, 'Server Error');
+        // }
+    }
+
+    public function editImage($rutaImagen){
+        // try {
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($rutaImagen);
+            // Crop a 1.4 / 1 aspect ratio
+            if ($image->width() > $image->height()) {
+                $heightStd = $image->width() / 1.4;
+                $cropNum = $image->height() - $heightStd;
+                if ($cropNum > 0) {
+                    $image->crop($image->width(), $heightStd);
+                }
+            } else {
+                $heightStd = $image->width() / 1.4;
+                $cropNum = $image->height() - $heightStd;
+                if ($cropNum > 0) {
+                    $image->crop($heightStd, $image->height());
+                }
+            }
+
+            // Resize the image to 560x400
+            $image->resize(560, 400);
+
+            // If size > 560x400, resize to 720x1080
+            if ($image->width() > 560 || $image->height() > 400) {
+                $image->resize(560, 400);
+            }
+
+            // Encode the image to webp format with 80% quality
+            $image->encode(new WebpEncoder(), 80);
+
+            // Save the processed image
+            $image->save($rutaImagen);
+        // }
+        // catch (Exception $e) {
+        //     abort(500, 'Server Error');
+        // }
+    }
 }
