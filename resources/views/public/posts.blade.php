@@ -14,7 +14,7 @@
 
             <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
                 @foreach ($posts as $i => $post)
-                    <div class="post flex flex-col space-y-2">
+                    <div class="post space-y-2">
                         <div class="">
                             <h5 class="font-bold">{{$post['title']}}</h5>
                         </div>
@@ -24,8 +24,10 @@
                                     alt="{{ $post['title'] }}">
                             </a>
                         </div>
-                        <div class="w-full flex justify-between items-baseline h-8">
-                            <p class="uppercase">{{$post['post_type']}}</p>
+                        <div class="headline">
+                            <div class="">
+                                <p class="uppercase">{{$post['post_type']}}</p>
+                            </div>
                             <div class="h-auto">
                                 <p class="p12">{{$post['date']}}</p>
                                 {{-- <p class="p12">{{$post['location']}}</p> --}}
@@ -34,7 +36,7 @@
                         <div class="description">
                             <p class="p14">{{$post['description']}}</p>
                         </div>
-                        <div>
+                        <div class="w-fit">
                             <a href="{{route('post-detail.ca', $post['id'])}}">
                                 <p class="p14 underline">Saber-ne més</p>
                             </a>

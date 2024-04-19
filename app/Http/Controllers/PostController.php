@@ -220,10 +220,6 @@ class PostController extends Controller
             'web' => 'Èter Edicions'
         ];
 
-        // dd($authors);
-        // dd($translators);
-        // dd($related_books);
-
         return view('public.posts', compact('posts', 'page', 'locale'));
     }
 
@@ -234,17 +230,28 @@ class PostController extends Controller
 
     public function activities()
     {
-        $activities_lv = Post::whereNotNull('date')
+        $locale = "ca";
+
+        $posts_lv = Post::whereNotNull('date')
             ->whereNotNull('location')
             ->orderBy('date', 'desc')
             ->paginate(20);
 
-        $activities = [];
-        foreach ($activities_lv as $activity_lv) {
-            $activities[$activities_lv->slug] = $this->getPreviewActivity($activity_lv);
+        // dd($activities_lv);
+
+        $posts = [];
+        foreach ($posts_lv as $post_lv) {
+            $posts[$post_lv->slug] = $this->getPreviewActivity($post_lv);
         }
 
-        return "PostController > activities";
+        $page = [
+            'title' => "Articles",
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        return view('public.activities', compact('posts', 'page', 'locale'));
     }
 
 
@@ -279,14 +286,14 @@ class PostController extends Controller
 
     private function getPreviewActivity($activity)
     {
-        @dump($activity->date);
+        // @dump($activity->date);
 
         $activityResult = [
             'id' => $activity->id,
             'title' => $activity->title,
             'description' => $activity->description,
-            'date' => Carbon::createFromFormat('Y-m-d m:i:s', $activity->date)->format('d/m/Y'),
-            'location' => substr($$activity->location, 0, strpos($$activity->location, '.')),
+            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->date)->format('d/m/Y'),
+            'location' => str_contains($activity->location, ".") ? substr($activity->location, 0, strpos($activity->location, '.')) : $activity->location,
             'image' => $activity->image,
             'post_type' => "ACTIVITATS",
             'slug' => $activity->slug,
