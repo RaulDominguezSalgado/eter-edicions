@@ -33,12 +33,24 @@ class PostController extends Controller
         $posts = Post::paginate();
         $postsArray = [];
         foreach ($posts as $post) {
+            if($post->author){
+                $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+            }else{
+                $authorID = '';
+            }
+
+            if($post->translator){
+                $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
+            }else{
+                $translator = '';
+            }
+
             $postsArray[] = [
                 'id' => $post->id,
                 'title' => $post->title,
                 'description' => $post->description,
-                'author_id' => $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name,
-                'translator_id' => $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name,
+                'author_id' => $authorID,
+                'translator_id' =>$translator,
                 'content' => $post->content,
                 'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
                 'location' => $post->location,

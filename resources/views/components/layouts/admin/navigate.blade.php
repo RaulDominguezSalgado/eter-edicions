@@ -21,7 +21,7 @@ $locale = 'ca';
         </li>
         <li><a class="has-icon" href="{{ route('bookstores.index')}}"><img src="/img/icons/bookstores.webp"><span>Llibreries</span></a></li>
         <li class="has-child">
-            <a class="has-icon" href=""><img src="/img/icons/posts.webp"><span>Publicacions</span></a>
+            <a class="has-icon" href="{{ route('posts.index') }}"><img src="/img/icons/posts.webp"><span>Publicacions</span></a>
             {{-- <ul>
                 <li><a href="">Activitats</a></li>
                 <li><a href="{{ route('posts.index')}}">Articles</a></li>
