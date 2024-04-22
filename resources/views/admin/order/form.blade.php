@@ -1,5 +1,10 @@
 <div class="row padding-1 p-1">
     <div class="col-md-12">
+        @if ($message = Session::get('error'))
+            <div class="alert alert-success m-4">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
         <div class="form-group mb-2 mb20">
             <label for="date" class="form-label">{{ __('Data') }}</label>
             <input type="date" name="date" class="form-control @error('date') is-invalid @enderror"
@@ -109,7 +114,7 @@
 
     <div class="form-group mb-2 mb20">
         <label for="pdf" class="form-label">{{ __('PDF') }}</label>
-        <input type="text" name="pdf" class="form-control @error('pdf') is-invalid @enderror"
+        <input type="file" accept=".pdf" name="pdf" class="form-control @error('pdf') is-invalid @enderror"
             value="{{ old('pdf', $order['pdf']) }}" id="pdf" placeholder="PDF">
         {!! $errors->first('pdf', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>

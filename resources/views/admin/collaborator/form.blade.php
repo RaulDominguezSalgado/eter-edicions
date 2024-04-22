@@ -4,8 +4,8 @@
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Imatge') }}</label>
             <img style="width: 100px; height: auto;"
-            src="{{ asset('img/collab/covers/' . ($collaborator['image'] ?? 'collab-default.webp')) }}"
-            alt="{{ ($collaborator['image'] ?? 'collab-default.webp') . ' - ' }}">
+            src="{{ asset('img/collab/covers/' . ($collaborator['image'] ?? 'default.webp')) }}"
+            alt="{{ ($collaborator['image'] ?? 'default.webp') . ' - ' }}">
             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
                 value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}

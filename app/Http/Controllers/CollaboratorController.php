@@ -393,4 +393,54 @@ class CollaboratorController extends Controller
         return $collaborator;
     }
 
+    /**
+     * Display a listing of the resource for the public users.
+     */
+    public static function getCollaboratorsArray($id)
+    {
+        try {
+            $locale = 'ca';
+
+            $book = \App\Models\Book::find($id);
+
+            $authors = [];
+            foreach ($book->authors()->get() as $author) {
+                $collaborator = \App\Models\Collaborator::find($author->collaborator_id);
+                $translation = $collaborator->translations()->where('lang', 'ca')->first();
+
+                $authors[] = [
+                    'id' => $author->id,
+                    'collaborator_id' => $author->collaborator_id,
+                    'first_name' => $translation->first_name,
+                    'last_name' => $translation->last_name,
+                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'biography' => $translation->biography,
+                    'image' => $collaborator->image,
+                ];
+            }
+
+            $translators = [];
+            foreach ($book->translators()->get() as $translator) {
+                $collaborator = \App\Models\Collaborator::find($translator->collaborator_id);
+                $translation = $collaborator->translations()->where('lang', 'ca')->first();
+                $translators[] = [
+                    'id' => $translator->id,
+                    'collaborator_id' => $translator->collaborator_id,
+                    'first_name' => $translation->first_name,
+                    'last_name' => $translation->last_name,
+                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'biography' => $translation->biography,
+                    'image' => $collaborator->image,
+                ];
+            }
+            return [
+                'authors' => $authors,
+                'translators' => $translators,
+            ];
+        }
+        catch (Exception $e) {
+            abort(500, 'Server Error');
+        }
+    }
+
 }

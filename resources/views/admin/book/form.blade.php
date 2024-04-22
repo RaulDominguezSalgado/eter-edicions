@@ -1,55 +1,48 @@
 <?php
-    function getCollaborators($selected=-1) {
-        $collaborators = \App\Models\Collaborator::with('translations')->get();
+    function getCollaborators($collaborators, $selected=-1) {
         $col_options = "<option selected disabled>Selecciona una opció</option>";
-        foreach ($collaborators as $content) {
-            foreach ($content->translations->where('lang', 'ca') as $collaborator) {
-                if ($content->id == $selected) {
-                    $col_options .= "<option selected value='$content->id'>".$collaborator->first_name." ".$collaborator->last_name."</option>";
-                }
-                else {
-                    $col_options .= "<option value='$content->id'>".$collaborator->first_name." ".$collaborator->last_name."</option>";
-                }
-            }
-        }
-        echo $col_options;
-    }
-
-    function getCollections($selected=-1) {
-        $collections = \App\Models\Collection::with('translations')->get();
-        $col_options = "<option selected disabled>Selecciona una opció</option>";
-        foreach ($collections as $content) {
-            foreach ($content->translations->where('lang', 'ca') as $collection) {
-                if ($content->id == $selected) {
-                    $col_options .= "<option selected value='$content->id'>".$collection->name."</option>";
-                }
-                else {
-                    $col_options .= "<option value='$content->id'>".$collection->name."</option>";
-                }
-            }
-        }
-        echo $col_options;
-    }
-
-    function getLanguages($selected=.1) {
-        $languages = \App\Models\Language::get();
-        $lang_options = "";
-        foreach ($languages as $language) {
-            if ($language->iso == $selected) {
-                $lang_options .= "<option selected value='$language->iso'>".$language->iso."</option>";
+        foreach ($collaborators as $collaborator) {
+            if ($collaborator['id'] == $selected) {
+                $col_options .= '<option selected value='.$collaborator['id'].'>'.$collaborator['full_name'].'</option>';
             }
             else {
-                $lang_options .= "<option value='$language->iso'>".$language->iso."</option>";
+                $col_options .= '<option selected value='.$collaborator['id'].'>'.$collaborator['full_name'].'</option>';
+            }
+        }
+        echo $col_options;
+    }
+
+    function getCollections($collections, $selected=-1) {
+        $col_options = "<option selected disabled>Selecciona una opció</option>";
+        foreach ($collections as $collection) {
+            if ($collection['id'] == $selected) {
+                $col_options .= '<option selected value='.$collection['id'].'>'.$collection['name'].'</option>';
+            }
+            else {
+                $col_options .= '<option value='.$collection['id'].'>'.$collection['name'].'</option>';
+            }
+        }
+        echo $col_options;
+    }
+
+    function getLanguages($languages, $selected=.1) {
+        $lang_options = "";
+        foreach ($languages as $language) {
+            if ($language == $selected) {
+                $lang_options .= "<option selected value='$language'>".$language."</option>";
+            }
+            else {
+                $lang_options .= "<option value='$language'>".$language."</option>";
             }
         }
         echo $lang_options;
     }
 
     echo '<select id="getCollaborators" style="display: none;">';
-    getCollaborators();
+    getCollaborators($collaborators);
     echo '</select>';
     echo '<select id="getCollections" style="display: none;">';
-    getCollections();
+    getCollections($collections);
     echo '</select>';
 ?>
 @if ($errors->any())
@@ -86,7 +79,7 @@
     <legend>Informació general del llibre</legend>
     <label for="languages">Idioma
         <select name="languages" id="languages">
-            <?php getLanguages($book['lang']);?>
+            <?php getLanguages($languages, $book['lang']);?>
         </select>
     </label>
     <label for="isbn">ISBN
@@ -114,7 +107,7 @@
         @for($i = 0; $i < count($book['collections']); $i++)
             <label for="collections_{{$i}}">Col·lecció {{ $i + 1 }}
                 <select name="collections[]" id="collections_{{$i}}">
-                    <?php getCollections($book['collections'][$i]['id'] ?? '');?>
+                    <?php getCollections($collections, $book['collections'][$i]['id'] ?? '');?>
                 </select>
                 <a class="remove-content-button">Eliminar</a>
             </label>
@@ -122,7 +115,7 @@
     @else
         <label for="collections_0">Col·lecció 1
         <select name="collections[]" id="collections_0">
-                <?php getCollections($book['collections'][0]['id'] ?? '');?>
+                <?php getCollections($collections, $book['collections'][0]['id'] ?? '');?>
             </select>
             <a class="remove-content-button">Eliminar</a>
         </label>
@@ -136,7 +129,7 @@
         @for($i = 0; $i < count($book['collaborators']['authors']); $i++)
             <label for="authors_{{$i}}">Autor {{ $i + 1 }}
                 <select name="authors[]" id="authors_{{$i}}">
-                    <?php getCollaborators($book['collaborators']['authors'][$i]['collaborator_id'] ?? '');?>
+                    <?php getCollaborators($collaborators, $book['collaborators']['authors'][$i]['collaborator_id'] ?? '');?>
                 </select>
         <a class="remove-content-button">Eliminar</a>
             </label>
@@ -145,7 +138,7 @@
         @for($i = 0; $i < count($book['collaborators']['translators']); $i++)
             <label for="translators_{{$i}}">Traducció {{ $i + 1 }}
                 <select name="translators[]" id="translators_{{$i}}">
-                    <?php getCollaborators($book['collaborators']['translators'][$i]['collaborator_id'] ?? '');?>
+                    <?php getCollaborators($collaborators, $book['collaborators']['translators'][$i]['collaborator_id'] ?? '');?>
                 </select>
                 <a class="remove-content-button">Eliminar</a>
             </label>
@@ -155,14 +148,14 @@
         <!-- Create -->
         <label for="authors_0">Autor 1
             <select name="authors[]" id="authors_0">
-                <?php getCollaborators();?>
+                <?php getCollaborators($collaborators);?>
             </select>
             <a class="remove-content-button">Eliminar</a>
         </label>
         <a id="add_author" class="add-content-button">Afegir autor</a>
         <label for="translators_0">Traducció 1
             <select name="translators[]" id="translators_0">
-                <?php getCollaborators();?>
+                <?php getCollaborators($collaborators);?>
             </select>
             <a class="remove-content-button">Eliminar</a>
         </label>
