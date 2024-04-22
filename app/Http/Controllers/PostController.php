@@ -144,7 +144,7 @@ class PostController extends Controller
     {
         $postObject = Post::find($id);
         $post = [];
-
+        //dd($postObject);
         $post = [
             'id' => $postObject->id,
             'title' => $postObject->title,
@@ -159,7 +159,7 @@ class PostController extends Controller
             'published_by' => $postObject->user->first_name . " " . $postObject->user->last_name
         ];
 
-
+        //dd($post);
         return view('admin.post.show', compact('post'));
     }
 
@@ -168,7 +168,9 @@ class PostController extends Controller
      */
     public function edit($id)//todo
     {
+
         $post = Post::find($id);
+        //dd($post);
         $authors = Author::paginate();
         $users = User::all();
         $translators = CollaboratorTranslation::where('lang', $this->lang)->paginate();
