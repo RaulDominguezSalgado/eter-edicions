@@ -19,6 +19,7 @@ class Order extends Model
     protected $fillable = [
         'date',
         'total',
+        'reference',
         'dni',
         'first_name',
         'last_name',
@@ -29,7 +30,7 @@ class Order extends Model
         "city",
         "country",
         'payment_method',
-        'status',
+        'status_id',
         'pdf',
         'tracking_id'
     ];

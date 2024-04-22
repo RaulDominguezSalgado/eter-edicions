@@ -23,8 +23,21 @@ class OrderRequest extends FormRequest
     {
         return [
 			'date' => 'required',
+			'total' => '',
+			'reference' => 'required',
+			'dni' => 'required',
+			'first_name' => 'required',
+			'last_name' => 'required',
+			'email' => 'required',
+			'phone_number' => 'required',
+			'address' => 'required',
+			'zip_code' => 'required',
+			'city' => 'required',
+			'country' => 'required',
+			'payment_method' => 'required',
+			'status_id' => 'required',
+            'pdf'=>'',
 			'tracking_id' => 'required|string',
-			'status' => 'required',
         ];
     }
 }

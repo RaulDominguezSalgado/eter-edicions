@@ -6,18 +6,18 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/catalog.css') }}">
 
-    <div class="body mt-20">
+    <main class="body">
         <div class="flex flex-col items-center space-y-14">
             <div class="flex flex-col items-center space-y-6">
                 <h2>Catàleg</h2>
 
-                <div class="mb-8">
+                {{-- <div class="mb-8">
                     <ul class="flex space-x-4">
                         @foreach ($collections as $i => $collection)
-                            <li><a>{{ $collection['name'] }}</a></li>
+                            <li><a><h5>{{ $collection['name'] }}</h5></a></li>
                         @endforeach
                     </ul>
-                </div>
+                </div> --}}
             </div>
 
             <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
@@ -44,15 +44,16 @@
                             </div>
 
                             <div class="book-translator flex space-x-1 text-center">
-                                <div class="book-translator">Traducció de </div>
+                                <div class="book-translator">Traducció de
                                 @foreach ($book['translators'] as $translator)
                                     @if (!$loop->last)
-                                        <div class="book-translator">{{ $translator }}, </div>
+                                        {{ $translator }},
                                         {{-- if last iteration --}}
                                     @else
-                                        <div class="book-translator">{{ $translator }}</div>
+                                        {{ $translator }}
                                     @endif
                                 @endforeach
+                                </div>
                             </div>
                         </div>
 
@@ -61,6 +62,6 @@
             </div>
 
         </div>
-    </div>
+    </main>
 
 </x-layouts.app>

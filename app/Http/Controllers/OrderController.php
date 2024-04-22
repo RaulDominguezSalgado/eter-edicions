@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Http\Requests\OrderRequest;
+use App\Models\Book;
+use App\Models\OrderDetail;
+use App\Models\OrderStatus;
+use App\Models\OrderStatusHistory;
+use Exception;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * Class OrderController
@@ -16,8 +22,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orderspag=Order::paginate();
-        $orders = $this->getFullOrder($orderspag);
+        $orderspag = Order::paginate();
+        $orders = [];
+        foreach ($orderspag as $order) {
+            $orders[] = $this->getFullOrder($order);
+        }
         //$orders= [];
 
         // <td>{{ $order['id'] }}</td>
@@ -28,23 +37,53 @@ class OrderController extends Controller
         // <td>{{ $order['payment_method'] }}</td>
         // <td>{{ $order['date'] }}</td>
         // <td>{{ $order['order_pdf'] }}</td>
-        return view('order.index', compact('orders','orderspag'))
+        return view('admin.order.index', compact('orders', 'orderspag'))
             ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
     }
-    public function getFullOrder($orders){
-        $ordersArray=[];
-        foreach ($orders as $order) {
-            $ordersArray[] = [
-                'id' => $order->id,
-                'reference' => $order->reference,
-                'client_name' => $order->client->name,
-                'total_price' => $order->total_price,
-                'payment_method' => $order->payment_method,
-                'date' => $order->date,
-                'order_pdf' => $order->pdf
+    //TODO CHECK ERROR CASES
+    public function getFullOrder($order)
+    {
+        $orderResult = [
+            'id' => $order->id,
+            'reference' => $order->reference,
+            'total' => $order->total,
+            'first_name' => $order->first_name,
+            'last_name' => $order->last_name,
+            'dni' => $order->dni,
+            'email' => $order->email,
+            'phone_number' => $order->phone_number,
+            'address' => $order->address,
+            'zip_code' => $order->zip_code,
+            'city' => $order->city,
+            'country' => $order->country,
+            'payment_method' => $order->payment_method,
+            'date' => $order->date,
+            'status' => $order->status->name,
+            'pdf' => $order->pdf,
+            'tracking_id' => $order->tracking_id
+        ];
+        foreach ($order->details as $details) {
+            $orderResult['products'][$details->book->id] = [
+                "book_id" => $details->book->id,
+                "name" => $details->book->title,
+                "price_each" => $details->price_each,
+                "quantity" => $details->quantity
             ];
         }
-        return $ordersArray;
+        //dd($orderResult);
+
+        return $orderResult;
+    }
+
+    public function getTotalPrice($orderDetails)
+    {
+        $totalPrice = 0;
+        foreach ($orderDetails as $productData) {
+            if ($productData['quantity'] > 0) {
+                $totalPrice += $productData['quantity'] * $productData['price_each'];
+            }
+        }
+        return $totalPrice;
     }
     /**
      * Show the form for creating a new resource.
@@ -52,7 +91,9 @@ class OrderController extends Controller
     public function create()
     {
         $order = new Order();
-        return view('order.create', compact('order'));
+        $books = Book::all();
+        $statuses = OrderStatus::all();
+        return view('admin.order.create', compact('order', 'books', 'statuses'));
     }
 
     /**
@@ -60,12 +101,49 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
-        Order::create($request->validated());
+        $orderDetails = $request->input('products');
+        //save pdf file
+        $newFileName = $request['reference'] . ".pdf";
+        $request->file('pdf')->move(public_path('files/orders'), $newFileName);
+
+        //$this->saveFile(,public_path('files/orders'),$newFileName, $request['id']);
+        //return dd($request);
+        $validatedData= $request->validated();
+        $validatedData['pdf']=$newFileName;
+        // $validatedData['total'] = $this->getTotalPrice($orderDetails);
+        $order = Order::create($validatedData);
+        if ($request->has('products')) {
+            foreach ($orderDetails as $productId => $productData) {
+                if ($productData['quantity'] > 0) {
+                    $orderDetail = new OrderDetail([
+                        'product_id' => $productId,
+                        'quantity' => $productData['quantity'],
+                        'price_each' => $productData['price_each'],
+                    ]);
+                    $order->details()->save($orderDetail);
+                }
+            }
+        }
+        $order->statusHistory()->save(new OrderStatusHistory([
+            'order_id' => $order['id'],
+            'status_id' => $order['status_id']
+        ]));
 
         return redirect()->route('orders.index')
             ->with('success', 'Order created successfully.');
     }
 
+    public function saveFile($file, $path, $filename, $id){
+        try{
+            $file->move($path,$filename);
+        }
+        catch(FileException $e){
+
+        }
+        catch(Exception $e){
+            
+        }
+    }
     /**
      * Display the specified resource.
      */
@@ -73,7 +151,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
 
-        return view('order.show', compact('order'));
+        return view('admin.order.show', compact('order'));
     }
 
     /**
@@ -81,9 +159,10 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        $order = Order::find($id);
-
-        return view('order.edit', compact('order'));
+        $order = $this->getFullOrder(Order::find($id));
+        $books = Book::all();
+        $statuses = OrderStatus::all();
+        return view('admin.order.edit', compact('order', 'statuses', 'books'));
     }
 
     /**
@@ -91,7 +170,43 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, Order $order)
     {
-        $order->update($request->validated());
+        //dd($request);
+            $newFileName = $request['reference'] . ".pdf";
+        if($request->hasFile('pdf')){
+            $pdfFile = $request->file('pdf');
+
+        $this->saveFile($request->file('pdf'),public_path('files/orders'),$newFileName, $request['id']);
+            //return dd($request);
+        }
+
+
+
+        $validatedData= $request->validated();
+        $validatedData['pdf']=$newFileName;
+        $order->update($validatedData);
+
+        // Actualiza los detalles de la orden
+        foreach ($request->products as $productId => $productData) {
+            if ($productData["quantity"]> 0) {
+                $orderDetail = OrderDetail::where('order_id', $order->id)
+                    ->where('product_id', $productId)
+                    ->first();
+
+                if ($orderDetail) {
+                    $orderDetail->update([
+                        'quantity' => $productData['quantity'],
+                        'price_each' => $productData['price_each'],
+                    ]);
+                } else {
+                    OrderDetail::create([
+                        'order_id' => $order->id,
+                        'product_id' => $productId,
+                        'quantity' => $productData['quantity'],
+                        'price_each' => $productData['price_each'],
+                    ]);
+                }
+            }
+        }
 
         return redirect()->route('orders.index')
             ->with('success', 'Order updated successfully');

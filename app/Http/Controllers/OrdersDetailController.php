@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrdersDetail;
-use App\Http\Requests\OrdersDetailRequest;
+use App\Http\Requests\OrderDetailRequest;
 
 /**
  * Class OrdersDetailController
@@ -34,7 +34,7 @@ class OrdersDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(OrdersDetailRequest $request)
+    public function store(OrderDetailRequest $request)
     {
         OrdersDetail::create($request->validated());
 
@@ -65,7 +65,7 @@ class OrdersDetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(OrdersDetailRequest $request, OrdersDetail $ordersDetail)
+    public function update(OrderDetailRequest $request, OrdersDetail $ordersDetail)
     {
         $ordersDetail->update($request->validated());
 

@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Models\Author;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
+
+use App\Services\OrthographicalRules;
+
+use Carbon\Carbon;
 use PHPUnit\Metadata\Uses;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -60,7 +65,8 @@ class PostController extends Controller
     }
 
 
-    public function editImage($rutaImagen){
+    public function editImage($rutaImagen)
+    {
         $manager = new ImageManager(new Driver());
         $image = $manager->read($rutaImagen);
         // Crop a 1.4 / 1 aspect ratio
@@ -163,14 +169,14 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)//todo
+    public function edit($id) //todo
     {
         $post = Post::find($id);
         $authors = Author::paginate();
         $users = User::all();
         $collaboratorTranslations = CollaboratorTranslation::where('lang', $this->lang)->paginate();
 
-        return view('admin.post.edit', compact('post', 'collaboratorTranslations','authors','users'));
+        return view('admin.post.edit', compact('post', 'collaboratorTranslations', 'authors', 'users'));
     }
 
     /**
@@ -190,5 +196,232 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')
             ->with('success', 'Post deleted successfully');
+    }
+
+
+
+    public function posts()
+    {
+        $locale = "ca";
+
+        $posts_lv = Post::whereNull('date')
+            ->whereNull('location')
+            ->orderBy('publication_date', 'desc')
+            ->paginate(20);
+
+        $posts = [];
+        foreach ($posts_lv as $post_lv) {
+            $posts[$post_lv->slug] = $this->getPreviewPost($post_lv, $locale);
+        }
+
+
+        $page = [
+            'title' => "Articles",
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        return view('public.posts', compact('posts', 'page', 'locale'));
+    }
+
+    public function activities()
+    {
+        $locale = "ca";
+
+        $posts_lv = Post::whereNotNull('date')
+            ->whereNotNull('location')
+            ->orderBy('date', 'desc')
+            ->paginate(20);
+
+        // dd($activities_lv);
+
+        $posts = [];
+        foreach ($posts_lv as $post_lv) {
+            $posts[$post_lv->slug] = $this->getPreviewActivity($post_lv, $locale);
+        }
+
+        $page = [
+            'title' => "Articles",
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        return view('public.activities', compact('posts', 'page', 'locale'));
+    }
+
+    public function postDetail($id)
+    {
+        $locale = "ca";
+
+
+        $post_lv = Post::find($id);
+
+        $page = [
+            'title' => $post_lv->meta_title,
+            'shortDescription' => '',
+            'longDescription' => $post_lv->meta_description,
+            'web' => 'Èter Edicions'
+        ];
+
+        $post = [];
+
+        if ($post_lv->date && $post_lv->location) {
+            $post = $this->getFullActivity($post_lv, $locale);
+
+            return view('public.activity', compact('post', 'page', 'locale'));
+
+        } else {
+            $post = $this->getFullPost($post_lv, $locale);
+
+            return view('public.post', compact('post', 'page', 'locale'));
+        }
+    }
+
+
+
+    private function getFullPost($post, $locale)
+    {
+        $author = $post->author;
+        $translator = $post->translator;
+        $user = $post->user;
+
+        $authorName = !is_null($author) ? $author->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $author->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
+        $authorId = !is_null($author) ? $author->id : "";
+        $authorImage = !is_null($author) ? $author->collaborator->image: "";
+
+        $translatorName = !is_null($translator) ? $translator->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $translator->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
+        $translatorId = !is_null($translator) ? $translator->id : "";
+        $translation = OrthographicalRules::startsWithDe($translatorName) ? "Traducció de " : "Traducció d'";
+
+        $userName = !is_null($user) ? $user->first_name . " " . $user->last_name : "";
+
+        $postResult = [
+            'id' => $post->id,
+            'title' => $post->title,
+            'author' => $authorName,
+            'author_id' => $authorId,
+            'author_image' => $authorImage,
+            'translator' => $translatorName,
+            'translator_id' => $translatorId,
+            'translation' => $translation,
+            'description' => $post->description,
+            'content' => $post->content,
+            'published_by' => $userName,
+            'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'image' => $post->image,
+            'post_type' => "ARTICLES",
+            'slug' => $post->slug,
+            'meta_title' => $post->meta_title,
+            'meta_description' => $post->meta_description
+        ];
+
+        return $postResult;
+    }
+
+    private function getPreviewPost($post, $locale)
+    {
+        $postResult = [
+            'id' => $post->id,
+            'title' => $post->title,
+            'description' => $post->description,
+            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'image' => $post->image,
+            'post_type' => "ARTICLES",
+            'slug' => $post->slug
+        ];
+
+        return $postResult;
+    }
+
+
+    private function getFullActivity($activity, $locale)
+    {
+        $user = $activity->user;
+
+        $userName = !is_null($user) ? $user->first_name . " " . $user->last_name : "";
+        $userId = !is_null($user) ? $user->id : "";
+
+        $activityResult = [
+            'id' => $activity->id,
+            'title' => $activity->title,
+            'description' => $activity->description,
+            'content' => $activity->content,
+            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->date)->format('d/m/Y'),
+            'location' => $activity->location,
+            'image' => $activity->image,
+            'published_by' => $userName,
+            'published_by_id' => $userId,
+            'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->publication_date)->format('d/m/Y'),
+            'post_type' => "ACTIVITATS",
+            'slug' => $activity->slug,
+            'meta_title' => $activity->meta_title,
+            'meta_description' => $activity->meta_description
+        ];
+
+        return $activityResult;
+    }
+
+    private function getPreviewActivity($activity, $locale)
+    {
+        // @dump($activity->date);
+
+        $activityResult = [
+            'id' => $activity->id,
+            'title' => $activity->title,
+            'description' => $activity->description,
+            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->date)->format('d/m/Y'),
+            'location' => str_contains($activity->location, ".") ? substr($activity->location, 0, strpos($activity->location, '.')) : $activity->location,
+            'image' => $activity->image,
+            'post_type' => "ACTIVITATS",
+            'slug' => $activity->slug,
+            'meta_title' => $activity->meta_title,
+            'meta_description' => $activity->meta_description
+        ];
+
+        return $activityResult;
+    }
+
+    public function getPreviewGenericPost($post, $locale){
+        $postType = (is_null($post->date) && is_null($post->location)) ? "ARTICLES" : "ACTIVITATS";
+        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : ($post->date);
+        // @dump($post->date);
+        // @dump(Carbon::createFromFormat('Y-m-d H:i:s', $post->date)->format('d/m/Y'));
+
+        $postResult = [
+            'id' => $post->id,
+            'title' => $post->title,
+            'description' => $post->description,
+            'date' => $date,
+            'location' => str_contains($post->location, ".") ? substr($post->location, 0, strpos($post->location, '.')) : $post->location,
+            'image' => $post->image,
+            'post_type' => $postType,
+            'slug' => $post->slug,
+            'meta_title' => $post->meta_title,
+            'meta_description' => $post->meta_description
+        ];
+
+        // @dump($postResult);
+
+        return $postResult;
+    }
+
+
+    public function getLatestPosts($locale){
+
+        $posts_lv = Post::orderBy('publication_date', 'desc')
+            ->take(3)->get();
+
+        // @dump($posts_lv);
+
+        $posts = [];
+        foreach ($posts_lv as $post_lv) {
+            $posts[$post_lv->slug] = $this->getPreviewGenericPost($post_lv, $locale);
+        }
+
+        // @dump($posts);
+
+        return $posts;
     }
 }

@@ -43,4 +43,8 @@ class PageTranslation extends Model
     {
         return $this->belongsTo(\App\Models\Language::class);
     }
+
+    public function contents(){
+        return $this->hasMany(\App\Models\PageContent::class, 'page_translation_id');
+    }
 }

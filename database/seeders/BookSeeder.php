@@ -32,7 +32,7 @@ class BookSeeder extends Seeder
         $tragedia->image = "la-tragedia-den-saied-mattar.webp";
         $tragedia->number_of_pages = 149;
         $tragedia->size = "15x21 cm";
-        $tragedia->publication_date = Date("2023/04/23");
+        $tragedia->publication_date = Date("2023/04/19");
         $tragedia->original_publication_date = "2016";
         $tragedia->pvp = 20.80;
         $tragedia->iva = 4;

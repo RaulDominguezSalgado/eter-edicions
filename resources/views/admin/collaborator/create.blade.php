@@ -14,7 +14,7 @@
                         <form method="POST" action="{{ route('collaborators.store') }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
-                            @include('collaborator.form')
+                            @include('admin.collaborator.form')
 
                         </form>
                     </div>

@@ -16,10 +16,12 @@ class BookstoreController extends Controller
      */
     public function index()
     {
-        $bookstores = Bookstore::paginate();
+        $bookstores = [];
+        foreach(Bookstore::paginate() as $bookstore){
+            $bookstores[]=$this->getFullBookstore($bookstore);
+        }
 
-        return view('bookstore.index', compact('bookstores'))
-            ->with('i', (request()->input('page', 1) - 1) * $bookstores->perPage());
+        return view('admin.bookstore.index', compact('bookstores'));
     }
 
     /**
@@ -28,7 +30,7 @@ class BookstoreController extends Controller
     public function create()
     {
         $bookstore = new Bookstore();
-        return view('bookstore.create', compact('bookstore'));
+        return view('admin.bookstore.create', compact('bookstore'));
     }
 
     /**
@@ -49,7 +51,7 @@ class BookstoreController extends Controller
     {
         $bookstore = Bookstore::find($id);
 
-        return view('bookstore.show', compact('bookstore'));
+        return view('admin.bookstore.show', compact('bookstore'));
     }
 
     /**
@@ -57,9 +59,9 @@ class BookstoreController extends Controller
      */
     public function edit($id)
     {
-        $bookstore = Bookstore::find($id);
+        $bookstore = $this->getFullBookstore(Bookstore::find($id));
 
-        return view('bookstore.edit', compact('bookstore'));
+        return view('admin.bookstore.edit', compact('bookstore'));
     }
 
     /**
@@ -83,6 +85,70 @@ class BookstoreController extends Controller
 
 
     public function bookstores(){
-        return "BookstoreController > bookstores";
+        $locale = "ca";
+
+        $bookstores_lv = Bookstore::all();
+
+        $bookstores = [];
+        foreach($bookstores_lv as $bookstore){
+            $bookstores[$bookstore->name] = $this->getPreviewBookstore($bookstore, $locale);
+        }
+
+        $provinces = Bookstore::distinct('province')->pluck('province');
+
+        $page = [
+            'title' => 'Llibreries amb qui treballem',
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        return view('public.bookstores', compact('bookstores', 'provinces', 'page', 'locale'));
+    }
+
+
+
+    /**
+     *
+     */
+    private function getFullBookstore($bookstore_lv){
+        // $bookstore = Bookstore::find($id);
+
+        // $translation = $bookstore->translations()->where('lang', $locale)->first();
+        if ($bookstore_lv) {
+            $bookstore = [
+                'id' => $bookstore_lv->id,
+                'name' => $bookstore_lv->name,
+                'address' => $bookstore_lv->address,
+                'zip_code' => $bookstore_lv->zip_code,
+                'city' => $bookstore_lv->city,
+                'province' => $bookstore_lv->province,
+                'country' => $bookstore_lv->country,
+                'website' => $bookstore_lv->website,
+                'email' => $bookstore_lv->email,
+                'phone' => $bookstore_lv->phone
+            ];
+        }
+
+        return $bookstore;
+    }
+
+    /**
+     *
+     */
+    private function getPreviewBookstore($bookstore_lv, $locale){
+        // $bookstore = Bookstore::find($id);
+
+        if ($bookstore_lv) {
+            $bookstore = [
+                'name' => $bookstore_lv->name,
+                'address' => $bookstore_lv->address,
+                'city' => $bookstore_lv->city,
+                'province' => $bookstore_lv->province,
+                'website' => $bookstore_lv->website,
+            ];
+        }
+
+        return $bookstore;
     }
 }

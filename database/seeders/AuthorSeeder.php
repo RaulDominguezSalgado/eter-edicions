@@ -50,5 +50,21 @@ class AuthorSeeder extends Seeder
         $asmaalghoul->id = CollaboratorTranslation::where('last_name', 'LIKE', 'Alghoul')->get()->first()->id;
         $asmaalghoul->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', 'Alghoul')->get()->first()->id;
         $asmaalghoul->save();
+
+
+        //Oriol Rissech
+        $oriolrissech = new Author();
+        $oriolrissech->id = CollaboratorTranslation::where('last_name', 'LIKE', '%Rissech%')->get()->first()->id;
+        $oriolrissech->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', '%Rissech%')->get()->first()->id;
+        $oriolrissech->represented_by_agency = 1;
+        $oriolrissech->save();
+
+
+        //Mohammad Bitari
+        $mohammadbitari = new Author();
+        $mohammadbitari->id = CollaboratorTranslation::where('last_name', 'LIKE', '%Bitari%')->get()->first()->id;
+        $mohammadbitari->collaborator_id = CollaboratorTranslation::where('last_name', 'LIKE', '%Bitari%')->get()->first()->id;
+        $mohammadbitari->represented_by_agency = 1;
+        $mohammadbitari->save();
     }
 }

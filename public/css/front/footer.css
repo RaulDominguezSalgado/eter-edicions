@@ -8,9 +8,11 @@
     background-color: #292828;
     display: flex;
     justify-content: space-between;
-    padding: 20px 5%;
+    padding: 1.25em 5%;
 
     color: white;
+
+    margin-top: auto;
 }
 
 #main-footer a{

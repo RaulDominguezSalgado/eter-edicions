@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use App\Models\CollectionTranslation;
 use App\Http\Requests\CollectionRequest;
+use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -76,11 +77,13 @@ class CollectionController extends Controller
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
                 'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']),
+                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']),
+                'meta_description' => \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
             ];
             CollectionTranslation::create($translationData);
 
             return redirect()->route('collections.index')
-                ->with('success', 'Collection created successfully.');
+                ->with('success', 'Col·lecció afegida correctament.');
         } catch (ValidationException $e) {
         }
     }
@@ -130,7 +133,7 @@ class CollectionController extends Controller
         }
 
         return redirect()->route('collections.index')
-            ->with('success', 'Collection updated successfully');
+            ->with('success', 'Col·lecció actualitzada correctament.');
     } catch (ValidationException $e) {
         // Manejar excepciones de validación si es necesario
     }
@@ -138,10 +141,15 @@ class CollectionController extends Controller
 
     public function destroy($id)
     {
+        try{
+
         Collection::find($id)->delete();
 
         return redirect()->route('collections.index')
-            ->with('success', 'Collection deleted successfully');
+            ->with('success', 'Col·lecció eliminada correctament');
+        } catch (QueryException $e) {
+            return redirect()->route('collections.index')->with('error', 'No es possible eliminar aquesta col·lecció, ja que té dades relacionades');
+        }
     }
 
     /**

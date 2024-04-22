@@ -10,9 +10,12 @@ export default {
         aspectRatio: {
             '2/3': '2 / 3',
             '3/5': '3 / 5',
+            '7/5': '7 / 5'
         }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms')
+  ],
 }
 
