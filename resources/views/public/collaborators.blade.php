@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/collaborators.css') }}">
 
-    <div class="body mb-20">
+    <main class="body mb-20">
         <div class="flex flex-col items-center space-y-40">
             {{-- <div class="flex flex-col items-center space-y-6">
                 <ul class="flex space-x-4">
@@ -58,5 +58,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </x-layouts.app>

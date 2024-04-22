@@ -47,6 +47,7 @@ foreach (config('languages') as $locale) {
 
         // Posts
         Route::get(__('paths.posts', [], $locale), [App\Http\Controllers\PostController::class, 'posts'])->name("posts.{$locale}");
+        Route::get(__('paths.posts', [], $locale)  . '/{id}', [App\Http\Controllers\PostController::class, 'postDetail'])->name("post-detail.{$locale}");
 
         // About
         Route::get(__('paths.about', [], $locale), [App\Http\Controllers\PageController::class, 'about'])->name("about.{$locale}");
@@ -61,6 +62,7 @@ foreach (config('languages') as $locale) {
 
         // Contact
         Route::get(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
+        Route::post(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'sendContactForm'])->name("contact.send.{$locale}");
     }
     else {
 
@@ -115,13 +117,14 @@ Route::prefix('admin')->group(function () {
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::resource('authors', App\Http\Controllers\AuthorController::class);
     Route::resource('translators', App\Http\Controllers\TranslatorController::class);
+    Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
     Route::resource('posts', App\Http\Controllers\PostController::class);
     Route::resource('orders', App\Http\Controllers\OrderController::class);
     Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
     Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'redirectViewStock'])->name('stock.edit');
     Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('stock.update');
     // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
-    
+
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');

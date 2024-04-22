@@ -1,7 +1,7 @@
 <div class="row padding-1 p-1">
     <div class="col-md-12">
         <div class="form-group mb-2 mb20">
-            <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>
+            <label for="lang" class="form-label">{{ __('Idioma') }}</label>
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
                 <option value="ca" {{ old('lang', $collection['lang']) == 'ca' ? 'selected' : '' }}>Català
                 </option>

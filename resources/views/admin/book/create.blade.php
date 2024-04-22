@@ -16,8 +16,16 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
+                    <form method="POST" action="{{ route('books.store') }}" role="form" enctype="multipart/form-data">
 
-                    @include("admin.book.form")
+                        @csrf
+
+                    <div class="card-body bg-white">
+                        <form action="{{ route( 'books.store' )}}" method="POST" role="form" enctype="multipart/form-data">
+                            @csrf
+                            @include("admin.book.form")
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -45,22 +45,24 @@
                                                             value="{{ $store['stock'] }}">
                                                 y tambien un boton de guardar stock, y hacer los metodos correspondientes en el controllador
                                                  --}}
-                                            <button id="add-stock-button" class="btn btn-primary">+</button>
+                                                 @if (count($bookstores)>0)
+                                                 <button id="add-stock-button" class="btn btn-primary">+</button>
 
-                                            <div id="option-form" style="display: none;">
-                                                <select name="bookstore_id" id="bookstore_id">
-                                                    <option value="">Select a bookstore</option>
-                                                    @foreach ($book['bookstores'] as $bookstore)
-                                                        <option value="{{ $bookstore['id'] }}"
-                                                            @if (in_array($bookstore['id'], old('bookstores', []))) selected @endif>
-                                                            {{ $bookstore['name'] }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                <input type="number" name="input-value[]" class="form-control">
-                                                <button class="btn btn-primary">Añadir</button>
-                                            </div>
 
+                                                <div id="option-form" style="display: none;">
+                                                    <select name="bookstore_id" id="bookstore_id">
+                                                        <option value="">Select a bookstore</option>
+                                                        @foreach ($bookstores as $bookstore)
+                                                            <option value="{{ $bookstore['id'] }}"
+                                                                @if (in_array($bookstore['id'], old('bookstores', []))) selected @endif>
+                                                                {{ $bookstore['name'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input type="number" name="input-value[]" class="form-control">
+                                                    <button class="btn btn-primary">Añadir</button>
+                                                </div>
+                                            @endif
                                             {{-- Mostrar librerias y stocks --}}
                                             @if (array_key_exists('bookstores', $book))
                                                 <div class="space-y-4">
@@ -82,11 +84,12 @@
 
                                                         <button id="edit_{{ $loop->index }}">Editar</button>
                                                     @endforeach
-                                                    <input type="submit" class="btn btn-primary"
-                                                        value="Desa Canvis"></input>
+
 
                                                 </div>
                                             @endif
+                                            <input type="submit" class="btn btn-primary"
+                                                        value="Desa Canvis"></input>
                                         </form>
                                     </div>
                                 </div>

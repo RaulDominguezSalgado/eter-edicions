@@ -9,15 +9,11 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
-                            <span id="card_title">
-                                {{ __('Order') }}
-                            </span>
+                            <h2>Gestió de comandes</h2>
 
-                             <div class="float-right">
-                                <a href="{{ route('orders.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
-                                </a>
-                              </div>
+                            <div class="float-right">
+
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -31,39 +27,53 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-										<th>ID</th>
-										<th>Referència</th>
-										<th>Entrega</th>
-										<th>Client</th>
-										<th>Total</th>
-										<th>Pagament</th>
-										<th>Estat</th>
-										<th>Data</th>
-										<th>PDF</th>
+                                        <th>ID</th>
+                                        <th>Referència</th>
+                                        <th>Entrega</th>
+                                        <th>Client</th>
+                                        <th>Total</th>
+                                        <th>Pagament</th>
+                                        <th>Estat</th>
+                                        <th>Data</th>
+                                        <th>PDF</th>
 
-                                        <th></th>
+                                        <th> <a href="{{ route('orders.create') }}">
+                                                <div
+                                                    class="navigation-button form-button flex items-center space-x-1 max-w-10">
+                                                    <img src="{{ asset('img/icons/plus.webp') }}"
+                                                        alt="Afegir nou llibre" class="add w-2.5 h-2.5">
+                                                    <p class="">Nou</p>
+                                                </div>
+                                            </a></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($orders as $order)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
+                                            {{-- <td>{{ ++$i }}</td> --}}
 
-											<td>{{ $order['id'] }}</td>
-											<td>{{ $order['reference'] }}</td>
-											<td>{{ $order['client_adress'] }}</td>
-											<td>{{ $order['client_name'] }}</td>
-											<td>{{ $order['total_price'] }}</td>
-											<td>{{ $order['payment_method'] }}</td>
-											<td>{{ $order['date'] }}</td>
-											<td>{{ $order['order_pdf'] }}</td>
+                                            <td>{{ $order['id'] }}</td>
+                                            <td>{{ $order['reference'] }}</td>
+                                            <td>{{ $order['address'] }}</td>
+                                            <td>{{ $order['first_name'] . ' ' . $order['last_name'] }}</td>
+                                            <td>{{ $order['total'] }}</td>
+                                            <td>{{ $order['payment_method'] }}</td>
+                                            <td>{{ $order['status'] }}</td>
+                                            <td>{{ $order['date'] }}</td>
+                                            <td>{{ $order['pdf'] }}</td>
                                             <td>
-                                                <form action="{{ route('orders.destroy',$order['id']) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('orders.show',$order['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('orders.edit',$order['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('orders.destroy', $order['id']) }}"
+                                                    method="POST">
+                                                    <a class="btn btn-sm btn-primary "
+                                                        href="{{ route('orders.show', $order['id']) }}"><i
+                                                            class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success"
+                                                        href="{{ route('orders.edit', $order['id']) }}"><i
+                                                            class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i
+                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
                                                 </form>
                                             </td>
                                         </tr>

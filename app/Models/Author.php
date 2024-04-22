@@ -16,7 +16,7 @@ class Author extends Model
      *
      * @var array
      */
-    protected $fillable = ['collaborator_id', 'represented_by_agency'];
+    protected $fillable = ['id', 'collaborator_id', 'represented_by_agency'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

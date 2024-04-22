@@ -16,7 +16,7 @@ class Translator extends Model
      *
      * @var array
      */
-    protected $fillable = ['collaborator_id'];
+    protected $fillable = ['id', 'collaborator_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

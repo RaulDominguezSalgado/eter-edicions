@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/collaborator.css') }}">
 
-    <div class="body space-y-24 mb-12">
+    <main class="body space-y-24 mb-12">
         <div class="collaborator flex justify-between space-x-10 px-10 mb-4">
             <div class="mr-6 cover">
                 {{-- <div id="book-image" class="book-image"></div> --}}
@@ -48,7 +48,7 @@
             </div>
         </div>
         @endif
-    </div>
+    </main>
 
 </x-layouts.app>
 

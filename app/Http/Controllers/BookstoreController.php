@@ -16,10 +16,12 @@ class BookstoreController extends Controller
      */
     public function index()
     {
-        $bookstores = Bookstore::paginate();
+        $bookstores = [];
+        foreach(Bookstore::paginate() as $bookstore){
+            $bookstores[]=$this->getFullBookstore($bookstore);
+        }
 
-        return view('bookstore.index', compact('bookstores'))
-            ->with('i', (request()->input('page', 1) - 1) * $bookstores->perPage());
+        return view('admin.bookstore.index', compact('bookstores'));
     }
 
     /**
@@ -28,7 +30,7 @@ class BookstoreController extends Controller
     public function create()
     {
         $bookstore = new Bookstore();
-        return view('bookstore.create', compact('bookstore'));
+        return view('admin.bookstore.create', compact('bookstore'));
     }
 
     /**
@@ -49,7 +51,7 @@ class BookstoreController extends Controller
     {
         $bookstore = Bookstore::find($id);
 
-        return view('bookstore.show', compact('bookstore'));
+        return view('admin.bookstore.show', compact('bookstore'));
     }
 
     /**
@@ -57,9 +59,9 @@ class BookstoreController extends Controller
      */
     public function edit($id)
     {
-        $bookstore = Bookstore::find($id);
+        $bookstore = $this->getFullBookstore(Bookstore::find($id));
 
-        return view('bookstore.edit', compact('bookstore'));
+        return view('admin.bookstore.edit', compact('bookstore'));
     }
 
     /**
@@ -109,7 +111,7 @@ class BookstoreController extends Controller
     /**
      *
      */
-    private function getFullBookstore($bookstore_lv, $locale){
+    private function getFullBookstore($bookstore_lv){
         // $bookstore = Bookstore::find($id);
 
         // $translation = $bookstore->translations()->where('lang', $locale)->first();

@@ -1,10 +1,7 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ $bookstore->name ?? __('Show') . " " . __('Bookstore') }}
-@endsection
-
-@section('content')
+<x-layouts.admin.app>
+    {{-- <x-slot name="title">
+        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
+    </x-slot> --}}
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -19,7 +16,7 @@
                     </div>
 
                     <div class="card-body bg-white">
-                        
+
                         <div class="form-group mb-2 mb20">
                             <strong>Name:</strong>
                             {{ $bookstore->name }}
@@ -38,4 +35,4 @@
             </div>
         </div>
     </section>
-@endsection
+</x-layouts.admin.app>

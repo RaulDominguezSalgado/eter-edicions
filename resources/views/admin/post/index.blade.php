@@ -9,13 +9,14 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
-                            <span id="card_title">
-                                {{ __('Post') }}
-                            </span>
+                            <h2>Gestió d'articles i activitats</h2>
 
                              <div class="float-right">
-                                <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                <a href="{{ route('posts.create') }}">
+                                    <div  class="navigation-button form-button flex items-center space-x-1 max-w-10">
+                                        <img src="{{asset('img/icons/plus.webp')}}" alt="Afegir nou llibre" class="add w-2.5 h-2.5">
+                                        <p class="">Nou</p>
+                                    </div>
                                 </a>
                               </div>
                         </div>

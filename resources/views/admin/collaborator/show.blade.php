@@ -21,7 +21,7 @@
                         <div class="form-group mb-2 mb20">
                             <strong>Imatge:</strong>
                             <img style="width: 100px; height: auto;"
-                                src="{{ asset('img/collab/' . ($collaborator['image'] ?? 'collab-default.webp')) }}"
+                                src="{{ asset('img/collab/covers/' . ($collaborator['image'] ?? 'collab-default.webp')) }}"
                                 alt="{{ ($collaborator['image'] ?? 'collab-default.webp') . ' - ' }}">
                         </div>
                         <div class="form-group mb-2 mb20">

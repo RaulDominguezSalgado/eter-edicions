@@ -1,0 +1,174 @@
+/* body {
+    display: flex;
+    flex-direction: row !important;
+} */
+
+body>nav,
+body>main {
+    display: inline-block;
+}
+
+body>nav {
+    float: left;
+    width: 10%;
+    overflow-y: auto;
+    overflow-x: visible;
+    height: 100vh;
+}
+
+body>main {
+    float: right;
+    width: 90%;
+    overflow: auto;
+    padding: 40px;
+}
+
+body>main::after {
+    clear: both;
+}
+
+
+@media only screen and (max-width: 640px) {
+    * {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (min-width: 641px) and (max-width: 768px) {
+    * {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    * {
+        font-size: 15px;
+    }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1280px) {
+    * {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (min-width: 1281px) {
+    * {
+        font-size: 16px;
+    }
+}
+
+h1 {}
+
+h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 1.375em;
+}
+
+h5 {
+    font-size: 1.125em;
+}
+
+h5.caps {
+    text-transform: uppercase;
+}
+
+p.p18 {
+    font-size: 1.125em;
+}
+
+p.p16 {
+    font-size: 1em;
+}
+
+p.p14 {
+    font-size: 0.8125em;
+}
+
+p.p12 {
+    font-size: 0.75em;
+}
+
+p.p10 {
+    font-size: 0.625em;
+}
+
+.book-title {
+    font-size: 1.125em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.book-author {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.book-translator {
+    font-size: 0.85em;
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.clickable {
+    transition: all 100ms ease-in-out;
+}
+
+.clickable:hover {
+    transform: scale(95%);
+}
+
+
+
+/* label{
+    font-size: 1em;
+}
+input{
+    font-size: 1em;
+} */
+
+.navigation-button {
+    border: solid;
+    border-color: #c2c2c2;
+    border-width: 1px;
+    border-radius: 7.5%;
+
+    min-width: 3.75em;
+    min-height: 2em;
+
+    padding: 0.25em 0.25em;
+
+    /* font-weight:700; */
+}
+
+.form-button {
+    box-shadow: -1px 2px 8px 1px rgba(0, 0, 0, 0.10);
+    ;
+}
+
+
+.border-guide-1 {
+    border: solid;
+    border-width: 2px;
+    border-color: orange;
+}
+
+.border-guide-2 {
+    border: solid;
+    border-width: 2px;
+    border-color: red;
+}

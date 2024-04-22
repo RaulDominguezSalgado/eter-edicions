@@ -3,6 +3,9 @@
     <x-slot name="title">
         {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $page['web'] }}
     </x-slot>
-    <p>ERROR 404</p>
+
+    <main>
+        <p>ERROR 404</p>
+    </main>
 
 </x-layouts.app>
