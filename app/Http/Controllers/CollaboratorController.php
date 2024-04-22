@@ -12,6 +12,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
 use Illuminate\Database\QueryException;
+
 /**
  * Class CollaboratorController
  * @package App\Http\Controllers
@@ -36,9 +37,9 @@ class CollaboratorController extends Controller
                 $collaboratorsArray[] = [
                     'id' => $collaborator->id,
                     'image' => $collaborator->image,
-                    'full_name' => $translation->last_name.", ".$translation->first_name,
+                    'full_name' => $translation->last_name . ", " . $translation->first_name,
                     'lang' => $translation->lang,
-                    'social_networks' => json_decode($collaborator->social_networks,true)
+                    'social_networks' => json_decode($collaborator->social_networks, true)
                 ];
             }
         }
@@ -89,8 +90,8 @@ class CollaboratorController extends Controller
                 $this->editImage($nombreImagenOriginal, "collaborator");
 
                 $validatedData['image'] = $nombreImagenOriginal;
-            }else{
-                $validatedData['image']="default.webp";
+            } else {
+                $validatedData['image'] = "default.webp";
             }
             $redes_sociales = [];
             if ($request->filled('red_social')) {
@@ -116,8 +117,8 @@ class CollaboratorController extends Controller
                 'biography' => $validatedData['biography'],
                 'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
                 'lang' => $validatedData['lang'],
-                'meta_title'=>\App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'meta_description'=>$validatedData['biography']
+                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'meta_description' => $validatedData['biography']
             ];
             CollaboratorTranslation::create($translationData);
             return redirect()->route('collaborators.index')
@@ -132,7 +133,7 @@ class CollaboratorController extends Controller
     public function show($id)
     {
         $locale = $this->lang;
-        $collaborator=$this->getFullCollaborator( $id, $locale);
+        $collaborator = $this->getFullCollaborator($id, $locale);
 
         return view('admin.collaborator.show', compact('collaborator'));
     }
@@ -167,11 +168,11 @@ class CollaboratorController extends Controller
 
             // // Procesar y guardar la imagen
             $imagen->move(public_path('img/collab/covers/'), $nombreImagenOriginal);
-            $this->editImage($nombreImagenOriginal,"collaborator");
+            $this->editImage($nombreImagenOriginal, "collaborator");
 
             $validatedData['image'] = $nombreImagenOriginal;
-        }else{
-            $validatedData['image']=$collaborator->image;
+        } else {
+            $validatedData['image'] = $collaborator->image;
         }
         $redes_sociales = [];
         if ($request->filled('red_social')) {
@@ -188,17 +189,17 @@ class CollaboratorController extends Controller
             'social_networks' => $redes_sociales_json
         ]);
 
-        $translation=$collaborator->translations()->where('lang',$this->lang)->first();
-        if($translation){
-            $translation->update( [
+        $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+        if ($translation) {
+            $translation->update([
                 'collaborator_id' => $collaborator->id,
                 'first_name' => $validatedData['first_name'],
                 'last_name' => $validatedData['last_name'],
                 'biography' => $validatedData['biography'],
                 'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
                 'lang' => $validatedData['lang'],
-                'meta_title'=>\App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'meta_description'=>$validatedData['biography']
+                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
+                'meta_description' => $validatedData['biography']
             ]);
         }
         return redirect()->route('collaborators.index')
@@ -216,7 +217,8 @@ class CollaboratorController extends Controller
     }
 
 
-    public function collaborators(){
+    public function collaborators()
+    {
         $locale = 'ca';
         $page = [
             'title' => 'Autors i traductors',
@@ -230,14 +232,14 @@ class CollaboratorController extends Controller
         $authors = [];
         $translators = [];
 
-        foreach($collaborators_lv as $collab){
-            $collaborator=$this->getFullCollaborator($collab->id, $locale);
+        foreach ($collaborators_lv as $collab) {
+            $collaborator = $this->getFullCollaborator($collab->id, $locale);
 
-            if($collab->author){
-                $authors[]=$collaborator;
+            if ($collab->author) {
+                $authors[] = $collaborator;
             }
-            if($collab->translator){
-                $translators[]=$collaborator;
+            if ($collab->translator) {
+                $translators[] = $collaborator;
             }
         }
 
@@ -250,7 +252,8 @@ class CollaboratorController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * $collaborators_lv->perPage());
     }
 
-    public function collaboratorDetail($id){
+    public function collaboratorDetail($id)
+    {
         $locale = 'ca';
         $page = [
             'title' => 'Autors i traductors',
@@ -278,7 +281,8 @@ class CollaboratorController extends Controller
         return view('public.collaborator', compact('collaborator', 'page', 'locale'));
     }
 
-    public function agency(){
+    public function agency()
+    {
         $locale = 'ca';
         $page = [
             'title' => 'Autors i traductors',
@@ -290,8 +294,8 @@ class CollaboratorController extends Controller
         $authors_lv = Author::where('represented_by_agency', 'LIKE', 1)->paginate();
 
         $collaborators_lv = [];
-        foreach($authors_lv as $author){
-            $collaborators_lv[]=$author->collaborator;
+        foreach ($authors_lv as $author) {
+            $collaborators_lv[] = $author->collaborator;
         }
 
         // $authors = [];
@@ -299,9 +303,9 @@ class CollaboratorController extends Controller
 
         $collaborators = [];
 
-        foreach($collaborators_lv as $collab){
-            $collaborator=$this->getFullCollaborator($collab->id, $locale);
-            $collaborators[]=$collaborator;
+        foreach ($collaborators_lv as $collab) {
+            $collaborator = $this->getFullCollaborator($collab->id, $locale);
+            $collaborators[] = $collaborator;
 
             // if($collab->author){
             //     $authors[]=$collaborator;
@@ -315,7 +319,8 @@ class CollaboratorController extends Controller
     }
 
 
-    public function getFullCollaborator($id, $locale){
+    public function getFullCollaborator($id, $locale)
+    {
         $collab = Collaborator::find($id);
         // $collaborator = [];
         $translation = $collab->translations->where('lang', $locale)->first();
@@ -331,8 +336,8 @@ class CollaboratorController extends Controller
                 'social_networks' => json_decode($collab->social_networks, true)
             ];
         }
-        if(!is_null($collab->author)){
-            foreach($collab->author->books()->where('visible', 'LIKE', 1)->get() as $book){
+        if (!is_null($collab->author)) {
+            foreach ($collab->author->books()->where('visible', 'LIKE', 1)->get() as $book) {
                 $collaborator['books'][$book->title] = [
                     'id' => $book->id,
                     'title' => $book->title,
@@ -341,8 +346,8 @@ class CollaboratorController extends Controller
                 ];
             }
         }
-        if(!is_null($collab->translator)){
-            foreach($collab->translator->books()->where('visible', 'LIKE', 1)->get() as $book){
+        if (!is_null($collab->translator)) {
+            foreach ($collab->translator->books()->where('visible', 'LIKE', 1)->get() as $book) {
                 $collaborator['books'][$book->title] = [
                     'id' => $book->id,
                     'title' => $book->title,
@@ -354,42 +359,40 @@ class CollaboratorController extends Controller
 
         return $collaborator;
     }
-    public function editImage($imageName, $typeImage){
-        $rutaImagen="";
-        if($typeImage=="collaborator"){
-            $rutaImagen= public_path('img/collab/covers/');
-            $rutaThumbnail= public_path('img/collab/thumbnails/');
+    public function editImage($imageName, $typeImage)
+    {
+        $rutaImagen = "";
+        if ($typeImage == "collaborator") {
+            $rutaImagen = public_path('img/collab/covers/');
+            $rutaThumbnail = public_path('img/collab/thumbnails/');
             $manager = new ImageManager(new Driver());
-            $image = $manager->read($rutaImagen.$imageName);
+            $image = $manager->read($rutaImagen . $imageName);
 
-            $width = $image->width();
-            $height = $image->height();
+            $image_width = $image->width();
+            $image_height = $image->height();
 
-            $widthStd = $height / 1.5;
-            $cropNum = $width - $widthStd;
+            $new_width = 315;
+            $new_height = intval($new_width * (1 / 1.5));
 
-            if ($cropNum > 0) {
-                $image->crop($widthStd, $height, position: 'center');
+            if ($image_width > $new_width || $image_height > $new_height) {
+                $image->resize($new_width, $new_height, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // $x = ($image->width() - $new_width) / 2;
+                // $y = ($image->height() - $new_height) / 2;
+
+                // $image->crop($new_width, $new_height, $x, $y);
             }
-
-            // Resize the image to 560x400
-            //$image->resize(560, 400);
-
-            // If size > 560x400, resize to 720x1080
-            if ($image->width() > 560 || $image->height() > 400) {
-                $image->resize(560, 400);
-            }
-
             // Encode the image to webp format with 80% quality
             $image->encode(new WebpEncoder(), 80);
 
             // Save the processed image
-            $image->save($rutaImagen.$imageName);
+            $image->save($rutaThumbnail . $imageName);
 
             //saving thumbanil
-            $image->resize(315,210 );
-            $image->save($rutaThumbnail.$imageName);
+            // $image->resize(315,210 );
+            // $image->save($rutaThumbnail.$imageName);
         }
-
     }
 }
