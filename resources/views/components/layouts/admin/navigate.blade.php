@@ -97,13 +97,14 @@ $locale = 'ca';
                 </div>
             </a>
         </li>
-        <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('users.index') }}">
-                <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
-                    <img class="w-10 h-10" src="/img/icons/settings.webp">
-                    <div class="text-base">Configuració</div>
-                </div>
-            </a>
+        <li><a class="has-icon" href="{{ route('bookstores.index')}}"><img src="/img/icons/bookstores.webp"><span>Llibreries</span></a></li>
+        <li class="has-child">
+            <a class="has-icon" href="{{ route('posts.index') }}"><img src="/img/icons/posts.webp"><span>Publicacions</span></a>
+            {{-- <ul>
+                <li><a href="">Activitats</a></li>
+                <li><a href="{{ route('posts.index')}}">Articles</a></li>
+            </ul>
+            <span class="icon">&#8964;</span> --}}
         </li>
     </ul>
 </nav>

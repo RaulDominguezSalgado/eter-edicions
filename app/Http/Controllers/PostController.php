@@ -33,22 +33,23 @@ class PostController extends Controller
         $postsArray = [];
         foreach ($posts as $post) {
             if($post->author){
-                $author =$post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+                $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
             }else{
-                $author ="";
+                $authorID = '';
             }
 
-            if( $post->translator ){
+            if($post->translator){
                 $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
             }else{
-                $translator ="";
+                $translator = '';
             }
+
             $postsArray[] = [
                 'id' => $post->id,
                 'title' => $post->title,
                 'description' => $post->description,
-                'author_id' => $author,
-                'translator_id' => $translator,
+                'author_id' => $authorID,
+                'translator_id' =>$translator,
                 'content' => $post->content,
                 'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
                 'location' => $post->location,
