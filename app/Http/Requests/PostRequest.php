@@ -20,18 +20,34 @@ class PostRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {   
-        return [
-			'title' => 'required|string',
-			'description' => 'required|string',
-            'author_id' => 'required',
-            'translator_id' => 'required',
-			'content' => 'required|string',
-			'date' => 'required',
-            'location' => 'required',
-			'image' => 'required',
-			'publication_date' => 'required',
-			'published_by' => 'required'
-        ];
+    {
+        if ($this->isMethod('post')) {
+            return [
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'author_id' => 'required',
+                'translator_id' => 'required',
+                'content' => 'required|string',
+                'date' => 'required',
+                'location' => 'required',
+                'image' => 'required',
+                'publication_date' => 'required',
+                'published_by' => 'required'
+            ];
+        }else{
+            return [
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'author_id' => 'required',
+                'translator_id' => 'required',
+                'content' => 'required|string',
+                'date' => 'required',
+                'location' => 'required',
+                'image' => '',
+                'publication_date' => 'required',
+                'published_by' => 'required'
+            ];
+        }
+
     }
 }
