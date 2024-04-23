@@ -39,8 +39,8 @@ class BookController extends Controller
     public function index()
     {
         // try {
-            $books = $this->getData();
-            return view('admin.book.index', compact('books'));
+        $books = $this->getData();
+        return view('admin.book.index', compact('books'));
         // } catch (Exception $e) {
         //     abort(500, 'Server Error');
         // }
@@ -83,11 +83,11 @@ class BookController extends Controller
                 'meta_title' => '',
                 'meta_description' => '',
             ];
-        $authors=CollaboratorTranslation::where("lang",$this->lang)->get();
-        $translators=CollaboratorTranslation::where("lang",$this->lang)->get();
-        $languages = LanguageTranslation::where("iso_translation",$this->lang)->get();
-        $collections= CollectionTranslation::where("lang", $this->lang)->get();
-            return view('admin.book.create', compact('book','authors','translators','languages','collections'));
+            $authors = CollaboratorTranslation::where("lang", $this->lang)->get();
+            $translators = CollaboratorTranslation::where("lang", $this->lang)->get();
+            $languages = LanguageTranslation::where("iso_translation", $this->lang)->get();
+            $collections = CollectionTranslation::where("lang", $this->lang)->get();
+            return view('admin.book.create', compact('book', 'authors', 'translators', 'languages', 'collections'));
         } catch (Exception $e) {
             abort(500, 'Server Error');
         }
@@ -178,45 +178,40 @@ class BookController extends Controller
      */
     public function edit($id)
     {
+        $locale = $this->lang;
+
         /*try {*/
-            /* Get the book data */
-            $book = $this->getData('id', $id)[0];
+        $book_lv = Book::findOrFail($id);
 
-            /* Get all collaborators data */
-            $collaborators = [];
-            $collaborators_raw = \App\Models\Collaborator::with('translations')->get();
-            foreach ($collaborators_raw as $collaborator_raw) {
-                foreach ($collaborator_raw->translations->where('lang', 'ca') as $translation) {
-                    $collaborators[] = [
-                        'id' => $collaborator_raw->id,
-                        'full_name' => $translation->first_name." ".$translation->last_name,
-                    ];
-                }
+        /* Get the book data */
+        $book = $this->getFullBook($book_lv, $locale);
+
+        /* Get all collaborators data */
+        $collaboratorController = new CollaboratorController();
+        foreach (\App\Models\Collaborator::all() as $collaborator) {
+            $collaborators[$collaborator->id] = $collaboratorController->getFullCollaborator($collaborator->id, $locale);
+        }
+
+
+        /* Get all languages data */
+        foreach (\App\Models\Language::all() as $language_lv) {
+            // $languages[] = $language_lv->iso;
+
+            $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $language_lv->iso)->where('iso_translation', $locale)->first();
+            $langName = $langTranslation->translation;
+
+            $languages[] = ["iso" => $langTranslation->iso_language, "name" => $langName];
+        }
+
+
+        /* Get all collections data */
+        $collectionController = new CollectionController();
+            foreach (Collection::all() as $collection) {
+                $collections[$collection->id] = $collectionController->getFullCollection($collection->id, $locale);
             }
 
 
-            /* Get all languages data */
-            $languages_raw = \App\Models\Language::get();
-            $languages = [];
-            foreach ($languages_raw as $language) {
-                $languages[] = $language->iso;
-            }
-
-
-            /* Get all collections data */
-            $collections_raw = \App\Models\Collection::with('translations')->get();
-            $collections = [];
-            foreach ($collections_raw as $collection) {
-                foreach ($collection->translations->where('lang', 'ca') as $translation) {
-                    $collections[] = [
-                        'id' => $collection->id,
-                        'name' => $translation->name,
-                    ];
-                }
-            }
-
-
-            return view('admin.book.edit', compact('book', 'collaborators', 'languages', 'collections'));
+        return view('admin.book.edit', compact('book', 'collaborators', 'languages', 'collections'));
         /*} catch (Exception $e) {
             abort(500, 'Server Error');
         }*/
@@ -236,8 +231,7 @@ class BookController extends Controller
                     'visible' => $request->input('visible') == 'on' ? 1 : 0,
                 ]);
                 $new_data['visible'] = $new_data['visible']  == 'on' ? 1 : 0;
-            }
-            else {
+            } else {
                 $request->merge([
                     'visible' => 0,
                 ]);
@@ -397,7 +391,12 @@ class BookController extends Controller
     }
 
     /**
+     * Get all the details of a book
      *
+     * @param Book $book the book to get the details of
+     * @param string $locale the current language of the website
+     *
+     * @return array[] $bookResult associative array with all the data of the book
      */
     private function getFullBook($book, $locale)
     {
@@ -418,10 +417,12 @@ class BookController extends Controller
                 'publication_date' => $book->publication_date->format('Y'),
                 'original_publication_date' => $book->original_publication_date,
                 'pvp' => $book->pvp,
+                'iva' => $book->iva,
                 'discounted_price' => $book->discounted_price ?? 0,
                 'legal_diposit' => $book->legal_diposit,
                 'enviromental_footprint' => $book->enviromental_footprint,
                 'stock' => $book->stock,
+                'visible' => $book->visible,
                 'slug' => $book->slug,
                 'meta_title' => $book->meta_title,
                 'meta_description' => $book->meta_description
@@ -432,7 +433,7 @@ class BookController extends Controller
                 $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
-                $bookResult['authors'][] = $collaboratorName;
+                $bookResult['authors'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
             }
 
             foreach ($book->translators()->get() as $translator) {
@@ -440,7 +441,7 @@ class BookController extends Controller
                 $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $translator->id)->where('lang', $locale)->first();
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
-                $bookResult['translators'][] = $collaboratorName;
+                $bookResult['translators'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
             }
 
             foreach ($book->languages()->orderby('id', 'desc')->get() as $lang) {
@@ -448,13 +449,13 @@ class BookController extends Controller
                 $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
                 $langName = $langTranslation->translation;
 
-                $bookResult['lang'][] = $langName;
+                $bookResult['lang'][] = ["iso" => $langTranslation->iso_language, "name" => $langName];
             }
 
             foreach ($book->collections()->get() as $collection) {
-                $collectionName = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first()->name;
+                $collection = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
 
-                $bookResult['collections'][] = $collectionName;
+                $bookResult['collections'][] = ["id" => $collection->id, "name" => $collection->name];
             }
 
             foreach ($book->extras()->get() as $extra) {
@@ -477,7 +478,6 @@ class BookController extends Controller
             }
 
             return $bookResult;
-
         } catch (Exception $e) {
             abort(500, 'Server Error');
         }
@@ -650,10 +650,10 @@ class BookController extends Controller
 
         // Obtener el libro con el ID especificado
         $book = $this->getFullBook(Book::findOrFail($id), $locale);
-        $bookstores=Bookstore::all();
+        $bookstores = Bookstore::all();
         //dd($book);
         // Devolver la vista con los datos del libro
-        return view('admin.book.stock', compact('book','bookstores'));
+        return view('admin.book.stock', compact('book', 'bookstores'));
     }
 
     public function editStock($id)
@@ -661,7 +661,7 @@ class BookController extends Controller
         $locale = "ca";
 
         $book = $this->getFullBook(Book::findOrFail($id), $locale);
-        $bookstores=Bookstore::all();
+        $bookstores = Bookstore::all();
 
         return view('admin.user.edit', compact('book'));
     }
@@ -698,65 +698,65 @@ class BookController extends Controller
 
 
     /**
-    * Method that generates the Book array used on the view
-    */
-    private function getData($key = null, $value = null) {
+     * Method that generates the Book array used on the view
+     */
+    private function getData($key = null, $value = null)
+    {
         // try {
-            $locale = 'ca';
+        $locale = 'ca';
 
-            if ($key == null || $value == null) {
-                $query_data = Book::paginate();
-            }
-            else {
-                $query_data = Book::where($key, $value)->paginate();
-            }
-            $books = [];
-            foreach ($query_data as $single_data) {
-                $collections_names = [];
-                if (!empty($single_data->collections)) {
-                    foreach ($single_data->collections as $collection) {
-                        // dd($collection);
-                        $name = $collection->translations()->first()->name;
-                        $collections_names[] = [
-                            'id' => $collection->id,
-                            'name' => $name,
-                        ];
-                    }
-                    // dd($collections_names);
+        if ($key == null || $value == null) {
+            $query_data = Book::paginate();
+        } else {
+            $query_data = Book::where($key, $value)->paginate();
+        }
+        $books = [];
+        foreach ($query_data as $single_data) {
+            $collections_names = [];
+            if (!empty($single_data->collections)) {
+                foreach ($single_data->collections as $collection) {
+                    // dd($collection);
+                    $name = $collection->translations()->first()->name;
+                    $collections_names[] = [
+                        'id' => $collection->id,
+                        'name' => $name,
+                    ];
                 }
-                $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
-                // dd($single_data);
-                $books[] = [
-                    'id' => $single_data->id,
-                    'title' => $single_data->title,
-                    'description' => $single_data->description,
-                    'slug' => $single_data->slug,
-                    'lang' => $single_data->languages()->first()->iso,
-                    'isbn' => $single_data->isbn,
-                    'publisher' => $single_data->publisher,
-                    'image' => $single_data->image,
-                    'pvp' => $single_data->pvp,
-                    'iva' => $single_data->iva,
-                    'discounted_price' => $single_data->discounted_price,
-                    'stock' => $single_data->stock,
-                    'visible' => $single_data->visible,
-                    'sample_url' => $single_data->sample,
-                    'number_of_pages' => $single_data->number_of_pages,
-                    'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
-                    'collections' => $collections_names,
-                    'collaborators' => $collaborators,
-                    'original_title' => $single_data->original_title,
-                    'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
-                    'original_publisher' => $single_data->original_publisher,
-                    'legal_diposit' => $single_data->legal_diposit,
-                    'headline' => $single_data->headline,
-                    'size' => $single_data->size,
-                    'enviromental_footprint' => $single_data->enviromental_footprint,
-                    'meta_title' => $single_data->meta_title,
-                    'meta_description' => $single_data->meta_description,
-                ];
+                // dd($collections_names);
             }
-            return $books;
+            $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
+            // dd($single_data);
+            $books[] = [
+                'id' => $single_data->id,
+                'title' => $single_data->title,
+                'description' => $single_data->description,
+                'slug' => $single_data->slug,
+                'lang' => $single_data->languages()->first()->iso,
+                'isbn' => $single_data->isbn,
+                'publisher' => $single_data->publisher,
+                'image' => $single_data->image,
+                'pvp' => $single_data->pvp,
+                'iva' => $single_data->iva,
+                'discounted_price' => $single_data->discounted_price,
+                'stock' => $single_data->stock,
+                'visible' => $single_data->visible,
+                'sample_url' => $single_data->sample,
+                'number_of_pages' => $single_data->number_of_pages,
+                'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
+                'collections' => $collections_names,
+                'collaborators' => $collaborators,
+                'original_title' => $single_data->original_title,
+                'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
+                'original_publisher' => $single_data->original_publisher,
+                'legal_diposit' => $single_data->legal_diposit,
+                'headline' => $single_data->headline,
+                'size' => $single_data->size,
+                'enviromental_footprint' => $single_data->enviromental_footprint,
+                'meta_title' => $single_data->meta_title,
+                'meta_description' => $single_data->meta_description,
+            ];
+        }
+        return $books;
         // }
         // catch (Exception $e) {
         //     abort(500, 'Server Error');
@@ -766,38 +766,39 @@ class BookController extends Controller
     /**
      * Method used to genrerate the images needed for Books Post Type
      */
-    public function editImage($rutaImagen){
+    public function editImage($rutaImagen)
+    {
         // try {
-            $manager = new ImageManager(new Driver());
-            $image = $manager->read($rutaImagen);
-            // Crop a 1.4 / 1 aspect ratio
-            if ($image->width() > $image->height()) {
-                $heightStd = $image->width() / 1.4;
-                $cropNum = $image->height() - $heightStd;
-                if ($cropNum > 0) {
-                    $image->crop($image->width(), $heightStd);
-                }
-            } else {
-                $heightStd = $image->width() / 1.4;
-                $cropNum = $image->height() - $heightStd;
-                if ($cropNum > 0) {
-                    $image->crop($heightStd, $image->height());
-                }
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($rutaImagen);
+        // Crop a 1.4 / 1 aspect ratio
+        if ($image->width() > $image->height()) {
+            $heightStd = $image->width() / 1.4;
+            $cropNum = $image->height() - $heightStd;
+            if ($cropNum > 0) {
+                $image->crop($image->width(), $heightStd);
             }
+        } else {
+            $heightStd = $image->width() / 1.4;
+            $cropNum = $image->height() - $heightStd;
+            if ($cropNum > 0) {
+                $image->crop($heightStd, $image->height());
+            }
+        }
 
-            // Resize the image to 560x400
+        // Resize the image to 560x400
+        $image->resize(560, 400);
+
+        // If size > 560x400, resize to 720x1080
+        if ($image->width() > 560 || $image->height() > 400) {
             $image->resize(560, 400);
+        }
 
-            // If size > 560x400, resize to 720x1080
-            if ($image->width() > 560 || $image->height() > 400) {
-                $image->resize(560, 400);
-            }
+        // Encode the image to webp format with 80% quality
+        $image->encode(new WebpEncoder(), 80);
 
-            // Encode the image to webp format with 80% quality
-            $image->encode(new WebpEncoder(), 80);
-
-            // Save the processed image
-            $image->save($rutaImagen);
+        // Save the processed image
+        $image->save($rutaImagen);
         // }
         // catch (Exception $e) {
         //     abort(500, 'Server Error');
@@ -809,13 +810,14 @@ class BookController extends Controller
         (genera los cambios no ofrecidos por los
         metodos update y store de los modelos)
     */
-    private function setBookData ($book, $request) {
+    private function setBookData($book, $request)
+    {
         try {
             $book->authors()->detach(); // Eliminamos los autores actuales
             if ($request->has('authors')) { // Y les añadimos los del formulario si se han dado
                 $authors = array_unique($request->input('authors'));
                 foreach ($authors as $collaborator_id) {
-                    $author = \App\Models\Author::where('collaborator_id',$collaborator_id)->first();
+                    $author = \App\Models\Author::where('collaborator_id', $collaborator_id)->first();
 
                     if (!$author) {
                         \App\Models\Author::create([
@@ -823,7 +825,7 @@ class BookController extends Controller
                             'collaborator_id' => $collaborator_id,
                             'represented_by_agency' => true,
                         ]);
-                        $author = \App\Models\Author::where('id',$collaborator_id)->first();
+                        $author = \App\Models\Author::where('id', $collaborator_id)->first();
                         // dd($author);
                     }
 
@@ -835,14 +837,14 @@ class BookController extends Controller
             if ($request->has('translators')) { // Y les añadimos los del formulario si se han dado
                 $translators = array_unique($request->input('translators'));
                 foreach ($translators as $collaborator_id) {
-                    $translator = \App\Models\Translator::where('collaborator_id',$collaborator_id)->first();
+                    $translator = \App\Models\Translator::where('collaborator_id', $collaborator_id)->first();
 
                     if (!$translator) {
                         \App\Models\Translator::create([
                             'id' => $collaborator_id,
                             'collaborator_id' => $collaborator_id,
                         ]);
-                        $translator = \App\Models\Translator::where('id',$collaborator_id)->first();
+                        $translator = \App\Models\Translator::where('id', $collaborator_id)->first();
                         // dd($author);
                     }
 
@@ -884,8 +886,7 @@ class BookController extends Controller
             } else {
                 $book->image = "default.webp";
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }

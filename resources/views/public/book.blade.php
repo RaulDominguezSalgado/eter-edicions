@@ -28,10 +28,10 @@
                                     @foreach ($book['authors'] as $author)
                                         {{-- if not last iteration --}}
                                         @if (!$loop->last)
-                                            <h4>{{ $author }},</h4>
+                                            <h4>{{ $author['name'] }},</h4>
                                             {{-- if last iteration --}}
                                         @else
-                                            <h4>{{ $author }}</h4>
+                                            <h4>{{ $author['name'] }}</h4>
                                         @endif
                                     @endforeach
                                 </div>
@@ -205,10 +205,10 @@
                             @foreach ($book['authors'] as $author)
                                 {{-- if not last iteration --}}
                                 @if (!$loop->last)
-                                    <p>{{ $author }},</p>
+                                    <p>{{ $author['name'] }},</p>
                                     {{-- if last iteration --}}
                                 @else
-                                    <p>{{ $author }}</p>
+                                    <p>{{ $author['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>
@@ -219,10 +219,10 @@
                             @foreach ($book['translators'] as $translator)
                                 {{-- if not last iteration --}}
                                 @if (!$loop->last)
-                                    <p>{{ $translator }},</p>
+                                    <p>{{ $translator['name'] }},</p>
                                     {{-- if last iteration --}}
                                 @else
-                                    <p>{{ $translator }}</p>
+                                    <p>{{ $translator['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>
@@ -252,10 +252,10 @@
                             @foreach ($book['collections'] as $collection)
                                 {{-- if not last iteration --}}
                                 @if (!$loop->last)
-                                    <p>{{ $collection }},</p>
+                                    <p>{{ $collection['name'] }},</p>
                                     {{-- if last iteration --}}
                                 @else
-                                    <p>{{ $collection }}</p>
+                                    <p>{{ $collection['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>
@@ -274,9 +274,9 @@
                         <div class="flex space-x-1.5">
                             @foreach ($book['lang'] as $lang)
                                 @if (!$loop->last)
-                                    <p>{{ $lang }},</p>
+                                    <p>{{ $lang['name'] }},</p>
                                 @else
-                                    <p>{{ $lang }}</p>
+                                    <p>{{ $lang['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>

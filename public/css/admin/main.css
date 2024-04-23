@@ -20,7 +20,7 @@ body>main {
     float: right;
     width: 90%;
     overflow: auto;
-    padding: 40px;
+    padding: 2.5em 2.5em;
 }
 
 body>main::after {

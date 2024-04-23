@@ -7,7 +7,7 @@ $locale = 'ca';
             <div class="col-sm-12">
                 <div class="space-y-6">
                     <div class="">
-                        <div class="flex justify-between items-center px-5 border-guide-1">
+                        <div class="flex justify-between items-end px-2.5">
                             <div>
                                 <h2>{{ $book['title'] }}</h2>
                             </div>

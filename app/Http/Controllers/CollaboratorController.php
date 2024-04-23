@@ -353,6 +353,14 @@ class CollaboratorController extends Controller
     }
 
 
+    /**
+     * Get all the relevant details of a collaborator
+     *
+     * @param int $id: the id of the collaborator
+     * @param string $locale: the current language of the app
+     *
+     * @return array $collaborator
+     */
     public function getFullCollaborator($id, $locale){
         $collab = Collaborator::find($id);
         // $collaborator = [];
