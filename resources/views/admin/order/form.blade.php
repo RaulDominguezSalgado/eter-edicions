@@ -1,3 +1,19 @@
+<?php
+    function getBooks($selected=-1)
+    {
+        $col_options = '<option selected disabled>Selecciona una opció</option>';
+        foreach ($books as $book) {
+            if ($book->id == $selected) {
+                $col_options .= "<option selected value='$book->id'>" . $book->title . '</option>';
+            } else {
+                $col_options .= "<option value='$book->id'>" . $book->title . '</option>';
+            }
+        }
+        echo $col_options;
+    }
+    echo '<select id="getBooks" style="display: none;">';
+    getBooks();
+?>
 <div class="row padding-1 p-1">
     <div class="col-md-12">
         @if ($message = Session::get('error'))
@@ -119,6 +135,7 @@
         {!! $errors->first('pdf', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>
 
+    <a id="add_product" class="add-content-button">Afegir llibre</a>
     <div id="products" class="flex flex-wrap">
         <label for="products" class="form-label">{{ __('Productes') }}</label>
         @foreach ($books as $book)

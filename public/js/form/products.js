@@ -8,4 +8,25 @@ document.addEventListener('DOMContentLoaded', function() {
     //     document.getElementById('products').appendChild(nuevas_redes_sociales);
     //     contador++;
     // });
+
+    let collaborators_options = document.getElementById("getBooks");
+    console.log(collaborators_options);
+    document.getElementById('add_product').addEventListener('click', function() {
+        var contador = document.querySelectorAll('[name="books[]"]').length+1;
+        let new_author = document.createElement('div');
+        new_author.innerHTML = `
+        <label for="books_${contador}">Autor ${contador}
+            <select name="books[]" id="books__${contador}">
+                ${collaborators_options.innerHTML}
+            </select>
+            <a class="remove-content-button">Eliminar</a>
+        </label>
+        `;
+        this.parentNode.insertBefore(new_author, this);
+        document.querySelectorAll('a.remove-content-button').forEach(function (e) {
+            e.addEventListener("click", function () {
+                this.parentNode.remove();
+            });
+        });
+    });
 });
