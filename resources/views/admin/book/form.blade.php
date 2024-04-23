@@ -63,28 +63,29 @@ echo '</select>';
         <div class="mr-6 cover relative">
             <img class="" src="{{ asset('img/books/covers/' . $book['image']) }}" alt="{{ $book['title'] }}">
             <div id="edit_cover_image" class="edit-button">
-                <img src="{{asset('img/icons/light/edit.webp')}}" alt="">
+                <img src="{{ asset('img/icons/light/edit.webp') }}" alt="">
             </div>
         </div>
 
         <div class="details w-full flex flex-col space-y-3 justify-between h-auto">
 
-            <div class="flex justify-between items-center border-guide-1">
-                <div class="flex items-center space-x-2  border-guide-2">
+            <div class="flex justify-between items-center ">
+                <div class="flex items-center space-x-2  ">
                     <label class="mx-2.5" for="title">Títol:</label>
-                    <input type="text" name="title" id="title" value="{{ $book['title'] ?? '' }}" class="border-0">
+                    <input type="text" name="title" id="title" value="{{ $book['title'] ?? '' }}"
+                        class="border-0">
                 </div>
-                <div class="flex border-guide-2">
+                <div class="flex ">
                     <button>
-                        <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>
             </div>
             {{-- <fieldset> --}}
             @if (isset($book))
                 <!-- Edit -->
-                <div class="flex justify-between items-center border-guide-1">
-                    <div class="flex space-x-2 border-guide-2">
+                <div class="flex justify-between items-center ">
+                    <div class="flex space-x-2 ">
                         <label class="mx-2.5" for="authors">Autoria:</label>
                         @for ($i = 0; $i < count($book['authors']); $i++)
                             <select name="authors[]" id="authors_{{ $i }}" class="border-0">
@@ -96,26 +97,21 @@ echo '</select>';
                         @endfor
                         <div class="flex space-x-0.5">
                             <a class="remove-content-button">
-                                <img src="{{asset('img/icons/dark/less.webp')}}" alt="Eliminar autor">
+                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                             </a>
                             <a id="add_author" class="add-content-button">
-                                <img src="{{asset('img/icons/dark/add.webp')}}" alt="Afegir autor">
+                                <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
                             </a>
                         </div>
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
-                        </button>
-                    </div>
-                    <div class="flex border-guide-2">
-                        <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                         </button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center border-guide-1">
-                    <div class="flex space-x-2 border-guide-2">
+                <div class="flex justify-between items-center ">
+                    <div class="flex space-x-2 ">
                         <label class="mx-2.5" for="translators">Traducció:</label>
                         @for ($i = 0; $i < count($book['translators']); $i++)
                             <select name="translators[]" id="translators_{{ $i }}" class="border-0">
@@ -124,16 +120,16 @@ echo '</select>';
                         @endfor
                         <div class="flex space-x-0.5">
                             <a class="remove-content-button">
-                                <img src="{{asset('img/icons/dark/less.webp')}}" alt="Eliminar autor">
+                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                             </a>
                             <a id="add_author" class="add-content-button">
-                                <img src="{{asset('img/icons/dark/add.webp')}}" alt="Afegir autor">
+                                <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
                             </a>
                         </div>
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -158,26 +154,27 @@ echo '</select>';
                     </div>
                 </div>
             @endif
-            <div class="border-guide-1">
-                <div class="flex justify-between items-center border-guide-2">
+            <div class="">
+                <div class="flex justify-between items-center ">
                     <label class="mx-2.5" for="headline">Capçalera:</label>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                         </button>
                     </div>
                 </div>
-                <div class="grow-wrap border-guide-2">
+                <div class="grow-wrap ">
                     <textarea name="headline" id="headline" class="border-0"
                         onInput="this.parentNode.dataset.replicatedValue = this.value">{{ $book['headline'] ?? '' }}</textarea>
                 </div>
             </div>
-            <div class="border-guide-1">
-                <div class="flex justify-between items-center border-guide-2">
+            <div class="">
+                <div class="flex justify-between items-center ">
                     <label class="mx-2.5" for="description">Descripció:</label>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -196,36 +193,38 @@ echo '</select>';
                         class="border-0">
                 </div> --}}
 
-            <div class="flex justify-between border-guide-1">
-                <div class="flex items-center space-x-2 border-guide-2">
+            <div class="flex justify-between ">
+                <div class="flex items-center space-x-2 ">
                     {{-- <label class="mx-2.5" for="sample"></label> --}}
-                    <img src="{{asset('img/icons/grey/pdf.webp')}}" alt="Document PDF del sample del llibre {{ $book['title']}}" style="width: 28px">
+                    <img src="{{ asset('img/icons/grey/pdf.webp') }}"
+                        alt="Document PDF del sample del llibre {{ $book['title'] }}" style="width: 28px">
                     <div class="mx-2.5 min-w-fit"><a href="/pdf/book/{{ $book['sample'] ?? '' }}"
                             target="_blank">{{ $book['sample_url'] ?? 'No hi ha cap mostra encara' }}</a></div>
                     <input class="border-0" type="file" name="sample" id="sample" accept=".pdf"
                         value="{{ $book['image'] ?? '' }}">
                 </div>
-                <div class="flex border-guide-2">
+                {{-- <div class="flex ">
                     <button>
-                        <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
     <div class="flex flex-wrap justify-between mb-8">
         <fieldset class="min-w-80 space-y-2.5 mb-6">
             <legend class="mx-2">Dades de l'edició</legend>
-            <div class="">
+            <div class="space-y-1">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="isbn">ISBN:</label>
                         <input id="isbn" class="border-0" type="text" name="isbn"
                             value="{{ $book['isbn'] ?? '' }}">
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -239,28 +238,30 @@ echo '</select>';
                         @endfor
                         <div class="flex space-x-0.5">
                             <a class="remove-content-button">
-                                <img src="{{asset('img/icons/dark/less.webp')}}" alt="Eliminar autor">
+                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                             </a>
                             <a id="add_author" class="add-content-button">
-                                <img src="{{asset('img/icons/dark/add.webp')}}" alt="Afegir autor">
+                                <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
                             </a>
                         </div>
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="publisher">Edita:</label>
-                        <input type="text" name="publisher" id="publisher" value="{{ $book['publisher'] ?? '' }}"
-                            class="border-0">
+                        <input type="text" name="publisher" id="publisher"
+                            value="{{ $book['publisher'] ?? '' }}" class="border-0">
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -271,9 +272,10 @@ echo '</select>';
                         <input type="text" name="size" id="size" value="{{ $book['size'] ?? '' }}"
                             class="border-0">
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -284,9 +286,10 @@ echo '</select>';
                         <input id="number_of_pages" class="border-0 number" type="number" name="number_of_pages"
                             value="{{ $book['number_of_pages'] ?? '' }}">
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -297,9 +300,10 @@ echo '</select>';
                         <input id="publication_date" class="border-0" type="date" name="publication_date"
                             value="{{ $book['publication_date'] ?? '' }}">
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -307,12 +311,13 @@ echo '</select>';
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-2">
                         <label class="mx-2.5 min-w-fit" for="enviromental_footprint">Petjada ambiental:</label>
-                        <input id="enviromental_footprint" class="border-0" type="text" name="enviromental_footprint"
-                            value="{{ $book['enviromental_footprint'] ?? '-' }}">
+                        <input id="enviromental_footprint" class="border-0" type="text"
+                            name="enviromental_footprint" value="{{ $book['enviromental_footprint'] ?? '-' }}">
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -323,9 +328,10 @@ echo '</select>';
                         <input id="legal_diposit" class="border-0" type="text" name="legal_diposit"
                             value="{{ $book['legal_diposit'] ?? '' }}">
                     </div>
-                    <div class="flex border-guide-2">
+                    <div class="flex ">
                         <button>
-                            <img src="{{asset('img/icons/dark/edit.webp')}}" alt="Editar camp" style="width: 20px">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
@@ -337,11 +343,19 @@ echo '</select>';
             <div class="">
                 <?php $i = 0; ?>
                 @foreach ($book['extras'] as $extra)
-                    <div class="flex items-center space-x-2">
-                        <label class="mx-2.5 min-w-fit"
-                            for="extras_{{ $i }}">{{ $extra['key'] }}:</label>
-                        <input class="border-0" id="extras_{{ $i }}" type="text"
-                            name="extras_{{ $i }}" value="{{ $extra['value'] }}">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <label class="mx-2.5 min-w-fit"
+                                for="extras_{{ $i }}">{{ $extra['key'] }}:</label>
+                            <input class="border-0" id="extras_{{ $i }}" type="text"
+                                name="extras_{{ $i }}" value="{{ $extra['value'] }}">
+                        </div>
+                        <div class="flex ">
+                            <button>
+                                <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                    style="width: 20px">
+                            </button>
+                        </div>
                     </div>
                     <?php $i++; ?>
                 @endforeach
@@ -350,21 +364,45 @@ echo '</select>';
         <fieldset class="min-w-80 space-y-2.5 mb-6">
             <legend class="mx-2">Dades de l'edició original</legend>
             <div class="">
-                <div class="flex space-x-2">
-                    <label class="mx-2.5 min-w-fit" for="original_title">Títol original:</label>
-                    <input id="original_title" class="border-0" type="text" name="original_title"
-                        value="{{ $book['original_title'] ?? '' }}">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <label class="mx-2.5 min-w-fit" for="original_title">Títol original:</label>
+                        <input id="original_title" class="border-0" type="text" name="original_title"
+                            value="{{ $book['original_title'] ?? '' }}">
+                    </div>
+                    <div class="flex ">
+                        <button>
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
+                        </button>
+                    </div>
                 </div>
-                <div class="flex space-x-2">
-                    <label class="mx-2.5 min-w-fit" for="original_publisher">Editorial original:</label>
-                    <input id="original_publisher" class="border-0" type="text" name="original_publisher"
-                        value="{{ $book['original_publisher'] ?? '' }}">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <label class="mx-2.5 min-w-fit" for="original_publisher">Editorial original:</label>
+                        <input id="original_publisher" class="border-0" type="text" name="original_publisher"
+                            value="{{ $book['original_publisher'] ?? '' }}">
+                    </div>
+                    <div class="flex ">
+                        <button>
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
+                        </button>
+                    </div>
                 </div>
-                <div class="flex space-x-2">
-                    <label class="mx-2.5 min-w-fit" for="original_publication_date">Data de publicació
-                        original:</label>
-                    <input id="original_publication_date" class="border-0" type="input"
-                        name="original_publication_date" value="{{ $book['original_publication_date'] ?? '' }}">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <label class="mx-2.5 min-w-fit" for="original_publication_date">Data de publicació
+                            original:</label>
+                        <input id="original_publication_date" class="border-0" type="input"
+                            name="original_publication_date" value="{{ $book['original_publication_date'] ?? '' }}">
+                    </div>
+                    <div class="flex ">
+                        <button>
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
+                        </button>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -373,65 +411,105 @@ echo '</select>';
         <fieldset class="space-y-2.5">
             <legend class="mx-2">Preu</legend>
             <div class="flex justify-between">
-                <div class="flex space-x-2">
-                    <label class="mx-2.5 min-w-fit" for="pvp">Preu</label>
-                    <input class="border-0" type="number" name="pvp" id="pvp"
-                        value="{{ $book['pvp'] ?? '' }}">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <label class="mx-2.5 min-w-fit" for="pvp">Preu</label>
+                        <input class="border-0 number" type="number" name="pvp" id="pvp"
+                            value="{{ $book['pvp'] ?? '' }}">
+                    </div>
+                    <div class="flex ">
+                        <button>
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
+                        </button>
+                    </div>
                 </div>
-                <div class="flex space-x-2">
-                    <label class="mx-2.5 min-w-fit" for="iva">IVA (%)</label>
-                    <input class="border-0" type="number" name="iva" id="iva"
-                        value="{{ $book['iva'] ?? '' }}">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <label class="mx-2.5 min-w-fit" for="iva">IVA (%)</label>
+                        <input class="border-0 number" type="number" name="iva" id="iva"
+                            value="{{ $book['iva'] ?? '' }}">
+                    </div>
+                    <div class="flex ">
+                        <button>
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
+                        </button>
+                    </div>
                 </div>
-                <div class="flex space-x-2">
-                    <label class="mx-2.5 min-w-fit" for="discounted_price">Preu amb descompte (preu
-                        final)</label>
-                    <input class="border-0" type="number" name="discounted_price" id="discounted_price"
-                        value="{{ $book['discounted_price'] ?? '' }}">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <label class="mx-2.5 min-w-fit" for="discounted_price">Preu amb descompte (preu
+                            final)</label>
+                        <input class="border-0 number" type="number" name="discounted_price" id="discounted_price"
+                            value="{{ $book['discounted_price'] ?? '' }}">
+                    </div>
+                    <div class="flex ">
+                        <button>
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
+                        </button>
+                    </div>
                 </div>
             </div>
         </fieldset>
     </div>
     <div class="flex justify-between">
-        <fieldset class="w-full space-y-2.5">
+        <fieldset class="w-auto space-y-2.5">
             <legend class="mx-2">Col·leccions</legend>
-            <div class="flex space-x-2">
-                @if (isset($book))
-                    @for ($i = 0; $i < count($book['collections']); $i++)
-                        <label class="mx-2.5" for="collections_{{ $i }}">Col·leccions</label>
-                        <select class="border-0" name="collections[]" id="collections_{{ $i }}">
-                            {!! getCollectionsOptions($collections, $book['collections'][$i]['id'] ?? '') !!}
-                        </select>
-                    @endfor
-                @else
-                    <div>
-                        <label class="mx-2.5" for="collections_0">Col·leccions:</label>
-                        <select class="border-0" name="collections[]" id="collections_0">
-                            <?php getCollectionsOptions($collections);
-                            ?>
-                        </select>
+            <div class="flex justify-between space-x-4 items-center ">
+                <div class="flex space-x-2">
+                    @if (isset($book))
+                        @for ($i = 0; $i < count($book['collections']); $i++)
+                            <label class="mx-2.5" for="collections_{{ $i }}">Col·leccions</label>
+                            <select class="border-0" name="collections[]" id="collections_{{ $i }}">
+                                {!! getCollectionsOptions($collections, $book['collections'][$i]['id'] ?? '') !!}
+                            </select>
+                        @endfor
+                    @else
+                        <div>
+                            <label class="mx-2.5" for="collections_0">Col·leccions:</label>
+                            <select class="border-0" name="collections[]" id="collections_0">
+                                <?php getCollectionsOptions($collections);
+                                ?>
+                            </select>
+                        </div>
+                    @endif
+                    <div class="flex space-x-0.5">
+                        <a class="remove-content-button">
+                            <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
+                        </a>
+                        <a id="add_author" class="add-content-button">
+                            <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
+                        </a>
                     </div>
-                @endif
-                <div class="flex space-x-0.5">
-                    <a class="remove-content-button">
-                        <img src="{{asset('img/icons/dark/less.webp')}}" alt="Eliminar autor">
-                    </a>
-                    <a id="add_author" class="add-content-button">
-                        <img src="{{asset('img/icons/dark/add.webp')}}" alt="Afegir autor">
-                    </a>
+                </div>
+                <div class="flex ">
+                    <button>
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
                 </div>
             </div>
         </fieldset>
-        <fieldset class="w-full max-w-md">
+        <fieldset class="w-1/3 space-y-2.5">
             <legend class="mx-2">Stock</legend>
-            <div class="flex justify-between items-center">
-                <div class="flex space-x-2">
-                    <label class="mx-2.5" for="stock">Stock:</label>
-                    <input class="border-0 number" type="number" name="stock" id="stock"
-                        value="{{ $book['stock'] ?? '' }}">
+            <div class="flex justify-between items-center ">
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <label class="mx-2.5" for="stock">Stock:</label>
+                        <input class="border-0 number" type="number" name="stock" id="stock"
+                            value="{{ $book['stock'] ?? '' }}">
+                    </div>
+                    <div class="flex ">
+                        <button>
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
+                        </button>
+                    </div>
                 </div>
                 <div>
-                    <a class="mx-2.5 underline" href="{{ route('stock.edit', $book['id']) }}" class="underline">Gestionar
+                    <a class="mx-2.5 underline" href="{{ route('stock.edit', $book['id']) }}"
+                        class="underline">Gestionar
                         stock</a>
                 </div>
             </div>
@@ -456,32 +534,53 @@ echo '</select>';
     </div>
 
     <div>
-        <fieldset class="space-y-2.5">
+        <fieldset class="space-y-2.5 w-3/4 max-w-4xl ">
             <legend class="mx-2">Opcions avançades: metadades</legend>
-            <div class="flex space-x-2">
-                <label class="mx-2.5 min-w-fit" for="slug">Enllaç:</label>
+            <div class="flex justify-between items-center ">
                 <div class="flex items-center">
-                    <p class="min-w-fit">eteredicions.com /</p>
+                    <div class="flex min-w-fit">
+                        <label class="mx-2.5 min-w-fit" for="slug">Enllaç:</label>
+                        <p class="min-w-fit">eteredicions.com /</p>
+                    </div>
                     <input class="min-w-80 border-0 m-0 px-0" type="text" name="slug" id="slug"
                         value="{{ $book['slug'] ?? '' }}">
                 </div>
+                <div class="flex ">
+                    <button>
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
+                </div>
             </div>
-            <div class="flex items-start space-x-2">
-                <div class="min-w-fit">
-                    <label class="mx-2.5 min-w-fit" for="meta_title">Títol del llibre:</label>
+            <div class="w-auto flex justify-between items-start ">
+                <div class="flex items-center space-x-2">
+                    <div class="min-w-fit">
+                        <label class="mx-2.5 min-w-fit" for="meta_title">Títol del llibre:</label>
                         <small class="font-bold mx-2.5">(aparença en buscadors i navegador)</small>
+                    </div>
+                    <input class="border-0 min-w-80" type="text" name="meta_title" id="meta_title"
+                        value="{{ $book['meta_title'] ?? '' }}">
                 </div>
-                <input class="border-0" type="text" name="meta_title" id="meta_title"
-                    value="{{ $book['meta_title'] ?? '' }}">
+                <div class="flex ">
+                    <button>
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
+                </div>
             </div>
-            <div class="flex items-start space-x-2">
-                <div class="min-w-fit">
-                    <label class="mx-2.5 min-w-fit" for="meta_description">Descripció del llibre:</label>
-                    <small class="font-bold mx-2.5">(aparença en buscadors i navegador)</small>
+            <div class=" flex space-x-2 items-start  relative">
+                <div class="w-auto flex items-center space-x-2 ">
+                    <div class="min-w-fit">
+                        <label class="mx-2.5 min-w-fit" for="meta_description">Descripció del llibre:</label>
+                        <small class="font-bold mx-2.5">(aparença en buscadors i navegador)</small>
+                    </div>
+                    <div class="min-w-full grow-wrap ">
+                        <textarea class="border-0" name="meta_description" id="meta_description"
+                            onInput="this.parentNode.dataset.replicatedValue = this.value">{{ $book['meta_description'] ?? '' }}</textarea>
+                    </div>
                 </div>
-                <div class="w-full grow-wrap">
-                    <textarea class="border-0" name="meta_description" id="meta_description"
-                        onInput="this.parentNode.dataset.replicatedValue = this.value">{{ $book['meta_description'] ?? '' }}</textarea>
+                <div class="flex  absolute top-0 right-0">
+                    <button>
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
                 </div>
             </div>
 
@@ -495,7 +594,8 @@ echo '</select>';
 
 <div id="save">
     {{-- <button type="submit" value="redirect" name="action">Desar canvis</button> --}}
-    <button id="submit-button" class="send-button" type="submit" value="stay" name="action">Desar canvis</button>
+    <button id="submit-button" class="send-button" type="submit" value="stay" name="action">Desar
+        canvis</button>
 </div>
 @if ($errors->any())
     <div class="alert alert-danger m-4">

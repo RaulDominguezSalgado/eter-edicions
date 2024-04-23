@@ -5,7 +5,7 @@
 
 .book {
     /* width: 61%; */
-    min-width: 54.5em;
+    /* min-width: 54.5em; */
     /* width: 54.5em; */
     /* height: max-content; */
     min-height: calc(350px + 5em);

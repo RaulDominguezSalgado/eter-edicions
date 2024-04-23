@@ -31,3 +31,4 @@
         </div>
     </div>
 </x-layouts.admin.app>
+<script src="/js/book/book.js"></script>
