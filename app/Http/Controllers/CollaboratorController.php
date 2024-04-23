@@ -359,40 +359,40 @@ class CollaboratorController extends Controller
 
         return $collaborator;
     }
-    public function editImage($imageName, $typeImage)
+
+    public function editImage($fileName, $typeImage)
     {
-        $rutaImagen = "";
-        if ($typeImage == "collaborator") {
-            $rutaImagen = public_path('img/collab/covers/');
-            $rutaThumbnail = public_path('img/collab/thumbnails/');
-            $manager = new ImageManager(new Driver());
-            $image = $manager->read($rutaImagen . $imageName);
+        $reductionRate = 0.6;
+        $manager = new ImageManager(new Driver());
 
-            $image_width = $image->width();
-            $image_height = $image->height();
+        switch ($typeImage) {
+            case "collaborator":
+             $rutaImagen = public_path('img/collab/covers/');
+        $rutaThumbnail = public_path('img/collab/thumbnails/');
 
-            $new_width = 315;
-            $new_height = intval($new_width * (1 / 1.5));
+        $image = $manager->read($rutaImagen . $fileName);
+                $image_width = $image->width();
+                $image_height = $image->height();
 
-            if ($image_width > $new_width || $image_height > $new_height) {
-                $image->resize($new_width, $new_height, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
+                $new_width = 668;
+                $new_height = 446; //intval($new_width * (1 / 1.5));
 
-                // $x = ($image->width() - $new_width) / 2;
-                // $y = ($image->height() - $new_height) / 2;
-
-                // $image->crop($new_width, $new_height, $x, $y);
-            }
-            // Encode the image to webp format with 80% quality
-            $image->encode(new WebpEncoder(), 80);
-
-            // Save the processed image
-            $image->save($rutaThumbnail . $imageName);
-
-            //saving thumbanil
-            // $image->resize(315,210 );
-            // $image->save($rutaThumbnail.$imageName);
+                break;
+            case "book":
+                break;
+            default:
+                break;
         }
+        if ($image_width > $new_width || $image_height > $new_height) {
+            $image->cover($new_width, $new_height, "center");
+        }
+        // Encode the image to webp format with 80% quality
+        $image->encode(new WebpEncoder(), 80);
+
+        // Save the processed image
+        $image->save($rutaImagen . $fileName);
+
+        $image->cover($new_width * $reductionRate, $new_height * $reductionRate, "center");
+        $image->save($rutaThumbnail . $fileName);
     }
 }
