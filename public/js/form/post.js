@@ -1,11 +1,18 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
     var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); // Enero es 0!
     var yyyy = today.getFullYear();
 
-    today = yyyy + '-' + mm + '-' + dd;
+    today = yyyy + "-" + mm + "-" + dd;
 
-    document.getElementById('publication_date').value = today;
+    document.getElementById("date").value = today;
+    document.getElementById("publication_date").value = today;
+
+    //CKEditor
+    ClassicEditor.create(document.querySelector("#content"))//select by id
+    .catch((error) => {
+        console.error(error);
+    });
 
 });
