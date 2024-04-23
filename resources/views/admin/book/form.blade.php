@@ -62,9 +62,18 @@ echo '</select>';
     <div class="book-detail flex mb-4">
         <div class="mr-6 cover relative">
             <img class="" src="{{ asset('img/books/covers/' . $book['image']) }}" alt="{{ $book['title'] }}">
-            <div id="edit_cover_image" class="edit-button">
-                <img src="{{ asset('img/icons/light/edit.webp') }}" alt="">
+            <div id="edit_cover_image" class="edit-button edit-image image-upload">
+                <label for="book-cover-input">
+                    <img src="{{ asset('img/icons/light/edit.webp') }}" alt="Editar camp" style="width: 20px" />
+                </label>
+
+                <input id="book-cover-input" type="file" name="image_file" id="image_file" accept="image">
+                <input type="hidden" name="image" id="image" value="{{ $book['image'] ?? 'default.webp' }}"
+                    class="border-0">
             </div>
+            {{-- <div id="edit_cover_image" class="edit-button edit-image">
+                <img src="{{ asset('img/icons/light/edit.webp') }}" alt="">
+            </div> --}}
         </div>
 
         <div class="details w-full flex flex-col space-y-3 justify-between h-auto">
@@ -72,11 +81,11 @@ echo '</select>';
             <div class="flex justify-between items-center ">
                 <div class="flex items-center space-x-2  ">
                     <label class="mx-2.5" for="title">Títol:</label>
-                    <input type="text" name="title" id="title" value="{{ $book['title'] ?? '' }}"
-                        class="border-0">
+                    <input class="border-0 min-w-96 disabled" type="text" name="title" id="title"
+                        value="{{ $book['title'] ?? '' }}" disabled>
                 </div>
                 <div class="flex ">
-                    <button>
+                    <button class="edit-button" type="button" onclick="enableInput(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>
@@ -88,24 +97,25 @@ echo '</select>';
                     <div class="flex space-x-2 ">
                         <label class="mx-2.5" for="authors">Autoria:</label>
                         @for ($i = 0; $i < count($book['authors']); $i++)
-                            <select name="authors[]" id="authors_{{ $i }}" class="border-0">
+                            <select name="authors[]" id="authors_{{ $i }}" class="border-0" disabled>
                                 {!! getCollaboratorsOptions($collaborators, $book['authors'][$i]['id']) !!}
                             </select>
-                            {{-- <a class="remove-content-button">
-                                <img src="{{asset('img/icons/dark/trash.webp')}}" alt="Eliminar autor">
-                            </a> --}}
-                        @endfor
-                        <div class="flex space-x-0.5">
                             <a class="remove-content-button">
                                 <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                             </a>
+                        @endfor
+
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="flex space-x-0.5">
+                            {{-- <a class="remove-content-button">
+                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
+                            </a> --}}
                             <a id="add_author" class="add-content-button">
                                 <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
                             </a>
                         </div>
-                    </div>
-                    <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableSelect(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                         </button>
                     </div>
@@ -114,7 +124,8 @@ echo '</select>';
                     <div class="flex space-x-2 ">
                         <label class="mx-2.5" for="translators">Traducció:</label>
                         @for ($i = 0; $i < count($book['translators']); $i++)
-                            <select name="translators[]" id="translators_{{ $i }}" class="border-0">
+                            <select name="translators[]" id="translators_{{ $i }}" class="border-0"
+                                disabled>
                                 {!! getCollaboratorsOptions($collaborators, $book['translators'][$i]['id']) !!}
                             </select>
                         @endfor
@@ -122,13 +133,13 @@ echo '</select>';
                             <a class="remove-content-button">
                                 <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                             </a>
-                            <a id="add_author" class="add-content-button">
+                            <a id="add_translator" class="add-content-button">
                                 <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
                             </a>
                         </div>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableSelect(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                         </button>
                     </div>
@@ -138,7 +149,7 @@ echo '</select>';
                     <!-- Create -->
                     <div>
                         <label class="mx-2.5" for="authors_0">Autoria:</label>
-                        <select name="authors[]" id="authors_{{ $i }}" class="border-0">
+                        <select name="authors[]" id="authors_{{ $i }}" class="border-0" disabled>
                             {!! getCollaboratorsOptions($collaborators) !!}
                         </select>
                         <a class="remove-content-button">Eliminar</a>
@@ -146,11 +157,11 @@ echo '</select>';
                     </div>
                     <div>
                         <label class="mx-2.5" for="translators_0">Traducció:</label>
-                        <select name="translators[]" id="translators_{{ $i }}" class="border-0">
+                        <select name="translators[]" id="translators_{{ $i }}" class="border-0" disabled>
                             {!! getCollaboratorsOptions($collaborators) !!}
                         </select>
                         <a class="remove-content-button">Eliminar</a>
-                        <a id="add_author" class="add-content-button">Afegir traductor</a>
+                        <a id="add_translator" class="add-content-button">Afegir traductor</a>
                     </div>
                 </div>
             @endif
@@ -158,21 +169,22 @@ echo '</select>';
                 <div class="flex justify-between items-center ">
                     <label class="mx-2.5" for="headline">Capçalera:</label>
                     <div class="flex ">
-                        <button>
-                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                        <button class="edit-button" type="button" onclick="enableTextarea(this)">
+                            <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                style="width: 20px">
                         </button>
                     </div>
                 </div>
                 <div class="grow-wrap ">
                     <textarea name="headline" id="headline" class="border-0"
-                        onInput="this.parentNode.dataset.replicatedValue = this.value">{{ $book['headline'] ?? '' }}</textarea>
+                        onInput="this.parentNode.dataset.replicatedValue = this.value" disabled>{{ $book['headline'] ?? '' }}</textarea>
                 </div>
             </div>
             <div class="">
                 <div class="flex justify-between items-center ">
                     <label class="mx-2.5" for="description">Descripció:</label>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableTextarea(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -180,7 +192,7 @@ echo '</select>';
                 </div>
                 <div class="grow-wrap">
                     <textarea id="description" class="border-0" name="description"
-                        onInput="this.parentNode.dataset.replicatedValue = this.value">{{ $book['description'] ?? '' }}</textarea>
+                        onInput="this.parentNode.dataset.replicatedValue = this.value" disabled>{{ $book['description'] ?? '' }}</textarea>
                 </div>
             </div>
 
@@ -219,10 +231,10 @@ echo '</select>';
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="isbn">ISBN:</label>
                         <input id="isbn" class="border-0" type="text" name="isbn"
-                            value="{{ $book['isbn'] ?? '' }}">
+                            value="{{ $book['isbn'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -232,7 +244,7 @@ echo '</select>';
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="languages">Idioma:</label>
                         @for ($i = 0; $i < count($book['lang']); $i++)
-                            <select name="lang[]" id="language_{{ $i }}" class="border-0">
+                            <select name="lang[]" id="language_{{ $i }}" class="border-0" disabled>
                                 {!! getLanguagesOptions($languages, $book['lang'][$i]['iso'])[0] !!}
                             </select>
                         @endfor
@@ -246,7 +258,7 @@ echo '</select>';
                         </div>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableSelect(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -256,10 +268,10 @@ echo '</select>';
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="publisher">Edita:</label>
                         <input type="text" name="publisher" id="publisher"
-                            value="{{ $book['publisher'] ?? '' }}" class="border-0">
+                            value="{{ $book['publisher'] ?? '' }}" class="border-0" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -270,10 +282,10 @@ echo '</select>';
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="size">Dimensions:</label>
                         <input type="text" name="size" id="size" value="{{ $book['size'] ?? '' }}"
-                            class="border-0">
+                            class="border-0" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -284,10 +296,10 @@ echo '</select>';
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="number_of_pages">Pàgines:</label>
                         <input id="number_of_pages" class="border-0 number" type="number" name="number_of_pages"
-                            value="{{ $book['number_of_pages'] ?? '' }}">
+                            value="{{ $book['number_of_pages'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -298,10 +310,10 @@ echo '</select>';
                     <div class="flex items-center space-x-2 min-h-5">
                         <label class="mx-2.5 min-w-fit" for="publication_date">Publicació:</label>
                         <input id="publication_date" class="border-0" type="date" name="publication_date"
-                            value="{{ $book['publication_date'] ?? '' }}">
+                            value="{{ $book['publication_date'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -312,10 +324,11 @@ echo '</select>';
                     <div class="flex items-center space-x-2">
                         <label class="mx-2.5 min-w-fit" for="enviromental_footprint">Petjada ambiental:</label>
                         <input id="enviromental_footprint" class="border-0" type="text"
-                            name="enviromental_footprint" value="{{ $book['enviromental_footprint'] ?? '-' }}">
+                            name="enviromental_footprint" value="{{ $book['enviromental_footprint'] ?? '-' }}"
+                            disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -326,10 +339,10 @@ echo '</select>';
                     <div class="flex items-center">
                         <label class="mx-2.5 min-w-fit" for="legal_diposit">Dipòsit Legal:</label>
                         <input id="legal_diposit" class="border-0" type="text" name="legal_diposit"
-                            value="{{ $book['legal_diposit'] ?? '' }}">
+                            value="{{ $book['legal_diposit'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -348,10 +361,10 @@ echo '</select>';
                             <label class="mx-2.5 min-w-fit"
                                 for="extras_{{ $i }}">{{ $extra['key'] }}:</label>
                             <input class="border-0" id="extras_{{ $i }}" type="text"
-                                name="extras_{{ $i }}" value="{{ $extra['value'] }}">
+                                name="extras_{{ $i }}" value="{{ $extra['value'] }}" disabled>
                         </div>
                         <div class="flex ">
-                            <button>
+                            <button class="edit-button" type="button" onclick="enableInput(this)">
                                 <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                     style="width: 20px">
                             </button>
@@ -368,10 +381,10 @@ echo '</select>';
                     <div class="flex space-x-2">
                         <label class="mx-2.5 min-w-fit" for="original_title">Títol original:</label>
                         <input id="original_title" class="border-0" type="text" name="original_title"
-                            value="{{ $book['original_title'] ?? '' }}">
+                            value="{{ $book['original_title'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -381,10 +394,10 @@ echo '</select>';
                     <div class="flex space-x-2">
                         <label class="mx-2.5 min-w-fit" for="original_publisher">Editorial original:</label>
                         <input id="original_publisher" class="border-0" type="text" name="original_publisher"
-                            value="{{ $book['original_publisher'] ?? '' }}">
+                            value="{{ $book['original_publisher'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -395,10 +408,11 @@ echo '</select>';
                         <label class="mx-2.5 min-w-fit" for="original_publication_date">Data de publicació
                             original:</label>
                         <input id="original_publication_date" class="border-0" type="input"
-                            name="original_publication_date" value="{{ $book['original_publication_date'] ?? '' }}">
+                            name="original_publication_date" value="{{ $book['original_publication_date'] ?? '' }}"
+                            disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -415,10 +429,10 @@ echo '</select>';
                     <div class="flex space-x-2">
                         <label class="mx-2.5 min-w-fit" for="pvp">Preu</label>
                         <input class="border-0 number" type="number" name="pvp" id="pvp"
-                            value="{{ $book['pvp'] ?? '' }}">
+                            value="{{ $book['pvp'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -428,10 +442,10 @@ echo '</select>';
                     <div class="flex space-x-2">
                         <label class="mx-2.5 min-w-fit" for="iva">IVA (%)</label>
                         <input class="border-0 number" type="number" name="iva" id="iva"
-                            value="{{ $book['iva'] ?? '' }}">
+                            value="{{ $book['iva'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -442,10 +456,10 @@ echo '</select>';
                         <label class="mx-2.5 min-w-fit" for="discounted_price">Preu amb descompte (preu
                             final)</label>
                         <input class="border-0 number" type="number" name="discounted_price" id="discounted_price"
-                            value="{{ $book['discounted_price'] ?? '' }}">
+                            value="{{ $book['discounted_price'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -462,16 +476,16 @@ echo '</select>';
                     @if (isset($book))
                         @for ($i = 0; $i < count($book['collections']); $i++)
                             <label class="mx-2.5" for="collections_{{ $i }}">Col·leccions</label>
-                            <select class="border-0" name="collections[]" id="collections_{{ $i }}">
+                            <select class="border-0" name="collections[]" id="collections_{{ $i }}"
+                                disabled>
                                 {!! getCollectionsOptions($collections, $book['collections'][$i]['id'] ?? '') !!}
                             </select>
                         @endfor
                     @else
                         <div>
                             <label class="mx-2.5" for="collections_0">Col·leccions:</label>
-                            <select class="border-0" name="collections[]" id="collections_0">
-                                <?php getCollectionsOptions($collections);
-                                ?>
+                            <select class="border-0" name="collections[]" id="collections_0" disabled>
+                                {!! getCollectionsOptions($collections); !!}
                             </select>
                         </div>
                     @endif
@@ -479,13 +493,13 @@ echo '</select>';
                         <a class="remove-content-button">
                             <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                         </a>
-                        <a id="add_author" class="add-content-button">
+                        <a id="add_collection" class="add-content-button">
                             <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
                         </a>
                     </div>
                 </div>
                 <div class="flex ">
-                    <button>
+                    <button class="edit-button" type="button" onclick="enableSelect(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>
@@ -498,10 +512,10 @@ echo '</select>';
                     <div class="flex space-x-2">
                         <label class="mx-2.5" for="stock">Stock:</label>
                         <input class="border-0 number" type="number" name="stock" id="stock"
-                            value="{{ $book['stock'] ?? '' }}">
+                            value="{{ $book['stock'] ?? '' }}" disabled>
                     </div>
                     <div class="flex ">
-                        <button>
+                        <button class="edit-button" type="button" onclick="enableInput(this)">
                             <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
                                 style="width: 20px">
                         </button>
@@ -534,7 +548,7 @@ echo '</select>';
     </div>
 
     <div>
-        <fieldset class="space-y-2.5 w-3/4 max-w-4xl ">
+        <fieldset class="space-y-2.5 w-full max-w-6xl ">
             <legend class="mx-2">Opcions avançades: metadades</legend>
             <div class="flex justify-between items-center ">
                 <div class="flex items-center">
@@ -543,10 +557,10 @@ echo '</select>';
                         <p class="min-w-fit">eteredicions.com /</p>
                     </div>
                     <input class="min-w-80 border-0 m-0 px-0" type="text" name="slug" id="slug"
-                        value="{{ $book['slug'] ?? '' }}">
+                        value="{{ $book['slug'] ?? '' }}" disabled>
                 </div>
                 <div class="flex ">
-                    <button>
+                    <button class="edit-button" type="button" onclick="enableInput(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>
@@ -558,10 +572,10 @@ echo '</select>';
                         <small class="font-bold mx-2.5">(aparença en buscadors i navegador)</small>
                     </div>
                     <input class="border-0 min-w-80" type="text" name="meta_title" id="meta_title"
-                        value="{{ $book['meta_title'] ?? '' }}">
+                        value="{{ $book['meta_title'] ?? '' }}" disabled>
                 </div>
                 <div class="flex ">
-                    <button>
+                    <button class="edit-button" type="button" onclick="enableInput(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>
@@ -574,11 +588,11 @@ echo '</select>';
                     </div>
                     <div class="min-w-full grow-wrap ">
                         <textarea class="border-0" name="meta_description" id="meta_description"
-                            onInput="this.parentNode.dataset.replicatedValue = this.value">{{ $book['meta_description'] ?? '' }}</textarea>
+                            onInput="this.parentNode.dataset.replicatedValue = this.value" disabled>{{ $book['meta_description'] ?? '' }}</textarea>
                     </div>
                 </div>
                 <div class="flex  absolute top-0 right-0">
-                    <button>
+                    <button class="edit-button" type="button" onclick="enableTextarea(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>

@@ -11,6 +11,17 @@ textarea {
 input.number{
     max-width: 6em;
 }
+input:not([type=checkbox]):not([type=radio]).disabled,
+textarea.disabled, select.disabled{
+    /* border: none; */
+}
+input:not([type=checkbox]):not([type=radio]).enabled,
+textarea.enabled, select.enabled{
+    background-color: #F2F1F1;
+    /* border: solid;
+    border-color: black;
+    border-width: 1px; */
+}
 label {
     display: flex;
     align-items: center;
@@ -21,13 +32,19 @@ label {
     /* min-height: 100%; */
     user-select: none;
 }
-/* textarea {
-    resize: vertical;
-    height: 12.5em;
-} */
-/* fieldset {
-    margin: 1.25em 0;
-} */
+.image-upload{
+    position: relative;
+}
+.image-upload>label{
+    cursor: pointer;
+}
+.image-upload>input {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
 fieldset > legend {
     /* margin-left: 1.25em;
     padding: 0 0.625em; */
@@ -110,9 +127,11 @@ a.add-content-button img:hover{
     grid-area: 1 / 1 / 2 / 2;
   }
 
-
-
   .edit-button{
+    cursor: pointer;
+  }
+
+  .edit-button.edit-image{
     border-radius: 3px;
     /* width: 24px;
     height: 24px; */
@@ -132,8 +151,6 @@ a.add-content-button img:hover{
     position: absolute;
     top: 9px;
     right: 9px;
-
-    cursor: pointer;
   }
 
   .edit-button img{
