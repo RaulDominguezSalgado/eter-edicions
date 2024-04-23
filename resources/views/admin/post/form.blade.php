@@ -46,7 +46,8 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="content" class="form-label">{{ __('Contingut') }}</label>
-            <textarea name="content" class="form-control @error('content') is-invalid @enderror" id="content" rows="3" placeholder="Contingut">{{ old('content', $post['content'] ?? '') }}</textarea>
+            <textarea name="content" class="form-control @error('content') is-invalid @enderror"
+            id="content" rows="3" placeholder="Contingut">{{ old('content', $post['content'] ?? '') }}</textarea>
             {!! $errors->first('content', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
