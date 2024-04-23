@@ -17,8 +17,10 @@
     {{-- @vite('resources/css/app.css') --}}
     {{-- CKEditor --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/decoupled-document/ckeditor.js"></script> --}}
+
     <script src="/js/form/post.js"></script>
-    
+
 </head>
 <body class="flex space-x-10">
     <x-layouts.admin.navigate/>

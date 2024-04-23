@@ -15,4 +15,15 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error(error);
     });
 
+    // DecoupledEditor
+    //     .create( document.querySelector( '.editor' ) )
+    //     .then( editor => {
+    //         const toolbarContainer = document.querySelector( '#toolbar-container' );
+
+    //         toolbarContainer.appendChild( editor.ui.view.toolbar.element );
+    //     } )
+    //     .catch( error => {
+    //         console.error( error );
+    //     } );
+
 });
