@@ -15,10 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var contador = document.querySelectorAll('[name="books[]"]').length+1;
         let new_author = document.createElement('div');
         new_author.innerHTML = `
-        <label for="books_${contador}">Autor ${contador}
+        <label for="books_${contador}">Llibre ${contador}
             <select name="books[]" id="books__${contador}">
                 ${collaborators_options.innerHTML}
             </select>
+            <input type="number" name="products[{{ $book->id }}][quantity]" style="width: 25%"
+                   value="{{ $order['products'][$book->id]['quantity'] ?? 0 }}" placeholder="Quantitat"
+                    min="0">
             <a class="remove-content-button">Eliminar</a>
         </label>
         `;

@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\OrderStatusHistory;
 use Exception;
+use Spatie\LaravelIgnition\Recorders\DumpRecorder\Dump;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
@@ -64,13 +65,13 @@ class OrderController extends Controller
         ];
         foreach ($order->details as $details) {
             $orderResult['products'][$details->book->id] = [
-                "book_id" => $details->book->id,
-                "name" => $details->book->title,
-                "price_each" => $details->price_each,
+                "id" => $details->book->id,
+                "title" => $details->book->title,
+                "pvp" => $details->price_each,
                 "quantity" => $details->quantity
             ];
         }
-        //dd($orderResult);
+        //dd($orderResult['products']);
 
         return $orderResult;
     }
@@ -118,7 +119,7 @@ class OrderController extends Controller
                     $orderDetail = new OrderDetail([
                         'product_id' => $productId,
                         'quantity' => $productData['quantity'],
-                        'price_each' => $productData['price_each'],
+                        'price_each' => $productData['pvp'],
                     ]);
                     $order->details()->save($orderDetail);
                 }
@@ -141,7 +142,7 @@ class OrderController extends Controller
 
         }
         catch(Exception $e){
-            
+
         }
     }
     /**
@@ -170,46 +171,49 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, Order $order)
     {
-        //dd($request);
-            $newFileName = $request['reference'] . ".pdf";
-        if($request->hasFile('pdf')){
-            $pdfFile = $request->file('pdf');
+        dump($request);
 
-        $this->saveFile($request->file('pdf'),public_path('files/orders'),$newFileName, $request['id']);
-            //return dd($request);
-        }
+        // //dd($request);
+        //     $newFileName = $request['reference'] . ".pdf";
+        // if($request->hasFile('pdf')){
+        //     $pdfFile = $request->file('pdf');
+
+        // $this->saveFile($request->file('pdf'),public_path('files/orders'),$newFileName, $request['id']);
+        //     //return dd($request);
+        // }
 
 
 
-        $validatedData= $request->validated();
-        $validatedData['pdf']=$newFileName;
-        $order->update($validatedData);
+        // $validatedData= $request->validated();
+        // $validatedData['pdf']=$newFileName;
+        // $order->update($validatedData);
 
-        // Actualiza los detalles de la orden
-        foreach ($request->products as $productId => $productData) {
-            if ($productData["quantity"]> 0) {
-                $orderDetail = OrderDetail::where('order_id', $order->id)
-                    ->where('product_id', $productId)
-                    ->first();
+        // // Actualiza los detalles de la orden
+        // foreach ($request->products as $productId => $productData) {
+        //     dd($request->products);
+        //     if ($productData['quantity']> 0) {
+        //         $orderDetail = OrderDetail::where('order_id', $order->id)
+        //             ->where('product_id', $productId)
+        //             ->first();
 
-                if ($orderDetail) {
-                    $orderDetail->update([
-                        'quantity' => $productData['quantity'],
-                        'price_each' => $productData['price_each'],
-                    ]);
-                } else {
-                    OrderDetail::create([
-                        'order_id' => $order->id,
-                        'product_id' => $productId,
-                        'quantity' => $productData['quantity'],
-                        'price_each' => $productData['price_each'],
-                    ]);
-                }
-            }
-        }
+        //         if ($orderDetail) {
+        //             $orderDetail->update([
+        //                 'quantity' => $productData['quantity'],
+        //                 'price_each' => $productData['pvp'],
+        //             ]);
+        //         } else {
+        //             OrderDetail::create([
+        //                 'order_id' => $order->id,
+        //                 'product_id' => $productId,
+        //                 'quantity' => $productData['quantity'],
+        //                 'price_each' => $productData['pvp'],
+        //             ]);
+        //         }
+        //     }
+        // }
 
-        return redirect()->route('orders.index')
-            ->with('success', 'Order updated successfully');
+        // return redirect()->route('orders.index')
+        //     ->with('success', 'Order updated successfully');
     }
 
     public function destroy($id)
