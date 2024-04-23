@@ -10,7 +10,7 @@ function getCollaboratorsOptions($collaborators, $selected = -1)
     // $options = '<option disabled>Selecciona una opció</option>';
     foreach ($collaborators as $collaborator) {
         $selectedAttr = $collaborator['id'] == $selected ? 'selected' : '';
-        $options .= "<option value='{$collaborator['id']}' $selectedAttr>{$collaborator['first_name']} {$collaborator['last_name']}</option>";
+        $options .= "<option class='border-0 enabled' value='{$collaborator['id']}' $selectedAttr>{$collaborator['first_name']} {$collaborator['last_name']}</option>";
     }
     return $options;
 }
@@ -21,7 +21,7 @@ function getCollectionsOptions($collections, $selected = -1)
     // $options = '<option disabled>Selecciona una opció</option>';
     foreach ($collections as $collection) {
         $selectedAttr = $collection['id'] == $selected ? 'selected' : '';
-        $options .= "<option value='{$collection['id']}' $selectedAttr>{$collection['name']}</option>";
+        $options .= "<option class='border-0 enabled' value='{$collection['id']}' $selectedAttr>{$collection['name']}</option>";
     }
     return $options;
 }
@@ -31,18 +31,18 @@ function getLanguagesOptions($languages, $selected = null)
     $options = '';
     foreach ($languages as $language) {
         $selectedAttr = $language['iso'] == $selected ? 'selected' : '';
-        $options .= "<option value='" . $language['iso'] . "' " . $selectedAttr . '>' . $language['name'] . '</option>';
-        // $options .= "$language";
+        $options .= "<option class='border-0 enabled' value='" . $language['iso'] . "' " . $selectedAttr . ">" . $language['name'] . "</option>";
     }
-    return [$options, $selected];
+    return $options;
+    // " . $language['iso'] . "' " . $selectedAttr . ">" . $language['name'] .
 }
 
-echo '<select id="getCollaboratorsOptions" style="display: none;">';
-getCollaboratorsOptions($collaborators);
-echo '</select>';
-echo '<select id="getCollectionsOptions" style="display: none;">';
-getCollectionsOptions($collections);
-echo '</select>';
+// echo '<select id="getCollaboratorsOptions" class="flex space-x-2" style="display: none;">';
+// getCollaboratorsOptions($collaborators);
+// echo '</select>';
+// echo '<select id="getCollectionsOptions" class="flex space-x-2" style="display: none;">';
+// getCollectionsOptions($collections);
+// echo '</select>';
 
 ?>
 
@@ -57,7 +57,17 @@ echo '</select>';
         </ul>
     </div>
 @endif
-
+<div>
+    <select id="getCollaboratorsOptions" class="flex space-x-2">
+        {!!getCollaboratorsOptions($collaborators)!!}
+    </select>
+    <select id="getCollectionsOptions" class="flex space-x-2">
+        {!!getCollectionsOptions($collections)!!}
+    </select>
+    <select id="getLanguagesOptions" class="flex space-x-2">
+        {!!getLanguagesOptions($languages)!!}
+    </select>
+</div>
 <div class="book space-y-12">
     <div class="book-detail flex mb-4">
         <div class="mr-6 cover relative">
@@ -97,14 +107,15 @@ echo '</select>';
                     <div class="flex space-x-2 ">
                         <label class="mx-2.5" for="authors">Autoria:</label>
                         @for ($i = 0; $i < count($book['authors']); $i++)
-                            <select name="authors[]" id="authors_{{ $i }}" class="border-0" disabled>
-                                {!! getCollaboratorsOptions($collaborators, $book['authors'][$i]['id']) !!}
-                            </select>
-                            <a class="remove-content-button">
-                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
-                            </a>
+                            <div class="flex">
+                                <select name="authors[]" id="authors_{{ $i }}" class="border-0" disabled>
+                                    {!! getCollaboratorsOptions($collaborators, $book['authors'][$i]['id']) !!}
+                                </select>
+                                <a class="remove-content-button">
+                                    <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
+                                </a>
+                            </div>
                         @endfor
-
                     </div>
                     <div class="flex space-x-2">
                         <div class="flex space-x-0.5">
@@ -245,15 +256,15 @@ echo '</select>';
                         <label class="mx-2.5 min-w-fit" for="languages">Idioma:</label>
                         @for ($i = 0; $i < count($book['lang']); $i++)
                             <select name="lang[]" id="language_{{ $i }}" class="border-0" disabled>
-                                {!! getLanguagesOptions($languages, $book['lang'][$i]['iso'])[0] !!}
+                                {!! getLanguagesOptions($languages, $book['lang'][$i]['iso']) !!}
                             </select>
                         @endfor
                         <div class="flex space-x-0.5">
                             <a class="remove-content-button">
-                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
+                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar idioma">
                             </a>
-                            <a id="add_author" class="add-content-button">
-                                <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
+                            <a id="add_language" class="add-content-button">
+                                <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir idioma">
                             </a>
                         </div>
                     </div>
