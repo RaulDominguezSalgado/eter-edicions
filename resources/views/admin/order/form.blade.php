@@ -4,25 +4,29 @@ function getBooks($books, $selected = -1, $bookSelected = null, $line = -1)
     //
     $col_options = '';
     //'<select hidden id="getBooks" ><option selected disabled>Selecciona una opció</option>';
-    foreach ($books as $book) {
+
+    // $col_options.="</select>";
+    if ($bookSelected != null && $selected !=-1) {
+        $col_options .= '<input readonly type="text" name="products[' . $line . '][title]" style="width: 25%" value="' . $bookSelected["title"] . ' (' . $bookSelected["pvp"] . '€)" placeholder="Producte" >';
+        $col_options .= "<input hidden type='number' name='products[" . $line . "][id]'  value='" . $bookSelected['id'] . "' placeholder='Quantitat' min='0'>";
+        $col_options .= "<input hidden type='number' name='products[" . $line . "][pvp]' style='width: 25%' value='" . $bookSelected['pvp'] . "' placeholder='Quantitat' min='0'>";
+        $col_options .= "<input type='number' name='products[" . $line . "][quantity]' style='width: 25%' value='" . $bookSelected['quantity'] . "' placeholder='Quantitat' min='0'>";
+        // $col_options .= "<input type='number' style='width: 25%' value='" . $quantity . "' placeholder='Quantitat' min='0'>";
+    }else{
+    $col_options = '<option selected disabled>Selecciona una opció</option>';
+        foreach ($books as $book) {
         if ($book['id'] == $selected) {
-            $col_options .= "<option selected name='products[" . $line . "][title]' value=\"{$book['title']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+            $col_options .= "<option selected value='".$book['id']."'>" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
             //$col_options .= "<option selected  value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
         } else {
-            $col_options .= "<option name='products[" . $line . "][title]' value=\"{$book['title']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+            $col_options .= "<option value=\"{$book['title']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
             //$col_options .= "<option value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
         }
     }
-    // $col_options.="</select>";
-    if ($bookSelected != null && $selected !=-1) {
-        $col_options .= "<input hidden type='number' name='products[" . $line . "][id]'  value='" . $bookSelected['id'] . "' placeholder='Quantitat' min='0'>";
-        $col_options .= "<input readonly type='number' name='products[" . $line . "][pvp]' style='width: 25%' value='" . $bookSelected['pvp'] . "' placeholder='Quantitat' min='0'>";
-        $col_options .= "<input type='number' name='products[" . $line . "][quantity]' style='width: 25%' value='" . $bookSelected['quantity'] . "' placeholder='Quantitat' min='0'>";
-        // $col_options .= "<input type='number' style='width: 25%' value='" . $quantity . "' placeholder='Quantitat' min='0'>";
     }
     echo $col_options;
 }
-echo '<select hidden id="getBooks" ><option selected disabled>Selecciona una opció</option>';
+echo '<select style="display: none;" id="getBooks" >';
 getBooks($books);
 ?>
 <div class="row padding-1 p-1">
@@ -149,9 +153,7 @@ getBooks($books);
         <?php $line = 0; ?>
         @foreach ($order['products'] as $book)
             <label for="products{{ $book['id'] }}">Llibre {{ $line+1 }}
-                <select name="products[]" id="products{{ $book['id'] }}">
                     <?php getBooks($books, $book['id'], $book, $line); ?>
-                </select>
                 <a class="remove-content-button">Eliminar</a>
             </label>
             <?php $line++; ?>

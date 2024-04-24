@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let new_author = document.createElement('div');
         new_author.innerHTML = `
         <label for="books_${contador}">Llibre ${contador}
-            <select name="books[]" id="books__${contador}">
+            <select name="products[]" id="books__${contador}">
                 ${collaborators_options.innerHTML}
             </select>
             <input type="number" name="products[{{ $book->id }}][quantity]" style="width: 25%"
