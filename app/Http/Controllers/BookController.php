@@ -191,9 +191,8 @@ class BookController extends Controller
             return redirect()->route('books.edit', $book->id)
                 ->with('success', 'Book created successfully');
             // }
-        }
-        catch(QueryException $e){
-            return back()->withError("Error a la base de dades en la creació del llibre.\n".substr($e->getMessage(), 0, strpos($e->getMessage(), "(")))->withInput();
+        } catch (QueryException $e) {
+            return back()->withError("Error a la base de dades en la creació del llibre.\n" . substr($e->getMessage(), 0, strpos($e->getMessage(), "(")))->withInput();
         } catch (Exception $e) {
             return back()->withError($e->getMessage())->withInput();
         }
@@ -252,7 +251,7 @@ class BookController extends Controller
             $collectionController = new CollectionController();
             foreach (Collection::all() as $collection) {
                 $fullCollection = $collectionController->getFullCollection($collection->id, $locale);
-                if($fullCollection){
+                if ($fullCollection) {
                     $collections[$collection->id] = $fullCollection;
                 }
             }
@@ -473,7 +472,7 @@ class BookController extends Controller
                 'sample' => $book->sample,
                 'number_of_pages' => $book->number_of_pages,
                 'size' => $book->size,
-                'publication_date' => $book->publication_date->format('Y-m-d'),
+                'publication_date' => $book->publication_date ? $book->publication_date->format('Y-m-d') : '',
                 'original_publication_date' => $book->original_publication_date,
                 'pvp' => $book->pvp,
                 'iva' => $book->iva,
@@ -703,7 +702,19 @@ class BookController extends Controller
         AJUSTES DE STOCK
     */
 
-    public function redirectViewStock($id)
+    // public function redirectViewStock($id)
+    // {
+    //     $locale = "ca";
+
+    //     // Obtener el libro con el ID especificado
+    //     $book = $this->getFullBook(Book::findOrFail($id), $locale);
+    //     $bookstores = Bookstore::all();
+    //     //dd($book);
+    //     // Devolver la vista con los datos del libro
+    //     return view('admin.book.stock', compact('book', 'bookstores'));
+    // }
+
+    public function editStock($id)
     {
         $locale = "ca";
 
@@ -715,41 +726,29 @@ class BookController extends Controller
         return view('admin.book.stock', compact('book', 'bookstores'));
     }
 
-    public function editStock($id)
+    public function updateStock(Request $request, $bookId)
     {
-        $locale = "ca";
+        try {
+            //Update stock in warehouse --> stock field in book row
+            $book = Book::findOrFail($bookId);
+            $book->stock = intval($request->input('stock'));
+            $book->save();
 
-        $book = $this->getFullBook(Book::findOrFail($id), $locale);
-        $bookstores = Bookstore::all();
+            $bookstores = $request->input('bookstores');
+            foreach($bookstores as $bookstore){
+                $bookstore_lv = Bookstore::find($bookstore['bookstore_id']);
+                $bookstore_lv->books()->sync([$book->id=>['stock' => $bookstore['stock']]]);
+            }
 
-        return view('admin.user.edit', compact('book'));
-    }
-
-    public function updateBookstoreStock(Request $request, $bookId)
-    {
-        dump($request);
-        // if($request){
-
-        // }
-        // $book = Book::findOrFail($bookId);
-
-        // $book->stock = intval($request->input('stock'));
-
-        // $book->save();
-
-
-        // $bookstoresRequest = $request->input('bookstores');
-
-        // $bookstores = $book->bookstores;
-
-        // foreach ($bookstores as $bookstore) {
-
-        //     $stock = isset($bookstoresRequest[$bookstore->id]) ? intval($bookstoresRequest[$bookstore->id]['stock']) : 0;
-
-        //     $bookstore->books()->sync([$book->id => ['stock' => $stock]]);
-        // }
-
-        // return redirect()->back()->with('success', 'Stock updated successfully.');
+            return redirect()->route('stock.edit', $book->id)
+                ->with('success', 'Stock actualitzat correctament');
+        }
+        catch(QueryException $e){
+            return back()->withError("Error a la base de dades en la creació del llibre.\n" . substr($e->getMessage(), 0, strpos($e->getMessage(), "(")))->withInput();
+        }
+        catch (Exception $e) {
+            return back()->withError($e->getMessage())->withInput();
+        }
     }
 
 
@@ -950,7 +949,7 @@ class BookController extends Controller
             if ($request->hasFile('sample')) {
                 $sample = $request->file('sample');
                 $slug = \App\Http\Actions\FormatDocument::slugify($request['title']);
-                dump($sample);
+                // dump($sample);
 
                 $sampleFilename = $slug . ".pdf";
 
@@ -961,7 +960,8 @@ class BookController extends Controller
             }
         } catch (Exception $e) {
             // abort(500, 'Server Error');
-            dump($e->getMessage());
+            // dump($e->getMessage());
+            return back()->withError($e->getMessage())->withInput();
         }
     }
 }

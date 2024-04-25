@@ -85,7 +85,7 @@
                     <div>
                         <small class="text-red-700">Ho sentim! Aquest llibre no està disponible</small>
                         <br>
-                        <small>Pots trobar-lo a les <a href="" class="text-decoration-line: underline">llibreries
+                        <small>Pots trobar-lo a les <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">llibreries
                                 amb
                                 qui treballem</a></small>
                     </div>

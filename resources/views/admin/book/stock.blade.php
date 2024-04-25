@@ -21,7 +21,7 @@
                             <h3>{{$book['title']}}</h3>
                             <div class="title-author flex flex-col space-y-">
                                 <form action="{{ route('stock.update', $book['id']) }}" method="POST"
-                                    class="space-y-6 border-guide-1">
+                                    class="space-y-6">
                                     @csrf
                                     @method('PUT')
 

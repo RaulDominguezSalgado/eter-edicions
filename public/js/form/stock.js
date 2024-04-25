@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //Get bookstores
         let bookstores_options = document.getElementById("option-form");
         //Set counter for id setting
-        var counter = document.querySelectorAll('[name="bookstores[]"]').length + 1;
+        var counter = document.querySelectorAll('[name*="bookstores["]').length /2 + 1;
 
         //Create new div element for new_author
         let new_bookstore = document.createElement('div');
