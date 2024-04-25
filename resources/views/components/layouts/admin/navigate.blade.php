@@ -3,7 +3,7 @@ $locale = 'ca';
 //TODO Change locale
 ?>
 <nav id="admin-nav"
-    class="md:max-h-screen
+    class="md:h-screen
                             flex flex-col
                             items-center
                             justify-evenly
