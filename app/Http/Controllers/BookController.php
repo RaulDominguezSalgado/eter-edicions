@@ -251,7 +251,10 @@ class BookController extends Controller
             /* Get all collections data */
             $collectionController = new CollectionController();
             foreach (Collection::all() as $collection) {
-                $collections[$collection->id] = $collectionController->getFullCollection($collection->id, $locale);
+                $fullCollection = $collectionController->getFullCollection($collection->id, $locale);
+                if($fullCollection){
+                    $collections[$collection->id] = $fullCollection;
+                }
             }
 
 
@@ -317,10 +320,11 @@ class BookController extends Controller
         try {
             Book::find($id)->delete();
 
-            return redirect()->route('admin.books.index')
+            return redirect()->route('books.index')
                 ->with('success', 'Book deleted successfully');
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            dump($e->getMessage());
+            // abort(500, 'Server Error');
         }
     }
 
@@ -721,31 +725,31 @@ class BookController extends Controller
         return view('admin.user.edit', compact('book'));
     }
 
-    public function updateBookstoreStock(StockRequest $request, $bookId)
+    public function updateBookstoreStock(Request $request, $bookId)
     {
-        // dd($request);
+        dump($request);
         // if($request){
 
         // }
-        $book = Book::findOrFail($bookId);
+        // $book = Book::findOrFail($bookId);
 
-        $book->stock = intval($request->input('stock'));
+        // $book->stock = intval($request->input('stock'));
 
-        $book->save();
+        // $book->save();
 
 
-        $bookstoresRequest = $request->input('bookstores');
+        // $bookstoresRequest = $request->input('bookstores');
 
-        $bookstores = $book->bookstores;
+        // $bookstores = $book->bookstores;
 
-        foreach ($bookstores as $bookstore) {
+        // foreach ($bookstores as $bookstore) {
 
-            $stock = isset($bookstoresRequest[$bookstore->id]) ? intval($bookstoresRequest[$bookstore->id]['stock']) : 0;
+        //     $stock = isset($bookstoresRequest[$bookstore->id]) ? intval($bookstoresRequest[$bookstore->id]['stock']) : 0;
 
-            $bookstore->books()->sync([$book->id => ['stock' => $stock]]);
-        }
+        //     $bookstore->books()->sync([$book->id => ['stock' => $stock]]);
+        // }
 
-        return redirect()->back()->with('success', 'Stock updated successfully.');
+        // return redirect()->back()->with('success', 'Stock updated successfully.');
     }
 
 

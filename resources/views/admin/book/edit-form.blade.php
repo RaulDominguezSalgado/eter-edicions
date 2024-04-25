@@ -1,4 +1,9 @@
 <?php
+// dump($book);
+// dump($collaborators);
+// dump($languages);
+// dump($collections);
+
 function getCollaboratorsOptions($collaborators, $selected = -1)
 {
     $options = '';
@@ -34,21 +39,6 @@ function getLanguagesOptions($languages, $selected = null)
 ?>
 
 <link rel="stylesheet" href="{{ asset('css/admin/book.css') }}">
-
-@if (session('error'))
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-        <strong class="font-bold">No s'han pogut actualitzar les dades del llibre.</strong>
-        <span class="block sm:inline">{{ session('error') }}</span>
-        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
-                <title>Close</title>
-                <path
-                    d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-            </svg>
-        </span>
-    </div>
-@endif
 @if ($errors->any())
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
         <strong class="font-bold">No s'han pogut actualitzar les dades del llibre.</strong>
@@ -347,7 +337,7 @@ function getLanguagesOptions($languages, $selected = null)
             </div>
         </fieldset>
         <fieldset class="min-w-80 mb-6 space-y-2.5">
-            <legend class="mx-2">Dades extres del llibre</legend>
+            <legend class="mx-2">Dades extra del llibre</legend>
             <div class="space-y-1">
                 <?php $i = 0; ?>
                 @if (array_key_exists('extras', $book))

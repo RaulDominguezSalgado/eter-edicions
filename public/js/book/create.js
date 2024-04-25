@@ -118,6 +118,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+function enableInput(button) {
+    var parentDiv = button.parentElement.parentElement;
+    var input = parentDiv.querySelector('input');
+    input.disabled = false;
+    // input.setAttribute('readonly', false);
+    input.readOnly = false;
+    input.classList.remove('disabled', 'hidden');
+    input.classList.add('enabled');
+}
+
 function removeParentDiv(button) {
     button.parentNode.remove();
 }
