@@ -5,7 +5,7 @@ input:not([type=checkbox]):not([type=radio]),
 textarea {
     /* margin-top: 0.3125em; */
     width: 100%;
-    min-height: 100%;
+    /* min-height: 100%; */
     padding: 0.625em;
 }
 input.number{

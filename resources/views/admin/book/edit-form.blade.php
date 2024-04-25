@@ -88,7 +88,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <img src="{{ asset('img/icons/light/edit.webp') }}" alt="Editar camp" style="width: 20px" />
                 </label>
 
-                <input id="book-cover-input" type="file" name="image_file" id="image_file" accept="image">
+                <input id="book-cover-input" type="file" name="image_file" id="image_file" accept="image/*">
                 <input type="hidden" name="image" id="image" value="{{ $book['image'] ?? 'default.webp' }}"
                     class="border-0">
             </div>
