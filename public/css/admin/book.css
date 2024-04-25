@@ -18,14 +18,11 @@
 }
 
 .book-detail .cover{
-    /* max-height: 28em; */
-    width: 100%;
+    width: auto;
     height: auto;
 
     max-width: calc(28em/1.5);
     max-height: 28em;
-
-    /* padding-top: calc(100% / 1.5); */
 }
 
 .book-detail .cover img{

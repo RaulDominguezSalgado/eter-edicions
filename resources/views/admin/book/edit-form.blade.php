@@ -1,9 +1,4 @@
 <?php
-// dump($book);
-// dump($collaborators);
-// dump($languages);
-// dump($collections);
-
 function getCollaboratorsOptions($collaborators, $selected = -1)
 {
     $options = '';
@@ -41,12 +36,11 @@ function getLanguagesOptions($languages, $selected = null)
 <link rel="stylesheet" href="{{ asset('css/admin/book.css') }}">
 
 @if (session('error'))
-    {{-- <div class="alert alert-danger">{{ session('error') }}</div> --}}
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
         <strong class="font-bold">No s'han pogut actualitzar les dades del llibre.</strong>
         <span class="block sm:inline">{{ session('error') }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+            <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
                 <title>Close</title>
                 <path
@@ -64,7 +58,7 @@ function getLanguagesOptions($languages, $selected = null)
             @endforeach
         </ul>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+            <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
                 <title>Close</title>
                 <path
@@ -98,9 +92,6 @@ function getLanguagesOptions($languages, $selected = null)
                 <input type="hidden" name="image" id="image" value="{{ $book['image'] ?? 'default.webp' }}"
                     class="border-0">
             </div>
-            {{-- <div id="edit_cover_image" class="edit-button edit-image">
-                <img src="{{ asset('img/icons/light/edit.webp') }}" alt="">
-            </div> --}}
         </div>
 
         <div class="details w-full flex flex-col space-y-3 justify-between h-auto">
@@ -108,9 +99,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="flex justify-between items-center ">
                 <div class="flex items-center space-x-2  ">
                     <label class="mx-2.5" for="title">Títol:</label>
-                    <input class="border-0 min-w-96 disabled @error('title') is-invalid @enderror" type="text" name="title" id="title"
-                        value="{{ $book['title'] ?? '' }}" readonly
-                        >
+                    <input class="border-0 min-w-96 disabled @error('title') is-invalid @enderror" type="text"
+                        name="title" id="title" value="{{ $book['title'] ?? '' }}" readonly>
                 </div>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -118,9 +108,6 @@ function getLanguagesOptions($languages, $selected = null)
                     </button>
                 </div>
             </div>
-            {{-- <fieldset> --}}
-            {{-- @if (isset($book)) --}}
-            <!-- Edit -->
             <div class="flex justify-between items-center">
                 <div class="flex flex-wrap space-x-2 @error('authors') is-invalid @enderror">
                     <label class="mx-2.5" for="authors">Autoria:</label>
@@ -174,29 +161,7 @@ function getLanguagesOptions($languages, $selected = null)
                     </button>
                 </div>
             </div>
-            {{-- @else
-                <div class="">
-                    <!-- Create -->
-                    <div>
-                        <label class="mx-2.5" for="authors_0">Autoria:</label>
-                        <select name="authors[]" id="authors_{{ $i }}" class="border-0">
-                            {!! getCollaboratorsOptions($collaborators) !!}
-                        </select>
-                        <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
-                            disabled>Eliminar</button>
-                    </div>
-                    <div>
-                        <label class="mx-2.5" for="translators_0">Traducció:</label>
-                        <select name="translators[]" id="translators_{{ $i }}" class="border-0">
-                            {!! getCollaboratorsOptions($collaborators) !!}
-                        </select>
-                        <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
-                            disabled>Eliminar</button>
-                    </div>
-                    <button id="add_translator" type="button" class="add-content-button" disabled>Afegir
-                        traductor</button>
-                </div>
-            @endif --}}
+
             <div class="">
                 <div class="flex justify-between items-center @error('headline') is-invalid @enderror">
                     <label class="mx-2.5" for="headline">Capçalera:</label>
@@ -228,23 +193,21 @@ function getLanguagesOptions($languages, $selected = null)
                 </div>
             </div>
 
-            {{-- <div>
-                    <label class="mx-2.5" for="image_file">Portada:</label>
-                    <div><img style="width: 100px" src="/img/books/covers/{{ $book['image'] ?? '' }}" alt="thumbnail">
-                    </div>
-                    <input type="file" name="image_file" id="image_file" accept="image">
-                    <input type="hidden" name="image" id="image" value="{{ $book['image'] ?? 'default.webp' }}"
-                        class="border-0">
-                </div> --}}
-
             <div class="flex justify-between ">
                 <div class="flex items-center space-x-2 ">
-                    <img src="{{ asset('img/icons/grey/pdf.webp') }}"
-                        alt="Document PDF del sample del llibre {{ $book['title'] }}" style="width: 28px">
-                    <div class="mx-2.5 min-w-fit"><a href="/pdf/book/{{ $book['sample'] ?? '' }}"
-                            target="_blank">{{ $book['sample'] ?? 'No hi ha cap mostra encara' }}</a></div>
-                    <input class="border-0" type="file" name="sample" id="sample" accept=".pdf"
-                        value="{{ $book['sample'] ?? '' }}">
+                    <a @if($book['sample'] != "") href="{{ route("book.sample", $book['sample']) }}" target="_blank" @endif>
+                        <img src="{{ asset('img/icons/grey/pdf.webp') }}"
+                            alt="Document PDF del sample del llibre {{ $book['title'] }}" style="width: 28px">
+                        <div id="oldSample" class="mx-2.5 min-w-fit">{{ $book['sample'] != "" ? $book['sample'] : 'No hi ha cap mostra disponible' }}</a>
+                        </div>
+                    </a>
+                    <input class="border-0 hidden" type="file" name="sample" id="sample" accept=".pdf"
+                        value="{{ $book['sample'] ?? '' }}" readonly>
+                </div>
+                <div class="flex ">
+                    <button class="edit-button" type="button" onclick="enableInputFile(this)">
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
                 </div>
             </div>
         </div>
@@ -353,7 +316,8 @@ function getLanguagesOptions($languages, $selected = null)
 
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-2">
-                        <label class="mx-2.5 min-w-fit" for="enviromental_footprint">Petjada ambiental:</label>
+                        <label class="mx-2.5 min-w-fit" for="enviromental_footprint">Petjada
+                            ambiental:</label>
                         <input id="enviromental_footprint" class="border-0" type="text"
                             name="enviromental_footprint" value="{{ $book['enviromental_footprint'] ?? '-' }}"
                             readonly>
@@ -426,7 +390,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="space-y-1">
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
-                        <label class="mx-2.5 min-w-fit" for="original_title">Títol original:</label>
+                        <label class="mx-2.5 min-w-fit" for="original_title">Títol
+                            original:</label>
                         <input id="original_title" class="border-0 min-w-fit" type="text" name="original_title"
                             value="{{ $book['original_title'] ?? '' }}" readonly>
                     </div>
@@ -439,7 +404,8 @@ function getLanguagesOptions($languages, $selected = null)
                 </div>
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
-                        <label class="mx-2.5 min-w-fit" for="original_publisher">Editorial original:</label>
+                        <label class="mx-2.5 min-w-fit" for="original_publisher">Editorial
+                            original:</label>
                         <input id="original_publisher" class="border-0 min-w-fit" type="text"
                             name="original_publisher" value="{{ $book['original_publisher'] ?? '' }}" readonly>
                     </div>
@@ -452,7 +418,8 @@ function getLanguagesOptions($languages, $selected = null)
                 </div>
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
-                        <label class="mx-2.5 min-w-fit" for="original_publication_date">Data de publicació
+                        <label class="mx-2.5 min-w-fit" for="original_publication_date">Data de
+                            publicació
                             original:</label>
                         <input id="original_publication_date" class="border-0" type="input"
                             name="original_publication_date" value="{{ $book['original_publication_date'] ?? '' }}"
@@ -500,7 +467,8 @@ function getLanguagesOptions($languages, $selected = null)
                 </div>
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
-                        <label class="mx-2.5 min-w-fit" for="discounted_price">Preu amb descompte (preu
+                        <label class="mx-2.5 min-w-fit" for="discounted_price">Preu amb descompte
+                            (preu
                             final)</label>
                         <input class="border-0 number" type="number" name="discounted_price" id="discounted_price"
                             value="{{ $book['discounted_price'] ?? '' }}" readonly>
@@ -520,7 +488,6 @@ function getLanguagesOptions($languages, $selected = null)
             <legend class="mx-2">Col·leccions</legend>
             <div class="flex justify-between space-x-4 items-center ">
                 <div class="flex space-x-2">
-                    {{-- @if (isset($book)) --}}
                     <label class="mx-2.5" for="collections_{{ $i }}">Col·leccions</label>
                     @if (array_key_exists('collections', $book))
                         @for ($i = 0; $i < count($book['collections']); $i++)
@@ -535,18 +502,7 @@ function getLanguagesOptions($languages, $selected = null)
                             </div>
                         @endfor
                     @endif
-                    {{-- @else
-                        <label class="mx-2.5" for="collections_0">Col·leccions:</label>
-                        <div>
-                            <select class="border-0" name="collections[]" id="collections_0">
-                                {!! getCollectionsOptions($collections) !!}
-                            </select>
-                            <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
-                                disabled>
-                                <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar col·lecció">
-                            </button>
-                        </div>
-                    @endif --}}
+
                     <div class="flex space-x-0.5">
                         <button id="add_collection" type="button" class="add-content-button" disabled>
                             <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
@@ -638,7 +594,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class=" flex space-x-2 items-start  relative">
                 <div class="w-auto flex items-center space-x-2 ">
                     <div class="min-w-fit">
-                        <label class="mx-2.5 min-w-fit" for="meta_description">Descripció del llibre:</label>
+                        <label class="mx-2.5 min-w-fit" for="meta_description">Descripció del
+                            llibre:</label>
                         <small class="font-bold mx-2.5">(aparença en buscadors i navegador)</small>
                     </div>
                     <div class="min-w-full grow-wrap ">
@@ -652,17 +609,12 @@ function getLanguagesOptions($languages, $selected = null)
                     </button>
                 </div>
             </div>
-
-            {{-- <div class="flex items-center space-x-2">
-            <label class="min-w-fit" for="slug_options"></label>
-            <input class="" type="checkbox" id="slug_options" name="slug_options">Regenerar URL (pot afectar SEO) --}}
     </div>
     </fieldset>
 </div>
 </div>
 
 <div id="save">
-    {{-- <button type="submit" value="redirect" name="action">Desar canvis</button> --}}
     <button id="submit-button" class="send-button" type="submit" value="stay" name="action">Desar
         canvis</button>
 </div>

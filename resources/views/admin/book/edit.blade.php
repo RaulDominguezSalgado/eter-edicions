@@ -28,7 +28,7 @@ $locale = 'ca';
                     enctype="multipart/form-data">
                     @csrf
                     {{ method_field('PATCH') }}
-                    @include('admin.book.form')
+                    @include('admin.book.edit-form')
                 </form>
             </div>
         </div>

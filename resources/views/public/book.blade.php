@@ -195,7 +195,7 @@
                             <h4 class="font-bold text-transform:uppercase">{{ $book['title'] }}</h4>
                         </div>
                         <div class="flex space-x-1.5" id="original">
-                            <p><i>{{ $book['original_title'] }}</i> ({{ $book['original_publication_date'] }}),
+                            <p><i>{{ $book['original_title'] }}</i> ({{ $book['original_publication_date']->format('Y') }}),
                                 {{ $book['original_publisher'] }}</p>
                         </div>
                     </div>

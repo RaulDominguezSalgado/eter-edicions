@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="/css/front/nav.css">
     <link rel="stylesheet" href="/css/front/footer.css">
     <title>{{ $title ?? 'Èter Edicions' }}</title>
-    
+
 </head>
 <body>
     <x-layouts.navigate/>
-    {{$slot}}
+    <main class="p-5 md:p-5 lg:p-10">
+        {{$slot}}
+    </main>
     <x-layouts.footer/>
 </body>
 </html>

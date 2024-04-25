@@ -41,7 +41,6 @@ class Book extends Model
         'description',
         'isbn',
         'publisher',
-        'lang',
         'image',
         'pvp',
         'iva',

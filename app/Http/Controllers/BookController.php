@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
+use Illuminate\Http\Request;
 use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Models\CollectionTranslation;
@@ -206,9 +207,9 @@ class BookController extends Controller
 
         /* Get all collections data */
         $collectionController = new CollectionController();
-            foreach (Collection::all() as $collection) {
-                $collections[$collection->id] = $collectionController->getFullCollection($collection->id, $locale);
-            }
+        foreach (Collection::all() as $collection) {
+            $collections[$collection->id] = $collectionController->getFullCollection($collection->id, $locale);
+        }
 
 
         return view('admin.book.edit', compact('book', 'collaborators', 'languages', 'collections'));
@@ -222,9 +223,13 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
+        // dump($request);
+        // dump($book);
         try {
             // \App\Models\Book::class;
             $new_data = $request->validated();
+
+            // dump($new_data);
 
             if ($request->input('visible') != null) {
                 $request->merge([
@@ -238,29 +243,30 @@ class BookController extends Controller
                 $new_data['visible'] = 0;
             }
 
-            if ($request->input('slug_options') && $request->input('title') != null) {
+            if (!$request->input('slug') && $request->input('title') != null) {
                 $request->merge([
                     'slug' => \App\Http\Actions\FormatDocument::slugify($request['title'])
                 ]);
                 $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
             }
 
-
+            // dump($new_data);
 
             $book->update($new_data);
 
             $this->setBookData($book, $request);
 
-            // Controla la selección del usuario
-            if ($request->input('action') == 'redirect') {
-                return redirect()->route('books.index')
-                    ->with('success', 'Book created successfully');
-            } else if ($request->input('action') == 'stay') {
-                return redirect()->route('books.edit', $book->id)
-                    ->with('success', 'Book created successfully');
-            }
+            // // Controla la selección del usuario
+            // if ($request->input('action') == 'redirect') {
+            //     return redirect()->route('books.index')
+            //         ->with('success', 'Book created successfully');
+            // } else if ($request->input('action') == 'stay') {
+
+            return redirect()->route('books.edit', $book->id)
+                ->with('success', 'Llibre actualitzat correctament');
+
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            return back()->withError($e->getMessage())->withInput();
         }
     }
 
@@ -390,6 +396,12 @@ class BookController extends Controller
         }
     }
 
+    public function bookSample($filename){
+        // return "{$slug}.pdf";
+        return redirect('/files/samples/'.$filename);
+    }
+
+
     /**
      * Get all the details of a book
      *
@@ -414,7 +426,7 @@ class BookController extends Controller
                 'sample' => $book->sample,
                 'number_of_pages' => $book->number_of_pages,
                 'size' => $book->size,
-                'publication_date' => $book->publication_date->format('Y'),
+                'publication_date' => $book->publication_date->format('Y-m-d'),
                 'original_publication_date' => $book->original_publication_date,
                 'pvp' => $book->pvp,
                 'iva' => $book->iva,
@@ -813,57 +825,53 @@ class BookController extends Controller
     private function setBookData($book, $request)
     {
         try {
-            $book->authors()->detach(); // Eliminamos los autores actuales
-            if ($request->has('authors')) { // Y les añadimos los del formulario si se han dado
+            if ($request->has('authors')) {
                 $authors = array_unique($request->input('authors'));
                 foreach ($authors as $collaborator_id) {
                     $author = \App\Models\Author::where('collaborator_id', $collaborator_id)->first();
-
                     if (!$author) {
                         \App\Models\Author::create([
                             'id' => $collaborator_id,
                             'collaborator_id' => $collaborator_id,
-                            'represented_by_agency' => true,
+                            // 'represented_by_agency' => true,
                         ]);
-                        $author = \App\Models\Author::where('id', $collaborator_id)->first();
-                        // dd($author);
                     }
-
-                    $book->authors()->attach($collaborator_id);
                 }
+                $book->authors()->sync($authors);
             }
 
-            $book->translators()->detach(); // Eliminamos los autores actuales
-            if ($request->has('translators')) { // Y les añadimos los del formulario si se han dado
+
+            if ($request->has('translators')) {
                 $translators = array_unique($request->input('translators'));
                 foreach ($translators as $collaborator_id) {
                     $translator = \App\Models\Translator::where('collaborator_id', $collaborator_id)->first();
-
                     if (!$translator) {
                         \App\Models\Translator::create([
                             'id' => $collaborator_id,
                             'collaborator_id' => $collaborator_id,
                         ]);
-                        $translator = \App\Models\Translator::where('id', $collaborator_id)->first();
-                        // dd($author);
                     }
-
-                    $book->translators()->attach($collaborator_id);
                 }
+                $book->translators()->sync($translators);
             }
 
-            $book->collections()->detach(); // Eliminamos las colecciones actuales
-            if ($request->has('collections')) { // Y les añadimos los del formulario si se han dado
-                $collections = array_unique($request->input('collections'));
-                foreach ($collections as $collection_id) {
-                    $book->collections()->attach($collection_id);
+
+            $request->has('collections') ? $book->collections()->sync(array_unique($request->input('collections'))) : '';
+
+            $request->has('lang') ? $book->languages()->sync(array_unique($request->input('lang'))) : '';
+
+            if ($request->has('extras')) {
+                foreach ($request->input('extras') as $extra) {
+                    $extras_bd = \App\Models\BookExtra::where('book_id', 'LIKE', $book->id)
+                        ->where('key', 'LIKE', $extra['key'])->first();
+                    if (!$extras_bd) {
+                        \App\Models\BookExtra::create([
+                            'book_id' => $book->id,
+                            'key' => $extra['key'],
+                            'value' => $extra['value']
+                        ]);
+                    }
                 }
-            }
-
-            $book->languages()->detach(); // Eliminamos el idioma actuale
-            if ($request->has('languages')) { // Y le añadimos el del formulario si se ha dado
-
-                $book->languages()->attach($request->input('languages'));
             }
 
             if ($request->hasFile('image_file')) {
@@ -883,11 +891,28 @@ class BookController extends Controller
                 $this->editImage($rutaMiniatura);
 
                 $book->image = $nombreImagenOriginal;
+                $book->save();
             } else {
-                $book->image = "default.webp";
+                if(!$request->image){
+                    $book->image = "default.webp";
+                }
+            }
+
+            if($request->hasFile('sample')){
+                $sample = $request->file('sample');
+                $slug = \App\Http\Actions\FormatDocument::slugify($request['title']);
+                dump($sample);
+
+                $sampleFilename = $slug . ".pdf";
+
+                $uploadManager = new UploadManager();
+                $uploadManager->uploadFile($sample, "files/samples", $sampleFilename);
+                $book->sample = $sampleFilename;
+                $book->save();
             }
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            // abort(500, 'Server Error');
+            dump($e->getMessage());
         }
     }
 }

@@ -34,6 +34,7 @@ foreach (config('languages') as $locale) {
         // Catalog
         Route::get(__('paths.catalog', [], $locale), [App\Http\Controllers\BookController::class, 'catalog'])->name("catalog.{$locale}");
         Route::get(__('paths.catalog', [], $locale)  . '/{id}', [App\Http\Controllers\BookController::class, 'bookDetail'])->name("book-detail.{$locale}");
+        Route::get(__('paths.catalog', [], $locale)  . '/{slug}/sample', [App\Http\Controllers\BookController::class, 'bookSample'])->name("book.sample");
 
         // Authors (collaborators)
         Route::get(__('paths.authors', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'collaborators'])->name("collaborators.{$locale}");
