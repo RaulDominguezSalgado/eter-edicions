@@ -424,4 +424,51 @@ class PostController extends Controller
 
         return $posts;
     }
+
+
+
+
+    /**
+    * Method that generates the Book array used by the view
+    */
+    public static function getData($key = null, $value = null, $search = false) {
+        // try {
+            $locale = 'ca';
+
+            if ($key == null || $value == null) {
+                $query_data = Post::paginate();
+            }
+            else if ($search) {
+                $query_data = Post::where($key, 'LIKE', '%' . $value . '%')->paginate();
+            }
+            else {
+                $query_data = Post::where($key, $value)->paginate();
+            }
+            $posts = [];
+            foreach ($query_data as $single_data) {
+                dd($single_data);
+                $posts[] = [
+                    'title' => $single_data,
+                    'author_id' => $single_data,
+                    'translator_id' => $single_data,
+                    'description' => $single_data,
+                    'date' => $single_data,
+                    'image' => $single_data,
+                    'content' => $single_data,
+                    'publication_date' => $single_data,
+                    'published_by' => $single_data,
+                    'slug' => $single_data,
+                    'meta_name' => $single_data,
+                    'meta_description' => $single_data,
+                    'published_by' => $single_data,
+                    'author_id' => $single_data,
+                    'translator_id' => $single_data,
+                ];
+            }
+            return $posts;
+        // }
+        // catch (Exception $e) {
+        //     abort(500, 'Server Error');
+        // }
+    }
 }

@@ -24,7 +24,6 @@ Route::get('/', function () {
 
 /* Rutas públicas en multi-idioma */
 foreach (config('languages') as $locale) {
-
     if (config('app')['locale'] == $locale) { //if the current language is the same language the app is set to
 
         // Home
@@ -63,6 +62,9 @@ foreach (config('languages') as $locale) {
         // Contact
         Route::get(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
         Route::post(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'sendContactForm'])->name("contact.send.{$locale}");
+
+        // Search
+        Route::get(__('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
     }
     else {
 
@@ -99,6 +101,9 @@ foreach (config('languages') as $locale) {
 
         // Contact
         Route::get("{$locale}/" . __('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
+
+        // Search
+        Route::get("{$locale}/" . __('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
     }
 }
 

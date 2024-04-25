@@ -10,4 +10,5 @@ return [
     'bookstores' => 'llibreries',
     'foreign-rights' => 'foreign-rights',
     'contact' => 'contacte',
+    'search' => 'cerca',
 ];

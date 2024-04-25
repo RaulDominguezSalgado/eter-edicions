@@ -15,8 +15,8 @@ $locale = 'ca';
         <li class=""><a href="{{ route("posts.{$locale}") }}" @if(Route::currentRouteName() == "posts.{$locale}") class="active" @endif>Articles</a></li>
         <li class=""><a href="{{ route("about.{$locale}") }}" @if(Route::currentRouteName() == "about.{$locale}") class="active" @endif>Qui som</a></li>
     </ul>
-    <a href="">
-        <button>Buscar</button>
-    </a>
+    <div>
+        <x-partials.searchBar></x-partials.searchBar>
+    </div>
 </nav>
 {{-- <hr> --}}

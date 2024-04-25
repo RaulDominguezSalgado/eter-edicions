@@ -698,14 +698,17 @@ class BookController extends Controller
     
 
     /**
-    * Method that generates the Book array used on the view
+    * Method that generates the Book array used by the view
     */
-    private function getData($key = null, $value = null) {
+    public static function getData($key = null, $value = null, $search = false) {
         // try {
             $locale = 'ca';
 
             if ($key == null || $value == null) {
                 $query_data = Book::paginate();
+            }
+            else if ($search) {
+                $query_data = Book::where($key, 'LIKE', '%' . $value . '%')->paginate();
             }
             else {
                 $query_data = Book::where($key, $value)->paginate();
