@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <a class="remove-content-button">Eliminar</a>
         </label>
         `;
+        console.log(contador);
         this.parentNode.insertBefore(new_collection, this);
         document.querySelectorAll('a.remove-content-button').forEach(function (e) {
             e.addEventListener("click", function () {

@@ -102,6 +102,23 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
+        try{
+            $productIds = array_column($request->input('products'), 'id');
+            // Contar cuántas veces se repite cada ID
+            $idCounts = array_count_values($productIds);
+            //dump($idCounts);
+
+            foreach ($idCounts as $id => $count) {
+                if ($count > 1) {
+                    // dump("Repeated ID");
+                    $error = \Illuminate\Validation\ValidationException::withMessages([
+                        'id' => ['Hi ha productes repetits.'],
+                    ]);
+                    throw $error;
+                }
+            }
+
+               //return dump($request);
         $orderDetails = $request->input('products');
         //save pdf file
         $newFileName = $request['reference'] . ".pdf";
@@ -109,19 +126,30 @@ class OrderController extends Controller
 
         //$this->saveFile(,public_path('files/orders'),$newFileName, $request['id']);
         //return dd($request);
-        $validatedData= $request->validated();
-        $validatedData['pdf']=$newFileName;
+        $validatedData = $request->validated();
+        $validatedData['pdf'] = $newFileName;
         // $validatedData['total'] = $this->getTotalPrice($orderDetails);
         $order = Order::create($validatedData);
         if ($request->has('products')) {
-            foreach ($orderDetails as $productId => $productData) {
+            foreach ($orderDetails as $i => $productData) {
                 if ($productData['quantity'] > 0) {
+                    if ($productData['pvp'] == 0) {
+                        $book = Book::find($productData['id']);
+                        // dump($productData);
+                        $book->discounted_price != 0 ? $productData['pvp'] = $book->discounted_price : $productData['pvp'] = $book->pvp;
+                        // dump($productData);
+                    }
+
                     $orderDetail = new OrderDetail([
-                        'product_id' => $productId,
+                        'product_id' => $productData['id'],
                         'quantity' => $productData['quantity'],
                         'price_each' => $productData['pvp'],
                     ]);
                     $order->details()->save($orderDetail);
+
+                    $book = Book::find($productData['id']);
+                    $book->stock = $book->stock - $productData['quantity'];
+                    $book->save();
                 }
             }
         }
@@ -132,17 +160,19 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')
             ->with('success', 'Order created successfully.');
-    }
-
-    public function saveFile($file, $path, $filename, $id){
-        try{
-            $file->move($path,$filename);
-        }
-        catch(FileException $e){
-
         }
         catch(Exception $e){
+            // dump($e);
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 
+    public function saveFile($file, $path, $filename, $id)
+    {
+        try {
+            $file->move($path, $filename);
+        } catch (FileException $e) {
+        } catch (Exception $e) {
         }
     }
     /**
@@ -171,49 +201,110 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, Order $order)
     {
-        dump($request);
+        // dump($request);
 
-        // //dd($request);
-        //     $newFileName = $request['reference'] . ".pdf";
-        // if($request->hasFile('pdf')){
-        //     $pdfFile = $request->file('pdf');
+        try {
 
-        // $this->saveFile($request->file('pdf'),public_path('files/orders'),$newFileName, $request['id']);
-        //     //return dd($request);
-        // }
+            $productIds = array_column($request->input('products'), 'id');
+            // Contar cuántas veces se repite cada ID
+            $idCounts = array_count_values($productIds);
+            //dump($idCounts);
+
+            foreach ($idCounts as $id => $count) {
+                if ($count > 1) {
+                    // dump("Repeated ID");
+                    $error = \Illuminate\Validation\ValidationException::withMessages([
+                        'id' => ['Hi ha productes repetits.'],
+                    ]);
+                    throw $error;
+                }
+            }
+
+            // $validatedData= $request->validated();
+
+            //dd($request);
+            $newFileName = $request['reference'] . ".pdf";
+            if ($request->hasFile('pdf')) {
+                // $pdfFile = $request->file('pdf');
+                $this->saveFile($request->file('pdf'), public_path('files/orders'), $newFileName, $request['id']);
+                //return dd($request);
+            }
+
+            $validatedData = $request->validated();
+            $validatedData['pdf'] = $newFileName;
+            $order->update($validatedData);
 
 
+            //Borramos todos los detalles para despues añadirlos
+            //Esto lo hacemos en lugar de editar uno por uno
+            $orderDetails = OrderDetail::where('order_id', 'LIKE', $order->id)->get();
+            foreach ($orderDetails as $orderDetail) {
+                // dump($orderDetail);
+                $book = Book::find($orderDetail->product_id);
+                $book->stock = $book->stock + $orderDetail->quantity;
+                $book->save();
+                // dump($book);
 
-        // $validatedData= $request->validated();
-        // $validatedData['pdf']=$newFileName;
-        // $order->update($validatedData);
+                $orderDetail->delete();
+            }
 
-        // // Actualiza los detalles de la orden
-        // foreach ($request->products as $productId => $productData) {
-        //     dd($request->products);
-        //     if ($productData['quantity']> 0) {
-        //         $orderDetail = OrderDetail::where('order_id', $order->id)
-        //             ->where('product_id', $productId)
-        //             ->first();
+            // Actualiza los detalles de la orden
+            foreach ($request->products as $i => $productData) {
+                //dump($productData);
 
-        //         if ($orderDetail) {
-        //             $orderDetail->update([
-        //                 'quantity' => $productData['quantity'],
-        //                 'price_each' => $productData['pvp'],
-        //             ]);
-        //         } else {
-        //             OrderDetail::create([
-        //                 'order_id' => $order->id,
-        //                 'product_id' => $productId,
-        //                 'quantity' => $productData['quantity'],
-        //                 'price_each' => $productData['pvp'],
-        //             ]);
-        //         }
-        //     }
-        // }
+                if (isset($productData['id'])) {
+                    if ($productData['quantity'] > 0) {
+                        $orderDetail = OrderDetail::where('order_id', $order->id)
+                            ->where('product_id', $productData['id'])
+                            ->first();
 
-        // return redirect()->route('orders.index')
-        //     ->with('success', 'Order updated successfully');
+                        if ($productData['pvp'] == 0) {
+                            $book = Book::find($productData['id']);
+                            // dump($productData);
+                            $book->discounted_price != 0 ? $productData['pvp'] = $book->discounted_price : $productData['pvp'] = $book->pvp;
+                            // dump($productData);
+                        }
+
+
+                        //añadimos todos los details del order
+                        $orderDetail = OrderDetail::create([
+                            'order_id' => $order->id,
+                            'product_id' => $productData['id'],
+                            'quantity' => $productData['quantity'],
+                            'price_each' => $productData['pvp'],
+                        ]);
+                        // dump($orderDetail);
+
+                        $book = Book::find($productData['id']);
+
+                        $book->stock = $book->stock - $productData['quantity'];
+                        $book->save();
+                        // dump($book);
+                    }
+                }
+            }
+
+
+            // OrderStatusHistory::where('order_id', 'LIKE', $order->id)->delete();
+            $orderHistory = OrderStatusHistory::where('order_id', $order->id)
+                ->where('status_id', $order->status_id)
+                ->first();
+            // dump($orderHistory);
+            if (!$orderHistory) {
+                $orderStatusHistory = OrderStatusHistory::create([
+                    'order_id' => $order->id,
+                    'status_id' =>  $order->status_id
+                ]);
+                // dump($orderStatusHistory);
+            }
+
+
+            return redirect()->route('orders.index')
+                ->with('success', 'Order updated successfully');
+        } catch (Exception $e) {
+            // dump($e);
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function destroy($id)
