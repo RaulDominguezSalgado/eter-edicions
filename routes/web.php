@@ -22,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::post('/cart/{id}', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('stock.update');
 /* Rutas públicas en multi-idioma */
 foreach (config('languages') as $locale) {
 
