@@ -5,25 +5,25 @@ function getBooks($books, $selected = -1, $bookSelected = null, $line = -1)
     $col_options = '';
     //'<select hidden id="getBooks" ><option selected disabled>Selecciona una opció</option>';
 
-    if ($bookSelected != null && $selected !=-1) {
+    if ($bookSelected != null && $selected != -1) {
         $col_options .= "<div class='flex space-x-2 items-end'>";
-        $col_options .= '<div class="w-1/3"><label for="products[{{$line}}][id]">Producte</label><input disabled type="text" name="products[' . $line . '][title]" value="' . $bookSelected["title"] . ' (' . $bookSelected["pvp"] . '€)" placeholder="Producte" ></div>';
-        $col_options .= '<div><label for="products[{{$line}}][quantity]">Quantitat</label><input type="number" name="products[' . $line . '][quantity]" value="' . $bookSelected["quantity"] .'" placeholder="Preu personalitzat" ></div>';
+        $col_options .= '<div class="w-1/3"><label for="products[{{$line}}][id]">Producte</label><input disabled type="text" name="products[' . $line . '][title]" value="' . $bookSelected['title'] . ' (' . $bookSelected['pvp'] . '€)" placeholder="Producte" ></div>';
+        $col_options .= '<div><label for="products[{{$line}}][pvp]">Preu</label><input readonly type="number" step="0.01" name="products[' . $line . '][pvp]" value="' . $bookSelected['pvp'] . '" placeholder="Quantitat" min="0"></div>';
+        $col_options .= '<div><label for="products[{{$line}}][quantity]">Quantitat</label><input type="number" name="products[' . $line . '][quantity]" value="' . $bookSelected['quantity'] . '" placeholder="Preu personalitzat" ></div>';
         $col_options .= "<input hidden type='number' name='products[" . $line . "][id]'  value='" . $bookSelected['id'] . "' placeholder='id' min='0'>";
-        $col_options .= '<div><label for="products[{{$line}}][pvp]">Preu</label><input type="number" step="0.01" name="products[' . $line . '][pvp]" value="' . $bookSelected['pvp'] . '" placeholder="Quantitat" min="0"></div>';
         $col_options .= "<div class='flex'><button type='button' class='remove-content-button' onclick='removeParentNode(this.parentNode)'>Eliminar</button></div>";
-        $col_options .= "</div>";
-    }else{
-    $col_options = '<option selected disabled>Selecciona una opció</option>';
+        $col_options .= '</div>';
+    } else {
+        $col_options = '<option selected disabled>Selecciona una opció</option>';
         foreach ($books as $book) {
-        if ($book['id'] == $selected) {
-            $col_options .= "<option selected value='".$book['id']."'>" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
-            //$col_options .= "<option selected  value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
-        } else {
-            $col_options .= "<option value='".$book['id']."'>" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
-            //$col_options .= "<option value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+            if ($book['id'] == $selected) {
+                $col_options .= "<option selected value='" . $book['id'] . "'>" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+                //$col_options .= "<option selected  value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+            } else {
+                $col_options .= "<option value='" . $book['id'] . "'>" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+                //$col_options .= "<option value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+            }
         }
-    }
     }
     echo $col_options;
 }
@@ -31,16 +31,56 @@ echo '<select style="display: none;" name"products[0][id]" id="getBooks" >';
 getBooks($books);
 echo '</select>';
 ?>
+
+
 <div class="row padding-1 p-1">
     <div class="col-md-12">
-        @if ($message = Session::get('error'))
-            <div class="alert alert-danger m-4">
-                <p>{{ $message }}</p>
+        @if (session('success'))
+            {{-- <div class="alert alert-danger">{{ session('error') }}</div> --}}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">{{ session('success') }}</strong>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
             </div>
         @endif
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success m-4">
-                <p>{{ $message }}</p>
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">No s'han pogut guardar les dades de la comanda.</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
+            </div>
+        @endif
+
+
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">No s'han pogut guardar les dades de la comanda. Consulta</strong>
+                {{-- <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul> --}}
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
             </div>
         @endif
         
@@ -72,14 +112,14 @@ echo '</select>';
             {!! $errors->first('last_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
-        <div class="form-group mb-2 mb20">
+        <div class="form-group mb-2 mb20 ">
             <label for="email" class="form-label">{{ __('Correu electrònic del client') }}</label>
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                 value="{{ old('email', $order['email']) }}" id="email" placeholder="Correu electrònic del client">
             {!! $errors->first('email', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
-        <div class="form-group mb-2 mb20">
+        <div class="form-group mb-2 mb20 ">
             <label for="phone_number" class="form-label">{{ __('Número de contacte del client') }}</label>
             <input type="text" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror"
                 value="{{ old('phone_number', $order['phone_number']) }}" id="phone_number"
@@ -98,11 +138,11 @@ echo '</select>';
             <label for="zip_code" class="form-label">{{ __('Codi postal del client') }}</label>
             <input type="text" name="zip_code" class="form-control @error('zip_code') is-invalid @enderror"
                 value="{{ old('zip_code', $order['zip_code']) }}" id="zip_code"
-                placeholder="'Codi postal del client'">
+                placeholder="Codi postal del client">
             {!! $errors->first('zip_code', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
-        <div class="form-group mb-2 mb20">
+        <div class="form-group mb-2 mb20 ">
             <label for="city" class="form-label">{{ __('Ciutat del client') }}</label>
             <input type="text" name="city" class="form-control @error('city') is-invalid @enderror"
                 value="{{ old('city', $order['city']) }}" id="city" placeholder="Ciutat del client">
@@ -120,6 +160,7 @@ echo '</select>';
     <div class="form-group mb-2 mb20">
         <label for="status_id" class="form-label">{{ __('Estat de la comanda') }}</label>
         <select name="status_id" class="form-control @error('status_id') is-invalid @enderror" id="status_id">
+            <option selected disabled>Selecciona una opció</option>
             @foreach ($statuses as $status)
                 <option value="{{ $status->id }}" @if ($order['status'] == $status->name) selected @endif>
                     {{ $status->name }}</option>
@@ -132,7 +173,7 @@ echo '</select>';
         <input type="text" name="payment_method"
             class="form-control @error('payment_method') is-invalid @enderror"
             value="{{ old('payment_method', $order['payment_method']) }}" id="payment_method"
-            placeholder="Payment Method">
+            placeholder="Metode de pagament">
         {!! $errors->first(
             'payment_method',
             '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
@@ -163,15 +204,15 @@ echo '</select>';
             @foreach ($order['products'] as $book)
                 <div>
                     {{-- <label for="products{{ $book['id'] }}">Llibre {{ $line+1 }}</label> --}}
-                        <?php getBooks($books, $book['id'], $book, $line); ?>
+                    <?php getBooks($books, $book['id'], $book, $line); ?>
                     {{-- <a class="remove-content-button">Eliminar</a> --}}
                 </div>
                 <?php $line++; ?>
             @endforeach
         @endif
-    <a id="add_product" class="add-content-button">Afegir llibre</a>
-    {!! $errors->first('products', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-</div>
+        <a id="add_product" class="add-content-button">Afegir llibre</a>
+        {!! $errors->first('products', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+    </div>
 
     {{-- <div id="products" class="flex flex-wrap">
         <label for="products" class="form-label">{{ __('Productes') }}</label>
@@ -189,17 +230,21 @@ echo '</select>';
             </div>
         @endforeach
     </div> --}}
+    @if (isset($order['total']))
+        <div class="form-group">
+        @else
+            <div class="form-group" hidden>
+    @endif
 
-    <div class="form-group" hidden>
-        <div class="flex items-center mb-4">
-            <label for="total" style="width: 100%" class="mr-2">{{ __('Preu total') }}</label>
-            <input type="text" name="total" class="form-control @error('total') is-invalid @enderror"
-                value="{{ old('total', $order['total'] ?? 0) }}" style="border: none" id="total"
-                placeholder="Preu total">
-        </div>
-        {!! $errors->first('total', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+    <div class="flex items-center mb-4">
+        <label for="total" style="width: 100%" class="mr-2">{{ __('Preu total') }}</label>
+        <input readonly type="text" name="total" class="form-control @error('total') is-invalid @enderror"
+            value="{{ old('total', $order['total'] ?? 0) }}" style="border: none" id="total"
+            placeholder="Preu total">
     </div>
-    {{-- <script>
+    {!! $errors->first('total', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+</div>
+{{-- <script>
         function calculateTotal(product) {
             console.log("Product:", product);
             if (product) {
@@ -214,8 +259,8 @@ echo '</select>';
         }
     </script> --}}
 
-    <div class="col-md-12 mt20 mt-2">
-        <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
-    </div>
+<div class="col-md-12 mt20 mt-2">
+    <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
+</div>
 </div>
 <script src="{{ asset('js/form/products.js') }}"></script>

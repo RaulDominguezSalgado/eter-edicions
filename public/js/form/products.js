@@ -28,19 +28,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     ${collaborators_options.innerHTML}
                 </select>
             </div>
+            <div class="flex flex-col flex-grow ">
+            <label for="products[${contador}][pvp]">Preu personalitzat</label>
+            <input class="w-full" type="number" step="0.01" name="products[${contador}][pvp]"
+                value=0 placeholder="Preu personalitzat"
+                min="0">
+                <small class="text-xs">Deixar el preu en 0 per agafar el preu actual del llibre a la base de dades.</small>
+         </div>
             <div class="">
                 <label for="products[${contador}][quantity]">Quantitat</label>
                 <input class="max-w-min" type="number" name="products[${contador}][quantity]"
                     value=0 placeholder="Quantitat"
                     min="0">
             </div>
-             <div class="flex flex-col flex-grow ">
-                <label for="products[${contador}][pvp]">Preu personalitzat</label>
-                <input class="w-full" type="number" step="0.01" name="products[${contador}][pvp]"
-                    value=0 placeholder="Preu personalitzat"
-                    min="0">
-                    <small class="text-xs">Deixar el preu en 0 per agafar el preu actual del llibre a la base de dades.</small>
-             </div>
+
 
 
             <div class="flex"><button type="button" class="remove-content-button" onclick="removeParentNode(this.parentNode)">Eliminar</button></div>
