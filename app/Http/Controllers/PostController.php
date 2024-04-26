@@ -431,38 +431,66 @@ class PostController extends Controller
     /**
     * Method that generates the Book array used by the view
     */
-    public static function getData($key = null, $value = null, $search = false) {
+    public static function getData($type = null, $key = null, $value = null, $search = false) {
         // try {
             $locale = 'ca';
 
             if ($key == null || $value == null) {
-                $query_data = Post::paginate();
+                switch ($type) {
+                    case null:
+                        $query_data = Post::paginate();
+                    break;
+                    case 'activities':
+                        $query_data = Post::whereNotNull('location')->whereNotNull('date')->paginate();
+                    break;
+                    case 'articles':
+                        $query_data = Post::whereNull('location')->whereNull('date')->paginate();
+                    break;
+                }
             }
             else if ($search) {
-                $query_data = Post::where($key, 'LIKE', '%' . $value . '%')->paginate();
+                switch ($type) {
+                    case null:
+                        $query_data = Post::where($key, 'LIKE', '%' . $value . '%')->paginate();
+                    break;
+                    case 'activities':
+                        $query_data = Post::whereNotNull('location')->whereNotNull('date')->where($key, 'LIKE', '%' . $value . '%')->paginate();
+                    break;
+                    case 'articles':
+                        $query_data = Post::whereNull('location')->whereNull('date')->where($key, 'LIKE', '%' . $value . '%')->paginate();
+                    break;
+                }
             }
             else {
-                $query_data = Post::where($key, $value)->paginate();
+                switch ($type) {
+                    case null:
+                        $query_data = Post::where($key, $value)->paginate();
+                    break;
+                    case 'activities':
+                        $query_data = Post::whereNotNull('location')->whereNotNull('date')->where($key, $value)->paginate();
+                    break;
+                    case 'articles':
+                        $query_data = Post::whereNull('location')->whereNull('date')->where($key, $value)->paginate();
+                    break;
+                }
             }
             $posts = [];
             foreach ($query_data as $single_data) {
-                dd($single_data);
                 $posts[] = [
-                    'title' => $single_data,
-                    'author_id' => $single_data,
-                    'translator_id' => $single_data,
-                    'description' => $single_data,
-                    'date' => $single_data,
-                    'image' => $single_data,
-                    'content' => $single_data,
-                    'publication_date' => $single_data,
-                    'published_by' => $single_data,
-                    'slug' => $single_data,
-                    'meta_name' => $single_data,
-                    'meta_description' => $single_data,
-                    'published_by' => $single_data,
-                    'author_id' => $single_data,
-                    'translator_id' => $single_data,
+                    'id' => $single_data->id,
+                    'title' => $single_data->title,
+                    'author_id' => $single_data->author_id,
+                    'translator_id' => $single_data->translator_id,
+                    'description' => $single_data->description,
+                    'date' => $single_data->date,
+                    'location' => $single_data->location,
+                    'image' => $single_data->image,
+                    'content' => $single_data->content,
+                    'publication_date' => $single_data->publication_date,
+                    'published_by' => $single_data->published_by,
+                    'slug' => $single_data->slug,
+                    'meta_name' => $single_data->meta_name,
+                    'meta_description' => $single_data->meta_description,
                 ];
             }
             return $posts;

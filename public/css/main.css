@@ -45,7 +45,9 @@ main{
 }
 
 h1{
-
+    font-size: 2em;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 h2{
     font-size: 1.5em;

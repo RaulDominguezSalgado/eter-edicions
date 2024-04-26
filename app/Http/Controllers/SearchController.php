@@ -34,8 +34,7 @@ class SearchController extends Controller
         return [
             'term' => $term,
             'books' => self::getResultsBooksArray($term),
-            'authors' => self::getResultsAuthorsArray($term),
-            'translators' => self::getResultsTranslatorsArray($term),
+            'collaborators' => self::getResultsCollaboratorsArray($term),
             'activities' => self::getResultsActivitiesArray($term),
             'articles' => self::getResultsArticlesArray($term),
         ];
@@ -52,30 +51,33 @@ class SearchController extends Controller
         return $returnable_array;
     }
 
-    public static function getResultsAuthorsArray ($term) {
+    public static function getResultsCollaboratorsArray ($term) {
         $returnable_array = array_merge(
-            AuthorController::getData("first_name", $term, true),
-            AuthorController::getData("last_name", $term, true)
+            CollaboratorController::getData("first_name", $term, true),
+            CollaboratorController::getData("last_name", $term, true)
         );
         $returnable_array = self::removeDuplicatesById($returnable_array);
         return $returnable_array;
     }
 
-    public static function getResultsTranslatorsArray ($term) {
+    public static function getResultsActivitiesArray ($term) {
+        PostController::getData('activities');
         $returnable_array = array_merge(
-            TranslatorController::getData("first_name", $term, true),
-            TranslatorController::getData("last_name", $term, true)
+            PostController::getData("activities", "title", $term, true),
+            PostController::getData("activities", "description", $term, true)
         );
         $returnable_array = self::removeDuplicatesById($returnable_array);
         return $returnable_array;
-    }    
-
-    public static function getResultsActivitiesArray ($term) {
-        
     }
     
     public static function getResultsArticlesArray ($term) {
-        
+        PostController::getData('articles');
+        $returnable_array = array_merge(
+            PostController::getData("articles", "title", $term, true),
+            PostController::getData("articles", "description", $term, true)
+        );
+        $returnable_array = self::removeDuplicatesById($returnable_array);
+        return $returnable_array;
     }
 
 

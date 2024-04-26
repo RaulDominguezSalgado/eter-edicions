@@ -443,4 +443,62 @@ class CollaboratorController extends Controller
         }
     }
 
+
+    /**
+    * Method that generates the Author array used by the view
+    */
+    public static function getData($key = null, $value = null, $search = false) {
+        // try {
+            $locale = 'ca';
+            $query_data = [];
+
+            if ($key == null || $value == null) {
+                $query_data = Collaborator::paginate();
+            }
+            else if ($search) {
+                switch ($key) {
+                    case 'id':
+                    case 'collaborator_id':
+                        $query_data = Collaborator::where($key, 'LIKE', '%' . $value . '%')->translation()->paginate();
+                    break;
+                    case 'lang':
+                    case 'first_name':
+                    case 'last_name':
+                    case 'biography':
+                    case 'slug':
+                    case 'meta_title':
+                    case 'meta_description':
+                        // Aux es un conjunto de traducciones de collaboradores los cuales tienen autores
+                        $query_data = CollaboratorTranslation::where($key, 'LIKE', '%' . $value . '%')
+                        ->where('lang', $locale)
+                        ->paginate();
+                    break;
+                    default:
+                        $query_data = [];
+                    break;
+                }
+            }
+            else {
+                $query_data = Collaborator::where($key, $value)->paginate();
+            }
+            $collaborators = [];
+            foreach ($query_data as $single_data) {
+                $collaborators[] = [
+                    'id' => $single_data->collaborator()->first()->id,
+                    'image' => $single_data->collaborator()->first()->image,
+                    'first_name' => $single_data->first_name,
+                    'last_name' => $single_data->last_name,
+                    'full_name' => $single_data->first_name." ".$single_data->last_name,
+                    'biography' => $single_data->biography,
+                    'slug' => \App\Http\Actions\FormatDocument::slugify($single_data),
+                    'lang' => $single_data->lang,
+                ];
+            }
+
+            return $collaborators;
+        // }
+        // catch (Exception $e) {
+        //     abort(500, 'Server Error');
+        // }
+    }
 }

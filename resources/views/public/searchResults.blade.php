@@ -3,10 +3,12 @@
 ?>
 <x-layouts.app>
     <h1 class="text-center">Resultats de cerca per a "{{ $results['term'] }}".</h1>
-    <x-partials.searchBar :term="$results['term']"></x-partials.searchBar>
+    <div class="flex justify-center mb-20">
+        <x-partials.searchBar :term="$results['term']"></x-partials.searchBar>
+    </div>
     @if ($results['books'] != [])
-        <h2>Llibres</h2>
-        <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
+        <h2 class="text-center mb-8">Llibres</h2>
+        <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16 mb-40" id="catalog">
             @foreach ($results['books'] as $i => $book)
                 <div class="book flex flex-col items-center mb-6">
                     <div class="cover mb-4">
@@ -47,11 +49,11 @@
             @endforeach
         </div>
     @endif
-    @if ($results['authors'] != [])
-        <h2>Autors</h2>
-        <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16" id="catalog">
-            @foreach ($results['authors'] as $i => $author)
-                <div class="collaborator flex flex-col items-center mb-6">
+    @if ($results['collaborators'] != [])
+        <h2 class="text-center mb-8">Col·laboradors</h2>
+        <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16 mb-40" id="catalog">
+            @foreach ($results['collaborators'] as $i => $author)
+                <div class="collaborator flex flex-col items-center mb-6 m-5">
                     <div class="cover mb-2">
                         <a href="{{ route("collaborator-detail.{$locale}", $author['id']) }}">
                             <img src="{{ asset('img/collab/thumbnails/' . $author['image']) }}"
@@ -68,31 +70,82 @@
             @endforeach
         </div>
     @endif
-    @if ($results['translators'] != [])
-        <h2>Traductors</h2>
-        <div class="w-full grid grid-cols-4 px-16" id="catalog">
-            @foreach ($results['translators'] as $i => $translator)
-                <div class="collaborator flex flex-col items-center mb-6">
-                    <div class="cover mb-2">
-                        <a href="{{ route("collaborator-detail.{$locale}", $translator['id']) }}">
-                            <img src="{{ asset('img/collab/thumbnails/' . $translator['image']) }}"
-                                alt="{{ $translator['first_name'] }} {{ $translator['last_name'] }}"
-                                style="height: 19.7em">
+    @if ($results['activities'] != [])
+        <h2 class="text-center mb-8">Events</h2>
+        <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16 mb-40" id="catalog">
+            @foreach ($results['activities'] as $i => $post)
+                <div class="post space-y-2">
+                    <div class="">
+                        <h5 class="font-bold">{{$post['title']}}</h5>
+                    </div>
+                    <div class="cover space-y-4">
+                        <a href="{{ route("post-detail.{$locale}", $post['id']) }}">
+                            <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
+                                alt="{{ $post['title'] }}">
                         </a>
                     </div>
-                    <div id="author-info-{{ $translator['slug'] }}"
-                        class="flex flex-col items-center space-y-2 w-64">
-                        <div class="book-title w-fit h-12 flex justify-center items-center text-center">
-                            {{ $translator['first_name'] }} {{ $translator['last_name'] }}</div>
+                    <div class="headline">
+                        <div class="">
+                            <p class="uppercase">{{$post['title']}}</p>
+                        </div>
+                        <div class="date-info h-auto">
+                            <div class="w-fit">
+                                <p class="p12">{{$post['date']}}</p>
+                            </div>
+                            <div>
+                                <p class="p12">{{$post['location']}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p class="p14">{{$post['description']}}</p>
+                    </div>
+                    <div class="w-fit">
+                        <a href="{{route('post-detail.ca', $post['id'])}}">
+                            <p class="p14 underline">Saber-ne més</p>
+                        </a>
                     </div>
                 </div>
             @endforeach
         </div>
     @endif
     @if ($results['articles'] != [])
-        <h2>Publicacions</h2>
-    @endif
-    @if ($results['activities'] != [])
-        <h2>Events</h2>
+        <h2 class="text-center mb-8">Publicacions</h2>
+        <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16 mb-40" id="catalog">
+            @foreach ($results['articles'] as $i => $post)
+                <div class="post space-y-2">
+                    <div class="">
+                        <h5 class="font-bold">{{$post['title']}}</h5>
+                    </div>
+                    <div class="cover space-y-4">
+                        <a href="{{ route("post-detail.{$locale}", $post['id']) }}">
+                            <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
+                                alt="{{ $post['title'] }}">
+                        </a>
+                    </div>
+                    <div class="headline">
+                        <div class="">
+                            <p class="uppercase">{{$post['title']}}</p>
+                        </div>
+                        <div class="date-info h-auto">
+                            <div class="w-fit">
+                                <p class="p12">{{$post['date']}}</p>
+                            </div>
+                            <div>
+                                <p class="p12">{{$post['location']}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p class="p14">{{$post['description']}}</p>
+                    </div>
+                    <div class="w-fit">
+                        <a href="{{route('post-detail.ca', $post['id'])}}">
+                            <p class="p14 underline">Saber-ne més</p>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     @endif
 </x-layouts.app>
