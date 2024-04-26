@@ -5,6 +5,7 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
+        
         <div class="form-group mb-2 mb20">
             <label for="date" class="form-label">{{ __('Data') }}</label>
             <input type="date" name="date" class="form-control @error('date') is-invalid @enderror"
