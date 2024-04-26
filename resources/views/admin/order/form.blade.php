@@ -170,6 +170,7 @@ echo '</select>';
             @endforeach
         @endif
     <a id="add_product" class="add-content-button">Afegir llibre</a>
+    {!! $errors->first('products', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
 </div>
 
     {{-- <div id="products" class="flex flex-wrap">
@@ -189,7 +190,7 @@ echo '</select>';
         @endforeach
     </div> --}}
 
-    <div class="form-group">
+    <div class="form-group" hidden>
         <div class="flex items-center mb-4">
             <label for="total" style="width: 100%" class="mr-2">{{ __('Preu total') }}</label>
             <input type="text" name="total" class="form-control @error('total') is-invalid @enderror"
