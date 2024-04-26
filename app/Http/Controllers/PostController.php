@@ -17,6 +17,7 @@ use PHPUnit\Metadata\Uses;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
+use Illuminate\Http\Request;
 
 /**
  * Class PostController
@@ -33,15 +34,15 @@ class PostController extends Controller
         $posts = Post::paginate();
         $postsArray = [];
         foreach ($posts as $post) {
-            if($post->author){
+            if ($post->author) {
                 $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
-            }else{
+            } else {
                 $authorID = '';
             }
 
-            if($post->translator){
+            if ($post->translator) {
                 $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
-            }else{
+            } else {
                 $translator = '';
             }
 
@@ -50,7 +51,7 @@ class PostController extends Controller
                 'title' => $post->title,
                 'description' => $post->description,
                 'author_id' => $authorID,
-                'translator_id' =>$translator,
+                'translator_id' => $translator,
                 'content' => $post->content,
                 'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
                 'location' => $post->location,
@@ -193,7 +194,7 @@ class PostController extends Controller
         $users = User::all();
         $translators = CollaboratorTranslation::where('lang', $this->lang)->paginate();
 
-        return view('admin.post.edit', compact('post', 'translators','authors','users'));
+        return view('admin.post.edit', compact('post', 'translators', 'authors', 'users'));
     }
 
     /**
@@ -288,7 +289,6 @@ class PostController extends Controller
             $post = $this->getFullActivity($post_lv, $locale);
 
             return view('public.activity', compact('post', 'page', 'locale'));
-
         } else {
             $post = $this->getFullPost($post_lv, $locale);
 
@@ -306,7 +306,7 @@ class PostController extends Controller
 
         $authorName = !is_null($author) ? $author->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $author->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
         $authorId = !is_null($author) ? $author->id : "";
-        $authorImage = !is_null($author) ? $author->collaborator->image: "";
+        $authorImage = !is_null($author) ? $author->collaborator->image : "";
 
         $translatorName = !is_null($translator) ? $translator->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $translator->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
         $translatorId = !is_null($translator) ? $translator->id : "";
@@ -400,7 +400,8 @@ class PostController extends Controller
         return $activityResult;
     }
 
-    public function getPreviewGenericPost($post, $locale){
+    public function getPreviewGenericPost($post, $locale)
+    {
         $postType = (is_null($post->date) && is_null($post->location)) ? "ARTICLES" : "ACTIVITATS";
         $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : ($post->date);
         // @dump($post->date);
@@ -425,7 +426,8 @@ class PostController extends Controller
     }
 
 
-    public function getLatestPosts($locale){
+    public function getLatestPosts($locale)
+    {
 
         $posts_lv = Post::orderBy('publication_date', 'desc')
             ->take(3)->get();
@@ -440,5 +442,33 @@ class PostController extends Controller
         // @dump($posts);
 
         return $posts;
+    }
+
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+
+            // Validate file size
+            $maxFileSize = config('app.max_file_size', 2048); // 2MB
+            if ($file->getSize() > $maxFileSize * 1024) {
+                return response()->json(['error' => 'File size exceeds the limit.'], 400);
+            }
+
+            // Validate file type
+            $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+            if (!in_array($file->getClientOriginalExtension(), $allowedExtensions)) {
+                return response()->json(['error' => 'File type not allowed.'], 400);
+            }
+
+            $originName = $file->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME) . '_' . time() . '.webp';
+            $file->move(base_path('public/img/posts'), $fileName);
+
+            $url = asset('img/posts/' . $fileName);
+            return response()->json(['filename' => $fileName, 'uploaded' => 1, 'url' => $url]);
+        }
+
+        return response()->json(['error' => 'No file uploaded.'], 400);
     }
 }

@@ -10,10 +10,23 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("publication_date").value = today;
 
     //CKEditor
-    ClassicEditor.create(document.querySelector("#content"))//select by id
-    .catch((error) => {
-        console.error(error);
-    });
+    ClassicEditor
+    .create( document.querySelector( '#content' ), {
+        ckfinder: {
+            uploadUrl: '/ckeditor/upload', // Replace this with your actual upload URL
+        },
+        simpleUpload: {
+            uploadUrl: '/ckeditor/upload', // Replace this with your actual upload URL
+            headers: {
+                'X-CSRF-TOKEN': '@csrf', // If you are using Laravel, you can use this line to include the CSRF token
+            },
+            allowedFileTypes: ['image/png'], // Only allow PNG files
+            maxFileSize: 1000000, // Set the maximum file size to 1MB
+        },
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
 
     // DecoupledEditor
     //     .create( document.querySelector( '.editor' ) )
