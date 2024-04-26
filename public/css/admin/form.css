@@ -45,7 +45,7 @@ label {
     height: 100%;
     position: absolute;
   }
-fieldset > legend {
+legend {
     /* margin-left: 1.25em;
     padding: 0 0.625em; */
     font-size: 1.25em;

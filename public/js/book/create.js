@@ -124,8 +124,18 @@ function enableInput(button) {
     input.disabled = false;
     // input.setAttribute('readonly', false);
     input.readOnly = false;
-    input.classList.remove('disabled', 'hidden');
-    input.classList.add('enabled');
+    input.classList.remove('is-disabled', 'border-0', 'hidden');
+    // input.classList.add('enabled');
+}
+
+function enableTextarea(button) {
+    var parentDiv = button.parentElement.parentElement;
+    var input = parentDiv.querySelector('textarea');
+    input.disabled = false;
+    // input.setAttribute('readonly', false);
+    input.readOnly = false;
+    input.classList.remove('is-disabled', 'border-0', 'hidden');
+    // input.classList.add('enabled');
 }
 
 function removeParentDiv(button) {

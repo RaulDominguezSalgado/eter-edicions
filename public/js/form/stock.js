@@ -49,3 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+function removeParentDiv(button) {
+    button.parentNode.remove();
+}

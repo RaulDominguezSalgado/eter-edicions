@@ -45,6 +45,7 @@ foreach (config('languages') as $locale) {
 
         // Activities
         Route::get(__('paths.activities', [], $locale), [App\Http\Controllers\PostController::class, 'activities'])->name("activities.{$locale}");
+        Route::get(__('paths.activities', [], $locale)  . '/{id}', [App\Http\Controllers\PostController::class, 'postDetail'])->name("activity-detail.{$locale}");
 
         // Posts
         Route::get(__('paths.posts', [], $locale), [App\Http\Controllers\PostController::class, 'posts'])->name("posts.{$locale}");

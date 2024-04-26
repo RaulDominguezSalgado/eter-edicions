@@ -345,7 +345,7 @@ class BookController extends Controller
             // $locale = config('app')['locale'];
             $locale = 'ca';
             $page = [
-                'title' => 'Portada',
+                'title' => 'Catàleg',
                 'shortDescription' => '',
                 'longDescription' => '',
                 'web' => 'Èter Edicions'
@@ -728,6 +728,7 @@ class BookController extends Controller
 
     public function updateStock(Request $request, $bookId)
     {
+        // dump($request);
         try {
             //Update stock in warehouse --> stock field in book row
             $book = Book::findOrFail($bookId);
@@ -735,18 +736,25 @@ class BookController extends Controller
             $book->save();
 
             $bookstores = $request->input('bookstores');
+            // dump($bookstores);
+            $book->bookstores()->detach();
             foreach($bookstores as $bookstore){
-                $bookstore_lv = Bookstore::find($bookstore['bookstore_id']);
+                // dump($bookstore);
+                if(intval($bookstore['stock']) > 0){
+                    $bookstore_lv = Bookstore::find($bookstore['bookstore_id']);
                 $bookstore_lv->books()->sync([$book->id=>['stock' => $bookstore['stock']]]);
+                }
             }
 
             return redirect()->route('stock.edit', $book->id)
                 ->with('success', 'Stock actualitzat correctament');
         }
         catch(QueryException $e){
+            // dump($e->getMessage());
             return back()->withError("Error a la base de dades en la creació del llibre.\n" . substr($e->getMessage(), 0, strpos($e->getMessage(), "(")))->withInput();
         }
         catch (Exception $e) {
+            // dump($e->getMessage());
             return back()->withError($e->getMessage())->withInput();
         }
     }
@@ -821,48 +829,6 @@ class BookController extends Controller
         // }
     }
 
-    /**
-     * Method used to genrerate the images needed for Books Post Type
-     */
-    public function editImage($rutaImagen)
-    {
-        // try {
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($rutaImagen);
-        // Crop a 1.4 / 1 aspect ratio
-        if ($image->width() > $image->height()) {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($image->width(), $heightStd);
-            }
-        } else {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($heightStd, $image->height());
-            }
-        }
-
-        // Resize the image to 560x400
-        $image->resize(560, 400);
-
-        // If size > 560x400, resize to 720x1080
-        if ($image->width() > 560 || $image->height() > 400) {
-            $image->resize(560, 400);
-        }
-
-        // Encode the image to webp format with 80% quality
-        $image->encode(new WebpEncoder(), 80);
-
-        // Save the processed image
-        $image->save($rutaImagen);
-        // }
-        // catch (Exception $e) {
-        //     abort(500, 'Server Error');
-        // }
-    }
-
     /*
         Metodo para uso de store y update
         (genera los cambios no ofrecidos por los
@@ -899,6 +865,9 @@ class BookController extends Controller
                     }
                 }
                 $book->translators()->sync($translators);
+            }
+            else{
+                $book->translators()->detach();
             }
 
 
@@ -963,5 +932,45 @@ class BookController extends Controller
             // dump($e->getMessage());
             return back()->withError($e->getMessage())->withInput();
         }
+    }
+
+
+    /**
+     * Method used to generate the images needed for Books Post Type
+     */
+    public function editImage($rutaImagen)
+    {
+        // try {
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($rutaImagen);
+        // Crop a 1.4 / 1 aspect ratio
+        if ($image->width() > $image->height()) {
+            $heightStd = $image->width() / 1.4;
+            $cropNum = $image->height() - $heightStd;
+            if ($cropNum > 0) {
+                $image->crop($image->width(), $heightStd);
+            }
+        } else {
+            $heightStd = $image->width() / 1.4;
+            $cropNum = $image->height() - $heightStd;
+            if ($cropNum > 0) {
+                $image->crop($heightStd, $image->height());
+            }
+        }
+
+        // If size > 720x1080, resize to 720x1080
+        if ($image->width() > 720 || $image->height() > 1080) {
+            $image->resize(720, 1080);
+        }
+
+        // Encode the image to webp format with 80% quality
+        $image->encode(new WebpEncoder(), 80);
+
+        // Save the processed image
+        $image->save($rutaImagen);
+        // }
+        // catch (Exception $e) {
+        //     abort(500, 'Server Error');
+        // }
     }
 }

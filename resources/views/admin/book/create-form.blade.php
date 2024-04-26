@@ -77,12 +77,13 @@ function getLanguagesOptions($languages, $selected = null)
             <label for="title">Títol llibre</label>
             <input type="text" name="title" id="title">
         </div>
-        <div class="flex space-x-5">
-            <div class="w-1/2 space-y-2">
+        <div class="md:flex space-y-5 md:space-y-0 space-x-0 md:space-x-5">
+            <div class="md:w-1/2 space-y-2">
                 <div class="flex justify-between">
                     <label for="authors">Autoria</label>
                     <div class="flex">
-                        <button class="remove-content-button" type="button" onclick="removeLastElement(this.parentNode.parentNode)">
+                        <button class="remove-content-button" type="button"
+                            onclick="removeLastElement(this.parentNode.parentNode)">
                             <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                         </button>
                         <div class="flex space-x-0.5">
@@ -94,15 +95,16 @@ function getLanguagesOptions($languages, $selected = null)
                 </div>
                 <div>
                     <select class="w-full" name="authors[]" id="authors_0">
-                        {!! getCollaboratorsOptions($collaborators); !!}
+                        {!! getCollaboratorsOptions($collaborators) !!}
                     </select>
                 </div>
             </div>
-            <div class="w-1/2 space-y-2">
+            <div class="md:w-1/2 space-y-2">
                 <div class="flex justify-between">
                     <label for="translators">Traducció</label>
                     <div class="flex">
-                        <button class="remove-content-button" type="button" onclick="removeLastElement(this.parentNode.parentNode)">
+                        <button class="remove-content-button" type="button"
+                            onclick="removeLastElement(this.parentNode.parentNode)">
                             <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar idioma">
                         </button>
                         <div class="flex space-x-0.5">
@@ -114,7 +116,7 @@ function getLanguagesOptions($languages, $selected = null)
                 </div>
                 <div>
                     <select class="w-full" name="translators[]" id="authors_0">
-                        {!! getCollaboratorsOptions($collaborators); !!}
+                        {!! getCollaboratorsOptions($collaborators) !!}
                     </select>
                 </div>
             </div>
@@ -122,8 +124,7 @@ function getLanguagesOptions($languages, $selected = null)
         <div>
             <label class="" for="headline">Capçalera:</label>
             <div class="grow-wrap ">
-                <textarea name="headline" id="headline" class=""
-                    onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                <textarea name="headline" id="headline" class="" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
             </div>
         </div>
         <div>
@@ -133,7 +134,7 @@ function getLanguagesOptions($languages, $selected = null)
                     onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
             </div>
         </div>
-        <div class="flex justify-between">
+        <div class="space-y-5 md:space-y-0 md:flex md:justify-between">
             <div>
                 <label for="image_file">Portada</label>
                 <input type="file" name="image_file" id="image_file" accept="image/*">
@@ -148,18 +149,17 @@ function getLanguagesOptions($languages, $selected = null)
     </fieldset>
     <fieldset class="space-y-5">
         <legend>Dades de l'edició</legend>
-        <div class="flex space-x-5 min-h-max">
+        <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 min-h-max">
             <div class="w-full">
                 <label for="isbn">ISBN</label>
                 <input type="text" name="isbn" id="isbn" class="max-h-min"></input>
             </div>
             <div class="w-full">
                 <label for="publisher">Edita</label>
-                <input type="text" name="publisher" id="publisher" class="max-h-min"
-                    value="Èter Edicions"></input>
+                <input type="text" name="publisher" id="publisher" class="max-h-min" value="Èter Edicions"></input>
             </div>
         </div>
-        <div class="flex space-x-5">
+        <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 min-h-max">
             <div class="w-full">
                 <label class="min-w-fit" for="publication_date">Data de publicació:</label>
                 <input id="publication_date" class="" type="date" name="publication_date"></input>
@@ -168,7 +168,8 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex justify-between">
                     <label for="languages">Idioma</label>
                     <div class="flex space-x-1">
-                        <button class="remove-content-button" type="button" onclick="removeLastElement(this.parentNode.parentNode)">
+                        <button class="remove-content-button" type="button"
+                            onclick="removeLastElement(this.parentNode.parentNode)">
                             <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar idioma">
                         </button>
                         <div class="flex space-x-0.5">
@@ -179,13 +180,13 @@ function getLanguagesOptions($languages, $selected = null)
                     </div>
                 </div>
                 <select name="lang[]" id="languages" class="w-full">
-                    {!! getLanguagesOptions($languages); !!}
+                    {!! getLanguagesOptions($languages) !!}
                 </select>
             </div>
         </div>
-        <div class="flex space-x-5">
+        <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 min-h-max">
             <div class="w-full">
-                <label for="number_of_pages">Número de pagines</label>
+                <label for="number_of_pages">Número de pàgines</label>
                 <input class="max-h-fit" type="number" name="number_of_pages" id="number_of_pages" value="1">
             </div>
             <div class="w-full">
@@ -203,8 +204,8 @@ function getLanguagesOptions($languages, $selected = null)
 
     <fieldset class="space-y-5">
         <legend>Dades extra del llibre</legend>
-        <div class="flex justify-between space-x-5 bookExtra">
-            <div class="w-1/3">
+        <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 bookExtra">
+            <div class="w-full md:w-1/3">
                 <label class="min-w-fit" for="extras_0_key">Camp</label>
                 <input class="" id="extras_0_key" type="text" name="extras[0][key]">
             </div>
@@ -232,7 +233,7 @@ function getLanguagesOptions($languages, $selected = null)
             <label for="original_title">Títol original</label>
             <input type="text" name="original_title" id="original_title">
         </div>
-        <div class="flex justify-between space-x-3">
+        <div class="md:flex space-y-5 md:space-y-0 md:space-x-3">
             <div class="w-full">
                 <label for="original_publisher">Editorial original</label>
                 <input type="text" name="original_publisher" id="original_publisher">
@@ -250,7 +251,8 @@ function getLanguagesOptions($languages, $selected = null)
         <div class="flex justify-between">
             <label class="min-w-fit" for="collections[]">Col·leccions</label>
             <div class="flex">
-                <button class="remove-content-button" type="button" onclick="removeLastElement(this.parentNode.parentNode)">
+                <button class="remove-content-button" type="button"
+                    onclick="removeLastElement(this.parentNode.parentNode)">
                     <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar col·lecció">
                 </button>
                 <button id="add_collection" type="button" class="add-content-button">
@@ -261,7 +263,7 @@ function getLanguagesOptions($languages, $selected = null)
         <div>
             <div class="flex justify-between space-x-3">
                 <select name="collections[]" id="collections_0" class="w-full">
-                    {!! getCollectionsOptions($collections); !!}
+                    {!! getCollectionsOptions($collections) !!}
                 </select>
             </div>
         </div>
@@ -269,7 +271,7 @@ function getLanguagesOptions($languages, $selected = null)
 
     <fieldset class="space-y-5">
         <legend>Preus</legend>
-        <div class="flex justify-between space-x-3">
+        <div class="md:flex space-y-5 md:space-y-0 md:space-x-3">
             <div class="w-full">
                 <label for="pvp">PVP</label>
                 <input type="number" step="0.01" name="pvp" id="pvp" placeholder="15.00">
@@ -313,11 +315,11 @@ function getLanguagesOptions($languages, $selected = null)
     <fieldset class="space-y-5">
         <legend>Opcions avançades: metadades</legend>
         <div class="space-y-0">
-            <label class="" for="slug">Enllaç</label>
+            <label class="pe-9" for="slug">Enllaç</label>
             <div class="flex justify-between items-center space-x-5">
                 <div class="w-full flex items-center space-x-1">
                     <p class="min-w-fit">eteredicions.com /</p>
-                    <input class="min-w-80 m-0 px-0" type="text" name="slug" id="slug"
+                    <input class="md:min-w-80 m-0 ps-1 pe-0 is-disabled border-0" type="text" name="slug" id="slug"
                         placeholder="titol-del-llibre" readonly disabled>
                 </div>
                 <div class="flex ">
@@ -326,23 +328,50 @@ function getLanguagesOptions($languages, $selected = null)
                     </button>
                 </div>
             </div>
-            <small>Aquest paràmetre es genera automàticament a partir del títol del llibre. Es pot personalitzar fent
+            <div class="w-full pe-9">
+                <small>Aquest paràmetre es genera automàticament a partir del títol del llibre. Es pot personalitzar fent
                 click a l'icona d'editar.</small>
+            </div>
         </div>
         <div>
-            <label for="meta_title">Títol de la pàgina (aparença en buscadors i navegador)</label>
-            <input type="text" name="meta_title" id="meta_title">
-            <small>Aquest paràmetre es genera automàticament a partir del títol del llibre. Es pot personalitzar fent
-                click a l'icona d'editar.</small>
+            <label for="meta_title" class="flex flex-col md:flex-row md:space-x-1 pe-9">
+                <p>Títol de la pàgina</p> <p>(aparença en buscadors i navegador)</p>
+            </label>
+            <div class="flex justify-between items-center space-x-5">
+                <input type="text" name="meta_title" id="meta_title" class="is-disabled border-0" readonly disabled>
+                <div class="flex ">
+                    <button class="edit-button" type="button" onclick="enableInput(this)">
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
+                </div>
+            </div>
+            <div class="w-full pe-9">
+                <small>Aquest paràmetre es genera automàticament a partir del títol del llibre. Es pot personalitzar
+                    fent
+                    click a l'icona d'editar.</small>
+            </div>
         </div>
-        <div>
-            <label for="meta_description">Descripció de la pàgina (aparença en buscadors i navegador)</label>
-            <textarea name="meta_description" id="meta_description"></textarea>
-            <small>Aquest paràmetre es genera automàticament a partir del primer paràgraf de la descripció del llibre.
-                Es pot personalitzar fent
-                click a l'icona d'editar. És recomanable fer-ho i escriure un petit text de no més de 150 caràcters que
-                descrigui bé el contingut del llibre i/o l'autor per tal d'aparèixer als primers resultats dels
-                cercadors en les cerques relacionades.</small>
+        <div class="w-full">
+            <label for="meta_description" class="flex flex-col md:flex-row md:space-x-1 pe-9">
+                <p>Descripció de la pàgina</p> <p>(aparença en buscadors i navegador)</p>
+            </label>
+            <div class="flex justify-between items-center space-x-5">
+                <textarea name="meta_description" id="meta_description" class="is-disabled border-0" readonly disabled></textarea>
+                <div class="flex ">
+                    <button class="edit-button" type="button" onclick="enableTextarea(this)">
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
+                </div>
+            </div>
+            <div class="w-full pe-9">
+                <small class="">Aquest paràmetre es genera automàticament a partir del primer paràgraf de la
+                    descripció del llibre.
+                    Es pot personalitzar fent
+                    click a l'icona d'editar. És recomanable fer-ho i escriure un petit text de no més de 150 caràcters
+                    que
+                    descrigui bé el contingut del llibre i/o l'autor per tal d'aparèixer als primers resultats dels
+                    cercadors en les cerques relacionades.</small>
+            </div>
         </div>
     </fieldset>
 </div>

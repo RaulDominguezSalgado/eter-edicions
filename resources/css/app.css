@@ -10,4 +10,8 @@
     .is-invalid {
         @apply border border-systemerror
     }
+
+    .is-disabled {
+        @apply bg-verylightgrey
+    }
 }
