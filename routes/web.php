@@ -140,7 +140,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
     Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
     // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
-
+    Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');

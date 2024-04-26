@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('date')->nullable();
             $table->string('location')->nullable();
             $table->string('image');
-            $table->text('content');
+            $table->longText('content');
             $table->unsignedBigInteger('published_by')->nullable();
             $table->date('publication_date');
             $table->string('slug');
