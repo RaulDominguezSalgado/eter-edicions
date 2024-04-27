@@ -22,10 +22,10 @@ class StockRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'id' => 'required',
+			// 'id' => 'required',
 			'stock' => 'required',
-			'bookstores' => '',
-            // ''
+			'bookstores' => 'array',
+            'bookstores.*' => 'array:book_id,stock'
         ];
     }
 }

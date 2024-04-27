@@ -8,19 +8,19 @@ body>main {
     display: inline-block;
 }
 
-body>nav {
+/* body>nav {
     float: left;
     width: 10%;
     overflow-y: auto;
     overflow-x: visible;
     height: 100vh;
-}
+} */
 
 body>main {
     float: right;
-    width: 90%;
+    /* width: 90%; */
     overflow: auto;
-    padding: 40px;
+    /* padding: 2.5em 2.5em; */
 }
 
 body>main::after {
@@ -30,7 +30,7 @@ body>main::after {
 
 @media only screen and (max-width: 640px) {
     * {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
@@ -42,7 +42,7 @@ body>main::after {
 
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
     * {
-        font-size: 15px;
+        font-size: 16px;
     }
 }
 

@@ -20,11 +20,14 @@ class OrderDetailFactory extends Factory
     {
         $ordersIds = Order::pluck('id')->toArray();
         $booksIds = Book::pluck('id')->toArray();
+        $randomBookId= $this->faker->randomElement($booksIds);
+        $book=  Book::find($randomBookId);
+        $pvp =$book->discounted_price??$book->pvp;
         return [
             'order_id' => $this->faker->randomElement($ordersIds),
-            'product_id' =>  $this->faker->randomElement($booksIds),
+            'product_id' =>  $randomBookId,
             'quantity' => $this->faker->numberBetween(1, 10),
-            'price_each' => $this->faker->randomFloat(2, 5, 100),
+            'price_each' => $pvp,
         ];
     }
 }

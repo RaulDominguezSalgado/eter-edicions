@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('book_id');
             $table->unsignedBigInteger('translator_id');
 
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('restrict');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
             $table->foreign('translator_id')->references('id')->on('translators')->onDelete('restrict')->onUpdate('cascade');
 
             $table->primary(['translator_id', 'book_id']);

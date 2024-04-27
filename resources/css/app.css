@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .send-button {
+        @apply py-4 px-12 border border-dark rounded text-light bg-primary hover:bg-secondary
+    }
+
+    .is-invalid {
+        @apply border border-systemerror
+    }
+
+    .is-disabled {
+        @apply bg-verylightgrey
+    }
+}

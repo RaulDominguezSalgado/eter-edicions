@@ -20,9 +20,9 @@
                 </div> --}}
             </div>
 
-            <div class="grid grid-cols-6 h-auto" id="bookstores">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 h-auto" id="bookstores">
                 @foreach ($bookstores as $bookstore)
-                    <div class="bookstore w-40">
+                    <div class="bookstore w-40 px-1 mb-4">
                         <div class="p16 font-bold">
                             <a href="{{$bookstore['website']}}" target="_blank">
                                 {{$bookstore['name']}}
