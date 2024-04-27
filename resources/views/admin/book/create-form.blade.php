@@ -44,11 +44,11 @@ function getLanguagesOptions($languages, $selected = null)
 @if ($errors->any())
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
         <strong class="font-bold">No s'han pogut actualitzar les dades del llibre.</strong>
-        <ul>
+        {{-- <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
-        </ul>
+        </ul> --}}
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
             <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
@@ -63,6 +63,7 @@ function getLanguagesOptions($languages, $selected = null)
     <select id="getCollaboratorsOptions" class="hidden space-x-2">
         {!! getCollaboratorsOptions($collaborators) !!}
     </select>
+    {{-- @dump($collections) --}}
     <select id="getCollectionsOptions" class="hidden space-x-2">
         {!! getCollectionsOptions($collections) !!}
     </select>
@@ -75,7 +76,11 @@ function getLanguagesOptions($languages, $selected = null)
         <legend>Dades del llibre</legend>
         <div>
             <label for="title">Títol llibre</label>
-            <input type="text" name="title" id="title">
+            <input type="text" name="title" id="title"
+                class="@error('title') border border-systemerror  @enderror">
+            @error('title')
+                <small class="text-systemerror">{{ $message }}</small>
+            @enderror
         </div>
         <div class="md:flex space-y-5 md:space-y-0 space-x-0 md:space-x-5">
             <div class="md:w-1/2 space-y-2">
@@ -94,10 +99,13 @@ function getLanguagesOptions($languages, $selected = null)
                     </div>
                 </div>
                 <div>
-                    <select class="w-full" name="authors[]" id="authors_0">
+                    <select class="w-full @error('authors') is-invalid  @enderror" name="authors[]" id="authors_0">
                         {!! getCollaboratorsOptions($collaborators) !!}
                     </select>
                 </div>
+                @error('authors')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
             <div class="md:w-1/2 space-y-2">
                 <div class="flex justify-between">
@@ -115,29 +123,41 @@ function getLanguagesOptions($languages, $selected = null)
                     </div>
                 </div>
                 <div>
-                    <select class="w-full" name="translators[]" id="authors_0">
+                    <select class="w-full @error('translators') is-invalid  @enderror" name="translators[]"
+                        id="authors_0">
                         {!! getCollaboratorsOptions($collaborators) !!}
                     </select>
                 </div>
+                @error('translators')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
         </div>
         <div>
             <label class="" for="headline">Capçalera:</label>
             <div class="grow-wrap ">
-                <textarea name="headline" id="headline" class="" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                <textarea name="headline" id="headline" class="@error('headline') is-invalid  @enderror"
+                    onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
             </div>
+            @error('headline')
+                <small class="text-systemerror">{{ $message }}</small>
+            @enderror
         </div>
         <div>
             <label for="description">Descripció / sinopsi</label>
             <div class="grow-wrap ">
-                <textarea name="description" id="description" rows="8"
+                <textarea name="description" id="description" class="@error('description') is-invalid  @enderror" rows="8"
                     onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
             </div>
         </div>
         <div class="space-y-5 md:space-y-0 md:flex md:justify-between">
             <div>
                 <label for="image_file">Portada</label>
-                <input type="file" name="image_file" id="image_file" accept="image/*">
+                <input type="file" name="image_file" id="image_file"
+                    class="@error('image_file') is-invalid @enderror" accept="image/*">
+                @error('image_file')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
 
             <div>
@@ -152,58 +172,96 @@ function getLanguagesOptions($languages, $selected = null)
         <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 min-h-max">
             <div class="w-full">
                 <label for="isbn">ISBN</label>
-                <input type="text" name="isbn" id="isbn" class="max-h-min"></input>
+                <input type="text" name="isbn" id="isbn"
+                    class="max-h-min @error('isbn') is-invalid  @enderror"></input>
+                @error('isbn')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
             <div class="w-full">
                 <label for="publisher">Edita</label>
-                <input type="text" name="publisher" id="publisher" class="max-h-min" value="Èter Edicions"></input>
+                <input type="text" name="publisher" id="publisher"
+                    class="max-h-min @error('publisher') is-invalid  @enderror" value="Èter Edicions"></input>
+                @error('publisher')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="w-full space-y-2">
+            <div class="flex justify-between">
+                <label for="languages">Idioma</label>
+                <div class="flex space-x-1">
+                    <button class="remove-content-button" type="button"
+                        onclick="removeLastElement(this.parentNode.parentNode)">
+                        <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar idioma">
+                    </button>
+                    <div class="flex space-x-0.5">
+                        <button id="add_language" type="button" class="add-content-button">
+                            <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir idioma">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <select name="lang[]" id="languages" class="w-full @error('lang') is-invalid  @enderror">
+                {!! getLanguagesOptions($languages) !!}
+            </select>
+            @error('lang')
+                <small class="text-systemerror">{{ $message }}</small>
+            @enderror
+        </div>
+        <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 min-h-max">
+            <div class="w-full">
+                <label for="number_of_pages">Número de pàgines</label>
+                <input class="max-h-fit @error('number_of_pages') is-invalid @enderror" type="number"
+                    name="number_of_pages" id="number_of_pages" value="1">
+                @error('number_of_pages')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="w-full">
+                <label for="dimensions">Dimensions</label>
+                <input class="max-h-fit @error('size') is-invalid @enderror" type="text" name="dimensions"
+                    id="dimensions">
+                @error('size')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
         </div>
         <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 min-h-max">
             <div class="w-full">
                 <label class="min-w-fit" for="publication_date">Data de publicació:</label>
-                <input id="publication_date" class="" type="date" name="publication_date"></input>
-            </div>
-            <div class="w-full space-y-2">
-                <div class="flex justify-between">
-                    <label for="languages">Idioma</label>
-                    <div class="flex space-x-1">
-                        <button class="remove-content-button" type="button"
-                            onclick="removeLastElement(this.parentNode.parentNode)">
-                            <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar idioma">
-                        </button>
-                        <div class="flex space-x-0.5">
-                            <button id="add_language" type="button" class="add-content-button">
-                                <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir idioma">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <select name="lang[]" id="languages" class="w-full">
-                    {!! getLanguagesOptions($languages) !!}
-                </select>
-            </div>
-        </div>
-        <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 min-h-max">
-            <div class="w-full">
-                <label for="number_of_pages">Número de pàgines</label>
-                <input class="max-h-fit" type="number" name="number_of_pages" id="number_of_pages" value="1">
+                <input id="publication_date" class="@error('publication_date') is-invalid @enderror" type="date"
+                    name="publication_date"></input>
+                @error('publication_date')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
             <div class="w-full">
                 <label for="enviromental_footprint">Petjada ambiental</label>
-                <input class="max-h-fit" type="text" name="enviromental_footprint" id="enviromental_footprint">
+                <input class="max-h-fit @error('enviromental_footprint') is-invalid @enderror" type="text"
+                    name="enviromental_footprint" id="enviromental_footprint">
+                @error('enviromental_footprint')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
         </div>
         <div class="flex space-x-5">
             <div class="w-full">
                 <label for="legal_diposit">Dipòsit Legal</label>
-                <input type="text" name="legal_diposit" id="legal_diposit">
+                <input type="text" name="legal_diposit" id="legal_diposit"
+                    class="@error('legal_diposit') is-invalid @enderror">
+                @error('legal_diposit')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </fieldset>
 
     <fieldset class="space-y-5">
         <legend>Dades extra del llibre</legend>
+        @error('extras')
+            <small class="text-systemerror">{{ $message }}</small>
+        @enderror
         <div class="md:flex space-y-5 md:space-y-0 md:space-x-5 bookExtra">
             <div class="w-full md:w-1/3">
                 <label class="min-w-fit" for="extras_0_key">Camp</label>
@@ -225,23 +283,38 @@ function getLanguagesOptions($languages, $selected = null)
                 </button>
             </div>
         </div>
+        @error('extras.*')
+            <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+        @enderror
     </fieldset>
 
     <fieldset class="space-y-5">
         <legend>Dades de l'edició original</legend>
         <div>
             <label for="original_title">Títol original</label>
-            <input type="text" name="original_title" id="original_title">
+            <input type="text" name="original_title" id="original_title"
+                class="@error('original_title') is-invalid @enderror">
+            @error('original_title')
+                <small class="text-systemerror">{{ $message }}</small>
+            @enderror
         </div>
         <div class="md:flex space-y-5 md:space-y-0 md:space-x-3">
             <div class="w-full">
                 <label for="original_publisher">Editorial original</label>
-                <input type="text" name="original_publisher" id="original_publisher">
+                <input type="text" name="original_publisher" id="original_publisher"
+                    class="@error('original_publisher') is-invalid @enderror">
+                @error('original_publisher')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="w-full">
                 <label for="original_publication_date">Data de publicació original</label>
-                <input type="date" name="original_publication_date" id="original_publication_date">
+                <input type="date" name="original_publication_date" id="original_publication_date"
+                    class="@error('original_publication_date') is-invalid @enderror">
+                @error('original_publication_date')
+                    <small class="text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </fieldset>
@@ -262,11 +335,15 @@ function getLanguagesOptions($languages, $selected = null)
         </div>
         <div>
             <div class="flex justify-between space-x-3">
-                <select name="collections[]" id="collections_0" class="w-full">
+                <select name="collections[]" id="collections_0"
+                    class="w-full @error('collections') is-invalid @enderror">
                     {!! getCollectionsOptions($collections) !!}
                 </select>
             </div>
         </div>
+        @error('collections')
+            <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+        @enderror
     </fieldset>
 
     <fieldset class="space-y-5">
@@ -274,17 +351,29 @@ function getLanguagesOptions($languages, $selected = null)
         <div class="md:flex space-y-5 md:space-y-0 md:space-x-3">
             <div class="w-full">
                 <label for="pvp">PVP</label>
-                <input type="number" step="0.01" name="pvp" id="pvp" placeholder="15.00">
-                <small class="text-xs">Els números han d'utilitzar un punt (.) com a marcador de decimals.</small>
+                <input type="number" step="0.01" name="pvp" id="pvp"
+                    class="@error('pvp') is-invalid @enderror" placeholder="15.00">
+                @error('pvp')
+                    <p><small class="text-systemerror">{{ $message }}</small></p>
+                @enderror
+                <p><small class="text-xs">Els números han d'utilitzar un punt (.) com a marcador de decimals.</small></p>
             </div>
             <div class="w-full">
                 <label for="iva">IVA (%)</label>
-                <input type="number" name="iva" id="iva" value="4">
+                <input type="number" name="iva" id="iva"
+                    class="@error('iva') is-invalid @enderror" value="4">
+                @error('iva')
+                    <small class=" text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
             <div class="w-full">
                 <label for="discounted_price">Preu amb descompte</label>
-                <input type="number" step="0.01" name="discounted_price" id="discounted_price" value="0">
-                <small class="text-xs">Preu final amb descompte. 0 = no s'aplica descompte</small>
+                <input type="number" step="0.01" name="discounted_price" id="discounted_price"
+                    class="@error('discounted_price') is-invalid @enderror" value="0">
+                @error('discounted_price')
+                    <p><small class=" text-systemerror">{{ $message }}</small></p>
+                @enderror
+                <p><small class="text-xs">Preu final amb descompte. 0 = no s'aplica descompte</small></p>
             </div>
         </div>
     </fieldset>
@@ -292,7 +381,10 @@ function getLanguagesOptions($languages, $selected = null)
         <legend>Stock</legend>
         <div class="w-full">
             <label for="stock">Stock en magatzem</label>
-            <input type="number" name="stock" id="stock">
+            <input type="number" name="stock" id="stock" class="@error('stock') is-invalid @enderror">
+            @error('stock')
+                <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+            @enderror
         </div>
     </fieldset>
 
@@ -301,15 +393,18 @@ function getLanguagesOptions($languages, $selected = null)
         <div class="mx-2.5 flex space-x-4">
             <div class="flex items-center space-x-2">
                 <input type="radio" id="visible_true" name="visible"
-                    @if (isset($book) && $book['visible']) checked @endif; value="true"><label class="font-normal"
+                    @if (isset($book) && $book['visible']) checked @endif; value="1"><label class="font-normal"
                     for="visible_true">Sí</label>
             </div>
             <div class="flex items-center space-x-2">
                 <input type="radio" id="visible_false" name="visible"
-                    @if (isset($book) && !$book['visible']) checked @endif; value="false"><label class="font-normal"
+                    @if (isset($book) && !$book['visible']) checked @endif; value="0"><label class="font-normal"
                     for="visible_true">No</label>
             </div>
         </div>
+        @error('visible')
+            <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+        @enderror
     </fieldset>
 
     <fieldset class="space-y-5">
@@ -319,8 +414,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="flex justify-between items-center space-x-5">
                 <div class="w-full flex items-center space-x-1">
                     <p class="min-w-fit">eteredicions.com /</p>
-                    <input class="md:min-w-80 m-0 ps-1 pe-0 is-disabled border-0" type="text" name="slug" id="slug"
-                        placeholder="titol-del-llibre" readonly disabled>
+                    <input class="md:min-w-80 m-0 ps-1 pe-0 is-disabled @error('slug') is-invalid @else border-0 @enderror" type="text" name="slug"
+                        id="slug" placeholder="titol-del-llibre" readonly disabled>
                 </div>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -328,23 +423,32 @@ function getLanguagesOptions($languages, $selected = null)
                     </button>
                 </div>
             </div>
+            @error('slug')
+                <small class="text-systemerror">{{ $message }}</small>
+            @enderror
             <div class="w-full pe-9">
-                <small>Aquest paràmetre es genera automàticament a partir del títol del llibre. Es pot personalitzar fent
-                click a l'icona d'editar.</small>
+                <small>Aquest paràmetre es genera automàticament a partir del títol del llibre. Es pot personalitzar
+                    fent
+                    click a l'icona d'editar.</small>
             </div>
         </div>
         <div>
             <label for="meta_title" class="flex flex-col md:flex-row md:space-x-1 pe-9">
-                <p>Títol de la pàgina</p> <p>(aparença en buscadors i navegador)</p>
+                <p>Títol de la pàgina</p>
+                <p>(aparença en buscadors i navegador)</p>
             </label>
             <div class="flex justify-between items-center space-x-5">
-                <input type="text" name="meta_title" id="meta_title" class="is-disabled border-0" readonly disabled>
+                <input type="text" name="meta_title" id="meta_title" class="is-disabled @error('meta_title') is-invalid @else border-0 @enderror" readonly
+                    disabled>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>
             </div>
+            @error('meta_title')
+                <small class="text-systemerror">{{ $message }}</small>
+            @enderror
             <div class="w-full pe-9">
                 <small>Aquest paràmetre es genera automàticament a partir del títol del llibre. Es pot personalitzar
                     fent
@@ -353,16 +457,20 @@ function getLanguagesOptions($languages, $selected = null)
         </div>
         <div class="w-full">
             <label for="meta_description" class="flex flex-col md:flex-row md:space-x-1 pe-9">
-                <p>Descripció de la pàgina</p> <p>(aparença en buscadors i navegador)</p>
+                <p>Descripció de la pàgina</p>
+                <p>(aparença en buscadors i navegador)</p>
             </label>
             <div class="flex justify-between items-center space-x-5">
-                <textarea name="meta_description" id="meta_description" class="is-disabled border-0" readonly disabled></textarea>
+                <textarea name="meta_description" id="meta_description" class="is-disabled @error('meta_description') is-invalid @else border-0 @enderror" readonly disabled></textarea>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableTextarea(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
                     </button>
                 </div>
             </div>
+            @error('meta_description')
+                <small class="text-systemerror">{{ $message }}</small>
+            @enderror
             <div class="w-full pe-9">
                 <small class="">Aquest paràmetre es genera automàticament a partir del primer paràgraf de la
                     descripció del llibre.
@@ -377,7 +485,6 @@ function getLanguagesOptions($languages, $selected = null)
 </div>
 
 <div id="save" class="flex justify-center">
-    {{-- <button type="submit" value="redirect" name="action">Desar canvis</button> --}}
     <button id="submit-button" class="send-button" type="submit" value="stay" name="action">Desar
         nou llibre</button>
 </div>

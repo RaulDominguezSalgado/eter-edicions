@@ -148,8 +148,8 @@ function getLanguagesOptions($languages, $selected = null)
                         @if (array_key_exists('translators', $book))
                             @for ($i = 0; $i < count($book['translators']); $i++)
                                 <div class="flex">
-                                    <select name="translators[]" id="translators_{{ $i }}" class="border-0"
-                                        disabled>
+                                    <select name="translators[]" id="translators_{{ $i }}"
+                                        class="@error('translators') is-invalid @else border-0 @enderror" disabled>
                                         {!! getCollaboratorsOptions($collaborators, $book['translators'][$i]['id']) !!}
                                     </select>
                                     <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
@@ -305,10 +305,12 @@ function getLanguagesOptions($languages, $selected = null)
 
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2 min-h-5">
-                    <label class="flex items-center mx-2.5 min-w-fit" for="size">Dimensions:</label>
-                    <input type="text" name="size" id="size" value="{{ $book['size'] ?? '' }}"
-                        class="@error('size') is-invalid @else border-0 @enderror" readonly>
-                    @error('size')
+                    <label
+                        class="flex items-center mx-2.5 min-w-fit @error('number_of_pages') is-invalid @else border0 @enderror"
+                        for="number_of_pages">Pàgines:</label>
+                    <input id="number_of_pages" class="border-0 number" type="number" name="number_of_pages"
+                        value="{{ $book['number_of_pages'] ?? '' }}" readonly>
+                    @error('number_of_pages')
                         <small class="text-systemerror">{{ $message }}</small>
                     @enderror
                 </div>
@@ -321,9 +323,12 @@ function getLanguagesOptions($languages, $selected = null)
 
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2 min-h-5">
-                    <label class="flex items-center mx-2.5 min-w-fit" for="number_of_pages">Pàgines:</label>
-                    <input id="number_of_pages" class="border-0 number" type="number" name="number_of_pages"
-                        value="{{ $book['number_of_pages'] ?? '' }}" readonly>
+                    <label class="flex items-center mx-2.5 min-w-fit" for="size">Dimensions:</label>
+                    <input type="text" name="size" id="size" value="{{ $book['size'] ?? '' }}"
+                        class="@error('size') is-invalid @else border-0 @enderror" readonly>
+                    @error('size')
+                        <small class="text-systemerror">{{ $message }}</small>
+                    @enderror
                 </div>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -440,7 +445,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <input id="original_title"
                         class="@error('original_title') is-invalid @else border-0 @enderror min-w-fit" type="text"
                         name="original_title" value="{{ $book['original_title'] ?? '' }}" readonly>
-                    @error('description')
+                    @error('original_title')
                         <small class="text-systemerror">{{ $message }}</small>
                     @enderror
                 </div>
@@ -569,12 +574,14 @@ function getLanguagesOptions($languages, $selected = null)
         <div class="flex justify-between space-x-4 items-start md:items-center ">
             <div>
                 <div class="w-full md:w-auto md:flex space-x-2">
-                    <label class="flex items-center mx-2.5" for="collections_{{ $i }}">Col·leccions</label>
+                    <label class="flex items-center mx-2.5"
+                        for="collections_{{ $i }}">Col·leccions</label>
                     @if (array_key_exists('collections', $book))
                         @for ($i = 0; $i < count($book['collections']); $i++)
                             <div class="w-full md:w-auto flex ">
-                                <select class="-ms-2.5 md:ms-0 border-0 w-full md:w-auto" name="collections[]"
-                                    id="collections_{{ $i }}">
+                                <select
+                                    class="-ms-2.5 md:ms-0 w-full md:w-auto @error('collections') @else border-0 is-invalid @enderror"
+                                    name="collections[]" id="collections_{{ $i }}">
                                     {!! getCollectionsOptions($collections, $book['collections'][$i]['id'] ?? '') !!}
                                 </select>
                                 <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
@@ -591,7 +598,9 @@ function getLanguagesOptions($languages, $selected = null)
                         </button>
                     </div>
                 </div>
-                @error('collections') <small class="ms-2.5 text-systemerror">{{ $message }}</small> @enderror
+                @error('collections')
+                    <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+                @enderror
             </div>
             <div class="hidden md:flex min-w-[1em]">
                 <button class="edit-button" type="button" onclick="enableSelect(this)">
@@ -606,8 +615,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="flex justify-between items-center">
                 <div class="flex space-x-2">
                     <label class="flex items-center mx-2.5" for="stock">Stock:</label>
-                    <input class="@error('stock') is-invalid @else border-0 @enderror number" type="number" name="stock" id="stock"
-                        value="{{ $book['stock'] ?? '' }}" readonly>
+                    <input class="@error('stock') is-invalid @else border-0 @enderror number" type="number"
+                        name="stock" id="stock" value="{{ $book['stock'] ?? '' }}" readonly>
                 </div>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -621,7 +630,9 @@ function getLanguagesOptions($languages, $selected = null)
                     stock</a>
             </div>
         </div>
-        @error('stock') <small class="ms-2.5 text-systemerror">{{ $message }}</small> @enderror
+        @error('stock')
+            <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+        @enderror
     </fieldset>
 </div>
 <div>
@@ -639,62 +650,84 @@ function getLanguagesOptions($languages, $selected = null)
                     for="visible_true">No</label>
             </div>
         </div>
-        @error('visible') <small class="ms-2.5 text-systemerror">{{ $message }}</small> @enderror
+        @error('visible')
+            <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+        @enderror
     </fieldset>
 </div>
 
 <div>
     <fieldset class="w-full pe-2 space-y-2.5">
         <legend class="mx-2">Opcions avançades: metadades</legend>
-        <div class="flex justify-between items-center ">
-            <div class="flex items-center">
+        <div>
+            <div class="flex justify-between items-center ">
+                <div class="flex items-center">
+                    <div class="flex min-w-fit">
+                        <label class="flex items-center mx-2.5 min-w-fit" for="slug">Enllaç:</label>
+                        <p class="min-w-fit">eteredicions.com /</p>
+                    </div>
+                    <input class="md:min-w-80 m-0 px-0 @error('slug') is-invalid @else border-0 @enderror"
+                        type="text" name="slug" id="slug" value="{{ $book['slug'] ?? '' }}" readonly
+                        disabled>
+                </div>
+                <div class="flex ">
+                    <button class="edit-button" type="button" onclick="enableInput(this)">
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
+                </div>
+            </div>
+            @error('slug')
+                <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div>
+            <div class="w-auto xl:flex">
                 <div class="flex min-w-fit">
-                    <label class="flex items-center mx-2.5 min-w-fit" for="slug">Enllaç:</label>
-                    <p class="min-w-fit">eteredicions.com /</p>
+                    <div class="flex items-center space-x-2 min-w-fit ms-2.5">
+                        <label class="flex items-center min-w-fit" for="meta_title">Títol del llibre:</label>
+                        <small class="font-bold">(aparença en buscadors i navegador)</small>
+                    </div>
                 </div>
-                <input class="md:min-w-80 border-0 m-0 px-0" type="text" name="slug" id="slug"
-                    value="{{ $book['slug'] ?? '' }}" readonly disabled>
+                <div class="w-full flex justify-between">
+                    <input class="md:min-w-80 @error('meta_title') is-invalid @else border-0 @enderror"
+                        type="text" name="meta_title" id="meta_title" value="{{ $book['meta_title'] ?? '' }}"
+                        readonly disabled>
+                    <button class="edit-button" type="button" onclick="enableInput(this)">
+                        <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
+                    </button>
+                </div>
             </div>
-            <div class="flex ">
-                <button class="edit-button" type="button" onclick="enableInput(this)">
-                    <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
-                </button>
-            </div>
+            @error('meta_title')
+                <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+            @enderror
         </div>
+        <div>
+            <div class="w-auto">
+                <div class="w-auto space-x-2 items-start">
+                    <div class="flex items-center space-x-2 min-w-fit ms-2.5 pt-2">
+                        <label class="flex items-center min-w-fit" for="meta_description">Descripció del
+                            llibre:</label>
+                        <small class="font-bold">(aparença en buscadors i navegador)</small>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-full grow-wrap">
+                            <textarea class="@error('meta_description') is-invalid @else border-0 @enderror" name="meta_description"
+                                id="meta_description" onInput="this.parentNode.dataset.replicatedValue = this.value" readonly disabled>{{ $book['meta_description'] ?? '' }}</textarea>
+                        </div>
+                        <div class="min-w-[1.25em] flex">
+                            <button class="edit-button" type="button" onclick="enableTextarea(this)">
+                                <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp"
+                                    style="width: 20px">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                @error('meta_description')
+                    <small class="ms-2.5 text-systemerror">{{ $message }}</small>
+                @enderror
+            </div>
 
-        <div class="w-auto xl:flex">
-            <div class="flex min-w-fit">
-                <div class="flex items-center space-x-2 min-w-fit ms-2.5">
-                    <label class="flex items-center min-w-fit" for="meta_title">Títol del llibre:</label>
-                    <small class="font-bold">(aparença en buscadors i navegador)</small>
-                </div>
-
-            </div>
-            <div class="w-full flex justify-between">
-                <input class="border-0 md:min-w-80 " type="text" name="meta_title" id="meta_title"
-                    value="{{ $book['meta_title'] ?? '' }}" readonly disabled>
-                <button class="edit-button" type="button" onclick="enableInput(this)">
-                    <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
-                </button>
-            </div>
-        </div>
-        <div class="w-auto xl:flex justify-between">
-            <div class="w-auto space-x-2 xl:flex items-start">
-                <div class="flex items-center space-x-2 min-w-fit ms-2.5 pt-2">
-                    <label class="flex items-center min-w-fit" for="meta_description">Descripció del
-                        llibre:</label>
-                    <small class="font-bold">(aparença en buscadors i navegador)</small>
-                </div>
-                <div class="min-w-full grow-wrap ">
-                    <textarea class="border-0" name="meta_description" id="meta_description"
-                        onInput="this.parentNode.dataset.replicatedValue = this.value" readonly disabled>{{ $book['meta_description'] ?? '' }}</textarea>
-                </div>
-            </div>
-            <div class="flex">
-                <button class="edit-button" type="button" onclick="enableTextarea(this)">
-                    <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
-                </button>
-            </div>
         </div>
 </div>
 </fieldset>

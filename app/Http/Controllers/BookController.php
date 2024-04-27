@@ -111,7 +111,10 @@ class BookController extends Controller
             /* Get all collections data */
             $collectionController = new CollectionController();
             foreach (Collection::all() as $collection) {
-                $collections[$collection->id] = $collectionController->getFullCollection($collection->id, $locale);
+                $collectionTranslation = $collectionController->getFullCollection($collection->id, $locale);
+                if($collectionTranslation){
+                    $collections[$collection->id] = $collectionTranslation;
+                }
             }
 
             return view('admin.book.create', compact('book', 'collaborators', 'languages', 'collections'));
