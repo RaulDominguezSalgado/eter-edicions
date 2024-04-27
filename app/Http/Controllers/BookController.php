@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Actions\ImageHelper;
 use App\Models\Book;
 use App\Models\Bookstore;
 use App\Models\Collection;
@@ -273,7 +274,7 @@ class BookController extends Controller
     {
         // dump($request);
         // dump($book);
-        try {
+        // try {
             // \App\Models\Book::class;
             $new_data = $request->validated();
 
@@ -312,9 +313,9 @@ class BookController extends Controller
 
             return redirect()->route('books.edit', $book->id)
                 ->with('success', 'Llibre actualitzat correctament');
-        } catch (Exception $e) {
-            return back()->withError($e->getMessage())->withInput();
-        }
+        // } catch (Exception $e) {
+        //     return back()->withError($e->getMessage())->withInput();
+        // }
     }
 
     public function destroy($id)
@@ -902,13 +903,8 @@ class BookController extends Controller
                 $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
                 // // Procesar y guardar la imagen
-                $rutaImagen = public_path('img/books/covers/' . $nombreImagenOriginal);
-                $imagen->move(public_path('img/books/covers/'), $nombreImagenOriginal);
-                $this->editImage($rutaImagen);
-
-                $rutaMiniatura = public_path('img/books/thumbnails/' . $nombreImagenOriginal);
-                copy($rutaImagen, $rutaMiniatura);
-                $this->editImage($rutaMiniatura);
+                $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+                ImageHelper::editImage($nombreImagenOriginal, "book");
 
                 $book->image = $nombreImagenOriginal;
                 $book->save();
@@ -932,7 +928,7 @@ class BookController extends Controller
             }
         } catch (Exception $e) {
             // abort(500, 'Server Error');
-            // dump($e->getMessage());
+            // dd($e);
             return back()->withError($e->getMessage())->withInput();
         }
     }
@@ -941,39 +937,8 @@ class BookController extends Controller
     /**
      * Method used to generate the images needed for Books Post Type
      */
-    public function editImage($rutaImagen)
+    public function editImage($filename)
     {
-        // try {
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($rutaImagen);
-        // Crop a 1.4 / 1 aspect ratio
-        if ($image->width() > $image->height()) {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($image->width(), $heightStd);
-            }
-        } else {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($heightStd, $image->height());
-            }
-        }
-
-        // If size > 720x1080, resize to 720x1080
-        if ($image->width() > 720 || $image->height() > 1080) {
-            $image->resize(720, 1080);
-        }
-
-        // Encode the image to webp format with 80% quality
-        $image->encode(new WebpEncoder(), 80);
-
-        // Save the processed image
-        $image->save($rutaImagen);
-        // }
-        // catch (Exception $e) {
-        //     abort(500, 'Server Error');
-        // }
+        ImageHelper::editImage($filename, "book");
     }
 }

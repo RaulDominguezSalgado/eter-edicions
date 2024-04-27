@@ -50,7 +50,6 @@ class Book extends Model
         'sample',
         'number_of_pages',
         'publication_date',
-        'collections',
         'collaborators',
         'original_title',
         'original_publication_date',

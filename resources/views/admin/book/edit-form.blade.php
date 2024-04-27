@@ -641,12 +641,12 @@ function getLanguagesOptions($languages, $selected = null)
         <div class="mx-2.5 flex space-x-4">
             <div class="flex items-center space-x-2">
                 <input type="radio" id="visible_true" name="visible"
-                    @if (isset($book) && $book['visible']) checked @endif; value="true"><label class="font-normal"
+                    @if (isset($book) && $book['visible']) checked @endif; value="1"><label class="font-normal"
                     for="visible_true">Sí</label>
             </div>
             <div class="flex items-center space-x-2">
                 <input type="radio" id="visible_false" name="visible"
-                    @if (isset($book) && !$book['visible']) checked @endif; value="false"><label class="font-normal"
+                    @if (isset($book) && !$book['visible']) checked @endif; value="0"><label class="font-normal"
                     for="visible_true">No</label>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Actions;
 
+use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -14,12 +15,12 @@ class ImageHelper
 {
     public static $paths = [
         'books' => [
-            'thumbnail' => '/img/books/thumbnails/',
-            'portada' => '/img/books/portadas/',
+            'thumbnail' => 'img/books/thumbnails/',
+            'cover' => 'img/books/covers/',
         ],
         'collaborators' => [
-            'thumbnail' => '/img/collaborators/thumbnails/',
-            'portada' => '/img/collaborators/portada/',
+            'thumbnail' => 'img/collab/thumbnails/',
+            'cover' => 'img/collab/covers/',
         ],
     ];
 
@@ -33,22 +34,29 @@ class ImageHelper
 
 
 
-    private static function configImage($path, $size)
+    private static function configImage($readPath, $savePath, $size)
     {
+        // dump($readPath);
+        // dump($savePath);
+        // dump($size);
+
         $width = $size[0];
         $height = $size[1];
         $manager = new ImageManager(new Driver());
-        $image = $manager->read($path);
+
+        // dd($manager->read($readPath));
+
+        $image = $manager->read(public_path($readPath));
         $image_width = $image->width();
         $image_height = $image->height();
         if ($image_width > $width || $image_height > $height) {
             $image->cover($width, $height, "center");
         }
         // Encode the image to webp format with 80% quality
-        $image->encode(new WebpEncoder(), 80);
+        // dd($image->encode(new WebpEncoder(), 80));
 
         // Save the processed image
-        $image->save($path);
+        $image->save(public_path($savePath));
     }
 
 
@@ -58,7 +66,7 @@ class ImageHelper
     {
         switch ($typeImage) {
             case "collaborator":
-                $rutaImagen = self::$paths['collaborators']['portada'];
+                $rutaImagen = self::$paths['collaborators']['cover'];
                 $rutaThumbnail = self::$paths['collaborators']['thumbnail'];
                 $tamaño_original = self::$sizes['collaborators'];
                 $tamaño_thumbnail = [
@@ -67,7 +75,7 @@ class ImageHelper
                 ];
             break;
             case "book":
-                $rutaImagen = self::$paths['books']['portada'];
+                $rutaImagen = self::$paths['books']['cover'];
                 $rutaThumbnail = self::$paths['books']['thumbnail'];
                 $tamaño_original = self::$sizes['books'];
                 $tamaño_thumbnail = [
@@ -79,8 +87,10 @@ class ImageHelper
             break;
         }
 
-        self::configImage($rutaImagen.$fileName,$tamaño_original);
-        self::configImage($rutaThumbnail.$fileName,$tamaño_thumbnail);
+        self::configImage('/img/temp/'.$fileName, $rutaImagen.$fileName,$tamaño_original);
+        self::configImage('/img/temp/'.$fileName, $rutaThumbnail.$fileName,$tamaño_thumbnail);
+
+        File::deleteDirectory(public_path('/img/temp/'));
     }
 
     public static function regenerateImages() {
