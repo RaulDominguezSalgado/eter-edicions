@@ -1,7 +1,9 @@
 <?php
-    $locale = 'ca';
+$locale = 'ca';
 ?>
 <x-layouts.app>
+
+
     <h1 class="text-center">Resultats de cerca per a "{{ $results['term'] }}".</h1>
     <div class="flex justify-center mb-20">
         <x-partials.searchBar :term="$results['term']"></x-partials.searchBar>
@@ -13,12 +15,13 @@
                 <div class="book flex flex-col items-center mb-6">
                     <div class="cover mb-4">
                         <a href="{{ route("book-detail.{$locale}", $book['id']) }}">
-                            <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
-                                alt="{{ $book['title'] }}" style="height: 19.7em">
+                            <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}" alt="{{ $book['title'] }}"
+                                style="height: 19.7em">
                         </a>
                     </div>
                     <div id="book-info-{{ $book['slug'] }}" class="flex flex-col items-center space-y-2 w-64">
-                        <div class="book-title w-fit h-12 flex justify-center items-center text-center">{{ $book['title'] }}</div>
+                        <div class="book-title w-fit h-12 flex justify-center items-center text-center">
+                            {{ $book['title'] }}</div>
                         <div class="flex space-x-1">
                             @foreach ($book['collaborators']['authors'] as $author)
                                 {{-- if not last iteration --}}
@@ -33,23 +36,42 @@
 
                         <div class="book-translator flex space-x-1 text-center">
                             <div class="book-translator">Traducció de
-                            @foreach ($book['collaborators']['translators'] as $translator)
-                                @if (!$loop->last)
-                                    {{ $translator['full_name'] }},
-                                    {{-- if last iteration --}}
-                                @else
-                                    {{ $translator['full_name'] }}
-                                @endif
-                            @endforeach
+                                @foreach ($book['collaborators']['translators'] as $translator)
+                                    @if (!$loop->last)
+                                        {{ $translator['full_name'] }},
+                                        {{-- if last iteration --}}
+                                    @else
+                                        {{ $translator['full_name'] }}
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                     </div>
-
+                    {{-- @dd($book['filter']) --}}
+                    @if ($book['filter']['key'] == 'description' && $book['filter']['value'])
+                        <p><small>
+                                @foreach ($book['filter']['value'][0] as $word) {{-- iterate through arrays of words previous to the result --}}
+                                    @if (!$loop->last)
+                                        <span>{!! $word !!}</span>
+                                    @else
+                                        <span>{!! $word !!}</span><!-- {{-- iterate through arrays of words previous to the result --}}
+                                    @endif
+                                @endforeach
+                                        --><span class="bg-secondary">{{ $book['filter']['value'][1] }}</span><!--
+                                @foreach ($book['filter']['value'][2] as $word) {{-- iterate through arrays of words after the result --}}
+                                    @if ($loop->first)
+                                        --><span>{!! $word !!} </span>
+                                    @else
+                                        <span>{!! $word !!} </span>
+                                    @endif
+                                @endforeach
+                            </small></p>
+                    @endif
                 </div>
             @endforeach
         </div>
     @endif
-    @if ($results['collaborators'] != [])
+    {{-- @if ($results['collaborators'] != [])
         <h2 class="text-center mb-8">Col·laboradors</h2>
         <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16 mb-40" id="catalog">
             @foreach ($results['collaborators'] as $i => $author)
@@ -71,7 +93,7 @@
         </div>
     @endif
     @if ($results['activities'] != [])
-        <h2 class="text-center mb-8">Events</h2>
+        <h2 class="text-center mb-8">Activitats</h2>
         <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16 mb-40" id="catalog">
             @foreach ($results['activities'] as $i => $post)
                 <div class="post space-y-2">
@@ -147,5 +169,5 @@
                 </div>
             @endforeach
         </div>
-    @endif
+    @endif --}}
 </x-layouts.app>

@@ -768,65 +768,69 @@ class BookController extends Controller
 
 
     /**
-     * Method that generates the Book array used on the view
-     */
-    private function getData($key = null, $value = null)
-    {
+    * Method that generates the Book array used by the view
+    */
+    public static function getData($key = null, $value = null, $search = false) {
         // try {
-        $locale = 'ca';
+            $locale = 'ca';
 
-        if ($key == null || $value == null) {
-            $query_data = Book::paginate();
-        } else {
-            $query_data = Book::where($key, $value)->paginate();
-        }
-        $books = [];
-        foreach ($query_data as $single_data) {
-            $collections_names = [];
-            if (!empty($single_data->collections)) {
-                foreach ($single_data->collections as $collection) {
-                    // dd($collection);
-                    $name = $collection->translations()->first()->name;
-                    $collections_names[] = [
-                        'id' => $collection->id,
-                        'name' => $name,
-                    ];
-                }
-                // dd($collections_names);
+            if ($key == null || $value == null) {
+                $query_data = Book::paginate();
             }
-            $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
-            // dd($single_data);
-            $books[] = [
-                'id' => $single_data->id,
-                'title' => $single_data->title,
-                'description' => $single_data->description,
-                'slug' => $single_data->slug,
-                'lang' => $single_data->languages()->first()->iso,
-                'isbn' => $single_data->isbn,
-                'publisher' => $single_data->publisher,
-                'image' => $single_data->image,
-                'pvp' => $single_data->pvp,
-                'iva' => $single_data->iva,
-                'discounted_price' => $single_data->discounted_price,
-                'stock' => $single_data->stock,
-                'visible' => $single_data->visible,
-                'sample_url' => $single_data->sample,
-                'number_of_pages' => $single_data->number_of_pages,
-                'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
-                'collections' => $collections_names,
-                'collaborators' => $collaborators,
-                'original_title' => $single_data->original_title,
-                'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
-                'original_publisher' => $single_data->original_publisher,
-                'legal_diposit' => $single_data->legal_diposit,
-                'headline' => $single_data->headline,
-                'size' => $single_data->size,
-                'enviromental_footprint' => $single_data->enviromental_footprint,
-                'meta_title' => $single_data->meta_title,
-                'meta_description' => $single_data->meta_description,
-            ];
-        }
-        return $books;
+            else if ($search) {
+                $query_data = Book::where($key, 'LIKE', '%' . $value . '%')->paginate();
+            }
+            else {
+                $query_data = Book::where($key, $value)->paginate();
+            }
+            $books = [];
+            foreach ($query_data as $single_data) {
+                $collections_names = [];
+                if (!empty($single_data->collections)) {
+                    foreach ($single_data->collections as $collection) {
+                        // dd($collection);
+                        $name = $collection->translations()->first()->name;
+                        $collections_names[] = [
+                            'id' => $collection->id,
+                            'name' => $name,
+                        ];
+                    }
+                    // dd($collections_names);
+                }
+                $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
+                // dd($single_data);
+                $books[] = [
+                    'id' => $single_data->id,
+                    'title' => $single_data->title,
+                    'description' => $single_data->description,
+                    'slug' => $single_data->slug,
+                    'lang' => $single_data->languages()->first()->iso,
+                    'isbn' => $single_data->isbn,
+                    'publisher' => $single_data->publisher,
+                    'image' => $single_data->image,
+                    'pvp' => $single_data->pvp,
+                    'iva' => $single_data->iva,
+                    'discounted_price' => $single_data->discounted_price,
+                    'stock' => $single_data->stock,
+                    'visible' => $single_data->visible,
+                    'sample_url' => $single_data->sample,
+                    'number_of_pages' => $single_data->number_of_pages,
+                    'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
+                    'collections' => $collections_names,
+                    'collaborators' => $collaborators,
+                    'original_title' => $single_data->original_title,
+                    'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
+                    'original_publisher' => $single_data->original_publisher,
+                    'legal_diposit' => $single_data->legal_diposit,
+                    'headline' => $single_data->headline,
+                    'size' => $single_data->size,
+                    'enviromental_footprint' => $single_data->enviromental_footprint,
+                    'meta_title' => $single_data->meta_title,
+                    'meta_description' => $single_data->meta_description,
+                    'filter' => $key ? ['key' => $key, 'value' => self::searchDetails($single_data->$key, $value, 5)] :  ''
+                ];
+            }
+            return $books;
         // }
         // catch (Exception $e) {
         //     abort(500, 'Server Error');
@@ -940,5 +944,52 @@ class BookController extends Controller
     public function editImage($filename)
     {
         ImageHelper::editImage($filename, "book");
+    }
+
+    /**
+     * Searches for the $searchValue in $text. Returns a string with $searchValue and 20 words before and after it
+     *
+     * @param string $text the text to search the value in
+     * @param string $searchValue the value to search
+     * @param int $numberOfWords the number of words before and after the search value
+     *
+     * @return array []
+     */
+    private static function searchDetails($text, $searchValue, int $numberOfWords){
+        // we should make a class out of this
+        $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+
+        $haystack = strtolower(strtr($text, $unwanted_array));
+        $needle = strtolower(strtr($searchValue, $unwanted_array));
+
+        if (!str_contains($haystack, $needle)) {
+            return null;
+        }
+
+        $segments = explode($needle, $haystack, 2);
+        $beforeWordsArray = preg_split('/\s+/', $segments[0]);
+        $afterWordsArray = preg_split('/\s+/', $segments[1]);
+
+        if(count($beforeWordsArray) > $numberOfWords){
+            $beforeArrayBiggerThanNumberOfWords = true;
+        }
+        $beforeWordsArray = array_slice($beforeWordsArray, -($numberOfWords));
+        if($beforeArrayBiggerThanNumberOfWords){
+            array_unshift($beforeWordsArray , '...');
+        }
+
+        if(count($afterWordsArray) > $numberOfWords){
+            $afterArrayBiggerThanNumberOfWords = true;
+        }
+        $afterWordsArray = array_slice($afterWordsArray, 0, $numberOfWords);
+        if($afterArrayBiggerThanNumberOfWords){
+            array_push($afterWordsArray , '...');
+        }
+
+        return [$beforeWordsArray, $searchValue, $afterWordsArray];
     }
 }
