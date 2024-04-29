@@ -71,7 +71,7 @@ $locale = 'ca';
             @endforeach
         </div>
     @endif
-    {{-- @if ($results['collaborators'] != [])
+    @if ($results['collaborators'] != [])
         <h2 class="text-center mb-8">Col·laboradors</h2>
         <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16 mb-40" id="catalog">
             @foreach ($results['collaborators'] as $i => $author)
@@ -169,5 +169,5 @@ $locale = 'ca';
                 </div>
             @endforeach
         </div>
-    @endif --}}
+    @endif
 </x-layouts.app>

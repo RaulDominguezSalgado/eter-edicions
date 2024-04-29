@@ -24,12 +24,18 @@ use \App\Http\Controllers\PostController;
 
 class SearchController extends Controller
 {
+    /**
+     * Public index view for searches
+     */
     public function index() {
         $term = app(Request::class)->input('search_term');
         $results = self::getResultsArray($term);
         return view('public.searchResults', compact('results'));
     }
 
+    /**
+     * Public search method
+     */
     public static function getResultsArray($term) {
         return [
             'term' => $term,
@@ -41,7 +47,9 @@ class SearchController extends Controller
     }
 
 
-
+    /**
+     * Method to search Books
+     */
     public static function getResultsBooksArray ($term) {
         $returnable_array = array_merge(
             BookController::getData("title", $term, true),
@@ -51,6 +59,9 @@ class SearchController extends Controller
         return $returnable_array;
     }
 
+    /**
+     * Method to search Collaborators
+     */
     public static function getResultsCollaboratorsArray ($term) {
         $returnable_array = array_merge(
             CollaboratorController::getData("first_name", $term, true),
@@ -60,6 +71,9 @@ class SearchController extends Controller
         return $returnable_array;
     }
 
+    /**
+     * Method to search Activities
+     */
     public static function getResultsActivitiesArray ($term) {
         PostController::getData('activities');
         $returnable_array = array_merge(
@@ -70,6 +84,9 @@ class SearchController extends Controller
         return $returnable_array;
     }
     
+    /**
+     * Method to search Articles
+     */
     public static function getResultsArticlesArray ($term) {
         PostController::getData('articles');
         $returnable_array = array_merge(
