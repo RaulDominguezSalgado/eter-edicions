@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Translator;
+use App\Models\CollaboratorTranslation;
 use App\Http\Requests\TranslatorRequest;
 
 /**

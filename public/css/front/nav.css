@@ -18,13 +18,13 @@
     text-decoration: none;
     padding: 10px 20px;
     font-size: 1.125em;
-    transition: .3s;
+    transition: 50ms;
 }
 #main-nav li a:hover,
 #main-nav li a.active {
     /* background-color: #ccc; */
     border-bottom: 1px solid black;
-    transition: 100ms;
+    transition: 200ms;
 }
 
 #main-nav > ul > li {

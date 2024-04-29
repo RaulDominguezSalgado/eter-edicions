@@ -56,9 +56,7 @@
                                             <td>
                                                 <form action="{{ route('collections.destroy', $collection['id']) }}"
                                                     method="POST">
-                                                    <a class="btn btn-sm btn-primary "
-                                                        href="{{ route('collections.show', $collection['id']) }}"><i
-                                                            class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('collections.edit', $collection['id']) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>

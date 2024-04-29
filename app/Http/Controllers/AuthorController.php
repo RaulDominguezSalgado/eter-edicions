@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Http\Requests\AuthorRequest;
 
+use \App\Models\CollaboratorTranslation;
+
 /**
  * Class AuthorController
  * @package App\Http\Controllers
