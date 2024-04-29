@@ -974,6 +974,7 @@ class BookController extends Controller
         $beforeWordsArray = preg_split('/\s+/', $segments[0]);
         $afterWordsArray = preg_split('/\s+/', $segments[1]);
 
+        $beforeArrayBiggerThanNumberOfWords = false;
         if(count($beforeWordsArray) > $numberOfWords){
             $beforeArrayBiggerThanNumberOfWords = true;
         }
@@ -982,6 +983,7 @@ class BookController extends Controller
             array_unshift($beforeWordsArray , '...');
         }
 
+        $afterArrayBiggerThanNumberOfWords = false;
         if(count($afterWordsArray) > $numberOfWords){
             $afterArrayBiggerThanNumberOfWords = true;
         }
