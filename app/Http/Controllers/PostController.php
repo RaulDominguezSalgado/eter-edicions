@@ -164,12 +164,24 @@ class PostController extends Controller
         $postObject = Post::find($id);
         $post = [];
         //dd($postObject);
+
+        if ($postObject->author) {
+            $authorID = $postObject->author->collaborator->translations->first()->first_name . " " . $postObject->author->collaborator->translations->first()->last_name;
+        } else {
+            $authorID = '';
+        }
+
+        if ($postObject->translator) {
+            $translator = $postObject->translator->collaborator->translations->first()->first_name . " " . $postObject->translator->collaborator->translations->first()->last_name;
+        } else {
+            $translator = '';
+        }
         $post = [
             'id' => $postObject->id,
             'title' => $postObject->title,
             'description' => $postObject->description,
-            'author_id' => $postObject->author->collaborator->translations->first()->first_name . " " . $postObject->author->collaborator->translations->first()->last_name,
-            'translator_id' => $postObject->translator->collaborator->translations->first()->first_name . " " . $postObject->translator->collaborator->translations->first()->last_name,
+            'author_id' => $authorID,
+            'translator_id' => $translator,
             'content' => $postObject->content,
             'date' => substr($postObject->date, 0, 10), // Extracts 'YYYY-MM-DD'
             'location' => $postObject->location,
@@ -402,11 +414,14 @@ class PostController extends Controller
 
     public function getPreviewGenericPost($post, $locale)
     {
+        //dd($post);
         $postType = (is_null($post->date) && is_null($post->location)) ? "ARTICLES" : "ACTIVITATS";
-        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : ($post->date);
+        //$date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : ($post->date);
+        // Verificar si la fecha de publicación está presente y formatearla
+        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : Carbon::createFromFormat('Y-m-d', $post->date)->format('d/m/Y');
         // @dump($post->date);
         // @dump(Carbon::createFromFormat('Y-m-d H:i:s', $post->date)->format('d/m/Y'));
-
+        dd($post);
         $postResult = [
             'id' => $post->id,
             'title' => $post->title,
