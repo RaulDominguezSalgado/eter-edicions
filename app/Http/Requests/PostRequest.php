@@ -24,30 +24,29 @@ class PostRequest extends FormRequest
         if ($this->isMethod('post')) {
             return [
                 'title' => 'required|string',
-                'description' => 'required|string',
-                'author_id' => 'required',
-                'translator_id' => 'required',
+                'description' => 'nullable|string',
+                'author_id' => 'nullable',
+                'translator_id' => 'nullable',
                 'content' => 'required|string',
-                'date' => 'required',
-                'location' => 'required',
+                'date' => 'date',
+                'location' => 'nullable',
                 'image' => 'required',
                 'publication_date' => 'required',
                 'published_by' => 'required'
             ];
-        }else{
+        } else {
             return [
                 'title' => 'required|string',
-                'description' => 'required|string',
-                'author_id' => 'required',
-                'translator_id' => 'required',
+                'description' => 'nullable|string',
+                'author_id' => 'nullable',
+                'translator_id' => 'nullable',
                 'content' => 'required|string',
-                'date' => 'required',
-                'location' => 'required',
+                'date' => 'nullable|date',
+                'location' => 'nullable',
                 'image' => '',
                 'publication_date' => 'required',
                 'published_by' => 'required'
             ];
         }
-
     }
 }

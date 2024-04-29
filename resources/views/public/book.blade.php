@@ -28,10 +28,10 @@
                                     @foreach ($book['authors'] as $author)
                                         {{-- if not last iteration --}}
                                         @if (!$loop->last)
-                                            <h4>{{ $author }},</h4>
+                                            <h4>{{ $author['name'] }},</h4>
                                             {{-- if last iteration --}}
                                         @else
-                                            <h4>{{ $author }}</h4>
+                                            <h4>{{ $author['name'] }}</h4>
                                         @endif
                                     @endforeach
                                 </div>
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="space-y-3">
-                        <a href="" class="sample flex space-x-2.5">
+                        <a href="{{route('book.sample', $book['sample'])}}" target="_blank" class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
                                 alt="Descarregar sample de {{ $book['title'] }}" class="clickable" style="width: 15px">
                             <small class="text-slate-600">Comença a llegir</small>
@@ -85,7 +85,7 @@
                     <div>
                         <small class="text-red-700">Ho sentim! Aquest llibre no està disponible</small>
                         <br>
-                        <small>Pots trobar-lo a les <a href="" class="text-decoration-line: underline">llibreries
+                        <small>Pots trobar-lo a les <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">llibreries
                                 amb
                                 qui treballem</a></small>
                     </div>
@@ -205,10 +205,10 @@
                             @foreach ($book['authors'] as $author)
                                 {{-- if not last iteration --}}
                                 @if (!$loop->last)
-                                    <p>{{ $author }},</p>
+                                    <p>{{ $author['name'] }},</p>
                                     {{-- if last iteration --}}
                                 @else
-                                    <p>{{ $author }}</p>
+                                    <p>{{ $author['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>
@@ -219,10 +219,10 @@
                             @foreach ($book['translators'] as $translator)
                                 {{-- if not last iteration --}}
                                 @if (!$loop->last)
-                                    <p>{{ $translator }},</p>
+                                    <p>{{ $translator['name'] }},</p>
                                     {{-- if last iteration --}}
                                 @else
-                                    <p>{{ $translator }}</p>
+                                    <p>{{ $translator['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>
@@ -252,10 +252,10 @@
                             @foreach ($book['collections'] as $collection)
                                 {{-- if not last iteration --}}
                                 @if (!$loop->last)
-                                    <p>{{ $collection }},</p>
+                                    <p>{{ $collection['name'] }},</p>
                                     {{-- if last iteration --}}
                                 @else
-                                    <p>{{ $collection }}</p>
+                                    <p>{{ $collection['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>
@@ -274,9 +274,9 @@
                         <div class="flex space-x-1.5">
                             @foreach ($book['lang'] as $lang)
                                 @if (!$loop->last)
-                                    <p>{{ $lang }},</p>
+                                    <p>{{ $lang['name'] }},</p>
                                 @else
-                                    <p>{{ $lang }}</p>
+                                    <p>{{ $lang['name'] }}</p>
                                 @endif
                             @endforeach
                         </div>

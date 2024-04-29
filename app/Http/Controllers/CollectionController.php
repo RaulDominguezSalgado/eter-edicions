@@ -20,32 +20,20 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        // $collections = Collection::paginate();
-        // $collectionsArray = [];
+        $collections = Collection::paginate();
 
-        // foreach ($collections as $collection) {
-        //     $translation = $collection->translations()->where('lang', $this->lang)->first();
-
-
-        //     if ($translation) {
-        //         $collectionsArray[] = [
-        //             'id' => $collection->id, // Corrected to $collection->id
-        //             'lang' => $translation->lang,
-        //             'name' => $translation->name,
-        //             'description' => $translation->description
-        //         ];
-        //     }
-        // }
-        $collections = CollectionTranslation::where('lang', $this->lang)->paginate();
-        $collectionsArray=[];
+        $collectionsArray = [];
         foreach ($collections as $collection) {
-            $collectionsArray[] = [
-                'id' => $collection->collection->id,
-                'lang' => $collection->lang,
-                'name' => $collection->name,
-                'description' => $collection->description
-            ];
+            foreach ($collection->translations as $collectionTranslation) {
+                $collectionsArray[] = [
+                    'id' => $collectionTranslation->collection->id,
+                    'lang' => $collectionTranslation->lang,
+                    'name' => $collectionTranslation->name,
+                    'description' => $collectionTranslation->description
+                ];
+            }
         }
+
         return view('admin.collection.index', compact('collectionsArray', 'collections'))
             ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
     }
@@ -113,40 +101,40 @@ class CollectionController extends Controller
      * Update the specified resource in storage.
      */
     public function update(CollectionRequest $request, Collection $collection)
-{
-    try {
-        // Validate the request data
-        $validatedData = $request->validated();
+    {
+        try {
+            // Validate the request data
+            $validatedData = $request->validated();
 
-        // Actualizar la colección
-        $collection->update([]);
+            // Actualizar la colección
+            $collection->update([]);
 
-        // Actualizar la traducción de la colección
-        $translation = $collection->translations()->where('lang', $this->lang)->first();
-        if ($translation) {
-            $translation->update([
-                'lang' => $validatedData['lang'],
-                'name' => $validatedData['name'],
-                'description' => $validatedData['description'],
-                'slug' => $validatedData['name']
-            ]);
+            // Actualizar la traducción de la colección
+            $translation = $collection->translations()->where('lang', $this->lang)->first();
+            if ($translation) {
+                $translation->update([
+                    'lang' => $validatedData['lang'],
+                    'name' => $validatedData['name'],
+                    'description' => $validatedData['description'],
+                    'slug' => $validatedData['name']
+                ]);
+            }
+
+            return redirect()->route('collections.index')
+                ->with('success', 'Col·lecció actualitzada correctament.');
+        } catch (ValidationException $e) {
+            // Manejar excepciones de validación si es necesario
         }
-
-        return redirect()->route('collections.index')
-            ->with('success', 'Col·lecció actualitzada correctament.');
-    } catch (ValidationException $e) {
-        // Manejar excepciones de validación si es necesario
     }
-}
 
     public function destroy($id)
     {
-        try{
+        try {
 
-        Collection::find($id)->delete();
+            Collection::find($id)->delete();
 
-        return redirect()->route('collections.index')
-            ->with('success', 'Col·lecció eliminada correctament');
+            return redirect()->route('collections.index')
+                ->with('success', 'Col·lecció eliminada correctament');
         } catch (QueryException $e) {
             return redirect()->route('collections.index')->with('error', 'No es possible eliminar aquesta col·lecció, ja que té dades relacionades');
         }
@@ -155,25 +143,26 @@ class CollectionController extends Controller
     /**
      * Para recoger una collection y su traduccion
      */
-    public function getFullCollection($id, $locale){
+    public function getFullCollection($id, $locale)
+    {
         $collection = Collection::find($id);
         $translation = $collection->translations()->where('lang', $locale)->first();
 
         $collectionData = [];
-        if ($translation) {
-            $collectionData = [
-                'id' => $collection->id,
-                'lang' => $translation->lang,
-                'name' => $translation->name,
-                'description' => $translation->description,
-                'slug' => $translation->slug,
-                'meta_title' => $translation->meta_title,
-                'meta_description' => $translation->meta_description,
-            ];
+
+        if (!$translation) {
+            return null;
         }
+
+        $collectionData = [
+            'id' => $collection->id,
+            'lang' => $translation->lang,
+            'name' => $translation->name,
+            'description' => $translation->description,
+            'slug' => $translation->slug,
+            'meta_title' => $translation->meta_title,
+            'meta_description' => $translation->meta_description,
+        ];
         return $collectionData;
-
-
-
     }
 }

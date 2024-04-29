@@ -19,7 +19,7 @@
                             <h5 class="font-bold">{{$post['title']}}</h5>
                         </div>
                         <div class="cover space-y-4">
-                            <a href="{{ route("post-detail.{$locale}", $post['id']) }}">
+                            <a href="{{ route("activity-detail.{$locale}", $post['id']) }}">
                                 <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
                                     alt="{{ $post['title'] }}">
                             </a>

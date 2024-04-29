@@ -24,7 +24,6 @@ Route::get('/', function () {
 
 /* Rutas públicas en multi-idioma */
 foreach (config('languages') as $locale) {
-
     if (config('app')['locale'] == $locale) { //if the current language is the same language the app is set to
 
         // Home
@@ -34,6 +33,7 @@ foreach (config('languages') as $locale) {
         // Catalog
         Route::get(__('paths.catalog', [], $locale), [App\Http\Controllers\BookController::class, 'catalog'])->name("catalog.{$locale}");
         Route::get(__('paths.catalog', [], $locale)  . '/{id}', [App\Http\Controllers\BookController::class, 'bookDetail'])->name("book-detail.{$locale}");
+        Route::get(__('paths.catalog', [], $locale)  . '/{slug}/sample', [App\Http\Controllers\BookController::class, 'bookSample'])->name("book.sample");
 
         // Authors (collaborators)
         Route::get(__('paths.authors', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'collaborators'])->name("collaborators.{$locale}");
@@ -44,6 +44,7 @@ foreach (config('languages') as $locale) {
 
         // Activities
         Route::get(__('paths.activities', [], $locale), [App\Http\Controllers\PostController::class, 'activities'])->name("activities.{$locale}");
+        Route::get(__('paths.activities', [], $locale)  . '/{id}', [App\Http\Controllers\PostController::class, 'postDetail'])->name("activity-detail.{$locale}");
 
         // Posts
         Route::get(__('paths.posts', [], $locale), [App\Http\Controllers\PostController::class, 'posts'])->name("posts.{$locale}");
@@ -63,6 +64,9 @@ foreach (config('languages') as $locale) {
         // Contact
         Route::get(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
         Route::post(__('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'sendContactForm'])->name("contact.send.{$locale}");
+
+        // Search
+        Route::get(__('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
     }
     else {
 
@@ -99,6 +103,9 @@ foreach (config('languages') as $locale) {
 
         // Contact
         Route::get("{$locale}/" . __('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
+
+        // Search
+        Route::get("{$locale}/" . __('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
     }
 }
 
@@ -121,8 +128,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('posts', App\Http\Controllers\PostController::class);
     Route::resource('orders', App\Http\Controllers\OrderController::class);
     Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
-    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'redirectViewStock'])->name('stock.edit');
-    Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('stock.update');
+    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
+    Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
     // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
     Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
 })->middleware(AdminCheck::class);

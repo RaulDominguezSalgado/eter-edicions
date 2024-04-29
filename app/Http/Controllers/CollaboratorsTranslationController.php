@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CollaboratorsTranslations;
-use App\Http\Requests\CollaboratorsTranslationsRequest;
+use App\Models\CollaboratorTranslation;
+use App\Http\Requests\CollaboratorTranslationsRequest;
 
 /**
  * Class CollaboratorsTranslationController
@@ -16,7 +16,7 @@ class CollaboratorsTranslationController extends Controller
      */
     public function index()
     {
-        $collaboratorsTranslations = CollaboratorsTranslations::paginate();
+        $collaboratorsTranslations = CollaboratorTranslation::paginate();
 
         return view('collaborators-translation.index', compact('collaboratorsTranslations'))
             ->with('i', (request()->input('page', 1) - 1) * $collaboratorsTranslations->perPage());
@@ -27,16 +27,16 @@ class CollaboratorsTranslationController extends Controller
      */
     public function create()
     {
-        $collaboratorsTranslation = new CollaboratorsTranslations();
+        $collaboratorsTranslation = new CollaboratorTranslation();
         return view('collaborators-translation.create', compact('collaboratorsTranslation'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CollaboratorsTranslations $request)
+    public function store(CollaboratorTranslation $request)
     {
-        CollaboratorsTranslations::create($request->validated());
+        CollaboratorTranslation::create($request->validated());
 
         return redirect()->route('collaborators-translations.index')
             ->with('success', 'CollaboratorsTranslation created successfully.');
@@ -47,7 +47,7 @@ class CollaboratorsTranslationController extends Controller
      */
     public function show($id)
     {
-        $collaboratorsTranslation = CollaboratorsTranslations::find($id);
+        $collaboratorsTranslation = CollaboratorTranslation::find($id);
 
         return view('collaborators-translation.show', compact('collaboratorsTranslation'));
     }
@@ -57,7 +57,7 @@ class CollaboratorsTranslationController extends Controller
      */
     public function edit($id)
     {
-        $collaboratorsTranslation = CollaboratorsTranslations::find($id);
+        $collaboratorsTranslation = CollaboratorTranslation::find($id);
 
         return view('collaborators-translation.edit', compact('collaboratorsTranslation'));
     }
@@ -65,7 +65,7 @@ class CollaboratorsTranslationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CollaboratorsTranslationsRequest $request, CollaboratorsTranslations $collaboratorsTranslation)
+    public function update(CollaboratorTranslation $request, CollaboratorTranslation $collaboratorsTranslation)
     {
         $collaboratorsTranslation->update($request->validated());
 
@@ -75,7 +75,7 @@ class CollaboratorsTranslationController extends Controller
 
     public function destroy($id)
     {
-        CollaboratorsTranslations::find($id)->delete();
+        CollaboratorTranslation::find($id)->delete();
 
         return redirect()->route('collaborators-translations.index')
             ->with('success', 'CollaboratorsTranslation deleted successfully');

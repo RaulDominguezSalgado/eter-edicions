@@ -43,7 +43,8 @@
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Content:</strong>
-                            {{ $post['content'] }}
+                            {!! $post['content'] !!}
+                            
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Publication Date:</strong>

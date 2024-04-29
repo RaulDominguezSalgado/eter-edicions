@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Actions\ImageHelperEditor;
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Models\Author;
@@ -127,9 +127,14 @@ class PostController extends Controller
             $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
             // Procesar y guardar la imagen
-            $rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
-            $imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
-            $this->editImage($rutaImagen);
+            //$rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
+            //$imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
+            //$this->editImage($rutaImagen);
+
+            // // Procesar y guardar la imagen
+            $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+            // $this->editImage($nombreImagenOriginal, "collaborator");
+            ImageHelperEditor::editImage($nombreImagenOriginal, "post");
 
             $validatedData['image'] = $nombreImagenOriginal;
         }

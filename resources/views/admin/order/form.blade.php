@@ -1,6 +1,44 @@
+<?php
+function getBooks($books, $selected = -1, $bookSelected = null, $line = -1)
+{
+    //
+    $col_options = '';
+    //'<select hidden id="getBooks" ><option selected disabled>Selecciona una opció</option>';
+
+    if ($bookSelected != null && $selected !=-1) {
+        $col_options .= "<div class='flex space-x-2 items-end'>";
+        $col_options .= '<div class="w-1/3"><label for="products[{{$line}}][id]">Producte</label><input disabled type="text" name="products[' . $line . '][title]" value="' . $bookSelected["title"] . ' (' . $bookSelected["pvp"] . '€)" placeholder="Producte" ></div>';
+        $col_options .= '<div><label for="products[{{$line}}][quantity]">Quantitat</label><input type="number" name="products[' . $line . '][quantity]" value="' . $bookSelected["quantity"] .'" placeholder="Preu personalitzat" ></div>';
+        $col_options .= "<input hidden type='number' name='products[" . $line . "][id]'  value='" . $bookSelected['id'] . "' placeholder='id' min='0'>";
+        $col_options .= '<div><label for="products[{{$line}}][pvp]">Preu</label><input type="number" step="0.01" name="products[' . $line . '][pvp]" value="' . $bookSelected['pvp'] . '" placeholder="Quantitat" min="0"></div>';
+        $col_options .= "<div class='flex'><button type='button' class='remove-content-button' onclick='removeParentNode(this.parentNode)'>Eliminar</button></div>";
+        $col_options .= "</div>";
+    }else{
+    $col_options = '<option selected disabled>Selecciona una opció</option>';
+        foreach ($books as $book) {
+        if ($book['id'] == $selected) {
+            $col_options .= "<option selected value='".$book['id']."'>" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+            //$col_options .= "<option selected  value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+        } else {
+            $col_options .= "<option value='".$book['id']."'>" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+            //$col_options .= "<option value=\"{$book['id']}\">" . $book['title'] . ' (' . $book['pvp'] . '€)' . '</option>';
+        }
+    }
+    }
+    echo $col_options;
+}
+echo '<select style="display: none;" name"products[0][id]" id="getBooks" >';
+getBooks($books);
+echo '</select>';
+?>
 <div class="row padding-1 p-1">
     <div class="col-md-12">
         @if ($message = Session::get('error'))
+            <div class="alert alert-danger m-4">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
+        @if ($message = Session::get('success'))
             <div class="alert alert-success m-4">
                 <p>{{ $message }}</p>
             </div>
@@ -119,24 +157,37 @@
             value="{{ old('pdf', $order['pdf']) }}" id="pdf" placeholder="PDF">
         {!! $errors->first('pdf', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>
+    <div id="products" class="space-y-4">
+        @if (isset($order['products']))
+            <?php $line = 0; ?>
+            @foreach ($order['products'] as $book)
+                <div>
+                    {{-- <label for="products{{ $book['id'] }}">Llibre {{ $line+1 }}</label> --}}
+                        <?php getBooks($books, $book['id'], $book, $line); ?>
+                    {{-- <a class="remove-content-button">Eliminar</a> --}}
+                </div>
+                <?php $line++; ?>
+            @endforeach
+        @endif
+    <a id="add_product" class="add-content-button">Afegir llibre</a>
+</div>
 
-    <div id="products" class="flex flex-wrap">
+    {{-- <div id="products" class="flex flex-wrap">
         <label for="products" class="form-label">{{ __('Productes') }}</label>
         @foreach ($books as $book)
             <div class="product flex items-center mb-4" style="width: 100%;">
                 <label for="product_names[]" class="form-label" style="width: 50%">{{ $book->title }} </label>
-                <input type="text" hidden name="products[{{ $book->id }}][product_id]"
-                    value="{{ $book->id }}">
-                <input readonly type="text" name="products[{{ $book->id }}][price_each]"
+                <input type="text" hidden name="products[{{ $book->id }}][id]" value="{{ $book->id }}">
+                <input readonly type="text" name="products[{{ $book->id }}][pvp]"
                     style="width: 25%; border: none;"
-                    value="{{ $order['products'][$book->id]['price_each'] ?? ($book->discounted_price ?? $book->pvp) }}"
+                    value="{{ $order['products'][$book->id]['pvp'] ?? ($book->discounted_price ?? $book->pvp) }}"
                     placeholder="Preu">
                 <input type="number" name="products[{{ $book->id }}][quantity]" style="width: 25%"
                     value="{{ $order['products'][$book->id]['quantity'] ?? 0 }}" placeholder="Quantitat"
-                    min="0" onchange="calculateTotal()">
+                    min="0">
             </div>
         @endforeach
-    </div>
+    </div> --}}
 
     <div class="form-group">
         <div class="flex items-center mb-4">

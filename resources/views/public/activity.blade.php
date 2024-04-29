@@ -23,22 +23,22 @@
                 <div>
                     <h4>{!! nl2br($post['description']) !!}</h4>
                 </div>
-                <div id="info" class="space-y-1">
+                <div id="info" class="space-y-1.5">
                     <div id="location" class="flex space-x-2">
-                        <div class="event-info space-x-1">
+                        <div class="event-info space-x-2">
                             <img src="{{ asset('img/icons/location-colored.webp') }}" alt=""
                                 class="" style="height: 1.95em">
-                            <p class="p18">On?</p>
+                            <p class="">On?</p>
                         </div>
-                        <p class="p18 flex align-end">{{ $post['location'] }}</p>
+                        <p class=" flex align-end">{{ $post['location'] }}</p>
                     </div>
                     <div id="date" class="flex space-x-2">
-                        <div class="event-info space-x-1">
+                        <div class="event-info space-x-2">
                             <img src="{{ asset('img/icons/calendar-colored.webp') }}" alt=""
                                 class="" style="height: 1.95em">
-                            <p class="p18">Quan?</p>
+                            <p class="">Quan?</p>
                         </div>
-                        <p class="p18 flex align-end">{{ $post['date'] }}</p>
+                        <p class=" flex align-end">{{ $post['date'] }}</p>
                     </div>
                 </div>
             </div>
