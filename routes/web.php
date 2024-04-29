@@ -145,3 +145,6 @@ Route::prefix('admin')->group(function () {
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');
+
+Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct'])->name('cart.add');
+Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'getAllItems'])->name('cart.get');

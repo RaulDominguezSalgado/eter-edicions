@@ -57,6 +57,9 @@ $locale = app()->getLocale() ?: 'ca';
     <div>
         <x-partials.searchBar></x-partials.searchBar>
     </div>
+    <a href="{{ route("cart.get") }}">
+        <button>Cistella</button>
+    </a>
 </nav>
 
 <script src="/js/components/langSelect.js"></script>

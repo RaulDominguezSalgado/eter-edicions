@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use CodersFree\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Book extends Model
+class Book extends Model implements Buyable
 {
 
 
@@ -102,5 +103,21 @@ class Book extends Model
         return $this->belongsToMany(Bookstore::class)
             ->using(BookBookstore::class)
             ->withPivot('stock');
+    }
+
+    // Métodos definidos en la interfaz Buyable
+    public function getBuyableIdentifier($options = null)
+    {
+        return $this->id; // Devuelve el ID único del libro
+    }
+
+    public function getBuyableDescription($options = null)
+    {
+        return $this->title; // Devuelve la descripción del libro (puede ser el título u otra descripción)
+    }
+
+    public function getBuyablePrice($options = null)
+    {
+        return $this->discounted_price ?? $this->pvp; // Devuelve el precio del libro
     }
 }
