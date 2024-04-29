@@ -253,7 +253,7 @@ class PostController extends Controller
         }
 
         $page = [
-            'title' => "Articles",
+            'title' => "Activitats",
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'

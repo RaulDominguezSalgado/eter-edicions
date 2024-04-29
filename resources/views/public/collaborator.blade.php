@@ -6,13 +6,12 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/collaborator.css') }}">
 
+    {{-- @dump($collaborator) --}}
+
     <main class="body space-y-24 mb-12">
         <div class="collaborator flex justify-between space-x-10 px-10 mb-4">
             <div class="mr-6 cover">
-                {{-- <div id="book-image" class="book-image"></div> --}}
-                {{-- <div class="object-fill cover border-guide-2"> --}}
                 <img class="" src="{{ asset('img/collab/covers/' . $collaborator['image']) }}" alt="{{ $collaborator['first_name'] . " " . $collaborator['last_name'] }}">
-                {{-- </div> --}}
             </div>
             <div class="details space-y-9">
                 <div class="flex flex-row justify-between items-center">
@@ -24,7 +23,7 @@
             </div>
         </div>
 
-        @if(count($collaborator['books'])>0)
+        @if($collaborator['books'] && count($collaborator['books'])>0)
         <div id="books" class="flex flex-col items-center space-y-4">
             <h2>Obres disponibles</h2>
 
