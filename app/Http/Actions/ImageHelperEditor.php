@@ -11,7 +11,7 @@ use Intervention\Image\Encoders\WebpEncoder;
  * Class AuthorController
  * @package App\Http\Controllers
  */
-class ImageHelper
+class ImageHelperEditor
 {
     public static $paths = [
         'books' => [
@@ -79,7 +79,7 @@ class ImageHelper
                 $rutaThumbnail = self::$paths['books']['thumbnail'];
                 $tamaño_original = self::$sizes['books'];
                 $tamaño_thumbnail = [
-                    self::$sizes['books'][0]*ImageHelper::$reduction_rate,
+                    self::$sizes['books'][0]*ImageHelperEditor::$reduction_rate,
                     self::$sizes['books'][1]*self::$reduction_rate
                 ];
             break;
