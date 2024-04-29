@@ -22,11 +22,16 @@ class ImageHelperEditor
             'thumbnail' => 'img/collab/thumbnails/',
             'cover' => 'img/collab/covers/',
         ],
+        'posts' => [
+            'thumbnail' => 'img/posts/thumbnails/',
+            'cover' => 'img/posts/covers/',
+        ],
     ];
 
     public static $sizes = [
         'books' => ['720', '1080'],
         'collaborators' => ['560', '400'],
+        'posts' => ['720', '1080'],
     ];
 
     public static $reduction_rate = .6;
@@ -81,6 +86,15 @@ class ImageHelperEditor
                 $tamaño_thumbnail = [
                     self::$sizes['books'][0]*ImageHelperEditor::$reduction_rate,
                     self::$sizes['books'][1]*self::$reduction_rate
+                ];
+            break;
+            case "post":
+                $rutaImagen = self::$paths['posts']['cover'];
+                $rutaThumbnail = self::$paths['posts']['thumbnail'];
+                $tamaño_original = self::$sizes['posts'];
+                $tamaño_thumbnail = [
+                    self::$sizes['posts'][0]*self::$reduction_rate,
+                    self::$sizes['posts'][1]*self::$reduction_rate
                 ];
             break;
             default:
