@@ -21,7 +21,7 @@ import 'tinymce/plugins/table';
 
 window.addEventListener('DOMContentLoaded', () => {
     tinymce.init({
-        selector: '.tinyMce', /* Aquest és el selector per aplicar l'editor per id*/
+        selector: '.tinyMce', /* Aquest és el selector per aplicar l'editor */
 
         /* TinyMCE configuration options */
         skin: false,
