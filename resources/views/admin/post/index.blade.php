@@ -63,7 +63,9 @@
                                                 {{-- {{ $post['image'] }} --}}
                                                 <img style="width: 100px; height: auto;" src="{{ asset('img/posts/covers/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
                                             </td>
-											<td>{{ $post['content'] }}</td>
+											{{-- <td>{{ $post['content'] }}</td> --}}
+                                            <td>{!! $post['content'] !!}</td>
+
 											<td>{{ $post['publication_date'] }}</td>
 											<td>{{ $post['published_by'] }}</td>
 

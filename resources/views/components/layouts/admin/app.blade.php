@@ -14,7 +14,7 @@
     <script src="/js/admin/nav.js"></script>
     <title>{{ $title ?? 'Èter Edicions' }}</title>
     {{-- @vite('resources/css/app.css') --}}
-    
+    @vite(['resources/js/app.js'])
 </head>
 <body class="flex flex-col md:flex-row space-y-5 md:space-y-5">
     <x-layouts.admin.navigate/>
