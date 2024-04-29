@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Actions\ImageHelper;
+use App\Http\Actions\ImageHelperEditor;
 use App\Models\Book;
 use App\Models\Bookstore;
 use App\Models\Collection;
@@ -908,7 +908,7 @@ class BookController extends Controller
 
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                ImageHelper::editImage($nombreImagenOriginal, "book");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "book");
 
                 $book->image = $nombreImagenOriginal;
                 $book->save();
@@ -943,7 +943,7 @@ class BookController extends Controller
      */
     public function editImage($filename)
     {
-        ImageHelper::editImage($filename, "book");
+        ImageHelperEditor::editImage($filename, "book");
     }
 
     /**
