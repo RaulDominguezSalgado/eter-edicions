@@ -14,8 +14,8 @@ return [
 
     'title' => 'Portada',
 
-    'catalog' => 'Catàleg',
-    'news' => 'Notícies',
-    'posts' => 'Articles',
-    'activities' => 'Activitats'
+    'catalog' => 'Catálogo',
+    'news' => 'Noticias',
+    'posts' => 'Artículos',
+    'activities' => 'Actividades'
 ];

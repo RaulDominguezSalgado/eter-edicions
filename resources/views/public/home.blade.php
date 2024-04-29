@@ -12,7 +12,7 @@
 
         <div class="flex flex-col items-center space-y-16">
             <div class="flex flex-col items-center space-y-6">
-                <h2>Catàleg</h2>
+                <h2>{{__('general.catalog')}}</h2>
             </div>
 
             <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
@@ -40,9 +40,13 @@
                             </div>
 
                             <div class="book-translator flex space-x-1 text-center">
-                                <div class="book-translator">Traducció de
-                                    @foreach ($book['translators'] as $translator)
-                                        @if (!$loop->last)
+                                <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }}<!--
+                                @foreach ($book['translators'] as $translator)
+                                        @if($loop->first && !$loop->last)
+                                            -->{{ $translator }},
+                                        @elseif($loop->first && $loop->last)
+                                            -->{{ $translator }}
+                                        @elseif (!$loop->last)
                                             {{ $translator }},
                                             {{-- if last iteration --}}
                                         @else
@@ -61,7 +65,7 @@
 
         <div class="flex flex-col items-center space-y-6" id="news">
             <div>
-                <h2>Notícies</h2>
+                <h2>{{__('general.news')}}</h2>
             </div>
             <div class="flex flex-wrap">
                 @foreach ($posts as $i => $post)

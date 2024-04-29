@@ -20,19 +20,19 @@ $locale = 'ca';
     </div>
     <div>
         <ul>
-            <li><a href="">Política de privacitat</a></li>
-            <li><a href="">Política de cookies</a></li>
-            <li><a href="">Avís legal</a></li>
-            <li><a href="{{route("contact.{$locale}")}}">Contacta</a></li>
+            <li><a href="">{{__('general.privacy-policy')}}</a></li>
+            <li><a href="">{{__('general.cookie-policy')}}</a></li>
+            <li><a href="">{{__('general.legal')}}</a></li>
+            <li><a href="{{route("contact.{$locale}")}}">{{__('general.contact')}}</a></li>
         </ul>
     </div>
     <div>
         <ul>
-            <li><a href="{{route("catalog.{$locale}")}}">Catàleg</a></li>
-            <li><a href="{{route("bookstores.{$locale}")}}">Llibreries</a></li>
-            <li><a href="{{route("agency.{$locale}")}}">Agència</a></li>
-            <li><a href="{{route("foreign-rights.{$locale}")}}">Foreign rights</a></li>
-            <li><a href="{{route("about.{$locale}")}}">Qui som</a></li>
+            <li><a href="{{route("catalog.{$locale}")}}">{{__('general.catalog')}}</a></li>
+            <li><a href="{{route("bookstores.{$locale}")}}">{{__('general.bookstores')}}</a></li>
+            <li><a href="{{route("agency.{$locale}")}}">{{__('general.agency')}}</a></li>
+            <li><a href="{{route("foreign-rights.{$locale}")}}">{{__('general.foreign-rights')}}</a></li>
+            <li><a href="{{route("about.{$locale}")}}">{{__('general.about')}}</a></li>
         </ul>
     </div>
 </footer>

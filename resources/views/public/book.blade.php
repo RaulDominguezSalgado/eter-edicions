@@ -79,15 +79,15 @@
             <div>
                 @if ($book['stock'])
                     <div>
-                        <small class="text-green-700">Disponible</small>
+                        <small class="text-green-700">{{__('general.available')}}</small>
                     </div>
                 @else
                     <div>
-                        <small class="text-red-700">Ho sentim! Aquest llibre no està disponible</small>
+                        <small class="text-red-700">{{__('general.not-available')}}</small>
                         <br>
-                        <small>Pots trobar-lo a les <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">llibreries
-                                amb
-                                qui treballem</a></small>
+                        <small>{{__('general.You can find it in')}} {{__('orthographic-rules.les')}} <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">
+                            {{ strtolower(__('general.bookstores')) }}</a>
+                                {{__('general.with whom we work')}}</small>
                     </div>
                 @endif
             </div>
@@ -101,7 +101,7 @@
                             class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b active"
                             id="description-tab" data-tabs-target="#description" type="button" role="tab"
                             aria-controls="description" aria-selected="true">
-                            <h5 class="">Descripció</h5>
+                            <h5 class="">{{__('general.description')}}</h5>
                         </button>
                     </li>
                     <li class="mr-2" role="presentation">
@@ -109,7 +109,7 @@
                             class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b"
                             id="technical-sheet-tab" data-tabs-target="#technical-sheet" type="button" role="tab"
                             aria-controls="technical-sheet" aria-selected="false">
-                            <h5 class="">Fitxa tècnica</h5>
+                            <h5 class="">{{__('general.technical-sheet')}}</h5>
                         </button>
                     </li>
                 </ul>
@@ -136,7 +136,7 @@
                                 </div>
                                 <div>
                                     @if (array_key_exists('books', $author) && count($author['books']) > 1)
-                                        <h3 class="font-bold mb-3">Altres obres disponibles</h3>
+                                        <h3 class="font-bold mb-3">{{__('general.other-books-available')}}</h3>
                                         <div class="flex flex-col space-y-4">
                                             @foreach ($author['books'] as $other_author_book)
                                                 @if ($other_author_book['title'] != $book['title'])
@@ -165,7 +165,7 @@
                                 </div>
                                 <div>
                                     @if (array_key_exists('books', $translator) && count($translator['books']) > 1)
-                                        <h3 class="font-bold mb-3">Altres obres disponibles</h3>
+                                    <h3 class="font-bold mb-3">{{__('general.other-books-available')}}</h3>
                                         <div class="flex space-x-2">
                                             @foreach ($translator['books'] as $other_author_book)
                                                 @if ($other_author_book['title'] != $book['title'])

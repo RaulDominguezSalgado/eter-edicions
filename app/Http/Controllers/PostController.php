@@ -9,8 +9,7 @@ use App\Models\Author;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
-
-use App\Services\OrthographicalRules;
+use App\Services\Translation\OrthographicRules;
 
 use Carbon\Carbon;
 use PHPUnit\Metadata\Uses;
@@ -304,7 +303,7 @@ class PostController extends Controller
 
         $translatorName = !is_null($translator) ? $translator->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $translator->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
         $translatorId = !is_null($translator) ? $translator->id : "";
-        $translation = OrthographicalRules::startsWithDe($translatorName) ? "Traducció de " : "Traducció d'";
+        $translation = OrthographicRules::startsWithDe($translatorName) ? "Traducció de " : "Traducció d'";
 
         $userName = !is_null($user) ? $user->first_name . " " . $user->last_name : "";
 
