@@ -18,5 +18,8 @@ $locale = 'ca';
     <a href="">
         <button>Buscar</button>
     </a>
+    <a href="{{ route("cart.get") }}">
+        <button>Cistella</button>
+    </a>
 </nav>
 {{-- <hr> --}}

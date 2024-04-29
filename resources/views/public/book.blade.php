@@ -65,6 +65,10 @@
                         </a>
 
                         <div class="add-to-cart">
+                              <form action="{{ route('cart.add') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="book_id" value="{{ $book['id'] }}">
+
                             <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
                                 value="1">
                             <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
@@ -72,6 +76,7 @@
                                 <span class=""><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
                                         alt="Botó per afegir a la cistella" style="width: 15px"></span>
                             </button>
+                              </form>
                         </div>
                     </div>
                 </div>

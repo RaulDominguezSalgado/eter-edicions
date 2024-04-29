@@ -22,7 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::post('/cart/{id}', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('stock.update');
 /* Rutas públicas en multi-idioma */
 foreach (config('languages') as $locale) {
 
@@ -129,3 +128,6 @@ Route::prefix('admin')->group(function () {
 })->middleware(AdminCheck::class);
 
 //Route::get('{slug}');
+
+Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct'])->name('cart.add');
+Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'getAllItems'])->name('cart.get');
