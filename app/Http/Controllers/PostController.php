@@ -126,9 +126,14 @@ class PostController extends Controller
             $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
             // Procesar y guardar la imagen
-            $rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
-            $imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
-            $this->editImage($rutaImagen);
+            //$rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
+            //$imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
+            //$this->editImage($rutaImagen);
+
+            // // Procesar y guardar la imagen
+            $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+            // $this->editImage($nombreImagenOriginal, "collaborator");
+            ImageHelper::editImage($nombreImagenOriginal, "post");
 
             $validatedData['image'] = $nombreImagenOriginal;
         }
