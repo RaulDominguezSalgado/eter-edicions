@@ -187,7 +187,7 @@ echo '</select>';
     <div class="form-group mb-2 mb20">
         <label for="tracking_id" class="form-label">{{ __('Codi d\'enviament') }}</label>
         <input type="text" name="tracking_id" class="form-control @error('tracking_id') is-invalid @enderror"
-            value="{{ old('tracking_id', $order['tracking_id']) }}" id="tracking_id" placeholder="Codi d'enviament">
+            value="{{ old('tracking_id') ?? $order['tracking_id'] }}" id="tracking_id" placeholder="Codi d'enviament">
         {!! $errors->first('tracking_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>
 
