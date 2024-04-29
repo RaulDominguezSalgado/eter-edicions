@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('collection_id');
             // $table->timestamps();
 
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('restrict');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('collection_id')->references('id')->on('collections')->onDelete('restrict')->onUpdate('cascade');
 
             $table->primary(['book_id', 'collection_id']);
