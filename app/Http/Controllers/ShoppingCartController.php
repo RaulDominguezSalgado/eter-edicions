@@ -15,19 +15,29 @@ class ShoppingCartController extends Controller
 {
     //public function add($id, $name = null, $qty = null, $price = null, array $options = [], $taxrate = null)
 
+    private $locale = "ca";
     function addProduct(Request $request)
     {
-        //Cart::destroy();
+        Cart::destroy();
         $book = Book::find($request->book_id);
         if ($book) {
-            $authorNames = $book->authors->map(function ($author) {
-                return $author->first_name . ' ' . $author->last_name;
-            });
+            $authorNames = "";
+            $count = count($book->authors);
+            $index = 0;
+            foreach ($book->authors as $author) {
+                $auth =\App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $this->locale)->first();
+                $authorNames .= $auth->first_name . " " . $auth->last_name;
 
-            $AditionalInfo=[
-                "author"=>$authorNames->implode(', '),
+                if (++$index !== $count) {
+                    $authorNames .= ', ';
+                }
+            }
+            $aditionalInfo = [
+                "author" => $authorNames,
+                "isbn" => $book->isbn,
+                "publisher" => $book->publisher,
             ];
-            $item = Cart::add($book, $request->number_of_items);
+            $item = Cart::add($book, $request->number_of_items, $aditionalInfo);
             if ($item) {
                 //added succesfully
                 Cart::setTax($item->rowId, $book->iva);
@@ -43,7 +53,6 @@ class ShoppingCartController extends Controller
 
     function getAllItems()
     {
-
-        //dump(Cart::content());
+        dump(Cart::content());
     }
 }
