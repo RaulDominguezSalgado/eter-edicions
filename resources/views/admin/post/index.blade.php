@@ -57,7 +57,7 @@
 											<td>{{ $post['author_id'] }}</td>
 											<td>{{ $post['translator_id'] }}</td>
 											<td>{{ $post['description'] }}</td>
-											<td>{{ $post['date'] }}</td>
+											<td>{{ $post['date'] }} {{ substr($post['time'], 0, 6) }}</td>
                                             <td>{{ $post['location'] }}</td>
 											<td>
                                                 {{-- {{ $post['image'] }} --}}

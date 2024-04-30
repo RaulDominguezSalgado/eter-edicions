@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('author_id')->nullable();
             $table->unsignedBigInteger('translator_id')->nullable();
             $table->text('description')->nullable();
-            $table->date('date')->nullable();
+            $table->timestamp('date')->nullable();
             $table->string('location')->nullable();
             $table->string('image');
             $table->longText('content');

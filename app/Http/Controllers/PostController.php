@@ -54,6 +54,7 @@ class PostController extends Controller
                 'translator_id' => $translator,
                 'content' => $post->content,
                 'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
+                'time' => substr($post->date, 10, 15),
                 'location' => $post->location,
                 'image' => $post->image,
                 'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
@@ -139,21 +140,28 @@ class PostController extends Controller
             $validatedData['image'] = $nombreImagenOriginal;
         }
 
+        //dd(Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']));
+
         $translationData = [
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
-            'author_id' => $validatedData['author_id'],
-            'translator_id' => $validatedData['translator_id'],
+            //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
+            'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : null,
+            'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
             'content' => $validatedData['content'],
-            'date' => $validatedData['date'],
+            //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
+            'date' => $validatedData['date'] . " " . $validatedData['time'], // . ":00",
             'location' => $validatedData['location'],
             'image' => $validatedData['image'],
-            'slug' =>  \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-            'meta_title' =>  \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-            'meta_description' =>  \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
+            'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+            'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+            'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
             'publication_date' => $validatedData['publication_date'],
             'published_by' => $validatedData['published_by']
         ];
+        //if $validatedData['author'], $translationData[] = ['author_id' => $validatedData['author_id']]
+        //if $validatedData['translator'], $translationData[] = ['translator_id' => $validatedData['translator_id']]
+
         Post::create($translationData);
 
         return redirect()->route('posts.index')
@@ -189,6 +197,7 @@ class PostController extends Controller
             'translator_id' => $translator,
             'content' => $postObject->content,
             'date' => substr($postObject->date, 0, 10), // Extracts 'YYYY-MM-DD'
+            'time' => substr($postObject->date, 10, 15),
             'location' => $postObject->location,
             'image' => $postObject->image,
             'publication_date' => substr($postObject->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
@@ -205,7 +214,42 @@ class PostController extends Controller
     public function edit($id) //todo
     {
 
-        $post = Post::find($id);
+        //$post = Post::find($id);
+        //dd($post);
+
+        $postObject = Post::find($id);
+        $post = [];
+        //dd($postObject);
+
+        if ($postObject->author) {
+            $authorID = $postObject->author->collaborator->translations->first()->first_name . " " . $postObject->author->collaborator->translations->first()->last_name;
+        } else {
+            $authorID = '';
+        }
+
+        if ($postObject->translator) {
+            $translator = $postObject->translator->collaborator->translations->first()->first_name . " " . $postObject->translator->collaborator->translations->first()->last_name;
+        } else {
+            $translator = '';
+        }
+        $post = [
+            'id' => $postObject->id,
+            'title' => $postObject->title,
+            'description' => $postObject->description,
+            'author_id' => $authorID,
+            'translator_id' => $translator,
+            'content' => $postObject->content,
+            'date' => substr($postObject->date, 0, 10), // Extracts 'YYYY-MM-DD'
+            //'time' => substr($postObject->date, 10, 18),
+            'time' => Carbon::parse(substr($postObject->date, 10, 18))->format('H:i'),
+            'location' => $postObject->location,
+            'image' => $postObject->image,
+            'slug' => $postObject->slug,
+            'meta_title' => $postObject->meta_title,
+            'meta_description' => $postObject->meta_description,
+            'publication_date' => substr($postObject->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
+            'published_by' => $postObject->user->id
+        ];
         //dd($post);
         $authors = Author::paginate();
         $users = User::all();
@@ -219,9 +263,25 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        $post->update($request->validated());
+        // dd(Carbon::createFromFormat(('Y-m-d H:i:s'), $request['date'] . " " . "09:30:00"));
+
+        // $post->update($request->validated());
+
+        // return redirect()->route('posts.index')
+        //     ->with('success', 'Post updated successfully');
+        $validatedData = $request->validated();
+
+
+        // Agregar la hora al array de datos
+
+        $validatedData['date'] = $validatedData['date'] . ' ' . $request->input('time');
+
+
+        $post->update($validatedData);
+
 
         return redirect()->route('posts.index')
+
             ->with('success', 'Post updated successfully');
     }
 
@@ -343,7 +403,7 @@ class PostController extends Controller
             'description' => $post->description,
             'content' => $post->content,
             'published_by' => $userName,
-            'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'publication_date' => Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y'),
             'image' => $post->image,
             'post_type' => "ARTICLES",
             'slug' => $post->slug,
@@ -360,7 +420,7 @@ class PostController extends Controller
             'id' => $post->id,
             'title' => $post->title,
             'description' => $post->description,
-            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'date' => Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y'),
             'image' => $post->image,
             'post_type' => "ARTICLES",
             'slug' => $post->slug
@@ -387,7 +447,7 @@ class PostController extends Controller
             'image' => $activity->image,
             'published_by' => $userName,
             'published_by_id' => $userId,
-            'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->publication_date)->format('d/m/Y'),
+            'publication_date' => Carbon::createFromFormat('Y-m-d', $activity->publication_date)->format('d/m/Y'),
             'post_type' => "ACTIVITATS",
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,

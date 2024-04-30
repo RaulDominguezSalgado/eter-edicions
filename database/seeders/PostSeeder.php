@@ -72,7 +72,7 @@ class PostSeeder extends Seeder
 
         Us hi esperem!
         HEREDOC;
-        $post2->date = Carbon::createFromFormat('Y/m/d', '2024/04/15')->toDateTimeString();
+        $post2->date = Carbon::createFromFormat('Y/m/d H:i', '2024/04/15 20:00')->toDateTimeString();
         $post2->location = "Residència d'Investigadors-CSIC. Carrer de l'Hospital, 64. Barcelona";
         $post2->published_by = $oriol_user->id;
         $post2->publication_date = Carbon::createFromFormat('Y/m/d', '2024/03/23')->toDateTimeString();
@@ -88,7 +88,7 @@ class PostSeeder extends Seeder
         $post3->content = <<<HEREDOC
         El proper dissabte 24 de febrer al matí serem a @lafigaflor.llibreria per participar a la xerrada ‘Qui ensenya vida’! Parlarem de ‘La tragèdia d’en Saied Mattar’ i la història dels palestins del 48, o de l’interior. Amb nosaltres, participaran la @neiix5 i el col·lectiu @montserratiambpalestina!
         HEREDOC;
-        $post3->date = Carbon::createFromFormat('Y/m/d', '2024/02/24')->toDateTimeString();
+        $post3->date = Carbon::createFromFormat('Y/m/d H:i', '2024/02/24 20:00')->toDateTimeString();
         $post3->location = "Espai Cultural La Figaflor";
         $post3->published_by = $oriol_user->id;
         $post3->publication_date = Carbon::createFromFormat('Y/m/d', '2024/01/31')->toDateTimeString();
