@@ -16,7 +16,7 @@ use Carbon\Carbon;
 use PHPUnit\Metadata\Uses;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Encoders\WebpEncoder;
+
 use Illuminate\Http\Request;
 
 /**
@@ -78,39 +78,39 @@ class PostController extends Controller
     }
 
 
-    public function editImage($rutaImagen)
-    {
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($rutaImagen);
-        // Crop a 1.4 / 1 aspect ratio
-        if ($image->width() > $image->height()) {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($image->width(), $heightStd);
-            }
-        } else {
-            $heightStd = $image->width() / 1.4;
-            $cropNum = $image->height() - $heightStd;
-            if ($cropNum > 0) {
-                $image->crop($heightStd, $image->height());
-            }
-        }
+    // public function editImage($rutaImagen)
+    // {
+    //     $manager = new ImageManager(new Driver());
+    //     $image = $manager->read($rutaImagen);
+    //     // Crop a 1.4 / 1 aspect ratio
+    //     if ($image->width() > $image->height()) {
+    //         $heightStd = $image->width() / 1.4;
+    //         $cropNum = $image->height() - $heightStd;
+    //         if ($cropNum > 0) {
+    //             $image->crop($image->width(), $heightStd);
+    //         }
+    //     } else {
+    //         $heightStd = $image->width() / 1.4;
+    //         $cropNum = $image->height() - $heightStd;
+    //         if ($cropNum > 0) {
+    //             $image->crop($heightStd, $image->height());
+    //         }
+    //     }
 
-        // Resize the image to 560x400
-        $image->resize(560, 400);
+    //     // Resize the image to 560x400
+    //     $image->resize(560, 400);
 
-        // If size > 560x400, resize to 720x1080
-        if ($image->width() > 560 || $image->height() > 400) {
-            $image->resize(720, 1080);
-        }
+    //     // If size > 560x400, resize to 720x1080
+    //     if ($image->width() > 560 || $image->height() > 400) {
+    //         $image->resize(720, 1080);
+    //     }
 
-        // Encode the image to webp format with 80% quality
-        $image->encode(new WebpEncoder(), 80);
+    //     // Encode the image to webp format with 80% quality
+    //     //$image->encode(new WebpEncoder(), 80);
 
-        // Save the processed image
-        $image->save($rutaImagen);
-    }
+    //     // Save the processed image
+    //     $image->save($rutaImagen);
+    // }
     /**
      * Store a newly created resource in storage.
      */
