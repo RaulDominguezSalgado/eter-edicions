@@ -1,5 +1,5 @@
 <?php
-    $locale = 'ca';
+    Config::get('app.locale')
 ?>
 <div class="p-3">
     <form action="{{ route("search.{$locale}")}}" method="GET" class="flex">

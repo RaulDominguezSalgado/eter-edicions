@@ -1,12 +1,30 @@
 <?php
-$locale = 'ca';
+Config::get('app.locale')
 ?>
-<nav class="flex justify-end px-2.5">
+<nav class="flex justify-end px-2.5 pt-3">
     <ul>
-        <li>
-            <button class="shopping-cart" type="button" {{-- href="{{ route("cart.view") }}" --}} >
-                <div class="icon lang h-4">Idioma</div>
-            </button>
+        <li class="relative">
+            <div id="lang"  {{-- href="{{ route("cart.view") }}" --}} >
+                <button type="button" class="flex items-center">
+                    <i  class="icon lang text-[14px]"></i>
+                    <div class="p14 flex leading-3 me-2">Idioma</div>
+                    <i  class="icon expand-arrow text-[10px]"></i>
+                </button>
+            </div>
+            <div class="lang-select absolute top-8 bg-light">
+                <form action="{{ route('lang.switch')}}" method="POST">
+                    @csrf
+                    <div class="w-full bg:surfacelight hover:bg-surfacemedium px-5 py-1 pb-2">
+                        <button class="" type="submit" name="lang" value="ca">Català</button>
+                    </div>
+                    <div class="w-full bg:surfacelight  hover:bg-surfacemedium px-5 py-1 pb-2">
+                        <button type="submit" name="lang" value="es">Español</button>
+                    </div>
+                    {{-- <div class="w-full bg:surfacelight hover:bg-surfacemedium px-5 py-1 rtl-wrapper pb-2">
+                        <button type="submit" name="lang" value="arb">عربي</button>
+                    </div> --}}
+                </form>
+            </div>
         </li>
     </ul>
 </nav>

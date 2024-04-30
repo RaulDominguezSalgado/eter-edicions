@@ -1,6 +1,15 @@
-.icon.lang::before{
+i.icon:before{
+    content: '';
+    display: flex;
+    align-items: center;
     width: 1em;
     height: 1em;
-
-    background-image:url('/img/icons/dark/lang.svg');
+    margin-right: 8px;
+    background-size: cover;
+}
+.icon.lang:before{
+    background-image: url('/img/icons/dark/lang.svg');
+}
+.icon.expand-arrow:before{
+    background-image: url('/img/icons/dark/arrow-down.svg');
 }

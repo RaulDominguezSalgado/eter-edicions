@@ -1,5 +1,5 @@
 <?php
-$locale = 'ca';
+Config::get('app.locale')
 ?>
 
 <footer id="main-footer" class="flex space-between items-center">

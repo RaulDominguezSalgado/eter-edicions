@@ -112,6 +112,7 @@ foreach (config('languages') as $locale) {
 /* Rutas públicas de colaboradores */
 // Route::get('authors', [App\Http\Controllers\AuthorController::class, '']);
 
+Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
 
 /* Admin Backoffice */
 Route::prefix('admin')->group(function () {

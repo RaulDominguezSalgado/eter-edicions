@@ -26,6 +26,7 @@ export default {
             textmuted: '#9EA2AF',
 
             surfacelight: '#F8FAFC',
+            surfacemedium: '#f3f3f3',
             surfacedark: '#E2E7ED',
 
             systemerror: '#ED0131',

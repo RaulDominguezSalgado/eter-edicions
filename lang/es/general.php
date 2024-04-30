@@ -27,14 +27,43 @@ return [
     'translators' => 'Traductores',
     'translation' => 'Traducción',
 
-    'other-books-available' => 'Obras disponibles',
-    'description' => 'Descripción',
-    'technical-sheet' => 'Ficha técnica',
-    'you-may-also-like' => 'También pueden gustarte',
+    'books-available' => 'Obras disponibles',
+    'other-books-available' => 'Otras obras disponibles',
+
+    'sample' => 'Empieza a leer',
+
     'available' => 'Disponible',
+    'not-available' => '¡Lo sentimos! Este libro no está disponible',
+    'You can find it in' => 'Puedes encontrarlo en',
+    'with whom we work' => 'con las que trabajamos',
+
+    'description' => 'Descripción',
+
+    'technical-sheet' => 'Ficha técnica',
+    'headline' => 'Capçalera',
+
+    'technical-sheet' => 'Ficha técnica',
+    'original_title' => 'Título original',
+    'authorship' => 'Autoría',
+    'translation' => 'Traducción',
+    'published-by' => 'Edita',
+    'publisher' => 'Editorial',
+    'original_publisher' => 'Editorial original',
+    'collections' => '{1} Colección|[2,*] Colecciones',
+    'languages' => '{1}Idioma|[2,*]Idiomas',
+    'number_of_pages' => 'Páginas',
+    'size' => 'Dimensiones',
+    'publication_date' => 'Publicación',
+    'isbn' => 'ISBN',
+    'legal_diposit' => 'Dipósito legal',
+    'enviromental_footprint' => 'Huella de carbono',
+
+    'you-may-also-like' => 'También pueden gustarte',
 
     'where' => '¿Dónde',
     'when' => '¿Cuándo',
+
+    'read-more' => 'Leer más',
 
     'privacy-policy' => 'Política de privacidad',
     'cookie-policy' => 'Política de cookies',

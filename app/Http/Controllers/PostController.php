@@ -212,7 +212,7 @@ class PostController extends Controller
 
     public function posts()
     {
-        $locale = "ca";
+        $locale = app()->getLocale();
 
         $posts_lv = Post::whereNull('date')
             ->whereNull('location')
@@ -237,7 +237,7 @@ class PostController extends Controller
 
     public function activities()
     {
-        $locale = "ca";
+        $locale = app()->getLocale();
 
         $posts_lv = Post::whereNotNull('date')
             ->whereNotNull('location')
@@ -263,7 +263,7 @@ class PostController extends Controller
 
     public function postDetail($id)
     {
-        $locale = "ca";
+        $locale = app()->getLocale();
 
 
         $post_lv = Post::find($id);
@@ -443,7 +443,7 @@ class PostController extends Controller
     */
     public static function getData($type = null, $key = null, $value = null, $search = false) {
         // try {
-            $locale = 'ca';
+            $locale = app()->getLocale();
 
             if ($key == null || $value == null) {
                 switch ($type) {

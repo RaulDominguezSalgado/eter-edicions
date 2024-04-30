@@ -347,7 +347,7 @@ class BookController extends Controller
     {
         try {
             // $locale = config('app')['locale'];
-            $locale = 'ca';
+            $locale = Config::get('app.locale');
             $page = [
                 'title' => 'Catàleg',
                 'shortDescription' => '',
@@ -390,7 +390,7 @@ class BookController extends Controller
     public function bookDetail($id)
     {
         try {
-            $locale = 'ca';
+            $locale = Config::get('app.locale');
             $page = [
                 'title' => 'Portada',
                 'shortDescription' => '',
@@ -797,7 +797,7 @@ class BookController extends Controller
     */
     public static function getData($key = null, $value = null, $search = false) {
         // try {
-            $locale = 'ca';
+            $locale = Config::get('app.locale');
 
             if ($key == null || $value == null) {
                 $query_data = Book::paginate();

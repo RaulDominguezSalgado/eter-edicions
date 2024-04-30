@@ -1,5 +1,5 @@
 <?php
-$locale = 'ca';
+Config::get('app.locale')
 //TODO Change locale
 ?>
 <nav id="admin-nav"

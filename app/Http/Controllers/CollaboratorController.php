@@ -225,7 +225,7 @@ class CollaboratorController extends Controller
 
     public function collaborators()
     {
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
         $page = [
             'title' => 'Autors i traductors',
             'shortDescription' => '',
@@ -260,7 +260,7 @@ class CollaboratorController extends Controller
 
     public function collaboratorDetail($id)
     {
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
         $page = [
             'title' => 'Autors i traductors',
             'shortDescription' => '',
@@ -289,7 +289,7 @@ class CollaboratorController extends Controller
 
     public function agency()
     {
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
         // $pageController = new PageController();
         // $page = $pageController->getFullPage('agency', $locale);
 
@@ -375,7 +375,7 @@ class CollaboratorController extends Controller
     public static function getCollaboratorsArray($id)
     {
         try {
-            $locale = 'ca';
+            $locale = Config::get('app.locale');
 
             $book = \App\Models\Book::find($id);
 
@@ -425,7 +425,7 @@ class CollaboratorController extends Controller
     */
     public static function getData($key = null, $value = null, $search = false) {
         // try {
-            $locale = 'ca';
+            $locale = Config::get('app.locale');
             $query_data = [];
 
             if ($key == null || $value == null) {

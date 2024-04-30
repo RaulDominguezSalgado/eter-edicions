@@ -15,7 +15,7 @@ class PageController extends Controller
 {
     public function home(){
         // $locale = config('app')['locale'];
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
         $page = [
             'title' => 'Portada',
             'shortDescription' => '',
@@ -37,7 +37,7 @@ class PageController extends Controller
 
     public function about(){
         // $locale = config('app')['locale'];
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
 
         $page = $this->getFullPage('about', $locale);
 
@@ -47,7 +47,7 @@ class PageController extends Controller
 
     public function foreignRights(){
         // $locale = config('app')['locale'];
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
 
         $page = $this->getFullPage('foreign-rights', $locale);
         $pageEn = $this->getFullPage('foreign-rights', "en");
@@ -58,7 +58,7 @@ class PageController extends Controller
 
     public function contact(){
         // $locale = config('app')['locale'];
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
 
         $page = $this->getFullPage('contact', $locale);
 
@@ -67,7 +67,7 @@ class PageController extends Controller
 
     public function agency(){
         // $locale = config('app')['locale'];
-        $locale = 'ca';
+        $locale = Config::get('app.locale');
 
         $page = $this->getFullPage('agency', $locale);
 

@@ -1,5 +1,5 @@
 <?php
-$locale = 'ca';
+Config::get('app.locale')
 ?>
 <x-layouts.app>
 

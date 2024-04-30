@@ -61,3 +61,23 @@
     display: block;
     opacity: 1;
 }
+
+.lang-select{
+    box-shadow: -2px 3px 8px rgb(0,0,0,0.15) ;
+}
+
+.lang-select::before {
+    content: '';
+    position: absolute;
+    top: -20px; /* Adjust this value to control the distance of the triangle from the speech bubble */
+    right: 0px; /* Position the triangle horizontally in the middle */
+    margin-left: -10px; /* Adjust this value to center the triangle */
+    border-width: 12px; /* Size of the triangle */
+    border-style: solid;
+    border-color: transparent transparent #F8FAFC transparent; /* Color of the triangle */
+    z-index: 2;
+}
+
+.lang-select div{
+    z-index: 10;
+}
