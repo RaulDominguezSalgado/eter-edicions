@@ -1,3 +1,6 @@
+<?php
+    $locale = "ca";//TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
+?>
 <x-layouts.app>
 
     {{-- <x-slot name="title">
@@ -59,7 +62,7 @@
                 <h2>També et poden agradar</h2>
 
                 <div class="flex">
-                    @foreach ($related_books as $i => $relatedBook)
+                    @foreach ($relatedBooks as $i => $relatedBook)
                         <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
                             <div class="cover mb-4 flex justify-center">
                                 <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
@@ -74,7 +77,20 @@
                                     {{ $relatedBook['title'] }}
                                 </div>
                             </div>
+                            <div class="add-to-cart">
+                                <form action="{{ route('cart.add') }}" method="POST">
+                              @csrf
+                              <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}">
 
+                              <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
+                                  value="1" min="1">
+                              <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
+                                  <span class="flex items-center leading-none text-white">Afegir a la cistella</span>
+                                  <span class=""><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
+                                          alt="Botó per afegir a la cistella" style="width: 15px"></span>
+                              </button>
+                                </form>
+                          </div>
                         </div>
                     @endforeach
                 </div>

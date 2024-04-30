@@ -55,17 +55,19 @@ class ShoppingCartController extends Controller
     {
         $books = $this->convertCartToBooks(Cart::content());
         $controller = new BookController();
-        $relatedBooks =[];// $controller->getRelatedBooksFromMultiple($books,"ca");
+        $relatedBooks = $controller->getRelatedBooksFromMultiple($books,"ca");
         return view('public.cart', compact('relatedBooks'));
         //dump(Cart::content());
     }
 
     private function convertCartToBooks($cartContent){
         $books = [];
+        $controller = new BookController();
         foreach($cartContent as $item){
             $book = Book::find($item->id);
             if($book){
                 $books[] = $book;
+                //dump($controller->getRelatedBooks($book,"ca"));
             }
         }
         return $books;
