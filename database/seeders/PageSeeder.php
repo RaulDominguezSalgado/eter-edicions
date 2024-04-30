@@ -337,4 +337,79 @@ class PageSeeder extends Seeder
         $pageCaContentFormSendButton->content = trans('form.send');
         $pageCaContentFormSendButton->save();
     }
+
+    private function agency(){
+        $page = new Page();
+        $page->tag="agency";
+        $page->save();
+
+        $pageTranslationCa = new PageTranslation();
+        $pageTranslationCa->page_id = $page->id;
+        $pageTranslationCa->lang = "ca";
+        $pageTranslationCa->slug = "agencia";
+        $pageTranslationCa->meta_title = "Agència";
+        $pageTranslationCa->meta_description = "Informació sobre l'agència de representació de professionals de la cultura d'Èter Edicions. Èter representa escriptors, poetes, assagistes, autors de teatre, traductors, il·lustradors...";
+        $pageTranslationCa->save();
+
+        $pageCaContentH1 = new PageContent();
+        $pageCaContentH1->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentH1->key = "h1";
+        $pageCaContentH1->content = ucfirst(__('general.agency'));
+        $pageCaContentH1->save();
+
+        $pageCaContentP1 = new PageContent();
+        $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentP1->key = "p1";
+        $pageCaContentP1->content = <<<HEREDOC
+        Sed sollicitudin libero eu lacus sodales ultricies molestie ut justo.  Nunc aliquet maximus est, sed sodales lacus accumsan in. Curabitur ut  risus sem. Fusce sit amet est mauris. Donec malesuada velit nec  venenatis rhoncus. Phasellus interdum, quam eget blandit interdum, velit  risus vulputate mauris, quis iaculis neque nisi sed turpis. In eget  nisi a nibh efficitur hendrerit a vitae ligula. Ut a nibh placerat,  iaculis urna a, imperdiet massa. Integer non mauris rhoncus, mattis.
+        HEREDOC;;
+        $pageCaContentP1->save();
+
+        // $pageCaContentH2 = new PageContent();
+        // $pageCaContentH2->page_translation_id = $pageTranslationCa->id;
+        // $pageCaContentH2->key = "h2";
+        // $pageCaContentH2->content = "Qui som?";
+        // $pageCaContentH2->save();
+
+        // $pageCaContentP2 = new PageContent();
+        // $pageCaContentP2->page_translation_id = $pageTranslationCa->id;
+        // $pageCaContentP2->key = "p2";
+        // $pageCaContentP2->content = <<<HEREDOC
+        // Èter Edicions apareix principalment per culpa d'en Mohammad Bitari. Aquest poeta, dramaturg i traductor palestí trobava a faltar accés a un món que coneix bé i que no arriba suficientment a l’altre costat del Mediterrani: la producció escrita en àrab. A pesar de l’enorme qualitat i varietat de les publicacions -siguin de poesia, teatre, novel·la o pensament-, les traduccions que ens arriben a Occident, i sobretot al català, són, o bé escasses, o bé no existeixen.
+        // Per resoldre això, va fundar Èter, conjuntament amb el poeta i crític literari Oriol Rissech.
+        // HEREDOC;
+        // $pageCaContentP2->save();
+
+        // $pageCaContentH3 = new PageContent();
+        // $pageCaContentH3->page_translation_id = $pageTranslationCa->id;
+        // $pageCaContentH3->key = "h3";
+        // $pageCaContentH3->content = "Per què aquest nom?";
+        // $pageCaContentH3->save();
+
+        // $pageCaContentP3 = new PageContent();
+        // $pageCaContentP3->page_translation_id = $pageTranslationCa->id;
+        // $pageCaContentP3->key = "p3";
+        // $pageCaContentP3->content = <<<HEREDOC
+        // En la física medieval, l’èter era considerat el cinquè element, l’element que es trobava en l’espai: o sigui, allò que mantenia unit el conjunt universal.
+        // Fins al final del segle XIX, l’èter com a substància hipotètica es feia servir per a explicar la transmissió de la llum o la pròpia força de la gravetat (Newton dixit, com a mínim en un primer esbós dels seus principis).
+        // Tot i que l’experiment de Michelson i Morley, de 1887, va concloure la no existència de l’èter, i Einstein va acabar de rematar-lo amb la Teoria de la Relativitat, es va considerar que l’èter com a símbol era més que suggestiu: la proposta editorial estaria ben representada per la substància que connecta els cossos terrestres, per la substància que uneix els cossos terrestres.
+        // I és això el que volem ser: una editorial que creï ponts, que obri camins d’intercanvi i de creació entre les dues llengües.
+        // HEREDOC;
+        // $pageCaContentP3->save();
+
+        // $pageCaContentH4 = new PageContent();
+        // $pageCaContentH4->page_translation_id = $pageTranslationCa->id;
+        // $pageCaContentH4->key = "h4";
+        // $pageCaContentH4->content = "";
+        // $pageCaContentH4->save();
+
+        // $pageCaContentP4 = new PageContent();
+        // $pageCaContentP4->page_translation_id = $pageTranslationCa->id;
+        // $pageCaContentP4->key = "p4";
+        // $pageCaContentP4->content = <<<HEREDOC
+
+        // HEREDOC;
+        // $pageCaContentP4->save();
+
+    }
 }

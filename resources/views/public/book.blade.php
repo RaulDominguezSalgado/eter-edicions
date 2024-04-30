@@ -188,7 +188,7 @@
                     @endforeach
                 </div>
 
-                <div class="technical-sheet hidden flex flex-col space-y-0.5" id="technical-sheet" role="tabpanel"
+                <div class="technical-sheet flex flex-col space-y-0.5" id="technical-sheet" role="tabpanel"
                     aria-labelledby="technical-sheet-tab">
                     <div class="mb-2">
                         <div class="flex" id="title">
@@ -200,7 +200,7 @@
                         </div>
                     </div>
                     <div class="flex space-x-1.5" id="authors">
-                        <strong>Autoria: </strong>
+                        <strong>{{__('general.authorship')}}: </strong>
                         <div class="flex space-x-1.5">
                             @foreach ($book['authors'] as $author)
                                 {{-- if not last iteration --}}
@@ -214,7 +214,7 @@
                         </div>
                     </div>
                     <div class="flex space-x-1.5" id="translators">
-                        <strong>Traducció: </strong>
+                        <strong>{{__('general.translation')}}: </strong>
                         <div class="flex space-x-1.5">
                             @foreach ($book['translators'] as $translator)
                                 {{-- if not last iteration --}}
@@ -238,15 +238,11 @@
                         </div>
                     @endif
                     <div class="flex space-x-1.5" id="publisher">
-                        <strong>Edita: </strong>
+                        <strong>{{__('general.published-by')}}: </strong>
                         <p>{{ $book['publisher'] }}</p>
                     </div>
                     <div class="flex space-x-1.5" id="collections">
-                        @if (count($book['collections']) > 1)
-                            <strong>Col·leccions: </strong>
-                        @else
-                            <strong>Col·lecció: </strong>
-                        @endif
+                            <strong>{{trans_choice('general.collections', count($book['collections']))}}: </strong>
 
                         <div class="flex space-x-1.5">
                             @foreach ($book['collections'] as $collection)
@@ -260,17 +256,8 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="flex space-x-1.5" id="number_of_pages">
-                        <strong>Pàgines: </strong>
-                        <p>{{ $book['number_of_pages'] }}</p>
-                    </div>
                     <div class="flex space-x-1.5" id="lang">
-                        @if (count($book['lang']) > 1)
-                            <strong>Idiomes: </strong>
-                        @else
-                            <strong>Idioma: </strong>
-                        @endif
-
+                        <strong>{{trans_choice('general.languages', count($book['lang']))}}:</strong>
                         <div class="flex space-x-1.5">
                             @foreach ($book['lang'] as $lang)
                                 @if (!$loop->last)
@@ -281,16 +268,24 @@
                             @endforeach
                         </div>
                     </div>
+                    <div class="flex space-x-1.5" id="number_of_pages">
+                        <strong>{{__('general.number_of_pages')}}: </strong>
+                        <p>{{ $book['number_of_pages'] }}</p>
+                    </div>
+                    <div class="flex space-x-1.5" id="size">
+                        <strong>{{__('general.size')}}: </strong>
+                        <p>{{ $book['size'] }}</p>
+                    </div>
                     <div class="flex space-x-1.5" id="publication_date">
-                        <strong>Publicació: </strong>
-                        <p>{{ $book['publication_date'] }}</p>
+                        <strong>{{__('general.publication_date')}}: </strong>
+                        <p>{{ substr($book['publication_date'], -4, 4) }}</p>
                     </div>
                     <div class="flex space-x-1.5" id="isbn">
-                        <strong>ISBN: </strong>
+                        <strong>{{__('general.isbn')}}: </strong>
                         <p>{{ $book['isbn'] }}</p>
                     </div>
                     <div class="flex space-x-1.5" id="isbn">
-                        <strong>Dipòsit legal: </strong>
+                        <strong>{{__('general.legal_diposit')}}: </strong>
                         <p>{{ $book['legal_diposit'] }}</p>
                     </div>
                 </div>
@@ -299,7 +294,7 @@
 
         @if (count($related_books) > 0)
             <div id="related-books" class="flex flex-col items-center space-y-4">
-                <h2>També et poden agradar</h2>
+                <h2>{{__('general.you-may-also-like')}}</h2>
 
                 <div class="flex">
                     @foreach ($related_books as $i => $relatedBook)

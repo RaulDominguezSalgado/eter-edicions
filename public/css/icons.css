@@ -1,0 +1,6 @@
+.icon.lang::before{
+    width: 1em;
+    height: 1em;
+
+    background-image:url('/img/icons/dark/lang.svg');
+}

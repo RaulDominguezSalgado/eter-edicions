@@ -65,6 +65,19 @@ class PageController extends Controller
         return view('public.contact', compact('page', 'locale'));
     }
 
+    public function agency(){
+        // $locale = config('app')['locale'];
+        $locale = 'ca';
+
+        $page = $this->getFullPage('agency', $locale);
+
+        $collaboratorController = new CollaboratorController();
+        $collaborators_lv = $collaboratorController->agency()[0];
+        $collaborators = $collaboratorController->agency()[1];
+
+        return view('public.agency', compact('collaborators_lv', 'collaborators', 'page', 'locale'));
+    }
+
 
     public function sendContactForm(){
         return "email sent";
@@ -72,7 +85,7 @@ class PageController extends Controller
 
 
 
-    private function getFullPage($tag, $locale){
+    public function getFullPage($tag, $locale){
         $page_lv = Page::where('tag', 'LIKE', $tag)->first();
 
         $translation = $page_lv->translations->where('lang', $locale)->first();

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/icons.css">
     <link rel="stylesheet" href="/css/front/nav.css">
     <link rel="stylesheet" href="/css/front/footer.css">
     <title>{{ $title ?? 'Èter Edicions' }}</title>

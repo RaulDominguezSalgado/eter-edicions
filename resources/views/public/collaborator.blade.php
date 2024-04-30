@@ -25,7 +25,7 @@
 
         @if($collaborator['books'] && count($collaborator['books'])>0)
         <div id="books" class="flex flex-col items-center space-y-4">
-            <h2>Obres disponibles</h2>
+            <h2>{{__('general.books-available')}}</h2>
 
             <div class="flex">
                 @foreach ($collaborator['books'] as $i => $book)

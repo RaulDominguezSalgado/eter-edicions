@@ -6,15 +6,15 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/posts.css') }}">
 
-    <main class="">
+    <main class="mb-10">
         <div class="flex flex-col items-center space-y-10">
             <div class="flex flex-col items-center space-y-6">
-                <h2>Activitats</h2>
+                <h2>{{__('general.activities')}}</h2>
             </div>
 
-            <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
+            <div class="w-full flex flex-wrap justify-center space-y-5 px-16" id="activities">
                 @foreach ($posts as $i => $post)
-                    <div class="post space-y-2">
+                    <div class="post mx-5 space-y-2">
                         <div class="">
                             <h5 class="font-bold">{{$post['title']}}</h5>
                         </div>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="w-fit">
                             <a href="{{route('post-detail.ca', $post['id'])}}">
-                                <p class="p14 underline">Saber-ne més</p>
+                                <p class="p14 underline">{{__('general.read-more')}}</p>
                             </a>
                         </div>
                     </div>

@@ -476,7 +476,7 @@ class BookController extends Controller
                 'sample' => $book->sample,
                 'number_of_pages' => $book->number_of_pages,
                 'size' => $book->size,
-                'publication_date' => $book->publication_date ? $book->publication_date->format('Y-m-d') : '',
+                'publication_date' => $book->publication_date ? $book->publication_date->format('d-m-Y') : '',
                 'original_publication_date' => $book->original_publication_date,
                 'pvp' => $book->pvp,
                 'iva' => $book->iva,
@@ -584,7 +584,7 @@ class BookController extends Controller
     }
 
     /**
-     *
+     * Get an array of books related to $book
      *
      * Algorithm recommendation criteria:
      * 1. Related books --> books that are related, manually established by admins
@@ -592,8 +592,13 @@ class BookController extends Controller
      * 3. Books from the same collections
      * 4. Books by the same translators. Translators are sorted based on how many books they have written
      * 5. Newest books
+     *
+     * @param Book $book the method will return books related to this book
+     * @param string $locale the iso code for the current language of the website
+     *
+     * @return array an array with a preview of 3 related books
      */
-    private function getRelatedBooks($book, $locale)
+    private function getRelatedBooks(Book $book, string $locale)
     {
         $result = [];
 
@@ -674,6 +679,26 @@ class BookController extends Controller
 
 
         //Get the first 4 books (they will always be the more relevant)
+        $result = array_slice($result, 0, 3);
+
+        return $result;
+    }
+
+    /**
+     * Get an array of related books based on an array of books.
+     * Example of usage: to get recommendations based on the products of the shopping cart
+     *
+     * @param array $books an array of Book objects
+     * @param string $locale
+     *
+     * @return array an array with a preview of 3 related books
+     */
+    public function getRelatedBooksFromMultiple(array $books, string $locale){
+        $result = [];
+        foreach($books as $book){
+            array_merge($result, $this->getRelatedBooks($book, $locale));
+        }
+
         $result = array_slice($result, 0, 3);
 
         return $result;
@@ -908,7 +933,8 @@ class BookController extends Controller
 
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                ImageHelper::editImage($nombreImagenOriginal, "book");
+                $imageHelper = new ImageHelper();
+                $imageHelper->editImage($nombreImagenOriginal, "book");
 
                 $book->image = $nombreImagenOriginal;
                 $book->save();
@@ -943,7 +969,8 @@ class BookController extends Controller
      */
     public function editImage($filename)
     {
-        ImageHelper::editImage($filename, "book");
+        $imageHelper = new ImageHelper();
+        $imageHelper->editImage($filename, "book");
     }
 
     /**

@@ -40,7 +40,7 @@ foreach (config('languages') as $locale) {
         Route::get(__('paths.authors', [], $locale)  . '/{id}', [App\Http\Controllers\CollaboratorController::class, 'collaboratorDetail'])->name("collaborator-detail.{$locale}");
 
         // Agency
-        Route::get(__('paths.agency', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'agency'])->name("agency.{$locale}");
+        Route::get(__('paths.agency', [], $locale), [App\Http\Controllers\PageController::class, 'agency'])->name("agency.{$locale}");
 
         // Activities
         Route::get(__('paths.activities', [], $locale), [App\Http\Controllers\PostController::class, 'activities'])->name("activities.{$locale}");

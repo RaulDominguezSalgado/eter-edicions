@@ -9,9 +9,9 @@
     <main class="body mb-20">
         <div class="flex flex-col items-center space-y-5">
             <div class="flex flex-col items-center justify-center space-y-5 ">
-                <h2>Agència</h2>
+                <h2>{{__('general.agency')}}</h2>
                 <div class="w-full">
-                    <p class="text-justify">Sed sollicitudin libero eu lacus sodales ultricies molestie ut justo.  Nunc aliquet maximus est, sed sodales lacus accumsan in. Curabitur ut  risus sem. Fusce sit amet est mauris. Donec malesuada velit nec  venenatis rhoncus. Phasellus interdum, quam eget blandit interdum, velit  risus vulputate mauris, quis iaculis neque nisi sed turpis. In eget  nisi a nibh efficitur hendrerit a vitae ligula. Ut a nibh placerat,  iaculis urna a, imperdiet massa. Integer non mauris rhoncus, mattis.</p>
+                    <p class="text-justify">{{$page['contents']['p1']}}</p>
                 </div>
                 <div class="w-full flex flex-wrap space-x-24" id="collaborators">
                     @foreach ($collaborators as $i => $collaborator)

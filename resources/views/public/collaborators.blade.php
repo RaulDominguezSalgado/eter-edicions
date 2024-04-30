@@ -16,7 +16,7 @@
                 </ul>
             </div> --}}
             <div class="flex flex-col items-center justify-center space-y-5">
-                <h2>Autors</h2>
+                <h2>{{__('general.authors')}}</h2>
                 <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16" id="catalog">
                     @foreach ($authors as $i => $author)
                         <div class="collaborator flex flex-col items-center mb-6">
@@ -37,8 +37,8 @@
                 </div>
             </div>
             <div class="flex flex-col items-center justify-center space-y-5">
-                <h2>Traductors</h2>
-                <div class="w-full grid grid-cols-4 px-16" id="catalog">
+                <h2>{{__('general.translators')}}</h2>
+                <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16" id="catalog">
                     @foreach ($translators as $i => $translator)
                         <div class="collaborator flex flex-col items-center mb-6">
                             <div class="cover mb-2">

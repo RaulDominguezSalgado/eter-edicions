@@ -89,7 +89,8 @@ class CollaboratorController extends Controller
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
                 // $this->editImage($nombreImagenOriginal, "collaborator");
-                ImageHelper::editImage($nombreImagenOriginal, "collaborator");
+                $imageHelper = new ImageHelper();
+                $imageHelper->editImage($nombreImagenOriginal, "collaborator");
 
                 $validatedData['image'] = $nombreImagenOriginal;
             } else {
@@ -171,7 +172,8 @@ class CollaboratorController extends Controller
             // // Procesar y guardar la imagen
             $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
             // $this->editImage($nombreImagenOriginal, "collaborator");
-            ImageHelper::editImage($nombreImagenOriginal, "collaborator");
+            $imageHelper = new ImageHelper();
+            $imageHelper->editImage($nombreImagenOriginal, "collaborator");
 
 
             $validatedData['image'] = $nombreImagenOriginal;
@@ -288,12 +290,8 @@ class CollaboratorController extends Controller
     public function agency()
     {
         $locale = 'ca';
-        $page = [
-            'title' => 'Autors i traductors',
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
+        // $pageController = new PageController();
+        // $page = $pageController->getFullPage('agency', $locale);
 
         $authors_lv = Author::where('represented_by_agency', 'LIKE', 1)->paginate();
 
@@ -319,7 +317,7 @@ class CollaboratorController extends Controller
             // }
         }
 
-        return view('public.agency', compact('collaborators_lv', 'collaborators', 'page', 'locale'));
+        return [$collaborators_lv, $collaborators];
     }
 
 

@@ -319,7 +319,7 @@ class PostController extends Controller
             'description' => $post->description,
             'content' => $post->content,
             'published_by' => $userName,
-            'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'publication_date' => $post->publication_date ? Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y') : '',
             'image' => $post->image,
             'post_type' => "ARTICLES",
             'slug' => $post->slug,
@@ -336,7 +336,7 @@ class PostController extends Controller
             'id' => $post->id,
             'title' => $post->title,
             'description' => $post->description,
-            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'date' => $post->publication_date ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : '',
             'image' => $post->image,
             'post_type' => "ARTICLES",
             'slug' => $post->slug
