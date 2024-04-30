@@ -481,7 +481,7 @@ class PostController extends Controller
     {
         //dd($post);
         $postType = (is_null($post->date) && is_null($post->location)) ? "ARTICLES" : "ACTIVITATS";
-        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : ($post->date);
+        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y') : Carbon::createFromFormat('Y-m-d H:i:s', $post->date)->format('d/m/Y');
         // Verificar si la fecha de publicación está presente y formatearla
         //$date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : Carbon::createFromFormat('Y-m-d', $post->date)->format('d/m/Y');
         // @dump($post->date);

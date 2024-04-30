@@ -21,25 +21,48 @@ class OrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-			'date' => 'required',
-			'total' => '',
-			'reference' => 'required',
-			'dni' => 'required',
-			'first_name' => 'required',
-			'last_name' => 'required',
-			'email' => 'required',
-			'phone_number' => 'required',
-			'address' => 'required',
-			'zip_code' => 'required',
-			'city' => 'required',
-			'country' => 'required',
-			'payment_method' => 'required',
-			'status_id' => 'required',
-            'pdf'=>'required|file|mimes:pdf',
-            'products' => 'required|array',
-            'products.*' => 'array:id,quantity,pvp',
-			'tracking_id' => 'required|string',
-        ];
+        if ($this->isMethod('post')) {
+            return [
+                'date' => 'required',
+                'total' => '',
+                'reference' => 'required',
+                'dni' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required',
+                'phone_number' => 'required',
+                'address' => 'required',
+                'zip_code' => 'required',
+                'city' => 'required',
+                'country' => 'required',
+                'payment_method' => 'required',
+                'status_id' => 'required',
+                'pdf' => 'required|file|mimes:pdf',
+                'products' => 'required|array',
+                'products.*' => 'array:id,quantity,pvp',
+                'tracking_id' => 'required|string',
+            ];
+        } else {
+            return [
+                'date' => 'required',
+                'total' => '',
+                'reference' => 'required',
+                'dni' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required',
+                'phone_number' => 'required',
+                'address' => 'required',
+                'zip_code' => 'required',
+                'city' => 'required',
+                'country' => 'required',
+                'payment_method' => 'required',
+                'status_id' => 'required',
+                'pdf' => '',
+                'products' => 'required|array',
+                'products.*' => 'array:id,quantity,pvp',
+                'tracking_id' => 'required|string',
+            ];
+        }
     }
 }
