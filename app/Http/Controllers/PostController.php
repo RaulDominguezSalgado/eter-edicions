@@ -222,13 +222,13 @@ class PostController extends Controller
         //dd($postObject);
 
         if ($postObject->author) {
-            $authorID = $postObject->author->collaborator->translations->first()->first_name . " " . $postObject->author->collaborator->translations->first()->last_name;
+            $authorID = $postObject->author_id;
         } else {
             $authorID = '';
         }
 
         if ($postObject->translator) {
-            $translator = $postObject->translator->collaborator->translations->first()->first_name . " " . $postObject->translator->collaborator->translations->first()->last_name;
+            $translator = $postObject->translator_id;
         } else {
             $translator = '';
         }
