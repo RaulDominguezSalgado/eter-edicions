@@ -1,6 +1,6 @@
 <div class="row padding-1 p-1">
     <div class="col-md-12">
-
+        {{-- @dump($post) --}}
         <div class="form-group mb-2 mb20">
             <label for="title" class="form-label">{{ __('Títol') }}</label>
             <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $post['title']) }}" id="title" placeholder="Títol">
@@ -31,8 +31,9 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="date" class="form-label">{{ __('Data') }}</label>
-            <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date', $post->date) }}" id="date" placeholder="Data">
+            <input type="date" step="1" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date', $post['date']) }}" id="date" placeholder="Data">
             {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            <input type="time" name="time" value="{{ old('time', $post['time']) }}">
         </div>
         <div class="form-group mb-2 mb20">
             <label for="location" class="form-label">{{ __('Ubicació') }}</label>
@@ -41,7 +42,8 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Imatge') }}</label>
-            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $post->image) }}" id="image" placeholder="Imatge">
+            {{-- <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $post->image) }}" id="image" placeholder="Imatge"> --}}
+            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $post['image']) }}" id="image" placeholder="Imatge">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
@@ -54,6 +56,23 @@
             <input type="date" name="publication_date" class="form-control @error('publication_date') is-invalid @enderror" value="{{ old('publication_date', $post['publication_date']) }}" id="publication_date" placeholder="Data de publicació">
             {!! $errors->first('publication_date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        {{-- SLUG --}}
+        <label for="slug" class="form-label">{{ __('Enllaç') }}</label>
+        <div class="w-full flex items-center space-x-1">
+            <p class="min-w-fit">eteredicions.com /</p>
+            <input type="text" name="slug" class="md:min-w-80 m-0 ps-1 pe-0 is-disabled @error('slug') is-invalid @else border-0 @enderror" value="{{ old('slug', $post['slug']) }}" id="slug" placeholder="titol-del-llibre">
+        </div>
+        {{-- META TITLE --}}
+        <div class="form-group mb-2 mb20">
+            <label for="meta_title" class="form-label">{{ __('Títol de la pàgina (aparença en buscadors i navegador)') }}</label>
+            <input type="text" name="meta_title" class="is-disabled @error('meta_title') is-invalid @else border-0 @enderror" value="{{ old('meta_title', $post['meta_title']) }}" id="meta_title" placeholder="Títol de la pàgina">
+        </div>
+        {{-- META DESCRIPTION --}}
+        <div class="form-group mb-2 mb20">
+            <label for="meta_description" class="form-label">{{ __('Descripció de la pàgina (aparença en buscadors i navegador)') }}</label>
+            <textarea name="meta_description" class="is-disabled @error('meta_description') is-invalid @else border-0 @enderror" id="meta_description">{{ old('meta_description', $post['meta_description']) }}</textarea>
+        </div>
+
         <div class="form-group mb-2 mb20">
             <label for="published_by" class="form-label">{{ __('Publicat per') }}</label>
             <select name="published_by" class="form-control @error('published_by') is-invalid @enderror" id="published_by">

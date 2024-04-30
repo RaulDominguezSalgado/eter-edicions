@@ -6,5 +6,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     today = yyyy + '-' + mm + '-' + dd;
 
-    document.getElementById('publication_date').value = today;
+    //document.getElementById('publication_date').value = today;
 });

@@ -29,10 +29,14 @@ class PostRequest extends FormRequest
                 'translator_id' => 'nullable',
                 'content' => 'required|string',
                 'date' => 'date',
+                'time' => '', //buscar regex format 00:00:00, 00 son números de 2 dígitos
                 'location' => 'nullable',
                 'image' => 'required',
                 'publication_date' => 'required',
-                'published_by' => 'required'
+                'published_by' => 'required',
+                'slug' => 'nullable|string',
+                'meta_title' => 'nullable|string',
+                'meta_description' => 'nullable|string'
             ];
         } else {
             return [
@@ -42,10 +46,14 @@ class PostRequest extends FormRequest
                 'translator_id' => 'nullable',
                 'content' => 'required|string',
                 'date' => 'nullable|date',
+                'time' => '', //buscar regex format 00:00:00, 00 son números de 2 dígitos
                 'location' => 'nullable',
                 'image' => '',
                 'publication_date' => 'required',
-                'published_by' => 'required'
+                'published_by' => 'required',
+                'slug' => 'nullable|string',
+                'meta_title' => 'nullable|string',
+                'meta_description' => 'nullable|string'
             ];
         }
     }
