@@ -51,7 +51,7 @@ class ShoppingCartController extends Controller
         }
     }
 
-    function getAllItems()
+    function viewCart()
     {
         $books = $this->convertCartToBooks(Cart::content());
         $controller = new BookController();
@@ -59,7 +59,7 @@ class ShoppingCartController extends Controller
         return view('public.cart', compact('relatedBooks'));
         //dump(Cart::content());
     }
-    
+
     private function convertCartToBooks($cartContent){
         $books = [];
         foreach($cartContent as $item){
