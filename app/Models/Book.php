@@ -120,6 +120,8 @@ class Book extends Model implements Buyable
 
     public function getBuyablePrice($options = null)
     {
-        return $this->discounted_price ?? $this->pvp; // Devuelve el precio del libro
+
+        return round((($this->discounted_price ?? $this->pvp)/ (1+$this->iva/100)),2);
+       // return $this->discounted_price ? round(($this->discounted_price/ (1+$this->iva/100)),2) : round(($this->pvp / (1+$this->iva/100)),2); // Devuelve el precio del libro
     }
 }
