@@ -31,17 +31,16 @@
                                 </div>
                             </td>
                             <td>{{ round($item->price*1.04)}}€</td>
-                            <td><input type="number" class=" border border-black" name="number_of_items" placeholder="1" value="{{ $item->qty }}"></td>
+                            <td><input type="number" class=" border border-black" name="number_of_items" min="0" placeholder="1" value="{{ $item->qty }}"></td>
 
                             <td>
                                 <form action="{{route('cart.remove', $item->rowId)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"><img src="{{ asset("img/icons/delete.webp") }}" alt="Eliminar"></button>
+                                    <button type="submit" class="btn btn-danger btn-sm"><img src="{{ asset("img/icons/dark/trash.webp") }}" width="30px" alt="Eliminar"></button>
                                 </form>
                             </td>
                             <td>{{ $item->total() }}€</td>
-                            <td>{{Cart::count()}}</td>
                         </tr>
                     @endforeach
                 </tbody>
