@@ -11,7 +11,7 @@ $locale = app()->getLocale() ?: 'ca';
             <div id="lang" class="">
                 <button type="button" id="langSelectExpand" class="flex items-center" onclick="toggleLangSelect(this)">
                     <i class="icon lang text-[14px]"></i>
-                    <div class="p14 flex leading-3 me-2">Idioma</div>
+                    <div class="p14 flex leading-3 me-2">{{__('general.language')}}</div>
                     <i class="icon expand-arrow text-[10px]"></i>
                 </button>
             </div>
