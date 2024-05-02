@@ -41,8 +41,8 @@ class ShoppingCartController extends Controller
             if ($item) {
                 //added succesfully
                 Cart::setTax($item->rowId, $book->iva);
-                $succesMessage = "Llibre afegit a la cistella";
-                return redirect()->back()->with('success', $succesMessage);
+                $message = "Llibre afegit a la cistella";
+                return redirect()->back()->with('success', $message);
             } else {
                 //error
                 $errorMessage = "No s'ha pogut afegir el llibre a la cistella";
@@ -56,10 +56,16 @@ class ShoppingCartController extends Controller
         $books = $this->convertCartToBooks(Cart::content());
         $controller = new BookController();
         $relatedBooks = $controller->getRelatedBooksFromMultiple($books,"ca");
+        if(count($relatedBooks)<1){
+
+        }
         return view('public.cart', compact('relatedBooks'));
         //dump(Cart::content());
     }
 
+    function viewCheckout(){
+        return view('public.checkout');
+    }
     private function convertCartToBooks($cartContent){
         $books = [];
         $controller = new BookController();
@@ -74,6 +80,20 @@ class ShoppingCartController extends Controller
     }
     function destroy($id){
         Cart::remove($id);
+        return redirect()->back()
+            ->with('success', 'Order deleted successfully');
+    }
+
+    function add($id){
+        $qty = Cart::get($id)->qty;
+        Cart::update($id, $qty+1);
+        return redirect()->back()
+            ->with('success', 'Order deleted successfully');
+    }
+
+    function less($id){
+        $qty = Cart::get($id)->qty;
+        Cart::update($id, $qty-1);
         return redirect()->back()
             ->with('success', 'Order deleted successfully');
     }
