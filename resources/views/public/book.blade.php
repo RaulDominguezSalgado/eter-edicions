@@ -8,11 +8,17 @@
 
     <main class="body space-y-4 mb-12">
         <div class="book">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success m-4">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
                     {{-- <div id="book-image" class="book-image"></div> --}}
                     {{-- <div class="object-fill cover border-guide-2"> --}}
-                    <img class="" src="{{ asset('img/books/covers/' . $book['image']) }}" alt="{{ $book['title'] }}">
+                    <img class="" src="{{ asset('img/books/covers/' . $book['image']) }}"
+                        alt="{{ $book['title'] }}">
                     {{-- </div> --}}
                 </div>
 
@@ -58,16 +64,17 @@
                     </div>
 
                     <div class="space-y-3">
-                        <a href="{{route('book.sample', $book['sample'])}}" target="_blank" class="sample flex space-x-2.5">
+                        <a href="{{ route('book.sample', $book['sample']) }}" target="_blank"
+                            class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
                                 alt="{{ucfirst(__('phrases.descarregar sample'))}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de") ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }} {{ $book['title'] }}" class="clickable" style="width: 15px">
                             <small class="text-slate-600">{{__('general.sample')}}</small>
                         </a>
 
                         <div class="add-to-cart">
-                              <form action="{{ route('cart.add') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="book_id" value="{{ $book['id'] }}">
+                            <form action="{{ route('cart.insert') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="book_id" value="{{ $book['id'] }}">
 
                             <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
                                 value="1" min="1">
@@ -184,9 +191,10 @@
                                 </div>
                             </div>
                             <div class="pic">
-                                <a href="{{ route("collaborator-detail.{$locale}",$translator["id"]) }}">
-                                <img class="" src="{{ asset('img/collab/covers/' . $translator['image']) }}"
-                                    alt="Fotografia de {{ $translator['first_name'] }} {{ $translator['last_name'] }}">
+                                <a href="{{ route("collaborator-detail.{$locale}", $translator['id']) }}">
+                                    <img class=""
+                                        src="{{ asset('img/collab/covers/' . $translator['image']) }}"
+                                        alt="Fotografia de {{ $translator['first_name'] }} {{ $translator['last_name'] }}">
                                 </a>
                             </div>
                         </div>
@@ -323,7 +331,7 @@
                 </div>
             </div>
         @endif
-        </main>
+    </main>
 
     {{-- tab component script --}}
     <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>

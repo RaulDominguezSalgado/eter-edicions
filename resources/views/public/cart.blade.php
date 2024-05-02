@@ -1,5 +1,5 @@
 <?php
-    $locale = "ca";//TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
+$locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
 ?>
 <x-layouts.app>
 
@@ -27,23 +27,43 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label for="name">{{ $item->name}}</label>
-                                <img style="width: 100px; height: auto;"
-                                    src="{{ asset("img/books/thumbnails/" . $item->options->image) }}"
-                                    alt="{{ $item->name . $item->options->image }}">
+                                    <label for="name">{{ $item->name }}</label>
+                                    <img style="width: 100px; height: auto;"
+                                        src="{{ asset('img/books/thumbnails/' . $item->options->image) }}"
+                                        alt="{{ $item->name . $item->options->image }}">
                                 </div>
                             </td>
-                            <td>{{ number_format(round($item->price * 1.04, 2), 2, ',', '')}}€</td>
-                            <td><input type="number" class=" border border-black" name="number_of_items" min="0" placeholder="1" value="{{ $item->qty }}"></td>
-
+                            <td>{{ number_format(round($item->price * 1.04, 2), 2, ',', '') }}€</td>
                             <td>
-                                <form action="{{route('cart.remove', $item->rowId)}}" method="POST">
+                                <div class="flex justify-between items-center">
+                                    <form action="{{ route('cart.less', $item->rowId) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        {{-- <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}"> --}}
+                                        <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
+                                            <span class=""><img src="{{ asset('img/icons/dark/less.webp') }}" alt="Botó per sumar la quantitat d'un producte de la cistella" style="width: 15px"></span>
+                                        </button>
+                                    </form>
+                                    <input type="text" readonly value="{{ $item->qty }}" class="inline-block px-3 py-2.5">
+                                    <form action="{{ route('cart.add', $item->rowId) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        {{-- <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}"> --}}
+                                        <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
+
+                                            <span class=""><img src="{{ asset('img/icons/dark/add.webp') }}" alt="Botó per sumar la quantitat d'un producte de la cistella" style="width: 15px"></span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>
+                                <form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"><img src="{{ asset("img/icons/dark/trash.webp") }}" width="30px" alt="Eliminar"></button>
+                                    <button type="submit" class="btn btn-danger btn-sm"><img
+                                            src="{{ asset('img/icons/dark/trash.webp') }}" width="30px"
+                                            alt="Eliminar"></button>
                                 </form>
                             </td>
-                            <td>{{ number_format($item->total(),2,',','') }}€</td>
+                            <td>{{ number_format($item->total(), 2, ',', '') }}€</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -51,7 +71,7 @@
 
             <div class="text-right">
                 <h4>Total: {{ Cart::total() }}€</h4>
-                <a href="" class="btn btn-primary">Procedir al pagament</a>
+                <a href="{{ route("cart.view_checkout") }}" class="btn btn-primary">Procedir al pagament</a>
             </div>
         @else
             <p>La seva cistella es troba buida</p>
@@ -67,8 +87,7 @@
                             <div class="cover mb-4 flex justify-center">
                                 <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
                                     <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
-                                        alt="{{ $relatedBook['title'] }}" style="height: 13.75em"
-                                        class="aspect-[2/3]">
+                                        alt="{{ $relatedBook['title'] }}" style="height: 13.75em" class="aspect-[2/3]">
                                 </a>
                             </div>
                             <div id="book-info-{{ $relatedBook['slug'] }}"
@@ -78,43 +97,25 @@
                                 </div>
                             </div>
                             <div class="add-to-cart">
-                                <form action="{{ route('cart.add') }}" method="POST">
-                              @csrf
-                              <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}">
 
-                              <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
-                                  value="1" min="1">
-                              <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
-                                  <span class="flex items-center leading-none text-white">Afegir a la cistella</span>
-                                  <span class=""><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
-                                          alt="Botó per afegir a la cistella" style="width: 15px"></span>
-                              </button>
+                                <form action="{{ route('cart.insert') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}">
+
+                                    <input hidden type="number" class=" border border-black" name="number_of_items"
+                                        placeholder="1" value="1" min="1">
+                                    <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
+                                        <span class="flex items-center leading-none text-white">Afegir a la
+                                            cistella</span>
+                                        <span class="bg-dark"><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
+                                                alt="Botó per afegir a la cistella" style="width: 15px"></span>
+                                    </button>
                                 </form>
-                          </div>
+                            </div>
                         </div>
                     @endforeach
                 </div>
             </div>
         @endif
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('input[name="number_of_items"]').on('input', function() {
-                var quantity = parseInt($(this).val());
-                var price = parseFloat($(this).closest('tr').find('td:eq(1)').text().replace('€', ''));
-                var subtotal = quantity * price;
-                $(this).closest('tr').find('td:eq(4)').text(subtotal.toFixed(2) + '€');
-
-                // Actualizar el total
-                var total = 0;
-                $('tbody tr').each(function() {
-                    var subtotal = parseFloat($(this).find('td:eq(4)').text().replace('€', ''));
-                    total += subtotal;
-                });
-                $('.total').text(total.toFixed(2) + '€');
-            });
-        });
-    </script>
 </x-layouts.app>

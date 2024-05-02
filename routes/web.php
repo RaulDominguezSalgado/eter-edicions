@@ -146,6 +146,9 @@ Route::prefix('admin')->group(function () {
 
 //Route::get('{slug}');
 
-Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct'])->name('cart.add');
+Route::post('/cart/less/{item}', [App\Http\Controllers\ShoppingCartController::class, 'less'])->name('cart.less');
+Route::post('/cart/add/{item}', [App\Http\Controllers\ShoppingCartController::class, 'add'])->name('cart.add');
+Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct'])->name('cart.insert');
 Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('cart.view');
+Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
