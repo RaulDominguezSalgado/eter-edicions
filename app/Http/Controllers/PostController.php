@@ -212,7 +212,9 @@ class PostController extends Controller
 
     public function posts()
     {
+        // $locale = Config::get('app.locale');
         $locale = app()->getLocale();
+        // $locale = 'ca';
 
         $posts_lv = Post::whereNull('date')
             ->whereNull('location')
@@ -237,7 +239,9 @@ class PostController extends Controller
 
     public function activities()
     {
+        // $locale = Config::get('app.locale');
         $locale = app()->getLocale();
+        // $locale = 'ca';
 
         $posts_lv = Post::whereNotNull('date')
             ->whereNotNull('location')
@@ -263,7 +267,9 @@ class PostController extends Controller
 
     public function postDetail($id)
     {
+        // $locale = Config::get('app.locale');
         $locale = app()->getLocale();
+        // $locale = 'ca';
 
 
         $post_lv = Post::find($id);
@@ -443,7 +449,9 @@ class PostController extends Controller
     */
     public static function getData($type = null, $key = null, $value = null, $search = false) {
         // try {
-            $locale = app()->getLocale();
+            // $locale = Config::get('app.locale');
+            // $locale = app()->getLocale();
+            $locale = 'ca';
 
             if ($key == null || $value == null) {
                 switch ($type) {

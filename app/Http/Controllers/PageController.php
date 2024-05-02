@@ -13,11 +13,13 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function home(){
-        // $locale = config('app')['locale'];
-        $locale = Config::get('app.locale');
+    public function home()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
+
         $page = [
-            'title' => 'Portada',
+            'title' => __('general.home'),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -35,9 +37,10 @@ class PageController extends Controller
     }
 
 
-    public function about(){
-        // $locale = config('app')['locale'];
-        $locale = Config::get('app.locale');
+    public function about()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('about', $locale);
 
@@ -45,9 +48,10 @@ class PageController extends Controller
     }
 
 
-    public function foreignRights(){
-        // $locale = config('app')['locale'];
-        $locale = Config::get('app.locale');
+    public function foreignRights()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('foreign-rights', $locale);
         $pageEn = $this->getFullPage('foreign-rights', "en");
@@ -56,18 +60,20 @@ class PageController extends Controller
     }
 
 
-    public function contact(){
-        // $locale = config('app')['locale'];
-        $locale = Config::get('app.locale');
+    public function contact()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('contact', $locale);
 
         return view('public.contact', compact('page', 'locale'));
     }
 
-    public function agency(){
-        // $locale = config('app')['locale'];
-        $locale = Config::get('app.locale');
+    public function agency()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('agency', $locale);
 
@@ -79,13 +85,15 @@ class PageController extends Controller
     }
 
 
-    public function sendContactForm(){
+    public function sendContactForm()
+    {
         return "email sent";
     }
 
 
 
-    public function getFullPage($tag, $locale){
+    public function getFullPage($tag, $locale)
+    {
         $page_lv = Page::where('tag', 'LIKE', $tag)->first();
 
         $translation = $page_lv->translations->where('lang', $locale)->first();
@@ -102,7 +110,7 @@ class PageController extends Controller
             $page['slug'] = $translation->slug;
         }
         // dd($translation->contents);
-        foreach($translation->contents as $content){
+        foreach ($translation->contents as $content) {
             $page['contents'][$content->key] = $content->content;
         }
 

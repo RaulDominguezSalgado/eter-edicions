@@ -1,5 +1,9 @@
 <?php
-Config::get('app.locale')
+// $locale = 'ca';
+// // Get the locale from the app or fallback to the URL
+// $locale = app()->getLocale() ?: request()->segment(1) ?: 'ca';
+
+$locale = app()->getLocale() ?: 'ca';
 ?>
 <x-layouts.app>
 
@@ -50,17 +54,19 @@ Config::get('app.locale')
                     {{-- @dd($book['filter']) --}}
                     @if ($book['filter']['key'] == 'description' && $book['filter']['value'])
                         <p><small>
-                                @foreach ($book['filter']['value'][0] as $word) {{-- iterate through arrays of words previous to the result --}}
+                                @foreach ($book['filter']['value'][0] as $word)
+                                    {{-- iterate through arrays of words previous to the result --}}
                                     @if (!$loop->last)
                                         <span>{!! $word !!}</span>
                                     @else
                                         <span>{!! $word !!}</span><!-- {{-- iterate through arrays of words previous to the result --}}
-                                    @endif
-                                @endforeach
+@endif
+@endforeach
                                         --><span class="bg-secondary">{{ $book['filter']['value'][1] }}</span><!--
-                                @foreach ($book['filter']['value'][2] as $word) {{-- iterate through arrays of words after the result --}}
+                                @foreach ($book['filter']['value'][2] as $word)
+{{-- iterate through arrays of words after the result --}}
                                     @if ($loop->first)
-                                        --><span>{!! $word !!} </span>
+--><span>{!! $word !!} </span>
                                     @else
                                         <span>{!! $word !!} </span>
                                     @endif

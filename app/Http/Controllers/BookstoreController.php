@@ -85,7 +85,9 @@ class BookstoreController extends Controller
 
 
     public function bookstores(){
-        $locale = "ca";
+        // $locale = Config::get('app.locale');
+        // $locale = app()->getLocale();
+        $locale = 'ca';
 
         $bookstores_lv = Bookstore::all();
 

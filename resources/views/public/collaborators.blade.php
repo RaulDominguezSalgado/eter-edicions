@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="{{ asset('css/public/collaborators.css') }}">
 
     <main class="body mb-20">
-        <div class="flex flex-col items-center space-y-40">
-            {{-- <div class="flex flex-col items-center space-y-6">
+        <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center mb-10">
                 <ul class="flex space-x-4">
                     @foreach ($collaboratorTypes as $i => $type)
-                        <li><a><h5>{{ $type }}</h5></a></li>
+                        <li class="min-h-8"><a href="#{{strtolower($type)}}"><span  class="hover:text-primary">{{ $type }}</span></a></li>
                     @endforeach
                 </ul>
-            </div> --}}
-            <div class="flex flex-col items-center justify-center space-y-5">
-                <h2>{{__('general.authors')}}</h2>
-                <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16" id="catalog">
+            </div>
+            <div class="flex flex-col items-center justify-center space-y-5 mb-60">
+                <h2  id="{{ strtolower($collaboratorTypes['authors']) }}">{{__('general.authors')}}</h2>
+                <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16">
                     @foreach ($authors as $i => $author)
                         <div class="collaborator flex flex-col items-center mb-6">
                             <div class="cover mb-2">
@@ -36,9 +36,9 @@
                     @endforeach
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center space-y-5">
-                <h2>{{__('general.translators')}}</h2>
-                <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16" id="catalog">
+            <div class="flex flex-col items-center justify-center space-y-5 mb-6">
+                <h2 id="{{ strtolower($collaboratorTypes['translators']) }}">{{__('general.translators')}}</h2>
+                <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16" >
                     @foreach ($translators as $i => $translator)
                         <div class="collaborator flex flex-col items-center mb-6">
                             <div class="cover mb-2">

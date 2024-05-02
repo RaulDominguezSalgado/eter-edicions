@@ -20,19 +20,33 @@ class CollaboratorSeeder extends Seeder
         $majdkayyal->social_networks = '{"instagram": "https://www.instagram.com/majdkayyal/", "twitter": "https://twitter.com/Majdkayyal"}';
         $majdkayyal->save();
 
-        $majdkayyalTranslation = new CollaboratorTranslation();
-        $majdkayyalTranslation->collaborator_id = $majdkayyal->id;
-        $majdkayyalTranslation->lang = "ca";
-        $majdkayyalTranslation->first_name = "Majd";
-        $majdkayyalTranslation->last_name = "Kayyal";
-        $majdkayyalTranslation->biography = <<<HEREDOC
+        $majdkayyalTranslationCa = new CollaboratorTranslation();
+        $majdkayyalTranslationCa->collaborator_id = $majdkayyal->id;
+        $majdkayyalTranslationCa->lang = "ca";
+        $majdkayyalTranslationCa->first_name = "Majd";
+        $majdkayyalTranslationCa->last_name = "Kayyal";
+        $majdkayyalTranslationCa->biography = <<<HEREDOC
         Majd Kayyal (1990) és un escriptor, activista i periodista palestí. Ha rebut el premi Abdul Mohsen Al-Qattan de Literatura Jove del 2016.
         És autor de tres novel·les, dos reculls musicats de poesia, a més de diverses investigacions i articles sobre actualitat política del Llevant.
         HEREDOC;
-        $majdkayyalTranslation->slug = "majd-kayyal";
-        $majdkayyalTranslation->meta_title = $majdkayyalTranslation->first_name . " " . $majdkayyalTranslation->last_name;
-        $majdkayyalTranslation->meta_description = $majdkayyalTranslation->biography;
-        $majdkayyalTranslation->save();
+        $majdkayyalTranslationCa->slug = "majd-kayyal";
+        $majdkayyalTranslationCa->meta_title = $majdkayyalTranslationCa->first_name . " " . $majdkayyalTranslationCa->last_name;
+        $majdkayyalTranslationCa->meta_description = $majdkayyalTranslationCa->biography;
+        $majdkayyalTranslationCa->save();
+
+        $majdkayyalTranslationEs = new CollaboratorTranslation();
+        $majdkayyalTranslationEs->collaborator_id = $majdkayyal->id;
+        $majdkayyalTranslationEs->lang = "es";
+        $majdkayyalTranslationEs->first_name = "Majd";
+        $majdkayyalTranslationEs->last_name = "Kayyal";
+        $majdkayyalTranslationEs->biography = <<<HEREDOC
+        Majd Kayyal (1990) es un escritor, activista y periodista palestino. Ha recibido el premio Abdul Mohsen Al-Qattan de Literatura Joven del 2016.
+        Es autor de tres novelas, dos recopilaciones musicadas de poesía, además de varias investigaciones y artículos sobre actualidad política del Levante.
+        HEREDOC;
+        $majdkayyalTranslationEs->slug = "majd-kayyal";
+        $majdkayyalTranslationEs->meta_title = $majdkayyalTranslationEs->first_name . " " . $majdkayyalTranslationEs->last_name;
+        $majdkayyalTranslationEs->meta_description = $majdkayyalTranslationEs->biography;
+        $majdkayyalTranslationEs->save();
 
 
         // 2- Moha
@@ -54,6 +68,19 @@ class CollaboratorSeeder extends Seeder
         $mohamadbitariTranslation->meta_description = $mohamadbitariTranslation->biography;
         $mohamadbitariTranslation->save();
 
+        $mohamadbitariTranslationEs = new CollaboratorTranslation();
+        $mohamadbitariTranslationEs->collaborator_id = $mohamadbitari->id;
+        $mohamadbitariTranslationEs->lang = "es";
+        $mohamadbitariTranslationEs->first_name = "Mohammad";
+        $mohamadbitariTranslationEs->last_name = "Bitari";
+        $mohamadbitariTranslationEs->biography = <<<HEREDOC
+        Mohamad Bitari es un poeta, traductor, escritor y periodista palestino de Siria, establecido en Barcelona. Nació en el 1990 en el campo de refugiados palestinos de Yarmouk, en Siria, donde vivió hasta los ventitrés años. Su familia huyó de la ciudad de Nazareth en 1948 (año de la Nakba) y se instaló en Siria después de la ocupación del nuevo Estado de Israel en Palestina.  Bitari es fundador de Èter Edicions, especializada en traducciones del árabe al catalán y viceversa. Forma parte del Comité de Escritores Perseguidos de la Fundación Pen Club de Catalunya, y trabaja como traductor de literatura catalana y literatura española; también imparte clases de árabe en la Universitat Autònoma de Barcelona y colabora habitualmente con instituciones culturales para establecer puentes entre Catalunya y el mundo árabe. Ha traducido al árabe autores como Federico García Lorca, Rafael Alberti, Miguel Hernández, Tomas Cohen y Miquel Martí i Pol. Es autor de Jo soc vosaltres, sis poetes de Síria (2019), una versión bilingüe en árabe y catalán con traducción de Margarida Castells i Criballés, en colaboración con las editoriales Polen i Godall y la fundación Sodepau.
+        HEREDOC;
+        $mohamadbitariTranslationEs->slug = "mohammad-bitari";
+        $mohamadbitariTranslationEs->meta_title = $mohamadbitariTranslationEs->first_name . " " . $mohamadbitariTranslationEs->last_name;
+        $mohamadbitariTranslationEs->meta_description = $mohamadbitariTranslationEs->biography;
+        $mohamadbitariTranslationEs->save();
+
 
         // 3- Ismael Profitós
         $ismaelprofitos = new Collaborator();
@@ -67,12 +94,27 @@ class CollaboratorSeeder extends Seeder
         $ismaelprofitosTranslation->first_name = "Ismael";
         $ismaelprofitosTranslation->last_name = "Profitós";
         $ismaelprofitosTranslation->biography = <<<HEREDOC
-        blablablabla
+        Ho sentim! Aquesta biografia no està disponible actualment.
         HEREDOC;
         $ismaelprofitosTranslation->slug = "ismael-profitos";
         $ismaelprofitosTranslation->meta_title = $ismaelprofitosTranslation->first_name . " " . $ismaelprofitosTranslation->last_name;
         $ismaelprofitosTranslation->meta_description = $ismaelprofitosTranslation->biography;
         $ismaelprofitosTranslation->save();
+
+        $ismaelprofitosTranslationEs = new CollaboratorTranslation();
+        $ismaelprofitosTranslationEs->collaborator_id = $ismaelprofitos->id;
+        $ismaelprofitosTranslationEs->lang = "es";
+        $ismaelprofitosTranslationEs->first_name = "Ismael";
+        $ismaelprofitosTranslationEs->last_name = "Profitós";
+        $ismaelprofitosTranslationEs->biography = <<<HEREDOC
+        ¡Lo sentimos! Esta biografía no está disponible actualmente.
+        HEREDOC;
+        $ismaelprofitosTranslationEs->slug = "ismael-profitos";
+        $ismaelprofitosTranslationEs->meta_title = $ismaelprofitosTranslation->first_name . " " . $ismaelprofitosTranslation->last_name;
+        $ismaelprofitosTranslationEs->meta_description = $ismaelprofitosTranslation->biography;
+        $ismaelprofitosTranslationEs->save();
+
+
 
         // 4- Margarida Castells
         $margaridacastells = new Collaborator();
@@ -94,6 +136,20 @@ class CollaboratorSeeder extends Seeder
         $margaridacastellsTranslation->meta_description = $margaridacastellsTranslation->biography;
         $margaridacastellsTranslation->save();
 
+        $margaridacastellsTranslationEs = new CollaboratorTranslation();
+        $margaridacastellsTranslationEs->collaborator_id = $margaridacastells->id;
+        $margaridacastellsTranslationEs->lang = "es";
+        $margaridacastellsTranslationEs->first_name = "Margarida";
+        $margaridacastellsTranslationEs->last_name = "Castells";
+        $margaridacastellsTranslationEs->biography = <<<HEREDOC
+        Margarida Castells i Criballés (Torelló, 1962) es traductora del árabe, investigadora y profesora. En colaboración con Dolors Cinca, fue coautora de dos versiones de recopilaciones de historias de Las mil y una noches (Premio Ciudad de Barcelona de traducción en lengua catalana - 1996 y Premio Crítica Serra d'Or de traducción - 1997). Junto con Manuel Forcano, tradujo los relatos de viajes de Ibn Battuta (2005 - Premio Crítica Serra d'Or de traducción 2006), y, en solitario, textos de Salim Barakat, y Mahmud Darwix, entre otros.
+        Ha sido docente en la Universidad de Barcelona y se ha dedicado a las traducciones latinas del Corán y a la codicología. Ha colaborado con el Museo Egipcio de Barcelona (Fundación Arqueológica Clos) como directora científica de expediciones culturales a Etiopía y Uzbekistán. También ha formado parte de diversas expediciones de catalogación y conservación de manuscritos en los países del área mediterránea. Como filóloga y arabista, es coautora, junto con Dolors Cinca, del primer Diccionario árabe-catalán, que tiene por objeto el árabe estándar moderno.
+        HEREDOC;
+        $margaridacastellsTranslationEs->slug = "margarida-castells";
+        $margaridacastellsTranslationEs->meta_title = $margaridacastellsTranslationEs->first_name . " " . $margaridacastellsTranslationEs->last_name;
+        $margaridacastellsTranslationEs->meta_description = $margaridacastellsTranslationEs->biography;
+        $margaridacastellsTranslationEs->save();
+
 
         // 5- Rammi Abbas
         $rammiabbas = new Collaborator();
@@ -107,12 +163,25 @@ class CollaboratorSeeder extends Seeder
         $rammiabbasTranslation->first_name = "Rammi";
         $rammiabbasTranslation->last_name = "Abbas";
         $rammiabbasTranslation->biography = <<<HEREDOC
-        blablablabla
+        Ho sentim! Aquesta biografia no està disponible actualment.
         HEREDOC;
         $rammiabbasTranslation->slug = "rammi-abbas";
         $rammiabbasTranslation->meta_title = $rammiabbasTranslation->first_name . " " . $rammiabbasTranslation->last_name;
         $rammiabbasTranslation->meta_description = $rammiabbasTranslation->biography;
         $rammiabbasTranslation->save();
+
+        $rammiabbasTranslationEs = new CollaboratorTranslation();
+        $rammiabbasTranslationEs->collaborator_id = $rammiabbas->id;
+        $rammiabbasTranslationEs->lang = "es";
+        $rammiabbasTranslationEs->first_name = "Rammi";
+        $rammiabbasTranslationEs->last_name = "Abbas";
+        $rammiabbasTranslationEs->biography = <<<HEREDOC
+        ¡Lo sentimos! Esta biografía no está disponible actualmente.
+        HEREDOC;
+        $rammiabbasTranslationEs->slug = "rammi-abbas";
+        $rammiabbasTranslationEs->meta_title = $rammiabbasTranslationEs->first_name . " " . $rammiabbasTranslationEs->last_name;
+        $rammiabbasTranslationEs->meta_description = $rammiabbasTranslationEs->biography;
+        $rammiabbasTranslationEs->save();
 
         // 6- Rasha Omran
         $rashaomran = new Collaborator();
@@ -135,6 +204,21 @@ class CollaboratorSeeder extends Seeder
         $rashaomranTranslation->meta_description = $rashaomranTranslation->biography;
         $rashaomranTranslation->save();
 
+        $rashaomranTranslationEs = new CollaboratorTranslation();
+        $rashaomranTranslationEs->collaborator_id = $rashaomran->id;
+        $rashaomranTranslationEs->lang = "es";
+        $rashaomranTranslationEs->first_name = "Rasha";
+        $rashaomranTranslationEs->last_name = "Omran";
+        $rashaomranTranslationEs->biography = <<<HEREDOC
+        Rasha Omran (1964) es licenciada en Literatura Árabe por la Universidad de Damasco. Ha sido directora del Festival de Cultura al-Sindiyan. Es autora de siete poemarios y una antología de poesía siria, publicada en el año 2008.
+        Crítica pública del régimen de El Assad, contra el cual se ha manifestado en entrevistas y artículos, se exilió en El Cairo en 2012, tras amenazas de la dictadura contra ella y su familia.
+        Omran ha sido considerada, por su apuesta estilística, el punto de encuentro entre la generación clásica y las nuevas generaciones en la poesía de Siria.
+        HEREDOC;
+        $rashaomranTranslationEs->slug = "rasha-omran";
+        $rashaomranTranslationEs->meta_title = $rashaomranTranslationEs->first_name . " " . $rashaomranTranslationEs->last_name;
+        $rashaomranTranslationEs->meta_description = $rashaomranTranslationEs->biography;
+        $rashaomranTranslationEs->save();
+
         // 7- Pontus Sánchez
         $pontussanchez = new Collaborator();
         $pontussanchez->image = "default.webp";
@@ -147,12 +231,25 @@ class CollaboratorSeeder extends Seeder
         $pontussanchezTranslation->first_name = "Pontus";
         $pontussanchezTranslation->last_name = "Sánchez";
         $pontussanchezTranslation->biography = <<<HEREDOC
-        Necessito la descripció del Pontus, no la tinc :)
+        Ho sentim! Aquesta biografia no està disponible actualment.
         HEREDOC;
         $pontussanchezTranslation->slug = "pontus-sanchez";
         $pontussanchezTranslation->meta_title = $pontussanchezTranslation->first_name . " " . $pontussanchezTranslation->last_name;
         $pontussanchezTranslation->meta_description = $pontussanchezTranslation->biography;
         $pontussanchezTranslation->save();
+
+        $pontussanchezTranslationEs = new CollaboratorTranslation();
+        $pontussanchezTranslationEs->collaborator_id = $pontussanchez->id;
+        $pontussanchezTranslationEs->lang = "es";
+        $pontussanchezTranslationEs->first_name = "Pontus";
+        $pontussanchezTranslationEs->last_name = "Sánchez";
+        $pontussanchezTranslationEs->biography = <<<HEREDOC
+        ¡Lo sentimos! Esta biografía no está disponible actualmente.
+        HEREDOC;
+        $pontussanchezTranslationEs->slug = "pontus-sanchez";
+        $pontussanchezTranslationEs->meta_title = $pontussanchezTranslationEs->first_name . " " . $pontussanchezTranslationEs->last_name;
+        $pontussanchezTranslationEs->meta_description = $pontussanchezTranslationEs->biography;
+        $pontussanchezTranslationEs->save();
 
         // 8- Oriol Rissech
         $oriolrissech = new Collaborator();
@@ -166,12 +263,25 @@ class CollaboratorSeeder extends Seeder
         $oriolrissechTranslation->first_name = "Oriol";
         $oriolrissechTranslation->last_name = "Rissech";
         $oriolrissechTranslation->biography = <<<HEREDOC
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lorem orci, interdum vitae ornare sit amet, luctus non diam. Sed nec purus feugiat, tincidunt nisl ac, tincidunt diam. Fusce consequat, tortor eu porttitor tempus, sem lacus lobortis ipsum, id pretium nisi nisi ut libero. Praesent gravida volutpat turpis, eu semper ex ultrices ullamcorper. Aliquam erat volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin lorem elit, euismod sed erat at, suscipit condimentum enim. Donec aliquet at magna sit amet blandit. Curabitur scelerisque pharetra nibh nec sollicitudin. Nam maximus lacus id purus ornare vestibulum. Nulla vitae bibendum purus. Integer auctor luctus placerat. Nullam ultricies sodales eros sed facilisis. Suspendisse tortor nulla, fringilla ut purus a, porta sollicitudin enim. Ut accumsan hendrerit malesuada.
+        Ho sentim! Aquesta biografia no està disponible actualment.
         HEREDOC;
         $oriolrissechTranslation->slug = "oriol-rissech";
         $oriolrissechTranslation->meta_title = $oriolrissechTranslation->first_name . " " . $oriolrissechTranslation->last_name;
         $oriolrissechTranslation->meta_description = $oriolrissechTranslation->biography;
         $oriolrissechTranslation->save();
+
+        $oriolrissechTranslationEs = new CollaboratorTranslation();
+        $oriolrissechTranslationEs->collaborator_id = $oriolrissech->id;
+        $oriolrissechTranslationEs->lang = "es";
+        $oriolrissechTranslationEs->first_name = "Oriol";
+        $oriolrissechTranslationEs->last_name = "Rissech";
+        $oriolrissechTranslationEs->biography = <<<HEREDOC
+        ¡Lo sentimos! Esta biografía no está disponible actualmente.
+        HEREDOC;
+        $oriolrissechTranslationEs->slug = "oriol-rissech";
+        $oriolrissechTranslationEs->meta_title = $oriolrissechTranslationEs->first_name . " " . $oriolrissechTranslationEs->last_name;
+        $oriolrissechTranslationEs->meta_description = $oriolrissechTranslationEs->biography;
+        $oriolrissechTranslationEs->save();
 
 
         // 9- Elisabeth Hultcrantz
@@ -195,6 +305,20 @@ class CollaboratorSeeder extends Seeder
         $elisabethhultcrantzTranslation->meta_description = $elisabethhultcrantzTranslation->biography;
         $elisabethhultcrantzTranslation->save();
 
+        $elisabethhultcrantzTranslationEs = new CollaboratorTranslation();
+        $elisabethhultcrantzTranslationEs->collaborator_id = $elisabethhultcrantz->id;
+        $elisabethhultcrantzTranslationEs->lang = "es";
+        $elisabethhultcrantzTranslationEs->first_name = "Elisabeth";
+        $elisabethhultcrantzTranslationEs->last_name = "Hultcrantz";
+        $elisabethhultcrantzTranslationEs->biography = <<<HEREDOC
+        Elisabeth Hultcrantz (1942) es profesora Sénior en otorrinolaringología. Desde 2008, a través de Médicos del Mundo (MdM), ha estado trabajando con niños refugiados, en concreto, con niños afectados por el síndrome de resignación.
+        Es autora de numerosos artículos, por los cuales ha ganado el Primer Premio de Ensayo de la Asociación de Psicología Médica. Asimismo, es la editora de un libro sobre médicas académicas y ha participado en la biografía de la doctora Gussander.
+        HEREDOC;
+        $elisabethhultcrantzTranslationEs->slug = "elisabeth-hultcrantz";
+        $elisabethhultcrantzTranslationEs->meta_title = $elisabethhultcrantzTranslationEs->first_name . " " . $elisabethhultcrantzTranslationEs->last_name;
+        $elisabethhultcrantzTranslationEs->meta_description = $elisabethhultcrantzTranslationEs->biography;
+        $elisabethhultcrantzTranslationEs->save();
+
 
         // 10- Sàdiq Jalal al-Àzem
         $sadiqjalalalazem = new Collaborator();
@@ -215,6 +339,20 @@ class CollaboratorSeeder extends Seeder
         $sadiqjalalalazemTranslation->meta_description = $sadiqjalalalazemTranslation->biography;
         $sadiqjalalalazemTranslation->save();
 
+        $sadiqjalalalazemTranslationEs = new CollaboratorTranslation();
+        $sadiqjalalalazemTranslationEs->collaborator_id = $sadiqjalalalazem->id;
+        $sadiqjalalalazemTranslationEs->lang = "es";
+        $sadiqjalalalazemTranslationEs->first_name = "Sadiq Jalal";
+        $sadiqjalalalazemTranslationEs->last_name = "al-Azm";
+        $sadiqjalalalazemTranslationEs->biography = <<<HEREDOC
+        Sadiq Jalal al-Azm (Damasco, 1934 - Berlín, 2016) fue uno de los representantes más destacados del pensamiento marxista, nacionalista y laico en el mundo árabe contemporáneo, y también un conocido defensor de la democracia, los derechos humanos y la libertad de expresión. La redacción de Orientalismo inverso le valió el fin de la amistad con Edward W. Said.
+        HEREDOC;
+        $sadiqjalalalazemTranslationEs->slug = "sadiq-jalal-al-azem";
+        $sadiqjalalalazemTranslationEs->meta_title = $sadiqjalalalazemTranslationEs->first_name . " " . $sadiqjalalalazemTranslationEs->last_name;
+        $sadiqjalalalazemTranslationEs->meta_description = $sadiqjalalalazemTranslationEs->biography;
+        $sadiqjalalalazemTranslationEs->save();
+
+
         // 11- Sélim Nassib
         $selimnassib = new Collaborator();
         $selimnassib->image = "selim-nassib.webp";
@@ -233,6 +371,19 @@ class CollaboratorSeeder extends Seeder
         $selimnassibTranslation->meta_title = $selimnassibTranslation->first_name . " " . $selimnassibTranslation->last_name;
         $selimnassibTranslation->meta_description = $selimnassibTranslation->biography;
         $selimnassibTranslation->save();
+
+        $selimnassibTranslationEs = new CollaboratorTranslation();
+        $selimnassibTranslationEs->collaborator_id = $selimnassib->id;
+        $selimnassibTranslationEs->lang = "es";
+        $selimnassibTranslationEs->first_name = "Sélim";
+        $selimnassibTranslationEs->last_name = "Nassib";
+        $selimnassibTranslationEs->biography = <<<HEREDOC
+        Sélim Nassib (Beirut, 1946) es un escritor y periodista libanés. Ejerció como corresponsal en el Próximo Oriente para el medio francés Libération. Desde 1990, se ha dedicado plenamente a la escritura, tanto al ensayo periodístico como a la narrativa de ficción. Es autor de los libros de relatos 'El hombre sentado' (Balland, 1990) y 'Una tarde en Beirut' (Thierry Magnier, 2007); de las novelas 'El loco de Beirut' (Balland, 1992), 'Clandestino' (Balland, 1998) y 'La algarabía' (Éditions de l'Olivier, 2022). Ha trabajado también como coguionista en 'Los guantes de oro de Akka' (1992) y en 'Would you have sex with an Arab?' (2012). Como ensayista, ha destacado con 'Oum' (Balland, 1994), con 'Un amante en Palestina' (Robert Laffont, 2004) y con 'La insubmisa de Gaza' (2016).
+        HEREDOC;
+        $selimnassibTranslationEs->slug = "selim-nassib";
+        $selimnassibTranslationEs->meta_title = $selimnassibTranslationEs->first_name . " " . $selimnassibTranslationEs->last_name;
+        $selimnassibTranslationEs->meta_description = $selimnassibTranslationEs->biography;
+        $selimnassibTranslationEs->save();
 
         // 12- Asmaa Alghoul
         $asmaaalghoul = new Collaborator();
@@ -254,5 +405,20 @@ class CollaboratorSeeder extends Seeder
         $asmaaalghoulTranslation->meta_title = $asmaaalghoulTranslation->first_name . " " . $asmaaalghoulTranslation->last_name;
         $asmaaalghoulTranslation->meta_description = $asmaaalghoulTranslation->biography;
         $asmaaalghoulTranslation->save();
+
+        $asmaaalghoulTranslationEs = new CollaboratorTranslation();
+        $asmaaalghoulTranslationEs->collaborator_id = $asmaaalghoul->id;
+        $asmaaalghoulTranslationEs->lang = "es";
+        $asmaaalghoulTranslationEs->first_name = "Asmaa";
+        $asmaaalghoulTranslationEs->last_name = "Alghoul";
+        $asmaaalghoulTranslationEs->biography = <<<HEREDOC
+        Asmaa Alghoul (Rafah, 1982) es una periodista y escritora palestina. Ha trabajado en medios como Al-Ayyam, Al-Monitor y la Fundación Samir Kassir. Es autora del libro de relatos 'Separación sobre pizarra negra' (2006). Fundó en 2010, junto con otros colaboradores, el movimiento liberal y secular "¡Isha!" ('¡Despierta!').
+        Por su actividad periodística y militante, ha recibido los premios Hellman-Hammet de Human Rights Watch (2010) y Valor en el Periodismo por la International Women's Media Foundation (2012), además del Premio de Literatura Juvenil Palestina (2000).
+        Desde 2016, y debido a su oposición frontal a Hamás, vive en Francia, donde ha continuado con su actividad en varios medios de comunicación.
+        HEREDOC;
+        $asmaaalghoulTranslationEs->slug = "asmaa-alghoul";
+        $asmaaalghoulTranslationEs->meta_title = $asmaaalghoulTranslationEs->first_name . " " . $asmaaalghoulTranslationEs->last_name;
+        $asmaaalghoulTranslationEs->meta_description = $asmaaalghoulTranslationEs->biography;
+        $asmaaalghoulTranslationEs->save();
     }
 }

@@ -98,7 +98,7 @@
                         </div>
                         <div class="w-fi">
                             <a href="{{ route('post-detail.ca', $post['id']) }}">
-                                <p class="p14 underline">Saber-ne més</p>
+                                <p class="p14 underline">{{__('general.read-more')}}</p>
                             </a>
                         </div>
                     </div>

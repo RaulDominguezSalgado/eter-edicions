@@ -74,10 +74,10 @@
     margin-left: -10px; /* Adjust this value to center the triangle */
     border-width: 12px; /* Size of the triangle */
     border-style: solid;
-    border-color: transparent transparent #F8FAFC transparent; /* Color of the triangle */
+    border-color: transparent transparent #fff transparent; /* Color of the triangle */
     z-index: 2;
 }
 
-.lang-select div{
+.lang-select .lang-option{
     z-index: 10;
 }

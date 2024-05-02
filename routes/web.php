@@ -77,18 +77,22 @@ foreach (config('languages') as $locale) {
         // Catalog
         Route::get("{$locale}/" . __('paths.catalog', [], $locale), [App\Http\Controllers\BookController::class, 'catalog'])->name("catalog.{$locale}");
         Route::get("{$locale}/" . __('paths.catalog', [], $locale) .'/{id}', [App\Http\Controllers\BookController::class, 'bookDetail'])->name("book-detail.{$locale}");
+        // Route::get(__('paths.catalog', [], $locale)  . '/{slug}/sample', [App\Http\Controllers\BookController::class, 'bookSample'])->name("book.sample");
 
         // Authors (collaborators)
-        Route::get("{$locale}/" . __('paths.authors', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'publicIndex'])->name("collaborators.{$locale}");
+        Route::get("{$locale}/" . __('paths.authors', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'collaborators'])->name("collaborators.{$locale}");
+        Route::get("{$locale}/" . __('paths.authors', [], $locale)  . '/{id}', [App\Http\Controllers\CollaboratorController::class, 'collaboratorDetail'])->name("collaborator-detail.{$locale}");
 
         // Agency
-        Route::get("{$locale}/" . __('paths.agency', [], $locale), [App\Http\Controllers\CollaboratorController::class, 'agency'])->name("agency.{$locale}");
+        Route::get("{$locale}/" . __('paths.agency', [], $locale), [App\Http\Controllers\PageController::class, 'agency'])->name("agency.{$locale}");
 
         // Activities
         Route::get("{$locale}/" . __('paths.activities', [], $locale), [App\Http\Controllers\PostController::class, 'activities'])->name("activities.{$locale}");
+        Route::get("{$locale}/" . __('paths.activities', [], $locale)  . '/{id}', [App\Http\Controllers\PostController::class, 'postDetail'])->name("activity-detail.{$locale}");
 
         // Posts
         Route::get("{$locale}/" . __('paths.posts', [], $locale), [App\Http\Controllers\PostController::class, 'posts'])->name("posts.{$locale}");
+        Route::get("{$locale}/" .__('paths.posts', [], $locale)  . '/{id}', [App\Http\Controllers\PostController::class, 'postDetail'])->name("post-detail.{$locale}");
 
         // About
         Route::get("{$locale}/" . __('paths.about', [], $locale), [App\Http\Controllers\PageController::class, 'about'])->name("about.{$locale}");
@@ -103,6 +107,7 @@ foreach (config('languages') as $locale) {
 
         // Contact
         Route::get("{$locale}/" . __('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'contact'])->name("contact.{$locale}");
+        // Route::post("{$locale}/" . __('paths.contact', [], $locale), [App\Http\Controllers\PageController::class, 'sendContactForm'])->name("contact.send.{$locale}");
 
         // Search
         Route::get("{$locale}/" . __('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");

@@ -346,8 +346,10 @@ class BookController extends Controller
     public function catalog()
     {
         try {
-            // $locale = config('app')['locale'];
-            $locale = Config::get('app.locale');
+            // $locale = Config::get('app.locale');
+            // $locale = app()->getLocale();
+            $locale = 'ca';
+
             $page = [
                 'title' => 'Catàleg',
                 'shortDescription' => '',
@@ -378,7 +380,8 @@ class BookController extends Controller
 
             return view('public.catalog', compact('books', 'collections', 'page', 'locale'));
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            // abort(500, $e->getMessage());
+            dump($e->getMessage());
         }
     }
 
@@ -390,7 +393,9 @@ class BookController extends Controller
     public function bookDetail($id)
     {
         try {
-            $locale = Config::get('app.locale');
+            // $locale = Config::get('app.locale');
+            $locale = app()->getLocale();
+
             $page = [
                 'title' => 'Portada',
                 'shortDescription' => '',
@@ -797,7 +802,8 @@ class BookController extends Controller
     */
     public static function getData($key = null, $value = null, $search = false) {
         // try {
-            $locale = Config::get('app.locale');
+            // $locale = Config::get('app.locale');
+            $locale = app()->getLocale();
 
             if ($key == null || $value == null) {
                 $query_data = Book::paginate();
