@@ -17,7 +17,7 @@ class ShoppingCartController extends Controller
     private $locale = "ca";
     function addProduct(Request $request)
     {
-        //Cart::destroy();
+                //Cart::destroy();
         $book = Book::find($request->book_id);
         if ($book) {
             $authorNames = [];
@@ -54,6 +54,8 @@ class ShoppingCartController extends Controller
 
     function viewCart()
     {
+
+        //dd(Cart::content());
         $books = $this->convertCartToBooks(Cart::content());
         $controller = new BookController();
         $relatedBooks = $controller->getRelatedBooksFromMultiple($books,"ca");
@@ -61,6 +63,7 @@ class ShoppingCartController extends Controller
 
         }
         return view('public.cart', compact('relatedBooks'));
+
     }
 
     function viewCheckout(){

@@ -33,7 +33,7 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                         alt="{{ $item->name . $item->options->image }}">
                                 </div>
                             </td>
-                            <td>{{ number_format(round($item->price * 1.04, 2), 2, ',', '') }}€</td>
+                            <td>{{ $item->priceTax() }}€</td>
                             <td>
                                 <div class="flex justify-between items-center">
                                     <form action="{{ route('cart.less', $item->rowId) }}" method="POST" class="inline-block">
@@ -54,7 +54,8 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                     </form>
                                 </div>
                             </td>
-                            <td>    
+                            <td>
+                                <span></span>
                                 <form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -63,7 +64,7 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                             alt="Eliminar"></button>
                                 </form>
                             </td>
-                            <td>{{ number_format($item->total(), 2, ',', '') }}€</td>
+                            <td>{{ $item->total()}}€</td>
                         </tr>
                     @endforeach
                 </tbody>
