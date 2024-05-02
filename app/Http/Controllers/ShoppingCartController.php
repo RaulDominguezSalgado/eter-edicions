@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
  */
 class ShoppingCartController extends Controller
 {
-    //public function add($id, $name = null, $qty = null, $price = null, array $options = [], $taxrate = null)
 
     private $locale = "ca";
     function addProduct(Request $request)
@@ -21,21 +20,23 @@ class ShoppingCartController extends Controller
         //Cart::destroy();
         $book = Book::find($request->book_id);
         if ($book) {
-            $authorNames = "";
+            $authorNames = [];
             $index = 0;
             foreach ($book->authors as $author) {
                 $auth =\App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $this->locale)->first();
-                $authorNames .= $auth->first_name . " " . $auth->last_name;
+                $authorNames []= $auth->first_name . " " . $auth->last_name;
 
-                if (++$index !== count($book->authors)) {
-                    $authorNames .= ', ';
-                }
+                // if (++$index !== count($book->authors)) {
+                //     $authorNames .= ', ';
+                // }
             }
+            //dd($authorNames);
             $aditionalInfo = [
                 "author" => $authorNames,
                 "isbn" => $book->isbn,
                 "publisher" => $book->publisher,
                 "image"=>$book->image,
+                "pvp"=>$book->pvp,
             ];
             $item = Cart::add($book, $request->number_of_items, $aditionalInfo);
             if ($item) {
@@ -60,7 +61,6 @@ class ShoppingCartController extends Controller
 
         }
         return view('public.cart', compact('relatedBooks'));
-        //dump(Cart::content());
     }
 
     function viewCheckout(){
@@ -88,16 +88,13 @@ class ShoppingCartController extends Controller
         $qty = Cart::get($id)->qty;
         Cart::update($id, $qty+1);
         return redirect()->back()
-            ->with('success', 'Order deleted successfully');
+            ->with('success', '');
     }
 
     function less($id){
         $qty = Cart::get($id)->qty;
         Cart::update($id, $qty-1);
         return redirect()->back()
-            ->with('success', 'Order deleted successfully');
-    }
-    function getFullCart(){
-
+            ->with('success', '');
     }
 }
