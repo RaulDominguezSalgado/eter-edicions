@@ -13,6 +13,8 @@ return [
     |
     */
 
+    '¿' => '',
+
     'el' => 'el',
     'la' => 'la',
     'l' => 'l\'',
@@ -25,4 +27,7 @@ return [
     'with_de' => 'de ',
 
     'by-name' => 'de :Name',
+
+    'per' => 'per',
+    'per a' => 'per a'
 ];

@@ -17,8 +17,8 @@ class BookstoreController extends Controller
     public function index()
     {
         $bookstores = [];
-        foreach(Bookstore::paginate() as $bookstore){
-            $bookstores[]=$this->getFullBookstore($bookstore);
+        foreach (Bookstore::paginate() as $bookstore) {
+            $bookstores[] = $this->getFullBookstore($bookstore);
         }
 
         return view('admin.bookstore.index', compact('bookstores'));
@@ -84,22 +84,25 @@ class BookstoreController extends Controller
     }
 
 
-    public function bookstores(){
-        // $locale = Config::get('app.locale');
-        // $locale = app()->getLocale();
-        $locale = 'ca';
+    public function bookstores()
+    {
+        $locale = app()->getLocale();
+
+        // dump(Route::currentRouteName());
+        // dump($locale);
+        // dd(Route::currentRouteName() != "home.{$locale}");
 
         $bookstores_lv = Bookstore::all();
 
         $bookstores = [];
-        foreach($bookstores_lv as $bookstore){
+        foreach ($bookstores_lv as $bookstore) {
             $bookstores[$bookstore->name] = $this->getPreviewBookstore($bookstore, $locale);
         }
 
         $provinces = Bookstore::distinct('province')->pluck('province');
 
         $page = [
-            'title' => 'Llibreries amb qui treballem',
+            'title' => __('general.bookstores') . " " . __('general.with whom we work'),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -113,7 +116,8 @@ class BookstoreController extends Controller
     /**
      *
      */
-    private function getFullBookstore($bookstore_lv){
+    private function getFullBookstore($bookstore_lv)
+    {
         // $bookstore = Bookstore::find($id);
 
         // $translation = $bookstore->translations()->where('lang', $locale)->first();
@@ -138,7 +142,8 @@ class BookstoreController extends Controller
     /**
      *
      */
-    private function getPreviewBookstore($bookstore_lv, $locale){
+    private function getPreviewBookstore($bookstore_lv, $locale)
+    {
         // $bookstore = Bookstore::find($id);
 
         if ($bookstore_lv) {

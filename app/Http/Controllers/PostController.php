@@ -228,7 +228,7 @@ class PostController extends Controller
 
 
         $page = [
-            'title' => "Articles",
+            'title' => __('general.posts'),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -256,7 +256,7 @@ class PostController extends Controller
         }
 
         $page = [
-            'title' => "Activitats",
+            'title' => __('general.activities'),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -327,7 +327,7 @@ class PostController extends Controller
             'published_by' => $userName,
             'publication_date' => $post->publication_date ? Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y') : '',
             'image' => $post->image,
-            'post_type' => "ARTICLES",
+            'post_type' => ucfirst(__('words.articles')),
             'slug' => $post->slug,
             'meta_title' => $post->meta_title,
             'meta_description' => $post->meta_description
@@ -344,7 +344,7 @@ class PostController extends Controller
             'description' => $post->description,
             'date' => $post->publication_date ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : '',
             'image' => $post->image,
-            'post_type' => "ARTICLES",
+            'post_type' => ucfirst(__('words.articles')),
             'slug' => $post->slug
         ];
 
@@ -370,7 +370,7 @@ class PostController extends Controller
             'published_by' => $userName,
             'published_by_id' => $userId,
             'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->publication_date)->format('d/m/Y'),
-            'post_type' => "ACTIVITATS",
+            'post_type' => ucfirst(__('words.activitats')),
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,
             'meta_description' => $activity->meta_description
@@ -390,7 +390,7 @@ class PostController extends Controller
             'date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->date)->format('d/m/Y'),
             'location' => str_contains($activity->location, ".") ? substr($activity->location, 0, strpos($activity->location, '.')) : $activity->location,
             'image' => $activity->image,
-            'post_type' => "ACTIVITATS",
+            'post_type' => ucfirst(__('words.activitats')),
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,
             'meta_description' => $activity->meta_description
@@ -412,7 +412,7 @@ class PostController extends Controller
             'date' => $date,
             'location' => str_contains($post->location, ".") ? substr($post->location, 0, strpos($post->location, '.')) : $post->location,
             'image' => $post->image,
-            'post_type' => $postType,
+            'post_type' => ucfirst(__('words.'.strtolower($postType))),
             'slug' => $post->slug,
             'meta_title' => $post->meta_title,
             'meta_description' => $post->meta_description

@@ -8,16 +8,17 @@ $locale = app()->getLocale() ?: 'ca';
 <nav class="flex justify-end px-2.5 pt-3">
     <ul>
         <li class="relative">
-            <div id="lang" {{-- href="{{ route("cart.view") }}" --}}>
-                <button type="button" class="flex items-center">
+            <div id="lang" class="">
+                <button type="button" id="langSelectExpand" class="flex items-center" onclick="toggleLangSelect(this)">
                     <i class="icon lang text-[14px]"></i>
                     <div class="p14 flex leading-3 me-2">Idioma</div>
                     <i class="icon expand-arrow text-[10px]"></i>
                 </button>
             </div>
-            <div class="lang-select absolute top-8 bg-light">
+            <div id="langForm" class="lang-select absolute top-8 bg-light">
                 <form action="{{ route('lang.switch') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="previousLang" value={{app()->getLocale()}}>
                     <div class="lang-option relative w-full bg-light hover:bg-surfacemedium px-5 py-1 pb-2">
                         <button class="" type="submit" name="lang" value="ca">Català</button>
                     </div>
@@ -38,25 +39,26 @@ $locale = app()->getLocale() ?: 'ca';
     </a>
     <ul class="nav-links">
         <li class=""><a href="{{ route("home.{$locale}") }}"
-                @if (Route::currentRouteName() == "home.{$locale}") class="active" @endif>{{ __('general.home') }}</a></li>
+                @if (Route::currentRouteName() == "home.{$locale}") class="active" @endif>{{ __('nav.home') }}</a></li>
         <li class=""><a href="{{ route("catalog.{$locale}") }}"
-                @if (Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>{{ __('general.catalog') }}</a></li>
+                @if (Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>{{ __('nav.catalog') }}</a></li>
         <li class=""><a href="{{ route("collaborators.{$locale}") }}"
-                @if (Route::currentRouteName() == "collaborators.{$locale}") class="active" @endif>{{ __('general.authors') }}</a></li>
+                @if (Route::currentRouteName() == "collaborators.{$locale}") class="active" @endif>{{ __('nav.authors') }}</a></li>
         <li class=""><a href="{{ route("agency.{$locale}") }}"
-                @if (Route::currentRouteName() == "agency.{$locale}") class="active" @endif>{{ __('general.agency') }}</a></li>
+                @if (Route::currentRouteName() == "agency.{$locale}") class="active" @endif>{{ __('nav.agency') }}</a></li>
         <li class=""><a href="{{ route("activities.{$locale}") }}"
-                @if (Route::currentRouteName() == "activities.{$locale}") class="active" @endif>{{ __('general.activities') }}</a></li>
+                @if (Route::currentRouteName() == "activities.{$locale}") class="active" @endif>{{ __('nav.activities') }}</a></li>
         <li class=""><a href="{{ route("posts.{$locale}") }}"
-                @if (Route::currentRouteName() == "posts.{$locale}") class="active" @endif>{{ __('general.posts') }}</a></li>
+                @if (Route::currentRouteName() == "posts.{$locale}") class="active" @endif>{{ __('nav.posts') }}</a></li>
         <li class=""><a href="{{ route("about.{$locale}") }}"
-                @if (Route::currentRouteName() == "about.{$locale}") class="active" @endif>{{ __('general.about') }}</a></li>
+                @if (Route::currentRouteName() == "about.{$locale}") class="active" @endif>{{ __('nav.about') }}</a></li>
     </ul>
     <div>
         <x-partials.searchBar></x-partials.searchBar>
     </div>
 </nav>
 
+<script src="/js/components/langSelect.js"></script>
 
 {{-- <script>
     const navLinks = document.querySelector('.nav-links')

@@ -8,7 +8,7 @@ $locale = app()->getLocale() ?: 'ca';
 <x-layouts.app>
 
 
-    <h1 class="text-center">Resultats de cerca per a "{{ $results['term'] }}".</h1>
+    <h1 class="text-center">{{ucfirst(__('phrases.resultats de cerca'))}} {{__('orthographic-rules.per a')}} "{{ $results['term'] }}".</h1>
     <div class="flex justify-center mb-20">
         <x-partials.searchBar :term="$results['term']"></x-partials.searchBar>
     </div>

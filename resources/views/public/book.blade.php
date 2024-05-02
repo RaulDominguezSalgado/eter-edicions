@@ -61,7 +61,7 @@
                         <a href="{{route('book.sample', $book['sample'])}}" target="_blank" class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
                                 alt="Descarregar sample de {{ $book['title'] }}" class="clickable" style="width: 15px">
-                            <small class="text-slate-600">Comença a llegir</small>
+                            <small class="text-slate-600">{{__('general.sample')}}</small>
                         </a>
 
                         <div class="add-to-cart">

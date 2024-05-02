@@ -8,14 +8,11 @@ use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
-use App\Models\Collaborator;
-use App\Models\CollaboratorTranslation;
-use App\Models\CollectionTranslation;
-use App\Models\Language;
-use App\Models\LanguageTranslation;
 
 use Exception;
 use Illuminate\Database\QueryException;
+
+use Illuminate\Support\Facades\Route;
 
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\StockRequest;
@@ -23,7 +20,6 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
 use PhpParser\Node\Stmt\TryCatch;
-use App\Models\BookBookstore;
 
 /**
  * Class BookController
@@ -346,12 +342,14 @@ class BookController extends Controller
     public function catalog()
     {
         try {
-            // $locale = Config::get('app.locale');
-            // $locale = app()->getLocale();
-            $locale = 'ca';
+            $locale = app()->getLocale();
+
+            // dump(Route::currentRouteName());
+            // dump($locale);
+            // dd(Route::currentRouteName() != "home.{$locale}");
 
             $page = [
-                'title' => 'Catàleg',
+                'title' => __('home.catalog'),
                 'shortDescription' => '',
                 'longDescription' => '',
                 'web' => 'Èter Edicions'
@@ -393,17 +391,16 @@ class BookController extends Controller
     public function bookDetail($id)
     {
         try {
-            // $locale = Config::get('app.locale');
             $locale = app()->getLocale();
 
-            $page = [
-                'title' => 'Portada',
-                'shortDescription' => '',
-                'longDescription' => '',
-                'web' => 'Èter Edicions'
-            ];
+            // dump(Route::currentRouteName());
+            // dump($locale);
+            // dd(Route::currentRouteName() != "home.{$locale}");
+
 
             $book_lv = Book::find($id);
+
+            // dd($book_lv);
 
             if (!$book_lv->visible) {
                 return view('components.404');
@@ -411,6 +408,7 @@ class BookController extends Controller
 
             $book = $this->getFullBook($book_lv, $locale);
 
+            // dd($book);
 
             $authors = [];
             foreach ($book_lv->authors()->get() as $author) {
@@ -436,17 +434,19 @@ class BookController extends Controller
             $page = [
                 'title' => $book_lv->title,
                 'shortDescription' => '',
-                'longDescription' => '',
+                'longDescription' => $book_lv->meta_description,
                 'web' => 'Èter Edicions'
             ];
 
+            // dd($book);
             // dd($authors);
             // dd($translators);
             // dd($related_books);
 
             return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            // abort(500, 'Server Error');
+            dump($e);
         }
     }
 
@@ -495,6 +495,8 @@ class BookController extends Controller
                 'meta_description' => $book->meta_description
             ];
 
+            // dd($bookResult);
+
             foreach ($book->authors()->get() as $author) {
 
                 $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
@@ -502,6 +504,8 @@ class BookController extends Controller
 
                 $bookResult['authors'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
             }
+
+            // dd($bookResult);
 
             foreach ($book->translators()->get() as $translator) {
 
@@ -511,6 +515,8 @@ class BookController extends Controller
                 $bookResult['translators'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
             }
 
+            // dd($bookResult);
+
             foreach ($book->languages()->orderby('id', 'desc')->get() as $lang) {
 
                 $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
@@ -519,11 +525,15 @@ class BookController extends Controller
                 $bookResult['lang'][] = ["iso" => $langTranslation->iso_language, "name" => $langName];
             }
 
+            // dd($bookResult);
+
             foreach ($book->collections()->get() as $collection) {
                 $collection = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
 
                 $bookResult['collections'][] = ["id" => $collection->id, "name" => $collection->name];
             }
+
+            // dd($bookResult);
 
             foreach ($book->extras()->get() as $extra) {
                 $bookResult['extras'][$extra->key] = [
@@ -531,6 +541,8 @@ class BookController extends Controller
                     "value" => $extra->value
                 ];
             }
+
+            // dd($bookResult);
 
             // $bookResult['bookstores'] = [];
             // dd($book->bookstores);
@@ -544,9 +556,11 @@ class BookController extends Controller
                 ];
             }
 
+            // dd($bookResult);
+
             return $bookResult;
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            abort(500, $e->getMessage());
         }
     }
 

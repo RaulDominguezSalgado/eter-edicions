@@ -9,7 +9,7 @@
     <main class="body mt-20 mb-20">
         <div class="flex flex-col items-center space-y-10">
             <div class="flex flex-col items-center space-y-6">
-                <h2>On ens podeu trobar?</h2>
+                <h2>{{__('orthographic-rules.¿')}}{{ucfirst(__('phrases.on ens podeu trobar'))}}?</h2>
 
                 {{-- <div class="mb-8">
                     <ul class="flex space-x-4">

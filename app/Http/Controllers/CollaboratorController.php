@@ -230,7 +230,7 @@ class CollaboratorController extends Controller
         // $locale = 'ca';
 
         $page = [
-            'title' => 'Autors i traductors',
+            'title' => ucfirst(trans_choice('general.authors', 2)) . " " . __('orthographic-rules.and') . " " . strtolower(trans_choice('general.translators', 2)),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -253,8 +253,8 @@ class CollaboratorController extends Controller
         }
 
         $collaboratorTypes = [
-            'authors' => __('general.authors'),
-            'translators' => __('general.translators')
+            'authors' => trans_choice('general.authors', 2),
+            'translators' => trans_choice('general.translators', 2)
         ];
 
         return view('public.collaborators', compact('collaborators_lv', 'authors', 'translators', 'collaboratorTypes', 'page', 'locale'))
