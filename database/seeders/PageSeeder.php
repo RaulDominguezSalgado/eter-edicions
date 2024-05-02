@@ -21,7 +21,8 @@ class PageSeeder extends Seeder
         $this->contact();
     }
 
-    private function foreignrights(){
+    private function foreignrights()
+    {
         $foreignrights = new Page();
         $foreignrights->tag = "foreign-rights";
         $foreignrights->tag = "foreign-rights";
@@ -142,9 +143,10 @@ class PageSeeder extends Seeder
     }
 
 
-    private function about(){
+    private function about()
+    {
         $page = new Page();
-        $page->tag="about";
+        $page->tag = "about";
         $page->save();
 
         $pageTranslationCa = new PageTranslation();
@@ -165,8 +167,10 @@ class PageSeeder extends Seeder
         $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
         $pageCaContentP1->key = "p1";
         $pageCaContentP1->content = <<<HEREDOC
-        És una <strong>editorial</strong> radicada a <strong>Barcelona</strong> i fundada l'any 2023, nascuda amb la voluntat d'apropar les tradicions literàries en <strong>català i àrab</strong>. La nostra activitat es basa, doncs, a traduir publicacions contemporànies de cadascuna de les llengües a l'altra, així com de publicar textos inèdits en una i altra llengua.\nL'editorial apareix principalment per culpa d'en <strong>Mohammad Bitari</strong>. Aquest poeta, dramaturg i traductor palestí trobava a faltar accés a un món que coneix bé i que no arriba suficientment a l’altre costat del Mediterrani: la producció escrita en àrab. A pesar de l’enorme qualitat i varietat de les publicacions -siguin de poesia, teatre, novel·la o pensament-, les traduccions que ens arriben a Occident, i sobretot al català, són, o bé escasses, o bé no existeixen.\nPer resoldre això, va fundar Èter, conjuntament amb el poeta i crític literari <strong>Oriol Rissech</strong>.
-        HEREDOC;;
+        És una <strong>editorial</strong> radicada a <strong>Barcelona</strong> i fundada l'any 2023, nascuda amb la voluntat d'apropar les tradicions literàries en <strong>català i àrab</strong>. La nostra activitat es basa, doncs, a traduir publicacions contemporànies de cadascuna de les llengües a l'altra, així com de publicar textos inèdits en una i altra llengua.
+        L'editorial apareix principalment per culpa d'en <strong>Mohammad Bitari</strong>. Aquest poeta, dramaturg i traductor palestí trobava a faltar accés a un món que coneix bé i que no arriba suficientment a l’altre costat del Mediterrani: la producció escrita en àrab. A pesar de l’enorme qualitat i varietat de les publicacions -siguin de poesia, teatre, novel·la o pensament-, les traduccions que ens arriben a Occident, i sobretot al català, són, o bé escasses, o bé no existeixen.
+        Per resoldre això, va fundar Èter, conjuntament amb el poeta i crític literari <strong>Oriol Rissech</strong>.
+        HEREDOC;
         $pageCaContentP1->save();
 
         // $pageCaContentH2 = new PageContent();
@@ -217,9 +221,10 @@ class PageSeeder extends Seeder
 
     }
 
-    private function contact(){
+    private function contact()
+    {
         $page = new Page();
-        $page->tag="contact";
+        $page->tag = "contact";
         $page->save();
 
         $pageTranslationCa = new PageTranslation();
@@ -240,7 +245,10 @@ class PageSeeder extends Seeder
         $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
         $pageCaContentP1->key = "p1";
         $pageCaContentP1->content = <<<HEREDOC
-        A Èter estem constantment buscant obres interessants en àrab per portar-les a Catalunya, i obres en català per exportar-les al món àrab. Centrem els nostres esforços i recursos en apropar el món àrab i el català a través de la lectura, sempre amb una perspectiva crítica i decolonial. Si el teu manuscrit encaixa en aquests paràmetres, sigui una obra de ficció, poesia, teatre, pensament o assaig, ens la pots fer arribar i estarem encantats de llegir-la.\n\nTens algun dubte o suggeriment? Algun problema amb la teva comanda? Vols que et recomanem el llibre que t'agradarà més? Vols preguntar-nos sobre els drets d'autor o portar al teu país un llibre que hem editat? Posa't en contacte amb nosaltres.\nEt contestarem l'abans possible.
+        A Èter estem constantment buscant obres interessants en àrab per portar-les a Catalunya, i obres en català per exportar-les al món àrab. Centrem els nostres esforços i recursos en apropar el món àrab i el català a través de la lectura, sempre amb una perspectiva crítica i decolonial. Si el teu manuscrit encaixa en aquests paràmetres, sigui una obra de ficció, poesia, teatre, pensament o assaig, ens la pots fer arribar i estarem encantats de llegir-la.
+
+        Tens algun dubte o suggeriment? Algun problema amb la teva comanda? Vols que et recomanem el llibre que t'agradarà més? Vols preguntar-nos sobre els drets d'autor o portar al teu país un llibre que hem editat? Posa't en contacte amb nosaltres.
+        Et contestarem l'abans possible.
         HEREDOC;
         $pageCaContentP1->save();
 

@@ -12,8 +12,10 @@
     <link rel="stylesheet" href="/css/admin/nav.css">
     <link rel="stylesheet" href="/css/admin/table.css">
     <script src="/js/admin/nav.js"></script>
+    {{-- <script src="/js/form/post_dates.js"></script> --}}
     <title>{{ $title ?? 'Èter Edicions' }}</title>
     {{-- @vite('resources/css/app.css') --}}
+    @vite(['resources/js/app.js'])
 </head>
 <body class="flex flex-col md:flex-row space-y-5 md:space-y-5">
     <x-layouts.admin.navigate/>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Actions\ImageHelper;
+use App\Http\Actions\ImageHelperEditor;
 use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
@@ -89,7 +89,7 @@ class CollaboratorController extends Controller
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
                 // $this->editImage($nombreImagenOriginal, "collaborator");
-                ImageHelper::editImage($nombreImagenOriginal, "collaborator");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
 
                 $validatedData['image'] = $nombreImagenOriginal;
             } else {
@@ -171,7 +171,7 @@ class CollaboratorController extends Controller
             // // Procesar y guardar la imagen
             $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
             // $this->editImage($nombreImagenOriginal, "collaborator");
-            ImageHelper::editImage($nombreImagenOriginal, "collaborator");
+            ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
 
 
             $validatedData['image'] = $nombreImagenOriginal;

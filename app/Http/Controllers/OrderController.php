@@ -81,9 +81,10 @@ class OrderController extends Controller
         $totalPrice = 0;
         foreach ($orderDetails as $productData) {
             if ($productData['quantity'] > 0) {
-                $totalPrice += $productData['quantity'] * $productData['price_each'];
+                $totalPrice += $productData['quantity'] * $productData['pvp'];
             }
         }
+        dump($totalPrice);
         return $totalPrice;
     }
     /**
@@ -128,7 +129,8 @@ class OrderController extends Controller
         //return dd($request);
         $validatedData = $request->validated();
         $validatedData['pdf'] = $newFileName;
-        // $validatedData['total'] = $this->getTotalPrice($orderDetails);
+
+        $validatedData['total']=$this->getTotalPrice($validatedData['products']);
         $order = Order::create($validatedData);
         if ($request->has('products')) {
             foreach ($orderDetails as $i => $productData) {
@@ -232,10 +234,11 @@ class OrderController extends Controller
 
             $validatedData = $request->validated();
             $validatedData['pdf'] = $newFileName;
+            $validatedData['total']=$this->getTotalPrice($validatedData['products']);
             $order->update($validatedData);
+            //dump($order);
 
-
-            //Borramos todos los detalles para despues añadirlos
+            //Borramos todos los detalles para despues añadirlos, pero antes cambiamos el stock
             //Esto lo hacemos en lugar de editar uno por uno
             $orderDetails = OrderDetail::where('order_id', 'LIKE', $order->id)->get();
             foreach ($orderDetails as $orderDetail) {
@@ -296,7 +299,7 @@ class OrderController extends Controller
                     'status_id' =>  $order->status_id
                 ]);
                 // dump($orderStatusHistory);
-            }
+             }
 
 
             return redirect()->route('orders.index')

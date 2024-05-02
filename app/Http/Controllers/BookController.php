@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Actions\ImageHelper;
+use App\Http\Actions\ImageHelperEditor;
 use App\Models\Book;
 use App\Models\Bookstore;
 use App\Models\Collection;
@@ -115,7 +115,7 @@ class BookController extends Controller
             $collectionController = new CollectionController();
             foreach (Collection::all() as $collection) {
                 $collectionTranslation = $collectionController->getFullCollection($collection->id, $locale);
-                if($collectionTranslation){
+                if ($collectionTranslation) {
                     $collections[$collection->id] = $collectionTranslation;
                 }
             }
@@ -277,44 +277,44 @@ class BookController extends Controller
         // dump($request);
         // dump($book);
         // try {
-            // \App\Models\Book::class;
-            $new_data = $request->validated();
+        // \App\Models\Book::class;
+        $new_data = $request->validated();
 
-            // dump($new_data);
+        // dump($new_data);
 
-            if ($request->input('visible') != null) {
-                $request->merge([
-                    'visible' => $request->input('visible') == 'on' ? 1 : 0,
-                ]);
-                $new_data['visible'] = $new_data['visible']  == 'on' ? 1 : 0;
-            } else {
-                $request->merge([
-                    'visible' => 0,
-                ]);
-                $new_data['visible'] = 0;
-            }
+        if ($request->input('visible') != null) {
+            $request->merge([
+                'visible' => $request->input('visible') == 'on' ? 1 : 0,
+            ]);
+            $new_data['visible'] = $new_data['visible']  == 'on' ? 1 : 0;
+        } else {
+            $request->merge([
+                'visible' => 0,
+            ]);
+            $new_data['visible'] = 0;
+        }
 
-            if (!$request->input('slug') && $request->input('title') != null) {
-                $request->merge([
-                    'slug' => \App\Http\Actions\FormatDocument::slugify($request['title'])
-                ]);
-                $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
-            }
+        if (!$request->input('slug') && $request->input('title') != null) {
+            $request->merge([
+                'slug' => \App\Http\Actions\FormatDocument::slugify($request['title'])
+            ]);
+            $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
+        }
 
-            // dump($new_data);
+        // dump($new_data);
 
-            $book->update($new_data);
+        $book->update($new_data);
 
-            $this->setBookData($book, $request);
+        $this->setBookData($book, $request);
 
-            // // Controla la selección del usuario
-            // if ($request->input('action') == 'redirect') {
-            //     return redirect()->route('books.index')
-            //         ->with('success', 'Book created successfully');
-            // } else if ($request->input('action') == 'stay') {
+        // // Controla la selección del usuario
+        // if ($request->input('action') == 'redirect') {
+        //     return redirect()->route('books.index')
+        //         ->with('success', 'Book created successfully');
+        // } else if ($request->input('action') == 'stay') {
 
-            return redirect()->route('books.edit', $book->id)
-                ->with('success', 'Llibre actualitzat correctament');
+        return redirect()->route('books.edit', $book->id)
+            ->with('success', 'Llibre actualitzat correctament');
         // } catch (Exception $e) {
         //     return back()->withError($e->getMessage())->withInput();
         // }
@@ -699,7 +699,27 @@ class BookController extends Controller
 
 
 
+    /**
+     * Get an array of related books based on an array of books.
+     * Example of usage: to get recommendations based on the products of the shopping cart
+     *
+     * @param array $books an array of Book objects
+     * @param string $locale
+     *
+     * @return array an array with a preview of 3 related books
+     */
+    public function getRelatedBooksFromMultiple(array $books, string $locale)
+    {
+        $result = [];
 
+        foreach ($books as $book) {
+            $result = array_merge($result, $this->getRelatedBooks($book, $locale));
+        }
+
+        $result = array_slice($result, 0, 3);
+
+        return $result;
+    }
 
 
 
@@ -744,22 +764,20 @@ class BookController extends Controller
             $bookstores = $request->input('bookstores');
             // dump($bookstores);
             $book->bookstores()->detach();
-            foreach($bookstores as $bookstore){
+            foreach ($bookstores as $bookstore) {
                 // dump($bookstore);
-                if(intval($bookstore['stock']) > 0){
+                if (intval($bookstore['stock']) > 0) {
                     $bookstore_lv = Bookstore::find($bookstore['bookstore_id']);
-                $bookstore_lv->books()->sync([$book->id=>['stock' => $bookstore['stock']]]);
+                    $bookstore_lv->books()->sync([$book->id => ['stock' => $bookstore['stock']]]);
                 }
             }
 
             return redirect()->route('stock.edit', $book->id)
                 ->with('success', 'Stock actualitzat correctament');
-        }
-        catch(QueryException $e){
+        } catch (QueryException $e) {
             // dump($e->getMessage());
             return back()->withError("Error a la base de dades en la creació del llibre.\n" . substr($e->getMessage(), 0, strpos($e->getMessage(), "(")))->withInput();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             // dump($e->getMessage());
             return back()->withError($e->getMessage())->withInput();
         }
@@ -770,11 +788,12 @@ class BookController extends Controller
 
 
     /**
-    * Method that generates the Book array used by the view
-    */
-    public static function getData($key = null, $value = null, $search = false) {
+     * Method that generates the Book array used by the view
+     */
+    public static function getData($key = null, $value = null, $search = false)
+    {
         // try {
-            $locale = 'ca';
+        $locale = 'ca';
 
             if ($key == null || $value == null) {
                 $query_data = Book::paginate();
@@ -898,8 +917,7 @@ class BookController extends Controller
                     }
                 }
                 $book->translators()->sync($translators);
-            }
-            else{
+            } else {
                 $book->translators()->detach();
             }
 
@@ -933,7 +951,7 @@ class BookController extends Controller
 
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                ImageHelper::editImage($nombreImagenOriginal, "book");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "book");
 
                 $book->image = $nombreImagenOriginal;
                 $book->save();
@@ -968,6 +986,6 @@ class BookController extends Controller
      */
     public function editImage($filename)
     {
-        ImageHelper::editImage($filename, "book");
+        ImageHelperEditor::editImage($filename, "book");
     }
 }

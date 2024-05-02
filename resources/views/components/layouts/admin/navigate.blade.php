@@ -74,7 +74,7 @@ $locale = 'ca';
             </a>
         </li>
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="">
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('posts.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/posts.webp">
                     <div class="text-base">Publicacions</div>
