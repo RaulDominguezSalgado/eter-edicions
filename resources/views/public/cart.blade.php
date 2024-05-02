@@ -40,7 +40,7 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                         @csrf
                                         {{-- <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}"> --}}
                                         <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
-                                            <span class=""><img src="{{ asset('img/icons/dark/less.webp') }}" alt="Botó per sumar la quantitat d'un producte de la cistella" style="width: 15px"></span>
+                                            <span class=""><img src="{{ asset('img/icons/dark/less.webp') }}" width="20px" alt="Botó per sumar la quantitat d'un producte de la cistella" style="width: 15px"></span>
                                         </button>
                                     </form>
                                     <input type="text" readonly value="{{ $item->qty }}" class="inline-block px-3 py-2.5">
@@ -49,17 +49,17 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                         {{-- <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}"> --}}
                                         <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
 
-                                            <span class=""><img src="{{ asset('img/icons/dark/add.webp') }}" alt="Botó per sumar la quantitat d'un producte de la cistella" style="width: 15px"></span>
+                                            <span class=""><img src="{{ asset('img/icons/dark/add.webp') }}" width="20px" alt="Botó per sumar la quantitat d'un producte de la cistella" style="width: 15px"></span>
                                         </button>
                                     </form>
                                 </div>
                             </td>
-                            <td>
+                            <td>    
                                 <form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm"><img
-                                            src="{{ asset('img/icons/dark/trash.webp') }}" width="30px"
+                                            src="{{ asset('img/icons/dark/trash.webp') }}" width="20px"
                                             alt="Eliminar"></button>
                                 </form>
                             </td>
