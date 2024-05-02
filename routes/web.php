@@ -67,6 +67,9 @@ foreach (config('languages') as $locale) {
 
         // Search
         Route::get(__('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
+
+        // Checkout
+        Route::get(__('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
     }
     else {
 
@@ -106,6 +109,9 @@ foreach (config('languages') as $locale) {
 
         // Search
         Route::get("{$locale}/" . __('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
+
+        // Checkout
+        Route::get("{$locale}/" . __('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
     }
 }
 
