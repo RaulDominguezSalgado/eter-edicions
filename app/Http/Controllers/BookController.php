@@ -14,6 +14,8 @@ use App\Models\CollectionTranslation;
 use App\Models\Language;
 use App\Models\LanguageTranslation;
 
+use \App\Http\Controllers\SearchController;
+
 use Exception;
 use Illuminate\Database\QueryException;
 
@@ -783,8 +785,31 @@ class BookController extends Controller
             else {
                 $query_data = Book::where($key, $value)->paginate();
             }
+
+
             $books = [];
             foreach ($query_data as $single_data) {
+                $filter = [];
+
+                switch ($key) {
+                    case "title":
+                        $filter = [
+                            'key' => $key,
+                            'value' => SearchController::searchDetails($single_data->$key, $value)
+                        ];
+                    break;
+                    case "description":
+                        $filter = [
+                            'key' => $key,
+                            'value' => SearchController::searchDetails($single_data->$key, $value, 5)
+                        ];
+                    break;
+                    default:
+                        $filter = '';
+                    break;
+                }
+
+                
                 $collections_names = [];
                 if (!empty($single_data->collections)) {
                     foreach ($single_data->collections as $collection) {
@@ -827,7 +852,7 @@ class BookController extends Controller
                     'enviromental_footprint' => $single_data->enviromental_footprint,
                     'meta_title' => $single_data->meta_title,
                     'meta_description' => $single_data->meta_description,
-                    'filter' => $key ? ['key' => $key, 'value' => self::searchDetails($single_data->$key, $value, 5)] :  ''
+                    'filter' => $filter
                 ];
             }
             return $books;
@@ -944,54 +969,5 @@ class BookController extends Controller
     public function editImage($filename)
     {
         ImageHelper::editImage($filename, "book");
-    }
-
-    /**
-     * Searches for the $searchValue in $text. Returns a string with $searchValue and 20 words before and after it
-     *
-     * @param string $text the text to search the value in
-     * @param string $searchValue the value to search
-     * @param int $numberOfWords the number of words before and after the search value
-     *
-     * @return array []
-     */
-    private static function searchDetails($text, $searchValue, int $numberOfWords){
-        // we should make a class out of this
-        $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
-                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
-                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
-
-        $haystack = strtolower(strtr($text, $unwanted_array));
-        $needle = strtolower(strtr($searchValue, $unwanted_array));
-
-        if (!str_contains($haystack, $needle)) {
-            return null;
-        }
-
-        $segments = explode($needle, $haystack, 2);
-        $beforeWordsArray = preg_split('/\s+/', $segments[0]);
-        $afterWordsArray = preg_split('/\s+/', $segments[1]);
-
-        $beforeArrayBiggerThanNumberOfWords = false;
-        if(count($beforeWordsArray) > $numberOfWords){
-            $beforeArrayBiggerThanNumberOfWords = true;
-        }
-        $beforeWordsArray = array_slice($beforeWordsArray, -($numberOfWords));
-        if($beforeArrayBiggerThanNumberOfWords){
-            array_unshift($beforeWordsArray , '...');
-        }
-
-        $afterArrayBiggerThanNumberOfWords = false;
-        if(count($afterWordsArray) > $numberOfWords){
-            $afterArrayBiggerThanNumberOfWords = true;
-        }
-        $afterWordsArray = array_slice($afterWordsArray, 0, $numberOfWords);
-        if($afterArrayBiggerThanNumberOfWords){
-            array_push($afterWordsArray , '...');
-        }
-
-        return [$beforeWordsArray, $searchValue, $afterWordsArray];
     }
 }
