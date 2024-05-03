@@ -22,5 +22,5 @@ return [
     'posts' => 'Artículos',
     'activities' => 'Actividades',
     'about' => 'Quiénes somos',
-    'search' => 'Busca',
+    'search' => 'Buscar',
 ];

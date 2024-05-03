@@ -82,7 +82,7 @@
                         {{-- <div class="">
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div> --}}
-                        <div class="headline">
+                        <div class="headline headline flex justify-between items-end">
                             <div class="">
                                 <p class="uppercase">{{ $post['post_type'] }}</p>
                             </div>

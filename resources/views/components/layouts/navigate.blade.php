@@ -15,10 +15,11 @@ $locale = app()->getLocale() ?: 'ca';
                     <i class="icon expand-arrow text-[10px]"></i>
                 </button>
             </div>
-            <div id="langForm" class="lang-select absolute top-8 bg-light">
+            <div id="langForm" class="lang-select absolute top-8 bg-light before:border-s-transparent before:border-t-transparent before:border-b-light before:border-e-transparent">
                 <form action="{{ route('lang.switch') }}" method="POST">
                     @csrf
                     <input type="hidden" name="previousLang" value={{app()->getLocale()}}>
+                    <input type="hidden" name="queryParams" value="{{ http_build_query(request()->query()) }}" id="queryParams">
                     <div class="lang-option relative w-full bg-light hover:bg-surfacemedium px-5 py-1 pb-2">
                         <button class="" type="submit" name="lang" value="ca">Català</button>
                     </div>

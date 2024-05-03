@@ -60,7 +60,7 @@
                     <div class="space-y-3">
                         <a href="{{route('book.sample', $book['sample'])}}" target="_blank" class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
-                                alt="Descarregar sample de {{ $book['title'] }}" class="clickable" style="width: 15px">
+                                alt="{{ucfirst(__('phrases.descarregar sample'))}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de") ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }} {{ $book['title'] }}" class="clickable" style="width: 15px">
                             <small class="text-slate-600">{{__('general.sample')}}</small>
                         </a>
 
@@ -68,9 +68,9 @@
                             <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
                                 value="1">
                             <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
-                                <span class="flex items-center leading-none text-white">Afegir a la cistella</span>
+                                <span class="flex items-center leading-none text-white">{{ucfirst(__('phrases.afegir a la cistella'))}}</span>
                                 <span class=""><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
-                                        alt="Botó per afegir a la cistella" style="width: 15px"></span>
+                                        alt="{{ucfirst(__('phrases.botó per'))}} {{__('phrases.afegir a la cistella')}}" style="width: 15px"></span>
                             </button>
                         </div>
                     </div>

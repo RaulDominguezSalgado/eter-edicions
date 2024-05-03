@@ -13,3 +13,6 @@ i.icon:before{
 .icon.expand-arrow:before{
     background-image: url('/img/icons/dark/arrow-down.svg');
 }
+.icon.search{
+    background-image: url('/img/icons/dark/search.svg');
+}

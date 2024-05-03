@@ -22,10 +22,11 @@ return [
     'posts' => 'Artículos',
     'activities' => 'Actividades',
     'about' => 'Quiénes somos',
-    'search' => 'Busca',
+    'search' => 'Buscar',
 
-    'translators' => 'Traductores',
-    'translation' => 'Traducción',
+    'new-books' => 'Novedades',
+
+    'translators' => '{1}Traductor|[2,*]Traductores',
 
     'books-available' => 'Obras disponibles',
     'other-books-available' => 'Otras obras disponibles',

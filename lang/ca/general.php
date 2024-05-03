@@ -23,7 +23,9 @@ return [
     'posts' => 'Articles',
     'activities' => 'Activitats',
     'about' => 'Qui som',
-    'search' => 'Cerca',
+    'search' => 'Cercar',
+
+    'new-books' => 'Novetats',
 
     'translators' => '{1}Traductor|[2,*]Traductors',
 

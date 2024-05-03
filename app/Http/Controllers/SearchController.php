@@ -21,13 +21,19 @@ use \App\Http\Controllers\CollaboratorsTranslationController;
 use \App\Http\Controllers\AuthorController;
 use \App\Http\Controllers\TranslatorController;
 use \App\Http\Controllers\PostController;
+use Exception;
 
 class SearchController extends Controller
 {
     public function index() {
-        $term = app(Request::class)->input('search_term');
-        $results = self::getResultsArray($term);
-        return view('public.searchResults', compact('results'));
+        try{
+            $term = app(Request::class)->input('search_term');
+            $results = self::getResultsArray($term);
+            return view('public.searchResults', compact('results'));
+        }
+        catch(Exception $e){
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     public static function getResultsArray($term) {
@@ -69,7 +75,7 @@ class SearchController extends Controller
         $returnable_array = self::removeDuplicatesById($returnable_array);
         return $returnable_array;
     }
-    
+
     public static function getResultsArticlesArray ($term) {
         PostController::getData('articles');
         $returnable_array = array_merge(
@@ -85,7 +91,7 @@ class SearchController extends Controller
     private static function removeDuplicatesById($array) {
         $unique_array = [];
         $ids_seen = [];
-    
+
         foreach ($array as $item) {
             $id = $item['id'];
             if (!in_array($id, $ids_seen)) {
@@ -93,7 +99,7 @@ class SearchController extends Controller
                 $unique_array[] = $item;
             }
         }
-    
+
         return $unique_array;
     }
 }

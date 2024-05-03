@@ -13,7 +13,7 @@ $locale = app()->getLocale() ?: 'ca';
         <x-partials.searchBar :term="$results['term']"></x-partials.searchBar>
     </div>
     @if ($results['books'] != [])
-        <h2 class="text-center mb-8">Llibres</h2>
+        <h2 class="text-center mb-8">{{trans_choice('words.llibre', 2)}}</h2>
         <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16 mb-40" id="catalog">
             @foreach ($results['books'] as $i => $book)
                 <div class="book flex flex-col items-center mb-6">
@@ -39,11 +39,12 @@ $locale = app()->getLocale() ?: 'ca';
                         </div>
 
                         <div class="book-translator flex space-x-1 text-center">
-                            <div class="book-translator">Traducció de
+                            <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['collaborators']['translators'][0]['full_name']) ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }}<!--
                                 @foreach ($book['collaborators']['translators'] as $translator)
-                                    @if (!$loop->last)
-                                        {{ $translator['full_name'] }},
-                                        {{-- if last iteration --}}
+                                    @if($loop->first && !$loop->last)
+                                        -->{{ $translator['full_name'] }},
+                                    @elseif($loop->first && $loop->last)
+                                        -->{{ $translator['full_name'] }}
                                     @else
                                         {{ $translator['full_name'] }}
                                     @endif

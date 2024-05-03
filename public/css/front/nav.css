@@ -81,13 +81,23 @@
     position: absolute;
     top: -20px; /* Adjust this value to control the distance of the triangle from the speech bubble */
     right: 0px; /* Position the triangle horizontally in the middle */
-    margin-left: -10px; /* Adjust this value to center the triangle */
+    margin-left: 0px; /* Adjust this value to center the triangle */
     border-width: 12px; /* Size of the triangle */
     border-style: solid;
-    border-color: transparent transparent #f87878 transparent; /* Color of the triangle */
+    /* border-color: transparent transparent #fff transparent; */ /* Color of the triangle */
 }
 
 /* .lang-select .lang-option {
     z-index: 10;
 } */
 
+input.search-box::before{
+    content: '';
+    display: flex;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    background-size: cover;
+    background-image: url('/img/icons/dark/search.svg');
+}
