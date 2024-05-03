@@ -740,32 +740,6 @@ class BookController extends Controller
     }
 
 
-
-    /**
-     * Get an array of related books based on an array of books.
-     * Example of usage: to get recommendations based on the products of the shopping cart
-     *
-     * @param array $books an array of Book objects
-     * @param string $locale
-     *
-     * @return array an array with a preview of 3 related books
-     */
-    public function getRelatedBooksFromMultiple(array $books, string $locale)
-    {
-        $result = [];
-
-        foreach ($books as $book) {
-            $result = array_merge($result, $this->getRelatedBooks($book, $locale));
-        }
-
-        $result = array_slice($result, 0, 3);
-
-        return $result;
-    }
-
-
-
-
     /*
         AJUSTES DE STOCK
     */
@@ -969,7 +943,7 @@ class BookController extends Controller
 
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                $imageHelper = new ImageHelper();
+                $imageHelper = new ImageHelperEditor();
                 $imageHelper->editImage($nombreImagenOriginal, "book");
 
                 $book->image = $nombreImagenOriginal;
@@ -1005,7 +979,7 @@ class BookController extends Controller
      */
     public function editImage($filename)
     {
-        $imageHelper = new ImageHelper();
+        $imageHelper = new ImageHelperEditor();
         $imageHelper->editImage($filename, "book");
     }
 
