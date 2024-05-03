@@ -6,7 +6,7 @@
 $locale = app()->getLocale() ?: 'ca';
 ?>
 <nav class="flex justify-end px-2.5 pt-3">
-    <ul>
+    <ul class="flex space-x-2">
         <li class="relative">
             <div id="lang" class="">
                 <button type="button" id="langSelectExpand" class="flex items-center" onclick="toggleLangSelect(this)">
@@ -31,6 +31,15 @@ $locale = app()->getLocale() ?: 'ca';
                     </div> --}}
                 </form>
             </div>
+        </li>
+        <li class="relative">
+            <a href="{{ route("cart.view") }}" class="">
+                <i class="icon shopping-bag relative">
+                    <div class="bg-dark rounded-full text-light size-[14px] p-0 m-0 absolute top-[28px] left-[8px]">
+                        <p class="p12 not-italic leading-3 absolute left-[3px]">4</p> {{-- number of items in cart in real time --}}
+                    </div>
+                </i>
+            </a>
         </li>
     </ul>
 </nav>
@@ -57,9 +66,6 @@ $locale = app()->getLocale() ?: 'ca';
     <div>
         <x-partials.searchBar></x-partials.searchBar>
     </div>
-    <a href="{{ route("cart.view") }}">
-        <button>Cistella</button>
-    </a>
 </nav>
 
 <script src="/js/components/langSelect.js"></script>

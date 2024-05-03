@@ -22,7 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::post('/cart/{id}', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('stock.update');
 Route::group(['middleware' => 'language.redirect'], function () {
     /* Rutas públicas en multi-idioma */
     foreach (config('languages') as $locale) {

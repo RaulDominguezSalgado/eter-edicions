@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "codersfree/shoppingcart": "^1.0",
+        "codersfree/shoppingcart": "*",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^3.6",
         "laravel/fortify": "^1.21",
