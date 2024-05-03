@@ -29,9 +29,9 @@ class LanguageController extends Controller
         // Generate URL for the new route with parameters
         $routeParameters = $previousRouteParameters;
 
-        $queryParams = $request->input('queryParams') ?? [];
+        $queryParams = $request->input('queryParams') ?? "";
 
-        $redirectUrl = route($routeGoalName, $routeParameters)  . '?' . $queryParams;
+        $redirectUrl = $queryParams ? route($routeGoalName, $routeParameters)  . '?' . $queryParams : route($routeGoalName, $routeParameters);
 
         return redirect($redirectUrl)->with(['lang_switched' => $lang]);
     }
