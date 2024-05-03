@@ -31,10 +31,16 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="date" class="form-label">{{ __('Data') }}</label>
-            <input type="date" step="1" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date', $post['date']) }}" id="date" placeholder="Data">
+            <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date', $post['date']) }}" id="date" placeholder="Data">
             {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-            <input type="time" name="time" value="{{ old('time', $post['time']) }}">
         </div>
+
+        <div class="form-group mb-2 mb20">
+            <label for="time" class="form-label">{{ __('Hora') }}</label>
+            <input type="time" name="time" class="form-control @error('time') is-invalid @enderror" value="{{ old('time', $post['time']) }}" id="time" placeholder="Hora">
+            {!! $errors->first('time', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
         <div class="form-group mb-2 mb20">
             <label for="location" class="form-label">{{ __('Ubicació') }}</label>
             <input type="text" name="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location', $post['location']) }}" id="location" placeholder="Ubicació">
