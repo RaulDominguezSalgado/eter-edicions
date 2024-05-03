@@ -139,8 +139,22 @@ class PostController extends Controller
             $validatedData['image'] = $nombreImagenOriginal;
         }
 
-        //dd(Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']));
+        // Set default values for date and time if not provided
+        $date = $validatedData['date'] ?? null;
+        $time = $validatedData['time'] ?? null;
+        // Combine date and time
+        if ($date && $time) {
+            $datetime = $date ? Carbon::parse("$date $time") : null;
+        } else {
+            $datetime = null;
+        }
 
+        //dd(Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']));
+        //$date = Carbon::createFromFormat('Y-m-d', $validatedData['date']);
+        //$date = Carbon::parse($validatedData['date']);
+        //$time = Carbon::createFromFormat('H:i', $validatedData['time']);
+        // $time = Carbon::parse($validatedData['time']);
+        // $datetime = $date->hour($time->hour)->minute($time->minute);
         $translationData = [
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
@@ -149,7 +163,7 @@ class PostController extends Controller
             'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
             'content' => $validatedData['content'],
             //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
-            'date' => $validatedData['date'] . " " . $validatedData['time'], // . ":00",
+            'date' => $datetime, // . ":00",
             'location' => $validatedData['location'],
             'image' => $validatedData['image'],
             'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
@@ -271,10 +285,14 @@ class PostController extends Controller
         $validatedData = $request->validated();
 
 
-        // Agregar la hora al array de datos
+        $date = $validatedData['date'] ?? null;
+        $time = $validatedData['time'] ?? null;
 
-        $validatedData['date'] = $validatedData['date'] . ' ' . $request->input('time');
 
+        $datetime = $date ? Carbon::parse("$date $time") : null;
+
+        // Assign the datetime variable to the 'date' key in the validatedData array
+        $validatedData['date'] = $datetime;
 
         $post->update($validatedData);
 
