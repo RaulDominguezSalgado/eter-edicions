@@ -245,6 +245,14 @@ class PostController extends Controller
         } else {
             $translator = '';
         }
+
+        if($postObject->date){
+            $date = substr($postObject->date, 0, 10);
+            $time = Carbon::parse(substr($postObject->date, 10, 18))->format('H:i');
+        }else{
+            $date = '';
+            $time = '';
+        }
         $post = [
             'id' => $postObject->id,
             'title' => $postObject->title,
@@ -252,9 +260,9 @@ class PostController extends Controller
             'author_id' => $authorID,
             'translator_id' => $translator,
             'content' => $postObject->content,
-            'date' => substr($postObject->date, 0, 10), // Extracts 'YYYY-MM-DD'
-            //'time' => substr($postObject->date, 10, 18),
-            'time' => Carbon::parse(substr($postObject->date, 10, 18))->format('H:i'),
+            'date' => $date,
+            //'time' => substr($postObject->date, 10, 15),
+            'time' => $time,
             'location' => $postObject->location,
             'image' => $postObject->image,
             'slug' => $postObject->slug,
