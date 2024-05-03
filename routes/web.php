@@ -142,3 +142,4 @@ Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'a
 Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('cart.view');
 Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
+// Route::put('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'update'])->name('cart.update');

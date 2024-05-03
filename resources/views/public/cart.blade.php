@@ -10,6 +10,54 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
     {{-- <link rel="stylesheet" href="{{ asset('css/public/bookstores.css') }}"> --}}
     <div class="container">
         <h2>Cistella</h2>
+        @if (session('success'))
+            {{-- <div class="alert alert-danger">{{ session('error') }}</div> --}}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">{{ session('success') }}</strong>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Error: </strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
+            </div>
+        @endif
+
+
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">No s'han pogut guardar les dades de la comanda. Consulta</strong>
+                {{-- <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul> --}}
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
+            </div>
+        @endif
 
         @if (count(Cart::content()) > 0)
             <table class="table">
@@ -55,7 +103,6 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                 </div>
                             </td>
                             <td>
-                                <span></span>
                                 <form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -65,6 +112,8 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                 </form>
                             </td>
                             <td>{{ $item->total()}}€</td>
+
+                            {{-- <td>{{$item->options->id}}</td> --}}
                         </tr>
                     @endforeach
                 </tbody>
@@ -78,6 +127,42 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
             <p>La seva cistella es troba buida</p>
         @endif
 
+        @if (count(Cart::instance('outOfStock')->content()) > 0)
+            <div class="bg-lightgrey border border-darkgrey text-darkgrey px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">No hi ha disponibilitat d'alguns productes de la teva cistella.</span>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Producte</th>
+                        <th>Preu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Cart::instance('outOfStock')->content() as $item)
+                        <tr>
+                            <td>
+                                <div>
+                                    <label for="name">{{ $item->name }}</label>
+                                    <img style="width: 100px; height: auto;"
+                                        src="{{ asset('img/books/thumbnails/' . $item->options->image) }}"
+                                        alt="{{ $item->name . $item->options->image }}">
+                                </div>
+                            </td>
+                            <td>{{ $item->priceTax() }}€</td>
+                            <td><form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="instance" value="outOfStock">
+                                <button type="submit" class="btn btn-danger btn-sm"><img
+                                        src="{{ asset('img/icons/dark/trash.webp') }}" width="20px"
+                                        alt="Eliminar"></button>
+                            </form></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
         @if (count($relatedBooks) > 0)
             <div id="related-books" class="flex flex-col items-center space-y-4">
                 <h2>També et poden agradar</h2>
@@ -109,7 +194,7 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                         <span class="flex items-center leading-none text-white">Afegir a la
                                             cistella</span>
                                         <span class="bg-dark"><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
-                                                alt="Botó per afegir a la cistella" style="width: 15px"></span>
+                                                alt="Botó per afegir a la cistella" style="width: 20px"></span>
                                     </button>
                                 </form>
                             </div>
