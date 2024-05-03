@@ -60,17 +60,17 @@
                     <div class="space-y-3">
                         <a href="{{route('book.sample', $book['sample'])}}" target="_blank" class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
-                                alt="Descarregar sample de {{ $book['title'] }}" class="clickable" style="width: 15px">
-                            <small class="text-slate-600">Comença a llegir</small>
+                                alt="{{ucfirst(__('phrases.descarregar sample'))}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de") ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }} {{ $book['title'] }}" class="clickable" style="width: 15px">
+                            <small class="text-slate-600">{{__('general.sample')}}</small>
                         </a>
 
                         <div class="add-to-cart">
                             <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
                                 value="1">
                             <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
-                                <span class="flex items-center leading-none text-white">Afegir a la cistella</span>
+                                <span class="flex items-center leading-none text-white">{{ucfirst(__('phrases.afegir a la cistella'))}}</span>
                                 <span class=""><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
-                                        alt="Botó per afegir a la cistella" style="width: 15px"></span>
+                                        alt="{{ucfirst(__('phrases.botó per'))}} {{__('phrases.afegir a la cistella')}}" style="width: 15px"></span>
                             </button>
                         </div>
                     </div>
@@ -79,15 +79,15 @@
             <div>
                 @if ($book['stock'])
                     <div>
-                        <small class="text-green-700">Disponible</small>
+                        <small class="text-green-700">{{__('general.available')}}</small>
                     </div>
                 @else
                     <div>
-                        <small class="text-red-700">Ho sentim! Aquest llibre no està disponible</small>
+                        <small class="text-red-700">{{__('general.not-available')}}</small>
                         <br>
-                        <small>Pots trobar-lo a les <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">llibreries
-                                amb
-                                qui treballem</a></small>
+                        <small>{{__('general.You can find it in')}} {{__('orthographic-rules.les')}} <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">
+                            {{ strtolower(__('general.bookstores')) }}</a>
+                                {{__('general.with whom we work')}}</small>
                     </div>
                 @endif
             </div>
@@ -101,7 +101,7 @@
                             class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b active"
                             id="description-tab" data-tabs-target="#description" type="button" role="tab"
                             aria-controls="description" aria-selected="true">
-                            <h5 class="">Descripció</h5>
+                            <h5 class="">{{__('general.description')}}</h5>
                         </button>
                     </li>
                     <li class="mr-2" role="presentation">
@@ -109,7 +109,7 @@
                             class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b"
                             id="technical-sheet-tab" data-tabs-target="#technical-sheet" type="button" role="tab"
                             aria-controls="technical-sheet" aria-selected="false">
-                            <h5 class="">Fitxa tècnica</h5>
+                            <h5 class="">{{__('general.technical-sheet')}}</h5>
                         </button>
                     </li>
                 </ul>
@@ -136,7 +136,7 @@
                                 </div>
                                 <div>
                                     @if (array_key_exists('books', $author) && count($author['books']) > 1)
-                                        <h3 class="font-bold mb-3">Altres obres disponibles</h3>
+                                        <h3 class="font-bold mb-3">{{__('general.other-books-available')}}</h3>
                                         <div class="flex flex-col space-y-4">
                                             @foreach ($author['books'] as $other_author_book)
                                                 @if ($other_author_book['title'] != $book['title'])
@@ -165,7 +165,7 @@
                                 </div>
                                 <div>
                                     @if (array_key_exists('books', $translator) && count($translator['books']) > 1)
-                                        <h3 class="font-bold mb-3">Altres obres disponibles</h3>
+                                    <h3 class="font-bold mb-3">{{__('general.other-books-available')}}</h3>
                                         <div class="flex space-x-2">
                                             @foreach ($translator['books'] as $other_author_book)
                                                 @if ($other_author_book['title'] != $book['title'])
@@ -188,7 +188,7 @@
                     @endforeach
                 </div>
 
-                <div class="technical-sheet hidden flex flex-col space-y-0.5" id="technical-sheet" role="tabpanel"
+                <div class="technical-sheet flex flex-col space-y-0.5" id="technical-sheet" role="tabpanel"
                     aria-labelledby="technical-sheet-tab">
                     <div class="mb-2">
                         <div class="flex" id="title">
@@ -200,7 +200,7 @@
                         </div>
                     </div>
                     <div class="flex space-x-1.5" id="authors">
-                        <strong>Autoria: </strong>
+                        <strong>{{__('general.authorship')}}: </strong>
                         <div class="flex space-x-1.5">
                             @foreach ($book['authors'] as $author)
                                 {{-- if not last iteration --}}
@@ -214,7 +214,7 @@
                         </div>
                     </div>
                     <div class="flex space-x-1.5" id="translators">
-                        <strong>Traducció: </strong>
+                        <strong>{{__('general.translation')}}: </strong>
                         <div class="flex space-x-1.5">
                             @foreach ($book['translators'] as $translator)
                                 {{-- if not last iteration --}}
@@ -238,15 +238,11 @@
                         </div>
                     @endif
                     <div class="flex space-x-1.5" id="publisher">
-                        <strong>Edita: </strong>
+                        <strong>{{__('general.published-by')}}: </strong>
                         <p>{{ $book['publisher'] }}</p>
                     </div>
                     <div class="flex space-x-1.5" id="collections">
-                        @if (count($book['collections']) > 1)
-                            <strong>Col·leccions: </strong>
-                        @else
-                            <strong>Col·lecció: </strong>
-                        @endif
+                            <strong>{{trans_choice('general.collections', count($book['collections']))}}: </strong>
 
                         <div class="flex space-x-1.5">
                             @foreach ($book['collections'] as $collection)
@@ -260,17 +256,8 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="flex space-x-1.5" id="number_of_pages">
-                        <strong>Pàgines: </strong>
-                        <p>{{ $book['number_of_pages'] }}</p>
-                    </div>
                     <div class="flex space-x-1.5" id="lang">
-                        @if (count($book['lang']) > 1)
-                            <strong>Idiomes: </strong>
-                        @else
-                            <strong>Idioma: </strong>
-                        @endif
-
+                        <strong>{{trans_choice('general.languages', count($book['lang']))}}:</strong>
                         <div class="flex space-x-1.5">
                             @foreach ($book['lang'] as $lang)
                                 @if (!$loop->last)
@@ -281,16 +268,24 @@
                             @endforeach
                         </div>
                     </div>
+                    <div class="flex space-x-1.5" id="number_of_pages">
+                        <strong>{{__('general.number_of_pages')}}: </strong>
+                        <p>{{ $book['number_of_pages'] }}</p>
+                    </div>
+                    <div class="flex space-x-1.5" id="size">
+                        <strong>{{__('general.size')}}: </strong>
+                        <p>{{ $book['size'] }}</p>
+                    </div>
                     <div class="flex space-x-1.5" id="publication_date">
-                        <strong>Publicació: </strong>
-                        <p>{{ $book['publication_date'] }}</p>
+                        <strong>{{__('general.publication_date')}}: </strong>
+                        <p>{{ substr($book['publication_date'], -4, 4) }}</p>
                     </div>
                     <div class="flex space-x-1.5" id="isbn">
-                        <strong>ISBN: </strong>
+                        <strong>{{__('general.isbn')}}: </strong>
                         <p>{{ $book['isbn'] }}</p>
                     </div>
                     <div class="flex space-x-1.5" id="isbn">
-                        <strong>Dipòsit legal: </strong>
+                        <strong>{{__('general.legal_diposit')}}: </strong>
                         <p>{{ $book['legal_diposit'] }}</p>
                     </div>
                 </div>
@@ -299,7 +294,7 @@
 
         @if (count($related_books) > 0)
             <div id="related-books" class="flex flex-col items-center space-y-4">
-                <h2>També et poden agradar</h2>
+                <h2>{{__('general.you-may-also-like')}}</h2>
 
                 <div class="flex">
                     @foreach ($related_books as $i => $relatedBook)

@@ -19,6 +19,7 @@ class PageSeeder extends Seeder
         $this->foreignrights();
         $this->about();
         $this->contact();
+        $this->agency();
     }
 
     private function foreignrights(){
@@ -44,7 +45,7 @@ class PageSeeder extends Seeder
         $foreignrightsCaContentP1 = new PageContent();
         $foreignrightsCaContentP1->page_translation_id = $foreignrightsTranslationCa->id;
         $foreignrightsCaContentP1->key = "p1";
-        $foreignrightsCaContentP1->content = "Els nostres drets de traducció són gestionats Serveis Editorials Èter S.L.";
+        $foreignrightsCaContentP1->content = "Els nostres drets de traducció són gestionats per Serveis Editorials Èter S.L.";
         $foreignrightsCaContentP1->save();
 
         $foreignrightsCaContentMoreInfo = new PageContent();
@@ -82,6 +83,65 @@ class PageSeeder extends Seeder
         $foreignrightsCaContentDownloadFile->key = "download-file";
         $foreignrightsCaContentDownloadFile->content = "foreign-rights-catalogue.pdf";
         $foreignrightsCaContentDownloadFile->save();
+
+
+
+        $foreignrightsTranslationEs = new PageTranslation();
+        $foreignrightsTranslationEs->page_id = $foreignrights->id;
+        $foreignrightsTranslationEs->lang = "es";
+        $foreignrightsTranslationEs->slug = "foreign-rights";
+        $foreignrightsTranslationEs->meta_title = "Foreign rights";
+        $foreignrightsTranslationEs->meta_description = "Información sobre los derechos de traducción (foreign rights) de la editorial Èter Edicions";
+        $foreignrightsTranslationEs->save();
+
+        $foreignrightsEsContentTitle = new PageContent();
+        $foreignrightsEsContentTitle->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentTitle->key = "title";
+        $foreignrightsEsContentTitle->content = "Foreign rights";
+        $foreignrightsEsContentTitle->save();
+
+        $foreignrightsEsContentP1 = new PageContent();
+        $foreignrightsEsContentP1->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentP1->key = "p1";
+        $foreignrightsEsContentP1->content = "Nuestros derechos de traducción son gestionados por Serveis Editorials Èter S.L.";
+        $foreignrightsEsContentP1->save();
+
+        $foreignrightsEsContentMoreInfo = new PageContent();
+        $foreignrightsEsContentMoreInfo->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentMoreInfo->key = "more-info";
+        $foreignrightsEsContentMoreInfo->content = "Para más información, por favor contactar con:";
+        $foreignrightsEsContentMoreInfo->save();
+
+        $foreignrightsEsContentContactPerson = new PageContent();
+        $foreignrightsEsContentContactPerson->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentContactPerson->key = "contact-person";
+        $foreignrightsEsContentContactPerson->content = "Oriol Rissech";
+        $foreignrightsEsContentContactPerson->save();
+
+        $foreignrightsEsContentContactEmail = new PageContent();
+        $foreignrightsEsContentContactEmail->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentContactEmail->key = "contact-email";
+        $foreignrightsEsContentContactEmail->content = "orissech@eteredicions.com";
+        $foreignrightsEsContentContactEmail->save();
+
+        $foreignrightsEsContentAgency = new PageContent();
+        $foreignrightsEsContentAgency->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentAgency->key = "agency";
+        $foreignrightsEsContentAgency->content = "Serveis Editorials Èter S.L.";
+        $foreignrightsEsContentAgency->save();
+
+        $foreignrightsEsContentDownloadLabel = new PageContent();
+        $foreignrightsEsContentDownloadLabel->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentDownloadLabel->key = "download-label";
+        $foreignrightsEsContentDownloadLabel->content = "Catálogo de derechos";
+        $foreignrightsEsContentDownloadLabel->save();
+
+        $foreignrightsEsContentDownloadFile = new PageContent();
+        $foreignrightsEsContentDownloadFile->page_translation_id = $foreignrightsTranslationEs->id;
+        $foreignrightsEsContentDownloadFile->key = "download-file";
+        $foreignrightsEsContentDownloadFile->content = "foreign-rights-catalogue.pdf";
+        $foreignrightsEsContentDownloadFile->save();
+
 
 
         $foreignrightsTranslationEn = new PageTranslation();
@@ -215,6 +275,30 @@ class PageSeeder extends Seeder
         // HEREDOC;
         // $pageCaContentP4->save();
 
+
+
+        $pageTranslationEs = new PageTranslation();
+        $pageTranslationEs->page_id = $page->id;
+        $pageTranslationEs->lang = "es";
+        $pageTranslationEs->slug = "sobre-nosotros";
+        $pageTranslationEs->meta_title = "Sobre nosotros";
+        $pageTranslationEs->meta_description = "Información sobre la editorial Èter Edicions, especializada en traducciones del árabe al catalán y del catalán al árab de obras de poesía, pensamiento, novelas y teatro";
+        $pageTranslationEs->save();
+
+        $pageEsContentH1 = new PageContent();
+        $pageEsContentH1->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentH1->key = "h1";
+        $pageEsContentH1->content = "Èter Edicions";
+        $pageEsContentH1->save();
+
+        $pageEsContentP1 = new PageContent();
+        $pageEsContentP1->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentP1->key = "p1";
+        $pageEsContentP1->content = <<<HEREDOC
+        Es una <strong>editorial</strong> radicada en <strong>Barcelona</strong> y fundada en el año 2023, nacida con la voluntad de acercar las tradiciones literarias en <strong>catalán y árabe</strong>. Nuestra actividad se basa, pues, en traducir publicaciones contemporáneas de cada una de les lenguas a la otra, así como de publicar textos inéditos en un y otro idioma.\nLa editorial aparece principalmente por culpa de <strong>Mohammad Bitari</strong>. Este poeta, dramaturgo y traductor palestino echaba de menos acceso a un mundo que conoce bien y que no llega lo suficiente al otro lado del Mediterráneo: la producción escrita en árabe. A pesar de la enorme calidad y variedad de las publicaciones -sean de poesía, teatro, novela o pensamiento-, las traducciones que llegan a Occidente, y sobretodo en catalán, son, o bien escasas, o inexistentes.\nPara resolver esto, fundó Èter, mano a mano con el poeta y crítico literario <strong>Oriol Rissech</strong>.
+        HEREDOC;;
+        $pageEsContentP1->save();
+
     }
 
     private function contact(){
@@ -336,5 +420,173 @@ class PageSeeder extends Seeder
         $pageCaContentFormSendButton->key = "send-button";
         $pageCaContentFormSendButton->content = trans('form.send');
         $pageCaContentFormSendButton->save();
+
+
+
+        $pageTranslationEs = new PageTranslation();
+        $pageTranslationEs->page_id = $page->id;
+        $pageTranslationEs->lang = "es";
+        $pageTranslationEs->slug = "contacto";
+        $pageTranslationEs->meta_title = "Contacto";
+        $pageTranslationEs->meta_description = "Contacta con la editorial Èter Edicions";
+        $pageTranslationEs->save();
+
+        $pageEsContentH1 = new PageContent();
+        $pageEsContentH1->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentH1->key = "h1";
+        $pageEsContentH1->content = "Contacto";
+        $pageEsContentH1->save();
+
+        $pageEsContentP1 = new PageContent();
+        $pageEsContentP1->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentP1->key = "p1";
+        $pageEsContentP1->content = <<<HEREDOC
+        En Èter estamos constantmente buscando obras interesantes en árabe para llevarlas a Catalunya, y obras en catalán para exportarlas al mundo árabe. Centramos nuestros esfuerzos y recursos en acercar el mundo árabe y el catalán a través de la lectura, siempre con una perspectiva crítica y decolonial. Si tu manuscrito encaja en estos parámetros, sea una obra de ficción, poesía, teatro, pensamiento o ensayo, nos la puedes enviar y estaremos encantados de leerla.\n\n¿Tienes alguna duda o sugerencia? ¿Algún problema con tu pedido? ¿Quieres que te recomendemos el libro que idóneo para ti? ¿Quieres preguntarnos sobre derechos de autor o llevar a tu país un libro que hemos editado? Ponte en contacto con nosotros.\nTe contestaremos lo antes posible.
+        HEREDOC;
+        $pageEsContentP1->save();
+
+        $pageEsContentCompanyName = new PageContent();
+        $pageEsContentCompanyName->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentCompanyName->key = "company-name";
+        $pageEsContentCompanyName->content = <<<HEREDOC
+        Serveis Editorials Èter S.L.
+        HEREDOC;;
+        $pageCaContentCompanyName->save();
+
+        $pageEsContentAddress = new PageContent();
+        $pageEsContentAddress->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentAddress->key = "address";
+        $pageEsContentAddress->content = "Sant Gil 16, 3-1";
+        $pageEsContentAddress->save();
+
+        $pageEsContentZipCodeAndCity = new PageContent();
+        $pageEsContentZipCodeAndCity->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentZipCodeAndCity->key = "zip-code-city";
+        $pageEsContentZipCodeAndCity->content = "08001 Barcelona";
+        $pageEsContentZipCodeAndCity->save();
+
+        // $pageEsContentEmail = new PageContent();
+        // $pageEsContentEmail->page_translation_id = $pageTranslationEs->id;
+        // $pageEsContentEmail->key = "email";
+        // $pageEsContentEmail->content = "info@eteredicions.com";
+        // $pageEsContentEmail->save();
+
+        $pageEsContentFormTitle = new PageContent();
+        $pageEsContentFormTitle->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormTitle->key = "form-title";
+        $pageEsContentFormTitle->content = "Formulario de contacto";
+        $pageEsContentFormTitle->save();
+
+        $pageEsContentFormSubject = new PageContent();
+        $pageEsContentFormSubject->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormSubject->key = "form-subject";
+        $pageEsContentFormSubject->content = "Asunto";
+        $pageEsContentFormSubject->save();
+
+        $subjects = json_encode(["Pedidos", "Prensa y comunicación", "Foreign rights", "Derechos de autor", "Manuscritos", "Otros"]);
+        $pageEsContentFormSubjects = new PageContent();
+        $pageEsContentFormSubjects->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormSubjects->key = "form-subjects";
+        $pageEsContentFormSubjects->content = $subjects;
+        $pageEsContentFormSubjects->save();
+
+        $pageEsContentFormName = new PageContent();
+        $pageEsContentFormName->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormName->key = "form-name";
+        $pageEsContentFormName->content = 'Nombre y apellidos';
+        $pageEsContentFormName->save();
+
+        $pageEsContentFormEmail = new PageContent();
+        $pageEsContentFormEmail->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormEmail->key = "form-email";
+        $pageEsContentFormEmail->content = 'E-mail';
+        $pageEsContentFormEmail->save();
+
+        $pageEsContentFormMessage = new PageContent();
+        $pageEsContentFormMessage->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormMessage->key = "form-message";
+        $pageEsContentFormMessage->content = "Mensaje";
+        $pageEsContentFormMessage->save();
+
+        $pageEsContentFormTermsDisclaimer = new PageContent();
+        $pageEsContentFormTermsDisclaimer->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormTermsDisclaimer->key = "terms-disclaimer";
+        $pageEsContentFormTermsDisclaimer->content = "SERVEIS EDITORIALS ÈTER, S.L. como responsable del tratamiento de tus datos, los tratará con el objetivo de dar respuesta a tu consulta o petición. Puedes ejercir tus derechos consultando la información adicional detallada sobre la protección de datos en nuestra";
+        $pageEsContentFormTermsDisclaimer->save();
+
+        $pageEsContentFormPrivacyPolicy = new PageContent();
+        $pageEsContentFormPrivacyPolicy->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormPrivacyPolicy->key = "privacy-policy";
+        $pageEsContentFormPrivacyPolicy->content = "Política de privacidad";
+        $pageEsContentFormPrivacyPolicy->save();
+
+        $pageEsContentFormTermsBasic = new PageContent();
+        $pageEsContentFormTermsBasic->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormTermsBasic->key = "terms-basic";
+        $pageEsContentFormTermsBasic->content = "He leído y acepto las condiciones contenidas en la política de privacidad sobre el tratamiento de mis datos para gestionar mi compra, consulta o petición.";
+        $pageEsContentFormTermsBasic->save();
+
+        $pageEsContentFormTermsAdvertising = new PageContent();
+        $pageEsContentFormTermsAdvertising->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormTermsAdvertising->key = "terms-advertising";
+        $pageEsContentFormTermsAdvertising->content = "Acepto recibir información comercial sobre los productos, servicios y novedades de SERVEIS EDITORIALS ÈTER S.L.";
+        $pageEsContentFormTermsAdvertising->save();
+
+        $pageEsContentFormSendButton = new PageContent();
+        $pageEsContentFormSendButton->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentFormSendButton->key = "send-button";
+        $pageEsContentFormSendButton->content = "Enviar";
+        $pageEsContentFormSendButton->save();
+    }
+
+    private function agency(){
+        $page = new Page();
+        $page->tag="agency";
+        $page->save();
+
+        $pageTranslationCa = new PageTranslation();
+        $pageTranslationCa->page_id = $page->id;
+        $pageTranslationCa->lang = "ca";
+        $pageTranslationCa->slug = "agencia";
+        $pageTranslationCa->meta_title = "Agència";
+        $pageTranslationCa->meta_description = "Informació sobre l'agència de representació de professionals de la cultura d'Èter Edicions. Èter representa escriptors, poetes, assagistes, autors de teatre, traductors, il·lustradors...";
+        $pageTranslationCa->save();
+
+        $pageCaContentH1 = new PageContent();
+        $pageCaContentH1->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentH1->key = "h1";
+        $pageCaContentH1->content = ucfirst(__('general.agency'));
+        $pageCaContentH1->save();
+
+        $pageCaContentP1 = new PageContent();
+        $pageCaContentP1->page_translation_id = $pageTranslationCa->id;
+        $pageCaContentP1->key = "p1";
+        $pageCaContentP1->content = <<<HEREDOC
+        Sed sollicitudin libero eu lacus sodales ultricies molestie ut justo.  Nunc aliquet maximus est, sed sodales lacus accumsan in. Curabitur ut  risus sem. Fusce sit amet est mauris. Donec malesuada velit nec  venenatis rhoncus. Phasellus interdum, quam eget blandit interdum, velit  risus vulputate mauris, quis iaculis neque nisi sed turpis. In eget  nisi a nibh efficitur hendrerit a vitae ligula. Ut a nibh placerat,  iaculis urna a, imperdiet massa. Integer non mauris rhoncus, mattis.
+        HEREDOC;;
+        $pageCaContentP1->save();
+
+        $pageTranslationEs = new PageTranslation();
+        $pageTranslationEs->page_id = $page->id;
+        $pageTranslationEs->lang = "es";
+        $pageTranslationEs->slug = "agencia";
+        $pageTranslationEs->meta_title = "Agencia";
+        $pageTranslationEs->meta_description = "Información sobre la agencia de representación de profesionales de la cultura de Èter Edicions. Èter representa escritores, poetas, ensayistas, autores de teatro, traductores, ilustradores...";
+        $pageTranslationEs->save();
+
+        $pageEsContentH1 = new PageContent();
+        $pageEsContentH1->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentH1->key = "h1";
+        $pageEsContentH1->content = ucfirst(__('general.agency'));
+        $pageEsContentH1->save();
+
+        $pageEsContentP1 = new PageContent();
+        $pageEsContentP1->page_translation_id = $pageTranslationEs->id;
+        $pageEsContentP1->key = "p1";
+        $pageEsContentP1->content = <<<HEREDOC
+        Sed sollicitudin libero eu lacus sodales ultricies molestie ut justo.  Nunc aliquet maximus est, sed sodales lacus accumsan in. Curabitur ut  risus sem. Fusce sit amet est mauris. Donec malesuada velit nec  venenatis rhoncus. Phasellus interdum, quam eget blandit interdum, velit  risus vulputate mauris, quis iaculis neque nisi sed turpis. In eget  nisi a nibh efficitur hendrerit a vitae ligula. Ut a nibh placerat,  iaculis urna a, imperdiet massa. Integer non mauris rhoncus, mattis.
+        HEREDOC;;
+        $pageEsContentP1->save();
+
     }
 }

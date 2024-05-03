@@ -7,7 +7,7 @@ return [
     'activities' => 'actividades',
     'posts' => 'articulos',
     'about' => 'sobre-nosotros',
-    'bookstores' => 'libreriass',
+    'bookstores' => 'librerias',
     'foreign-rights' => 'foreign-rights',
     'contact' => 'contacto',
     'search' => 'busca',

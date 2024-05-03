@@ -96,7 +96,7 @@ class BookSeeder extends Seeder
         $panorama->meta_description = $panorama->headline ?? $panorama->description;
         $panorama->save();
 
-        $panorama->languages()->attach(["ca", "ar"]);
+        $panorama->languages()->attach(["ca", "arb"]);
         $panorama->authors()->attach(6);
         $panorama->translators()->attach(4);
         $panorama->collections()->attach(1);
@@ -188,7 +188,7 @@ class BookSeeder extends Seeder
         $orientalisme->title = "Orientalisme i orientalisme invers";
         $orientalisme->original_title = "al-Istixraq wa-l-Istixraq ma'kussan";
         $orientalisme->description = <<<HEREDOC
-        L’assaig Orientalisme i Orientalisme invers aparegué en àrab [al-Istixraq wa-l-Istixraq ma’kussan] per primer cop en la revista libanesa al-Hayat al-Jadida [Nova Vida], al número 2 de gener-febrer de 1981. El text es divideix en dos articles. El primer és una extensa ressenya del llibre Orientalisme d’Edward Said, publicat a Nova York l’any 1978. El segon, «Orientalisme invers», estructura una crí tica aguda i no gens comportívola de dos corrents de pensament aleshores en alça al món àrab: el nacionalisme essencialista conservador i el radicalisme islàmic. L’autor enfoca la crítica partint dels estrets lligams que observa entre els postulats de l’orientalisme occidental i ambdós corrents. La crítica que Sàdiq Jalal al-Àzem planteja a Edward Said, tanmateix, no el situa pas d’entrada en la llista de ‘detractors’, perquè a «Orientalisme invers», al-Àzem expressa el seu acord amb Said en alguns aspectes del discurs exposat a Orientalisme i els fa servir com a punt de partida per a dirigir la crítica vers el nacionalisme conservador i l’islamisme. Com a principi vertebrador del text, trobem el rebuig a l’essencialisme que defineix trets propis, inalterables i irreconciliables. Aquesta edició, primera en català de la mà de la traductora Margarida Castells, inclou la breu, però intensa, correspondència que mantingueren al-Àzem i Edward W. Said.
+        L’assaig Orientalisme i Orientalisme invers aparegué en àrab [al-Istixraq wa-l-Istixraq ma’kussan] per primer cop en la revista libanesa al-Hayat al-Jadida [Nova Vida], al número 2 de gener-febrer de 1981. El text es divideix en dos articles. El primer és una extensa ressenya del llibre Orientalisme d’Edward Said, publicat a Nova York l’any 1978. El segon, «Orientalisme invers», estructura una crítica aguda i no gens comportívola de dos corrents de pensament aleshores en alça al món àrab: el nacionalisme essencialista conservador i el radicalisme islàmic. L’autor enfoca la crítica partint dels estrets lligams que observa entre els postulats de l’orientalisme occidental i ambdós corrents. La crítica que Sàdiq Jalal al-Àzem planteja a Edward Said, tanmateix, no el situa pas d’entrada en la llista de ‘detractors’, perquè a «Orientalisme invers», al-Àzem expressa el seu acord amb Said en alguns aspectes del discurs exposat a Orientalisme i els fa servir com a punt de partida per a dirigir la crítica vers el nacionalisme conservador i l’islamisme. Com a principi vertebrador del text, trobem el rebuig a l’essencialisme que defineix trets propis, inalterables i irreconciliables. Aquesta edició, primera en català de la mà de la traductora Margarida Castells, inclou la breu, però intensa, correspondència que mantingueren al-Àzem i Edward W. Said.
         HEREDOC;
         $orientalisme->publisher = "Èter Edicions";
         $orientalisme->original_publisher = "al-Hayat al-Jadida";

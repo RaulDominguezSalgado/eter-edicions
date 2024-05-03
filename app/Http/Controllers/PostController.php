@@ -9,8 +9,7 @@ use App\Models\Author;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
-
-use App\Services\OrthographicalRules;
+use App\Services\Translation\OrthographicRules;
 
 use Carbon\Carbon;
 use PHPUnit\Metadata\Uses;
@@ -213,7 +212,9 @@ class PostController extends Controller
 
     public function posts()
     {
-        $locale = "ca";
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
 
         $posts_lv = Post::whereNull('date')
             ->whereNull('location')
@@ -227,7 +228,7 @@ class PostController extends Controller
 
 
         $page = [
-            'title' => "Articles",
+            'title' => __('general.posts'),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -238,7 +239,9 @@ class PostController extends Controller
 
     public function activities()
     {
-        $locale = "ca";
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
 
         $posts_lv = Post::whereNotNull('date')
             ->whereNotNull('location')
@@ -253,7 +256,7 @@ class PostController extends Controller
         }
 
         $page = [
-            'title' => "Articles",
+            'title' => __('general.activities'),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -264,7 +267,9 @@ class PostController extends Controller
 
     public function postDetail($id)
     {
-        $locale = "ca";
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
 
 
         $post_lv = Post::find($id);
@@ -304,7 +309,7 @@ class PostController extends Controller
 
         $translatorName = !is_null($translator) ? $translator->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $translator->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
         $translatorId = !is_null($translator) ? $translator->id : "";
-        $translation = OrthographicalRules::startsWithDe($translatorName) ? "Traducció de " : "Traducció d'";
+        $translation = OrthographicRules::startsWithDe($translatorName) ? "Traducció de " : "Traducció d'";
 
         $userName = !is_null($user) ? $user->first_name . " " . $user->last_name : "";
 
@@ -320,9 +325,9 @@ class PostController extends Controller
             'description' => $post->description,
             'content' => $post->content,
             'published_by' => $userName,
-            'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'publication_date' => $post->publication_date ? Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y') : '',
             'image' => $post->image,
-            'post_type' => "ARTICLES",
+            'post_type' => ucfirst(__('words.articles')),
             'slug' => $post->slug,
             'meta_title' => $post->meta_title,
             'meta_description' => $post->meta_description
@@ -337,9 +342,9 @@ class PostController extends Controller
             'id' => $post->id,
             'title' => $post->title,
             'description' => $post->description,
-            'date' => Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y'),
+            'date' => $post->publication_date ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : '',
             'image' => $post->image,
-            'post_type' => "ARTICLES",
+            'post_type' => ucfirst(__('words.articles')),
             'slug' => $post->slug
         ];
 
@@ -365,7 +370,7 @@ class PostController extends Controller
             'published_by' => $userName,
             'published_by_id' => $userId,
             'publication_date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->publication_date)->format('d/m/Y'),
-            'post_type' => "ACTIVITATS",
+            'post_type' => ucfirst(__('words.activitats')),
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,
             'meta_description' => $activity->meta_description
@@ -385,7 +390,7 @@ class PostController extends Controller
             'date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->date)->format('d/m/Y'),
             'location' => str_contains($activity->location, ".") ? substr($activity->location, 0, strpos($activity->location, '.')) : $activity->location,
             'image' => $activity->image,
-            'post_type' => "ACTIVITATS",
+            'post_type' => ucfirst(__('words.activitats')),
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,
             'meta_description' => $activity->meta_description
@@ -407,7 +412,7 @@ class PostController extends Controller
             'date' => $date,
             'location' => str_contains($post->location, ".") ? substr($post->location, 0, strpos($post->location, '.')) : $post->location,
             'image' => $post->image,
-            'post_type' => $postType,
+            'post_type' => ucfirst(__('words.'.strtolower($postType))),
             'slug' => $post->slug,
             'meta_title' => $post->meta_title,
             'meta_description' => $post->meta_description
@@ -444,6 +449,8 @@ class PostController extends Controller
     */
     public static function getData($type = null, $key = null, $value = null, $search = false) {
         // try {
+            // $locale = Config::get('app.locale');
+            // $locale = app()->getLocale();
             $locale = 'ca';
 
             if ($key == null || $value == null) {

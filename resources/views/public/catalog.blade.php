@@ -9,7 +9,7 @@
     <main class="body">
         <div class="flex flex-col items-center space-y-14">
             <div class="flex flex-col items-center space-y-6">
-                <h2>Catàleg</h2>
+                <h2>{{__('general.catalog')}}</h2>
 
                 {{-- <div class="mb-8">
                     <ul class="flex space-x-4">
@@ -44,16 +44,20 @@
                             </div>
 
                             <div class="book-translator flex space-x-1 text-center">
-                                <div class="book-translator">Traducció de
-                                @foreach ($book['translators'] as $translator)
-                                    @if (!$loop->last)
-                                        {{ $translator }},
-                                        {{-- if last iteration --}}
-                                    @else
-                                        {{ $translator }}
-                                    @endif
-                                @endforeach
-                                </div>
+                                <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }}<!--
+                                    @foreach ($book['translators'] as $translator)
+                                            @if($loop->first && !$loop->last)
+                                                -->{{ $translator }},
+                                            @elseif($loop->first && $loop->last)
+                                                -->{{ $translator }}
+                                            @elseif (!$loop->last)
+                                                {{ $translator }},
+                                                {{-- if last iteration --}}
+                                            @else
+                                                {{ $translator }}
+                                            @endif
+                                        @endforeach
+                                    </div>
                             </div>
                         </div>
 

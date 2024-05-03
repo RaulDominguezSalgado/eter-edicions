@@ -1,6 +1,6 @@
 <?php
+// Config::get('app.locale')
 $locale = 'ca';
-//TODO Change locale
 ?>
 <nav id="admin-nav"
     class="md:h-screen

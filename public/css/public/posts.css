@@ -34,9 +34,9 @@
 }
 
 .post .headline{
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: end; */
 
     min-height: 2.625em;
 }

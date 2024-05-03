@@ -89,7 +89,8 @@ class CollaboratorController extends Controller
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
                 // $this->editImage($nombreImagenOriginal, "collaborator");
-                ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
+                $imageHelper = new ImageHelper();
+                $imageHelper->editImage($nombreImagenOriginal, "collaborator");
 
                 $validatedData['image'] = $nombreImagenOriginal;
             } else {
@@ -171,7 +172,8 @@ class CollaboratorController extends Controller
             // // Procesar y guardar la imagen
             $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
             // $this->editImage($nombreImagenOriginal, "collaborator");
-            ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
+            $imageHelper = new ImageHelper();
+            $imageHelper->editImage($nombreImagenOriginal, "collaborator");
 
 
             $validatedData['image'] = $nombreImagenOriginal;
@@ -223,9 +225,12 @@ class CollaboratorController extends Controller
 
     public function collaborators()
     {
-        $locale = 'ca';
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
+
         $page = [
-            'title' => 'Autors i traductors',
+            'title' => ucfirst(trans_choice('general.authors', 2)) . " " . __('orthographic-rules.and') . " " . strtolower(trans_choice('general.translators', 2)),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -248,8 +253,8 @@ class CollaboratorController extends Controller
         }
 
         $collaboratorTypes = [
-            'authors' => 'Autors',
-            'translators' => "Traductors"
+            'authors' => trans_choice('general.authors', 2),
+            'translators' => trans_choice('general.translators', 2)
         ];
 
         return view('public.collaborators', compact('collaborators_lv', 'authors', 'translators', 'collaboratorTypes', 'page', 'locale'))
@@ -258,13 +263,9 @@ class CollaboratorController extends Controller
 
     public function collaboratorDetail($id)
     {
-        $locale = 'ca';
-        $page = [
-            'title' => 'Autors i traductors',
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
 
         // $collaborator_lv = Collaborator::find($id);
         // return dd($book_lv->id);
@@ -287,13 +288,12 @@ class CollaboratorController extends Controller
 
     public function agency()
     {
-        $locale = 'ca';
-        $page = [
-            'title' => 'Autors i traductors',
-            'shortDescription' => '',
-            'longDescription' => '',
-            'web' => 'Èter Edicions'
-        ];
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
+
+        // $pageController = new PageController();
+        // $page = $pageController->getFullPage('agency', $locale);
 
         $authors_lv = Author::where('represented_by_agency', 'LIKE', 1)->paginate();
 
@@ -319,7 +319,7 @@ class CollaboratorController extends Controller
             // }
         }
 
-        return view('public.agency', compact('collaborators_lv', 'collaborators', 'page', 'locale'));
+        return [$collaborators_lv, $collaborators];
     }
 
 
@@ -377,7 +377,9 @@ class CollaboratorController extends Controller
     public static function getCollaboratorsArray($id)
     {
         try {
-            $locale = 'ca';
+            // $locale = Config::get('app.locale');
+            $locale = app()->getLocale();
+            // $locale = 'ca';
 
             $book = \App\Models\Book::find($id);
 
@@ -427,7 +429,10 @@ class CollaboratorController extends Controller
     */
     public static function getData($key = null, $value = null, $search = false) {
         // try {
-            $locale = 'ca';
+            // $locale = Config::get('app.locale');
+            $locale = app()->getLocale();
+            // $locale = 'ca';
+
             $query_data = [];
 
             if ($key == null || $value == null) {

@@ -13,11 +13,13 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function home(){
-        // $locale = config('app')['locale'];
-        $locale = 'ca';
+    public function home()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
+
         $page = [
-            'title' => 'Portada',
+            'title' => __('general.home'),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -35,9 +37,10 @@ class PageController extends Controller
     }
 
 
-    public function about(){
-        // $locale = config('app')['locale'];
-        $locale = 'ca';
+    public function about()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('about', $locale);
 
@@ -45,9 +48,10 @@ class PageController extends Controller
     }
 
 
-    public function foreignRights(){
-        // $locale = config('app')['locale'];
-        $locale = 'ca';
+    public function foreignRights()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('foreign-rights', $locale);
         $pageEn = $this->getFullPage('foreign-rights', "en");
@@ -56,23 +60,40 @@ class PageController extends Controller
     }
 
 
-    public function contact(){
-        // $locale = config('app')['locale'];
-        $locale = 'ca';
+    public function contact()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('contact', $locale);
 
         return view('public.contact', compact('page', 'locale'));
     }
 
+    public function agency()
+    {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
 
-    public function sendContactForm(){
+        $page = $this->getFullPage('agency', $locale);
+
+        $collaboratorController = new CollaboratorController();
+        $collaborators_lv = $collaboratorController->agency()[0];
+        $collaborators = $collaboratorController->agency()[1];
+
+        return view('public.agency', compact('collaborators_lv', 'collaborators', 'page', 'locale'));
+    }
+
+
+    public function sendContactForm()
+    {
         return "email sent";
     }
 
 
 
-    private function getFullPage($tag, $locale){
+    public function getFullPage($tag, $locale)
+    {
         $page_lv = Page::where('tag', 'LIKE', $tag)->first();
 
         $translation = $page_lv->translations->where('lang', $locale)->first();
@@ -89,7 +110,7 @@ class PageController extends Controller
             $page['slug'] = $translation->slug;
         }
         // dd($translation->contents);
-        foreach($translation->contents as $content){
+        foreach ($translation->contents as $content) {
             $page['contents'][$content->key] = $content->content;
         }
 

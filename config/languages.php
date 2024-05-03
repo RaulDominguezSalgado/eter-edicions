@@ -3,5 +3,5 @@
 return [
     'ca',
     'es',
-    'ar-sy',
+    // 'arb',
 ];
