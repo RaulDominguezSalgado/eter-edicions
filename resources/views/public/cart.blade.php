@@ -40,14 +40,14 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
         @endif
 
 
-        @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong class="font-bold">No s'han pogut guardar les dades de la comanda. Consulta</strong>
-                {{-- <ul>
-                    @foreach ($errors->all() as $error)
+        @if (count($errors)>0)
+        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold"></strong>
+                <ul>
+                    @foreach ($errors as $error)
                         <li>{{ $error }}</li>
                     @endforeach
-                </ul> --}}
+                </ul>
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                     <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">

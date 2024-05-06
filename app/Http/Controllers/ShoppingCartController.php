@@ -63,7 +63,7 @@ class ShoppingCartController extends Controller
      */
     function viewCart()
     {
-        $this->checkCartStock();
+        $errors = $this->checkCartStock();
         $books = $this->convertCartToBooks(Cart::instance('default')->content());
         $controller = new BookController();
         $relatedBooks = $controller->getRelatedBooksFromMultiple($books, "ca");
@@ -72,7 +72,7 @@ class ShoppingCartController extends Controller
         // dump(Cart::content());
         // dump(Cart::instance('default')->content());
         // dump(Cart::instance('outOfStock')->content());
-        return view('public.cart', compact('relatedBooks'));
+        return view('public.cart', compact('relatedBooks','errors'));
     }
 
     /**
@@ -83,21 +83,21 @@ class ShoppingCartController extends Controller
         // Cart::destroy();
         // Cart::instance('default')->destroy();
         // Cart::instance('outOfStock')->destroy();
-        $message = "";
+        $message = [];
         foreach (Cart::instance('default')->content() as $item) {
             $book = Book::find($item->options->id);
             if ($book) {
                 if ($book->visible) {
                     if ($book->stock <= 0) {
-                        $message = "Hi han productes de la teva cistella que no tenim estoc disponible";
+                        $message []= "Hi han productes de la teva cistella que no tenim estoc disponible\n";
                         Cart::instance('outOfStock')->add($item);
                         Cart::instance('default')->remove($item->rowId);
                     } elseif ($book->stock < $item->qty) {
                         Cart::instance('default')->update($item->rowId, $book->stock);
-                        $message = "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles";
+                        $message []= "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles\n";
                     }
                 } else {
-                    $message = "Hi han productes de la teva cistella que ja no es troben disponibles";
+                    $message []= "Hi han productes de la teva cistella que ja no es troben disponibles\n";
                     Cart::instance('notAvailable')->add($item);
                     Cart::instance('default')->remove($item->rowId);
                     // Cart::instance('outOfStock')->add($item);
@@ -113,15 +113,15 @@ class ShoppingCartController extends Controller
                     if ($book->stock > 0) {
                         if ($book->stock < $item->qty) { //In case that there's only fewer stock that the user required
                             $item->qty = $book->stock;
-                            $message = "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles";
+                            $message []= "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles\n";
                         } else if ($book->stock >= $item->qty) {
-                            $message = "Tenim mes stock d'alguns productes";
+                            $message []= "Tenim mes stock d'alguns productes\n";
                         }
                         Cart::instance('default')->add($item);
                         Cart::instance('outOfStock')->remove($item->rowId);
                     }
                 } else {
-                    $message = "Hi han productes de la teva cistella que ja no es troben disponibles";
+                    $message []= "Hi han productes de la teva cistella que ja no es troben disponibles\n";
                     Cart::instance('notAvailable')->add($item);
                     Cart::instance('outOfStock')->remove($item->rowId);
                     // Cart::instance('outOfStock')->add($item);
@@ -139,9 +139,9 @@ class ShoppingCartController extends Controller
                     if ($book->stock > 0) {
                         if ($book->stock < $item->qty) { //In case that there's only fewer stock that the user required
                             $item->qty = $book->stock;
-                            $message = "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles";
+                            $message []= "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles\n";
                         } else if ($book->stock >= $item->qty) {
-                            $message = "Tenim mes stock d'alguns productes";
+                            $message []= "Tenim mes stock d'alguns productes\n";
                         }
                             Cart::instance('default')->add($item);
                             Cart::instance('notAvailable')->remove($item->rowId);
