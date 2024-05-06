@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Actions\ImageHelper;
+use App\Http\Actions\ImageHelperEditor;
 use App\Models\Book;
 use App\Models\Bookstore;
 use App\Models\Collection;
 use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
-use App\Models\Collaborator;
-use App\Models\CollaboratorTranslation;
-use App\Models\CollectionTranslation;
-use App\Models\Language;
-use App\Models\LanguageTranslation;
 
 use Exception;
 use Illuminate\Database\QueryException;
+
+use Illuminate\Support\Facades\Route;
 
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\StockRequest;
@@ -23,7 +20,6 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
 use PhpParser\Node\Stmt\TryCatch;
-use App\Models\BookBookstore;
 
 /**
  * Class BookController
@@ -113,7 +109,7 @@ class BookController extends Controller
             $collectionController = new CollectionController();
             foreach (Collection::all() as $collection) {
                 $collectionTranslation = $collectionController->getFullCollection($collection->id, $locale);
-                if($collectionTranslation){
+                if ($collectionTranslation) {
                     $collections[$collection->id] = $collectionTranslation;
                 }
             }
@@ -136,9 +132,9 @@ class BookController extends Controller
 
             if ($request->input('visible') != null) {
                 $request->merge([
-                    'visible' => $request->input('visible') == 'on' ? 1 : 0,
+                    'visible' => $request->input('visible'),
                 ]);
-                $data['visible'] = $data['visible']  == 'on' ? 1 : 0;
+                $data['visible'] = $data['visible'];
             } else {
                 $request->merge([
                     'visible' => 0,
@@ -275,44 +271,52 @@ class BookController extends Controller
         // dump($request);
         // dump($book);
         // try {
-            // \App\Models\Book::class;
-            $new_data = $request->validated();
+        // \App\Models\Book::class;
+        $new_data = $request->validated();
+        // \App\Models\Book::class;
+        $new_data = $request->validated();
 
-            // dump($new_data);
+        // dump($new_data);
+        // dump($new_data);
 
-            if ($request->input('visible') != null) {
-                $request->merge([
-                    'visible' => $request->input('visible') == 'on' ? 1 : 0,
-                ]);
-                $new_data['visible'] = $new_data['visible']  == 'on' ? 1 : 0;
-            } else {
-                $request->merge([
-                    'visible' => 0,
-                ]);
-                $new_data['visible'] = 0;
-            }
+        if ($request->input('visible') != null) {
+            $request->merge([
+                'visible' => $request->input('visible'),
+            ]);
+            $new_data['visible'] = $new_data['visible'];
+        } else {
+            $request->merge([
+                'visible' => 0,
+            ]);
+            $new_data['visible'] = 0;
+        }
 
-            if (!$request->input('slug') && $request->input('title') != null) {
-                $request->merge([
-                    'slug' => \App\Http\Actions\FormatDocument::slugify($request['title'])
-                ]);
-                $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
-            }
+        if (!$request->input('slug') && $request->input('title') != null) {
+            $request->merge([
+                'slug' => \App\Http\Actions\FormatDocument::slugify($request['title'])
+            ]);
+            $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
+        }
 
-            // dump($new_data);
+        // dump($new_data);
 
-            $book->update($new_data);
+        $book->update($new_data);
 
-            $this->setBookData($book, $request);
+        $this->setBookData($book, $request);
 
-            // // Controla la selección del usuario
-            // if ($request->input('action') == 'redirect') {
-            //     return redirect()->route('books.index')
-            //         ->with('success', 'Book created successfully');
-            // } else if ($request->input('action') == 'stay') {
+        // // Controla la selección del usuario
+        // if ($request->input('action') == 'redirect') {
+        //     return redirect()->route('books.index')
+        //         ->with('success', 'Book created successfully');
+        // } else if ($request->input('action') == 'stay') {
+        // // Controla la selección del usuario
+        // if ($request->input('action') == 'redirect') {
+        //     return redirect()->route('books.index')
+        //         ->with('success', 'Book created successfully');
+        // } else if ($request->input('action') == 'stay') {
 
-            return redirect()->route('books.edit', $book->id)
-                ->with('success', 'Llibre actualitzat correctament');
+        return redirect()->route('books.edit', $book->id)
+            ->with('success', 'Llibre actualitzat correctament');
         // } catch (Exception $e) {
         //     return back()->withError($e->getMessage())->withInput();
         // }
@@ -346,12 +350,14 @@ class BookController extends Controller
     public function catalog()
     {
         try {
-            // $locale = Config::get('app.locale');
-            // $locale = app()->getLocale();
-            $locale = 'ca';
+            $locale = app()->getLocale();
+
+            // dump(Route::currentRouteName());
+            // dump($locale);
+            // dd(Route::currentRouteName() != "home.{$locale}");
 
             $page = [
-                'title' => 'Catàleg',
+                'title' => __('home.catalog'),
                 'shortDescription' => '',
                 'longDescription' => '',
                 'web' => 'Èter Edicions'
@@ -393,17 +399,16 @@ class BookController extends Controller
     public function bookDetail($id)
     {
         try {
-            // $locale = Config::get('app.locale');
             $locale = app()->getLocale();
 
-            $page = [
-                'title' => 'Portada',
-                'shortDescription' => '',
-                'longDescription' => '',
-                'web' => 'Èter Edicions'
-            ];
+            // dump(Route::currentRouteName());
+            // dump($locale);
+            // dd(Route::currentRouteName() != "home.{$locale}");
+
 
             $book_lv = Book::find($id);
+
+            // dd($book_lv);
 
             if (!$book_lv->visible) {
                 return view('components.404');
@@ -411,6 +416,7 @@ class BookController extends Controller
 
             $book = $this->getFullBook($book_lv, $locale);
 
+            // dd($book);
 
             $authors = [];
             foreach ($book_lv->authors()->get() as $author) {
@@ -436,17 +442,19 @@ class BookController extends Controller
             $page = [
                 'title' => $book_lv->title,
                 'shortDescription' => '',
-                'longDescription' => '',
+                'longDescription' => $book_lv->meta_description,
                 'web' => 'Èter Edicions'
             ];
 
+            // dd($book);
             // dd($authors);
             // dd($translators);
             // dd($related_books);
 
             return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            // abort(500, 'Server Error');
+            dump($e);
         }
     }
 
@@ -495,6 +503,8 @@ class BookController extends Controller
                 'meta_description' => $book->meta_description
             ];
 
+            // dd($bookResult);
+
             foreach ($book->authors()->get() as $author) {
 
                 $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
@@ -502,6 +512,8 @@ class BookController extends Controller
 
                 $bookResult['authors'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
             }
+
+            // dd($bookResult);
 
             foreach ($book->translators()->get() as $translator) {
 
@@ -511,6 +523,8 @@ class BookController extends Controller
                 $bookResult['translators'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
             }
 
+            // dd($bookResult);
+
             foreach ($book->languages()->orderby('id', 'desc')->get() as $lang) {
 
                 $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
@@ -519,11 +533,15 @@ class BookController extends Controller
                 $bookResult['lang'][] = ["iso" => $langTranslation->iso_language, "name" => $langName];
             }
 
+            // dd($bookResult);
+
             foreach ($book->collections()->get() as $collection) {
                 $collection = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
 
                 $bookResult['collections'][] = ["id" => $collection->id, "name" => $collection->name];
             }
+
+            // dd($bookResult);
 
             foreach ($book->extras()->get() as $extra) {
                 $bookResult['extras'][$extra->key] = [
@@ -531,6 +549,8 @@ class BookController extends Controller
                     "value" => $extra->value
                 ];
             }
+
+            // dd($bookResult);
 
             // $bookResult['bookstores'] = [];
             // dd($book->bookstores);
@@ -544,9 +564,11 @@ class BookController extends Controller
                 ];
             }
 
+            // dd($bookResult);
+
             return $bookResult;
         } catch (Exception $e) {
-            abort(500, 'Server Error');
+            abort(500, $e->getMessage());
         }
     }
 
@@ -726,12 +748,6 @@ class BookController extends Controller
     }
 
 
-
-
-
-
-
-
     /*
         AJUSTES DE STOCK
     */
@@ -772,22 +788,20 @@ class BookController extends Controller
             $bookstores = $request->input('bookstores');
             // dump($bookstores);
             $book->bookstores()->detach();
-            foreach($bookstores as $bookstore){
+            foreach ($bookstores as $bookstore) {
                 // dump($bookstore);
-                if(intval($bookstore['stock']) > 0){
+                if (intval($bookstore['stock']) > 0) {
                     $bookstore_lv = Bookstore::find($bookstore['bookstore_id']);
-                $bookstore_lv->books()->sync([$book->id=>['stock' => $bookstore['stock']]]);
+                    $bookstore_lv->books()->sync([$book->id => ['stock' => $bookstore['stock']]]);
                 }
             }
 
             return redirect()->route('stock.edit', $book->id)
                 ->with('success', 'Stock actualitzat correctament');
-        }
-        catch(QueryException $e){
+        } catch (QueryException $e) {
             // dump($e->getMessage());
             return back()->withError("Error a la base de dades en la creació del llibre.\n" . substr($e->getMessage(), 0, strpos($e->getMessage(), "(")))->withInput();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             // dump($e->getMessage());
             return back()->withError($e->getMessage())->withInput();
         }
@@ -798,70 +812,123 @@ class BookController extends Controller
 
 
     /**
-    * Method that generates the Book array used by the view
-    */
-    public static function getData($key = null, $value = null, $search = false) {
+     * Method that generates the Book array used by the view
+     */
+    public static function getData($key = null, $value = null, $search = false)
+    {
         // try {
-            // $locale = Config::get('app.locale');
-            $locale = app()->getLocale();
+        $locale = 'ca';
 
-            if ($key == null || $value == null) {
-                $query_data = Book::paginate();
-            }
-            else if ($search) {
-                $query_data = Book::where($key, 'LIKE', '%' . $value . '%')->paginate();
-            }
-            else {
-                $query_data = Book::where($key, $value)->paginate();
-            }
-            $books = [];
-            foreach ($query_data as $single_data) {
-                $collections_names = [];
-                if (!empty($single_data->collections)) {
-                    foreach ($single_data->collections as $collection) {
-                        // dd($collection);
-                        $name = $collection->translations()->first()->name;
-                        $collections_names[] = [
-                            'id' => $collection->id,
-                            'name' => $name,
-                        ];
-                    }
-                    // dd($collections_names);
+        if ($key == null || $value == null) {
+            $query_data = Book::paginate();
+        } else if ($search) {
+            $query_data = Book::where($key, 'LIKE', '%' . $value . '%')->where('visible', 'LIKE', 1)->paginate();
+        } else {
+            $query_data = Book::where($key, $value)->paginate();
+        }
+        $books = [];
+        foreach ($query_data as $single_data) {
+            $collections_names = [];
+            if (!empty($single_data->collections)) {
+                foreach ($single_data->collections as $collection) {
+                    // dd($collection);
+                    $name = $collection->translations()->first()->name;
+                    $collections_names[] = [
+                        'id' => $collection->id,
+                        'name' => $name,
+                    ];
                 }
-                $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
-                // dd($single_data);
-                $books[] = [
-                    'id' => $single_data->id,
-                    'title' => $single_data->title,
-                    'description' => $single_data->description,
-                    'slug' => $single_data->slug,
-                    'lang' => $single_data->languages()->first()->iso,
-                    'isbn' => $single_data->isbn,
-                    'publisher' => $single_data->publisher,
-                    'image' => $single_data->image,
-                    'pvp' => $single_data->pvp,
-                    'iva' => $single_data->iva,
-                    'discounted_price' => $single_data->discounted_price,
-                    'stock' => $single_data->stock,
-                    'visible' => $single_data->visible,
-                    'sample_url' => $single_data->sample,
-                    'number_of_pages' => $single_data->number_of_pages,
-                    'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
-                    'collections' => $collections_names,
-                    'collaborators' => $collaborators,
-                    'original_title' => $single_data->original_title,
-                    'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
-                    'original_publisher' => $single_data->original_publisher,
-                    'legal_diposit' => $single_data->legal_diposit,
-                    'headline' => $single_data->headline,
-                    'size' => $single_data->size,
-                    'enviromental_footprint' => $single_data->enviromental_footprint,
-                    'meta_title' => $single_data->meta_title,
-                    'meta_description' => $single_data->meta_description,
-                    'filter' => $key ? ['key' => $key, 'value' => self::searchDetails($single_data->$key, $value, 5)] :  ''
-                ];
+                // dd($collections_names);
             }
-            return $books;
+            $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
+            // dd($single_data);
+            $books[] = [
+                'id' => $single_data->id,
+                'title' => $single_data->title,
+                'description' => $single_data->description,
+                'slug' => $single_data->slug,
+                'lang' => $single_data->languages()->first()->iso,
+                'isbn' => $single_data->isbn,
+                'publisher' => $single_data->publisher,
+                'image' => $single_data->image,
+                'pvp' => $single_data->pvp,
+                'iva' => $single_data->iva,
+                'discounted_price' => $single_data->discounted_price,
+                'stock' => $single_data->stock,
+                'visible' => $single_data->visible,
+                'sample_url' => $single_data->sample,
+                'number_of_pages' => $single_data->number_of_pages,
+                'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
+                'collections' => $collections_names,
+                'collaborators' => $collaborators,
+                'original_title' => $single_data->original_title,
+                'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
+                'original_publisher' => $single_data->original_publisher,
+                'legal_diposit' => $single_data->legal_diposit,
+                'headline' => $single_data->headline,
+                'size' => $single_data->size,
+                'enviromental_footprint' => $single_data->enviromental_footprint,
+                'meta_title' => $single_data->meta_title,
+                'meta_description' => $single_data->meta_description,
+                'filter' => $key ? ['key' => $key, 'value' => self::searchDetails($single_data->$key, $value, 5)] :  ''
+            ];
+        }
+        return $books;
+        if ($key == null || $value == null) {
+            $query_data = Book::paginate();
+        } else if ($search) {
+            $query_data = Book::where($key, 'LIKE', '%' . $value . '%')->paginate();
+        } else {
+            $query_data = Book::where($key, $value)->paginate();
+        }
+        $books = [];
+        foreach ($query_data as $single_data) {
+            $collections_names = [];
+            if (!empty($single_data->collections)) {
+                foreach ($single_data->collections as $collection) {
+                    // dd($collection);
+                    $name = $collection->translations()->first()->name;
+                    $collections_names[] = [
+                        'id' => $collection->id,
+                        'name' => $name,
+                    ];
+                }
+                // dd($collections_names);
+            }
+            $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
+            // dd($single_data);
+            $books[] = [
+                'id' => $single_data->id,
+                'title' => $single_data->title,
+                'description' => $single_data->description,
+                'slug' => $single_data->slug,
+                'lang' => $single_data->languages()->first()->iso,
+                'isbn' => $single_data->isbn,
+                'publisher' => $single_data->publisher,
+                'image' => $single_data->image,
+                'pvp' => $single_data->pvp,
+                'iva' => $single_data->iva,
+                'discounted_price' => $single_data->discounted_price,
+                'stock' => $single_data->stock,
+                'visible' => $single_data->visible,
+                'sample_url' => $single_data->sample,
+                'number_of_pages' => $single_data->number_of_pages,
+                'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
+                'collections' => $collections_names,
+                'collaborators' => $collaborators,
+                'original_title' => $single_data->original_title,
+                'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
+                'original_publisher' => $single_data->original_publisher,
+                'legal_diposit' => $single_data->legal_diposit,
+                'headline' => $single_data->headline,
+                'size' => $single_data->size,
+                'enviromental_footprint' => $single_data->enviromental_footprint,
+                'meta_title' => $single_data->meta_title,
+                'meta_description' => $single_data->meta_description,
+                'filter' => $key ? ['key' => $key, 'value' => self::searchDetails($single_data->$key, $value, 5)] :  ''
+            ];
+        }
+        return $books;
         // }
         // catch (Exception $e) {
         //     abort(500, 'Server Error');
@@ -904,8 +971,7 @@ class BookController extends Controller
                     }
                 }
                 $book->translators()->sync($translators);
-            }
-            else{
+            } else {
                 $book->translators()->detach();
             }
 
@@ -939,8 +1005,7 @@ class BookController extends Controller
 
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                $imageHelper = new ImageHelper();
-                $imageHelper->editImage($nombreImagenOriginal, "book");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "book");
 
                 $book->image = $nombreImagenOriginal;
                 $book->save();
@@ -975,8 +1040,7 @@ class BookController extends Controller
      */
     public function editImage($filename)
     {
-        $imageHelper = new ImageHelper();
-        $imageHelper->editImage($filename, "book");
+        ImageHelperEditor::editImage($filename, "book");
     }
 
     /**
@@ -988,13 +1052,16 @@ class BookController extends Controller
      *
      * @return array []
      */
-    private static function searchDetails($text, $searchValue, int $numberOfWords){
+    private static function searchDetails($text, $searchValue, int $numberOfWords)
+    {
         // we should make a class out of this
-        $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
-                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
-                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+        $unwanted_array = array(
+            'Š' => 'S', 'š' => 's', 'Ž' => 'Z', 'ž' => 'z', 'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E',
+            'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O', 'Ù' => 'U',
+            'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ý' => 'Y', 'Þ' => 'B', 'ß' => 'Ss', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c',
+            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o',
+            'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y'
+        );
 
         $haystack = strtolower(strtr($text, $unwanted_array));
         $needle = strtolower(strtr($searchValue, $unwanted_array));
@@ -1008,21 +1075,21 @@ class BookController extends Controller
         $afterWordsArray = preg_split('/\s+/', $segments[1]);
 
         $beforeArrayBiggerThanNumberOfWords = false;
-        if(count($beforeWordsArray) > $numberOfWords){
+        if (count($beforeWordsArray) > $numberOfWords) {
             $beforeArrayBiggerThanNumberOfWords = true;
         }
-        $beforeWordsArray = array_slice($beforeWordsArray, -($numberOfWords));
-        if($beforeArrayBiggerThanNumberOfWords){
-            array_unshift($beforeWordsArray , '...');
+        $beforeWordsArray = array_slice($beforeWordsArray, - ($numberOfWords));
+        if ($beforeArrayBiggerThanNumberOfWords) {
+            array_unshift($beforeWordsArray, '...');
         }
 
         $afterArrayBiggerThanNumberOfWords = false;
-        if(count($afterWordsArray) > $numberOfWords){
+        if (count($afterWordsArray) > $numberOfWords) {
             $afterArrayBiggerThanNumberOfWords = true;
         }
         $afterWordsArray = array_slice($afterWordsArray, 0, $numberOfWords);
-        if($afterArrayBiggerThanNumberOfWords){
-            array_push($afterWordsArray , '...');
+        if ($afterArrayBiggerThanNumberOfWords) {
+            array_push($afterWordsArray, '...');
         }
 
         return [$beforeWordsArray, $searchValue, $afterWordsArray];

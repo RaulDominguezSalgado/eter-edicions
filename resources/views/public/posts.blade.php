@@ -24,7 +24,7 @@
                                     alt="{{ $post['title'] }}">
                             </a>
                         </div>
-                        <div class="headline">
+                        <div class="headline flex justify-between items-end">
                             <div class="">
                                 <p class="uppercase">{{$post['post_type']}}</p>
                             </div>

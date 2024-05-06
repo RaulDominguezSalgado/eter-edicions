@@ -43,12 +43,13 @@ class Post extends Model
         'translator_id',
         'description',
         'date',
+        'location',
         'image',
         'content',
         'publication_date',
         'published_by',
         'slug',
-        'meta_name',
+        'meta_title',
         'meta_description'
     ];
 

@@ -13,3 +13,9 @@ i.icon:before{
 .icon.expand-arrow:before{
     background-image: url('/img/icons/dark/arrow-down.svg');
 }
+.icon.search:before{
+    background-image: url('/img/icons/dark/search.svg');
+}
+.icon.shopping-bag:before{
+    background-image: url('/img/icons/dark/shopping-bag.webp');
+}

@@ -8,11 +8,17 @@
 
     <main class="body space-y-4 mb-12">
         <div class="book">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success m-4">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
                     {{-- <div id="book-image" class="book-image"></div> --}}
                     {{-- <div class="object-fill cover border-guide-2"> --}}
-                    <img class="" src="{{ asset('img/books/covers/' . $book['image']) }}" alt="{{ $book['title'] }}">
+                    <img class="" src="{{ asset('img/books/covers/' . $book['image']) }}"
+                        alt="{{ $book['title'] }}">
                     {{-- </div> --}}
                 </div>
 
@@ -58,20 +64,26 @@
                     </div>
 
                     <div class="space-y-3">
-                        <a href="{{route('book.sample', $book['sample'])}}" target="_blank" class="sample flex space-x-2.5">
+                        <a href="{{ route('book.sample', $book['sample']) }}" target="_blank"
+                            class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
-                                alt="Descarregar sample de {{ $book['title'] }}" class="clickable" style="width: 15px">
-                            <small class="text-slate-600">Comença a llegir</small>
+                                alt="{{ucfirst(__('phrases.descarregar sample'))}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de") ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }} {{ $book['title'] }}" class="clickable" style="width: 15px">
+                            <small class="text-slate-600">{{__('general.sample')}}</small>
                         </a>
 
                         <div class="add-to-cart">
+                            <form action="{{ route('cart.insert') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="book_id" value="{{ $book['id'] }}">
+
                             <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
-                                value="1">
+                                value="1" min="1">
                             <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
-                                <span class="flex items-center leading-none text-white">Afegir a la cistella</span>
+                                <span class="flex items-center leading-none text-white">{{ucfirst(__('phrases.afegir a la cistella'))}}</span>
                                 <span class=""><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
-                                        alt="Botó per afegir a la cistella" style="width: 15px"></span>
+                                        alt="{{ucfirst(__('phrases.botó per'))}} {{__('phrases.afegir a la cistella')}}" style="width: 15px"></span>
                             </button>
+                              </form>
                         </div>
                     </div>
                 </div>
@@ -85,7 +97,7 @@
                     <div>
                         <small class="text-red-700">{{__('general.not-available')}}</small>
                         <br>
-                        <small>{{__('general.You can find it in')}} {{__('orthographic-rules.les')}} <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">
+                        <small>{{__('general.You can find it in')}} {{__('orthographicRules.les')}} <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">
                             {{ strtolower(__('general.bookstores')) }}</a>
                                 {{__('general.with whom we work')}}</small>
                     </div>
@@ -179,9 +191,10 @@
                                 </div>
                             </div>
                             <div class="pic">
-                                <a href="{{ route("collaborator-detail.{$locale}",$translator["id"]) }}">
-                                <img class="" src="{{ asset('img/collab/covers/' . $translator['image']) }}"
-                                    alt="Fotografia de {{ $translator['first_name'] }} {{ $translator['last_name'] }}">
+                                <a href="{{ route("collaborator-detail.{$locale}", $translator['id']) }}">
+                                    <img class=""
+                                        src="{{ asset('img/collab/covers/' . $translator['image']) }}"
+                                        alt="Fotografia de {{ $translator['first_name'] }} {{ $translator['last_name'] }}">
                                 </a>
                             </div>
                         </div>
@@ -318,7 +331,7 @@
                 </div>
             </div>
         @endif
-        </main>
+    </main>
 
     {{-- tab component script --}}
     <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>

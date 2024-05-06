@@ -43,9 +43,10 @@
                                 @endforeach
                             </div>
 
+                            @if(array_key_exists('translators', $book))
                             <div class="book-translator flex space-x-1 text-center">
-                                <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }}<!--
-                                    @foreach ($book['translators'] as $translator)
+                                <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }}<!--
+                                        @foreach ($book['translators'] as $translator)
                                             @if($loop->first && !$loop->last)
                                                 -->{{ $translator }},
                                             @elseif($loop->first && $loop->last)
@@ -58,7 +59,8 @@
                                             @endif
                                         @endforeach
                                     </div>
-                            </div>
+                                </div>
+                            @endif
                         </div>
 
                     </div>

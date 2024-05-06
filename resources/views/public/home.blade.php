@@ -39,22 +39,24 @@
                                 @endforeach
                             </div>
 
+                            @if(array_key_exists('translators', $book))
                             <div class="book-translator flex space-x-1 text-center">
-                                <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }}<!--
-                                @foreach ($book['translators'] as $translator)
-                                        @if($loop->first && !$loop->last)
-                                            -->{{ $translator }},
-                                        @elseif($loop->first && $loop->last)
-                                            -->{{ $translator }}
-                                        @elseif (!$loop->last)
-                                            {{ $translator }},
-                                            {{-- if last iteration --}}
-                                        @else
-                                            {{ $translator }}
-                                        @endif
-                                    @endforeach
+                                <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }}<!--
+                                        @foreach ($book['translators'] as $translator)
+                                            @if($loop->first && !$loop->last)
+                                                -->{{ $translator }},
+                                            @elseif($loop->first && $loop->last)
+                                                -->{{ $translator }}
+                                            @elseif (!$loop->last)
+                                                {{ $translator }},
+                                                {{-- if last iteration --}}
+                                            @else
+                                                {{ $translator }}
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
 
                     </div>
@@ -82,7 +84,7 @@
                         {{-- <div class="">
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div> --}}
-                        <div class="headline">
+                        <div class="headline headline flex justify-between items-end">
                             <div class="">
                                 <p class="uppercase">{{ $post['post_type'] }}</p>
                             </div>

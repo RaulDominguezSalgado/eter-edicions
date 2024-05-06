@@ -18,62 +18,100 @@ class CollectionSeeder extends Seeder
         $poesia = new Collection();
         $poesia->save();
 
-        $poesiaTranslation = new CollectionTranslation();
-        $poesiaTranslation->collection_id = $poesia->id;
-        $poesiaTranslation->lang = "ca";
-        $poesiaTranslation->name = "Poesia";
-        $poesiaTranslation->description = "Llibres de poesia";
-        $poesiaTranslation->slug = "poesia";
-        $poesiaTranslation->meta_title = $poesiaTranslation->name;
-        $poesiaTranslation->meta_description = $poesiaTranslation->description;
-        $poesiaTranslation->save();
+        $poesiaTranslationCa = new CollectionTranslation();
+        $poesiaTranslationCa->collection_id = $poesia->id;
+        $poesiaTranslationCa->lang = "ca";
+        $poesiaTranslationCa->name = "Poesia";
+        $poesiaTranslationCa->description = "Llibres de poesia d'Èter Edicions.";
+        $poesiaTranslationCa->slug = "poesia";
+        $poesiaTranslationCa->meta_title = $poesiaTranslationCa->name;
+        $poesiaTranslationCa->meta_description = $poesiaTranslationCa->description;
+        $poesiaTranslationCa->save();
+
+        $poesiaTranslationEs = new CollectionTranslation();
+        $poesiaTranslationEs->collection_id = $poesia->id;
+        $poesiaTranslationEs->lang = "es";
+        $poesiaTranslationEs->name = "Poesía";
+        $poesiaTranslationEs->description = "Libros de poesía de Èter Edicions.";
+        $poesiaTranslationEs->slug = "poesia";
+        $poesiaTranslationEs->meta_title = $poesiaTranslationEs->name;
+        $poesiaTranslationEs->meta_description = $poesiaTranslationEs->description;
+        $poesiaTranslationEs->save();
 
 
         // Novel·la
         $novella = new Collection();
         $novella->save();
 
-        $novellaTranslation = new CollectionTranslation();
-        $novellaTranslation->collection_id = $novella->id;
-        $novellaTranslation->lang = "ca";
-        $novellaTranslation->name = "Novel·la";
-        $novellaTranslation->description = "Totes les novel·les d'Èter Edicions.";
-        $novellaTranslation->slug = "novella";
-        $novellaTranslation->meta_title = $novellaTranslation->name;
-        $novellaTranslation->meta_description = $novellaTranslation->description;
-        $novellaTranslation->save();
+        $novellaTranslationCa = new CollectionTranslation();
+        $novellaTranslationCa->collection_id = $novella->id;
+        $novellaTranslationCa->lang = "ca";
+        $novellaTranslationCa->name = "Ficció";
+        $novellaTranslationCa->description = "Totes les novel·les d'Èter Edicions.";
+        $novellaTranslationCa->slug = "ficcio";
+        $novellaTranslationCa->meta_title = $novellaTranslationCa->name;
+        $novellaTranslationCa->meta_description = $novellaTranslationCa->description;
+        $novellaTranslationCa->save();
 
+        $novellaTranslationEs = new CollectionTranslation();
+        $novellaTranslationEs->collection_id = $novella->id;
+        $novellaTranslationEs->lang = "es";
+        $novellaTranslationEs->name = "Ficción";
+        $novellaTranslationEs->description = "Todas las novelas de Èter Edicions.";
+        $novellaTranslationEs->slug = "ficcion";
+        $novellaTranslationEs->meta_title = $novellaTranslationEs->name;
+        $novellaTranslationEs->meta_description = $novellaTranslationEs->description;
+        $novellaTranslationEs->save();
 
 
         // Teatre
         $teatre = new Collection();
         $teatre->save();
 
-        $teatreTranslation = new CollectionTranslation();
-        $teatreTranslation->collection_id = $teatre->id;
-        $teatreTranslation->lang = "ca";
-        $teatreTranslation->name = "Teatre";
-        $teatreTranslation->description = "Textos d'obres de teatre editats per Èter Edicions.";
-        $teatreTranslation->slug = "teatre";
-        $teatreTranslation->meta_title = $teatreTranslation->name;
-        $teatreTranslation->meta_description = $teatreTranslation->description;
-        $teatreTranslation->save();
+        $teatreTranslationCa = new CollectionTranslation();
+        $teatreTranslationCa->collection_id = $teatre->id;
+        $teatreTranslationCa->lang = "ca";
+        $teatreTranslationCa->name = "Teatre";
+        $teatreTranslationCa->description = "Textos d'obres de teatre editats per Èter Edicions.";
+        $teatreTranslationCa->slug = "teatre";
+        $teatreTranslationCa->meta_title = $teatreTranslationCa->name;
+        $teatreTranslationCa->meta_description = $teatreTranslationCa->description;
+        $teatreTranslationCa->save();
 
+        $teatreTranslationEs = new CollectionTranslation();
+        $teatreTranslationEs->collection_id = $teatre->id;
+        $teatreTranslationEs->lang = "es";
+        $teatreTranslationEs->name = "Teatro";
+        $teatreTranslationEs->description = "Textos de obras de teatro editadas por Èter Edicions.";
+        $teatreTranslationEs->slug = "teatro";
+        $teatreTranslationEs->meta_title = $teatreTranslationEs->name;
+        $teatreTranslationEs->meta_description = $teatreTranslationEs->description;
+        $teatreTranslationEs->save();
 
 
         // Assaig
         $assaig = new Collection();
         $assaig->save();
 
-        $assaigTranslation = new CollectionTranslation();
-        $assaigTranslation->collection_id = $assaig->id;
-        $assaigTranslation->lang = "ca";
-        $assaigTranslation->name = "Assaig";
-        $assaigTranslation->description = "Assajos divulgatius editats per Èter Edicions.";
-        $assaigTranslation->slug = "assaig";
-        $assaigTranslation->meta_title = $assaigTranslation->name;
-        $assaigTranslation->meta_description = $assaigTranslation->description;
-        $assaigTranslation->save();
+        $assaigTranslationCa = new CollectionTranslation();
+        $assaigTranslationCa->collection_id = $assaig->id;
+        $assaigTranslationCa->lang = "ca";
+        $assaigTranslationCa->name = "Assaig";
+        $assaigTranslationCa->description = "Assajos divulgatius editats per Èter Edicions.";
+        $assaigTranslationCa->slug = "assaig";
+        $assaigTranslationCa->meta_title = $assaigTranslationCa->name;
+        $assaigTranslationCa->meta_description = $assaigTranslationCa->description;
+        $assaigTranslationCa->save();
+
+        $assaigTranslationEs = new CollectionTranslation();
+        $assaigTranslationEs->collection_id = $assaig->id;
+        $assaigTranslationEs->lang = "es";
+        $assaigTranslationEs->name = "Ensayo";
+        $assaigTranslationEs->description = "Ensayos divulgativos editados por Èter Edicions.";
+        $assaigTranslationEs->slug = "ensayo";
+        $assaigTranslationEs->meta_title = $assaigTranslationEs->name;
+        $assaigTranslationEs->meta_description = $assaigTranslationEs->description;
+        $assaigTranslationEs->save();
 
 
 
@@ -81,14 +119,24 @@ class CollectionSeeder extends Seeder
         $pensament = new Collection();
         $pensament->save();
 
-        $pensamentTranslation = new CollectionTranslation();
-        $pensamentTranslation->collection_id = $pensament->id;
-        $pensamentTranslation->lang = "ca";
-        $pensamentTranslation->name = "Pensament";
-        $pensamentTranslation->description = "Textos per pensar editats per Èter Edicions. Filosofia, decolonialisme...";
-        $pensamentTranslation->slug = "pensament";
-        $pensamentTranslation->meta_title = $pensamentTranslation->name;
-        $pensamentTranslation->meta_description = $pensamentTranslation->description;
-        $pensamentTranslation->save();
+        $pensamentTranslationCa = new CollectionTranslation();
+        $pensamentTranslationCa->collection_id = $pensament->id;
+        $pensamentTranslationCa->lang = "ca";
+        $pensamentTranslationCa->name = "Pensament";
+        $pensamentTranslationCa->description = "Textos per pensar editats per Èter Edicions. Filosofia, decolonialisme...";
+        $pensamentTranslationCa->slug = "pensament";
+        $pensamentTranslationCa->meta_title = $pensamentTranslationCa->name;
+        $pensamentTranslationCa->meta_description = $pensamentTranslationCa->description;
+        $pensamentTranslationCa->save();
+
+        $pensamentTranslationEs = new CollectionTranslation();
+        $pensamentTranslationEs->collection_id = $pensament->id;
+        $pensamentTranslationEs->lang = "es";
+        $pensamentTranslationEs->name = "Pensamiento";
+        $pensamentTranslationEs->description = "Textos para pensar editados por Èter Edicions. Filosofía, decolonialismo...";
+        $pensamentTranslationEs->slug = "pensamiento";
+        $pensamentTranslationEs->meta_title = $pensamentTranslationEs->name;
+        $pensamentTranslationEs->meta_description = $pensamentTranslationEs->description;
+        $pensamentTranslationEs->save();
     }
 }

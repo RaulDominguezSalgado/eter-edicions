@@ -38,12 +38,18 @@
                             {{ $post['date'] }}
                         </div>
                         <div class="form-group mb-2 mb20">
+                            <strong>Hour:</strong>
+                            {{-- {{ $post['time'] }} --}}
+                            {{ substr($post['time'], 0, 6) }}{{-- Extracts 'HH:MM' --}}
+                        </div>
+                        <div class="form-group mb-2 mb20">
                             <strong>Image:</strong>
-                            <img style="width: 100px; height: auto;" src="{{ asset('img/posts/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
+                            <img style="width: 100px; height: auto;" src="{{ asset('img/posts/covers/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Content:</strong>
-                            {{ $post['content'] }}
+                            {!! $post['content'] !!}
+
                         </div>
                         <div class="form-group mb-2 mb20">
                             <strong>Publication Date:</strong>

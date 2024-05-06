@@ -15,8 +15,8 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="flex flex-col items-center justify-center space-y-5 mb-60">
-                <h2  id="{{ strtolower($collaboratorTypes['authors']) }}">{{__('general.authors')}}</h2>
+            <div class="flex flex-col items-center justify-center space-y-5 mb-80">
+                <h2  id="{{ strtolower($collaboratorTypes['authors']) }}">{{trans_choice('general.authors', 2)}}</h2>
                 <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16">
                     @foreach ($authors as $i => $author)
                         <div class="collaborator flex flex-col items-center mb-6">
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="flex flex-col items-center justify-center space-y-5 mb-6">
-                <h2 id="{{ strtolower($collaboratorTypes['translators']) }}">{{__('general.translators')}}</h2>
+                <h2 id="{{ strtolower($collaboratorTypes['translators']) }}">{{trans_choice('general.translators', 2)}}</h2>
                 <div class="w-full grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-16" >
                     @foreach ($translators as $i => $translator)
                         <div class="collaborator flex flex-col items-center mb-6">

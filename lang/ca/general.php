@@ -12,19 +12,22 @@ return [
     |
     */
 
+    // GENERAL TERMS
     'language' => 'Idioma',
 
     'home' => 'Portada',
     'catalog' => 'Catàleg',
-    'authors' => 'Autors',
+    'authors' => '{1}Autor|[2,*]Autors',
     'agency' => 'Agència',
     'news' => 'Notícies',
     'posts' => 'Articles',
     'activities' => 'Activitats',
     'about' => 'Qui som',
-    'search' => 'Cerca',
+    'search' => 'Cercar',
 
-    'translators' => 'Traductors',
+    'new-books' => 'Novetats',
+
+    'translators' => '{1}Traductor|[2,*]Traductors',
 
     'books-available' => 'Obres disponibles',
     'other-books-available' => 'Altres obres disponibles',
@@ -54,6 +57,7 @@ return [
     'isbn' => 'ISBN',
     'legal_diposit' => 'Dipòsit legal',
     'enviromental_footprint' => 'Petjada de carboni',
+    'price' => 'Preu',
 
     'you-may-also-like' => 'També et poden agradar',
 
@@ -64,11 +68,11 @@ return [
 
     'read-more' => 'Saber-ne més',
 
-
     'privacy-policy' => 'Política de privacitat',
     'cookie-policy' => 'Política de cookies',
     'legal' => 'Avís legal',
     'contact' => 'Contacta',
     'bookstores' => 'Llibreries',
     'foreign-rights' => 'Foreign rights',
+
 ];

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Actions\ImageHelper;
+use App\Http\Actions\ImageHelperEditor;
 use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
@@ -89,8 +89,7 @@ class CollaboratorController extends Controller
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
                 // $this->editImage($nombreImagenOriginal, "collaborator");
-                $imageHelper = new ImageHelper();
-                $imageHelper->editImage($nombreImagenOriginal, "collaborator");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
 
                 $validatedData['image'] = $nombreImagenOriginal;
             } else {
@@ -172,8 +171,7 @@ class CollaboratorController extends Controller
             // // Procesar y guardar la imagen
             $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
             // $this->editImage($nombreImagenOriginal, "collaborator");
-            $imageHelper = new ImageHelper();
-            $imageHelper->editImage($nombreImagenOriginal, "collaborator");
+            ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
 
 
             $validatedData['image'] = $nombreImagenOriginal;
@@ -230,7 +228,7 @@ class CollaboratorController extends Controller
         // $locale = 'ca';
 
         $page = [
-            'title' => 'Autors i traductors',
+            'title' => ucfirst(trans_choice('general.authors', 2)) . " " . __('orthographicRules.and') . " " . strtolower(trans_choice('general.translators', 2)),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -253,8 +251,8 @@ class CollaboratorController extends Controller
         }
 
         $collaboratorTypes = [
-            'authors' => __('general.authors'),
-            'translators' => __('general.translators')
+            'authors' => trans_choice('general.authors', 2),
+            'translators' => trans_choice('general.translators', 2)
         ];
 
         return view('public.collaborators', compact('collaborators_lv', 'authors', 'translators', 'collaboratorTypes', 'page', 'locale'))
@@ -484,39 +482,39 @@ class CollaboratorController extends Controller
         //     abort(500, 'Server Error');
         // }
     }
-    public function editImage($fileName, $typeImage)
-    {
-        $reductionRate = 0.6;
-        $manager = new ImageManager(new Driver());
+    // public function editImage($fileName, $typeImage)
+    // {
+    //     $reductionRate = 0.6;
+    //     $manager = new ImageManager(new Driver());
 
-        switch ($typeImage) {
-            case "collaborator":
-             $rutaImagen = public_path('img/collab/covers/');
-        $rutaThumbnail = public_path('img/collab/thumbnails/');
+    //     switch ($typeImage) {
+    //         case "collaborator":
+    //          $rutaImagen = public_path('img/collab/covers/');
+    //     $rutaThumbnail = public_path('img/collab/thumbnails/');
 
-        $image = $manager->read($rutaImagen . $fileName);
-                $image_width = $image->width();
-                $image_height = $image->height();
+    //     $image = $manager->read($rutaImagen . $fileName);
+    //             $image_width = $image->width();
+    //             $image_height = $image->height();
 
-                $new_width = 668;
-                $new_height = 446; //intval($new_width * (1 / 1.5));
+    //             $new_width = 668;
+    //             $new_height = 446; //intval($new_width * (1 / 1.5));
 
-                break;
-            case "book":
-                break;
-            default:
-                break;
-        }
-        if ($image_width > $new_width || $image_height > $new_height) {
-            $image->cover($new_width, $new_height, "center");
-        }
-        // Encode the image to webp format with 80% quality
-        $image->encode(new WebpEncoder(), 80);
+    //             break;
+    //         case "book":
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //     if ($image_width > $new_width || $image_height > $new_height) {
+    //         $image->cover($new_width, $new_height, "center");
+    //     }
+    //     // Encode the image to webp format with 80% quality
+    //     $image->encode(new WebpEncoder(), 80);
 
-        // Save the processed image
-        $image->save($rutaImagen . $fileName);
+    //     // Save the processed image
+    //     $image->save($rutaImagen . $fileName);
 
-        $image->cover($new_width * $reductionRate, $new_height * $reductionRate, "center");
-        $image->save($rutaThumbnail . $fileName);
-    }
+    //     $image->cover($new_width * $reductionRate, $new_height * $reductionRate, "center");
+    //     $image->save($rutaThumbnail . $fileName);
+    // }
 }
