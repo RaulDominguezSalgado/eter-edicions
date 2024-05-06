@@ -148,3 +148,6 @@ Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'a
 Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('cart.view');
 Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
+
+
+Route::post("/checkout/next/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');

@@ -31,7 +31,7 @@
                                     <h2>{{ $book['title'] }}</h2>
                                 </div>
                                 <div class="flex space-x-1">
-                                    @foreach ($book['collaborators']['authors'] as $author)
+                                    @foreach ($book['authors'] as $author)
                                         {{-- if not last iteration --}}
                                         @if (!$loop->last)
                                             <h4>{{ $author['name'] }},</h4>

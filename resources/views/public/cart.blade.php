@@ -63,7 +63,7 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
                                             alt="Eliminar"></button>
                                 </form>
                             </td>
-                            <td>{{ number_format($item->total(), 2, ',', '') }}€</td>
+                            <td>{{ number_format($item->total, 2, ',', '') }}€</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -71,7 +71,7 @@ $locale = 'ca'; //TODOD CHANGE WHEN IT'S IMPLEMENTED MULTILANGUAGE WEB
 
             <div class="text-right">
                 <h4>Total: {{ Cart::total() }}€</h4>
-                <a href="{{ route("cart.view_checkout") }}" class="btn btn-primary">Procedir al pagament</a>
+                <a href="{{ route("checkout.{$locale}") }}" class="btn btn-primary">Procedir al pagament</a>
             </div>
         @else
             <p>La seva cistella es troba buida</p>
