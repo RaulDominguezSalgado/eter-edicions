@@ -3,51 +3,64 @@
 namespace App\Http\Controllers;
 
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use CodersFree\Shoppingcart\Facades\Cart;
 
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+class PaypalController extends Controller
 {
-    private $provider;
 
-    /*
-    App name
-EterEdicions
-
-Client ID
-AdpJ9XpDGI1eRIdR7u1vaKtobLvqMwTA_27j_HlzNpG2K09rp2Eo9ffNBdHWSjkkslSo0mHdq4TGBo4d
-
-Secret key 1
-EEQ9bxAxTAYagouWW2MTQlnDjwIK4xTI_9AiROcF6tmol1pIAA_nUZfqp1RMp5IuTu7m-2Eai-2eegyi
-
-
-
-    */
-    public function initPayPalClient()
+    function payment(Request $request)
     {
-        $this->provider = new PayPalClient();
+        $provider = new PayPalClient();
+        $provider->setApiCredentials(config('paypal'));
+        $paypalToken = $provider->getAccessToken();
+        $provider->setCurrency('EUR');
+        $response = $provider->createOrder([
+            "intent" => "CAPTURE",
+            "application_context" => [
+                "return_url" => route('paypal.success'),
+                "cancel_url" => route('paypal.cancel'),
+            ],
+            "purchase_units" => [
+                [
+                    "amount" => [
+                        "currency_code" => "EUR",
+                        "value" => $request->total,
+                    ]
+                ]
+            ]
+        ]);
+        // dd($response);
+
+        if (isset($response['id']) && $response['id'] != null) {
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] === 'approve') {
+                    return redirect()->away($link['href']);
+                }
+            }
+        } else {
+            return redirect()->route('paypal.cancel');
+        }
+    }
+    function success(Request $request)
+    {
+        $provider = new PayPalClient();
+        $provider->setApiCredentials(config('paypal'));
+        $paypalToken = $provider->getAccessToken();
+        $provider->setCurrency('EUR');
+        $response = $provider->capturePaymentOrder($request->token);
+        if(isset($response['status']) && $response['status']=="COMPLETED"){
+            Cart::instance("default")->destroy();
+            return redirect()->route('cart.view')->with('success', 'Compra realitzada correctament!!');
+        }else{
+            return redirect()->route('paypal.cancel');
+        }
+        // dd($response);
     }
 
-    public function asd(){
-        $data =$this->convertCartItemToPaypalProduct();
-
-
-
-        // Configura la cabecera de la solicitud con un ID único
-        $this->provider->setRequestHeader('PayPal-Request-Id', 'create-product-' . time());
-
-        // Crea el producto utilizando el cliente de PayPal y los datos proporcionados
-        $product = $this->provider->createProduct($data);
-    }
-
-    function convertCartItemToPaypalProduct($item){
-        return json_decode('{
-            "name": "Video Streaming Service",
-            "description": "Video streaming service",
-            "type": "SERVICE",
-            "category": "SOFTWARE",
-            "image_url": "https://example.com/streaming.jpg",
-            "home_url": "https://example.com/home"
-        }', true);
+    function cancel()
+    {
+        return redirect()->route('cart.view')->with('error', 'Error en la compra');
     }
 }

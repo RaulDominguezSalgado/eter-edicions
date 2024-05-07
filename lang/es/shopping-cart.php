@@ -23,6 +23,7 @@ return [
     'shopping-cart' => 'Carrito',
     'keep-shopping' => 'Seguir comprando',
     'checkout' => 'Tramitar pedido',
+    'paypal' => 'Pagar con Paypal',
     'proceed-to-payment' => 'Proceder al pago',
 
     'add-to-cart' => 'Añadir a la cesta',
