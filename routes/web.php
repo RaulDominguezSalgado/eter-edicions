@@ -71,7 +71,7 @@ Route::group(['middleware' => 'language.redirect'], function () {
             Route::get(__('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
 
             // Checkout
-            // Route::get(__('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
+            // Route::get(__('paths.checkout', [], $locale)."/{$step}/", [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
         } else {
 
             // Home
@@ -117,7 +117,7 @@ Route::group(['middleware' => 'language.redirect'], function () {
             Route::get("{$locale}/" . __('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
 
             // Checkout
-            // Route::get("{$locale}/" . __('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
+            // Route::get("{$locale}/" . __('paths.checkout', [], $locale)."/{$step}/", [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
         }
 
         Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
