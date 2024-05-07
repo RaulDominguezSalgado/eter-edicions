@@ -15,7 +15,7 @@ $locale = app()->getLocale() ?: 'ca';
                     <i class="icon expand-arrow text-[10px]"></i>
                 </button>
             </div>
-            <div id="langForm" class="lang-select absolute top-8 bg-light before:border-s-transparent before:border-t-transparent before:border-b-light before:border-e-transparent">
+            <div id="langForm" class="lang-select absolute top-8 bg-light before:border-s-transparent before:border-t-transparent before:border-b-light before:border-e-transparent z-20">
                 <form action="{{ route('lang.switch') }}" method="POST">
                     @csrf
                     <input type="hidden" name="previousLang" value={{app()->getLocale()}}>
