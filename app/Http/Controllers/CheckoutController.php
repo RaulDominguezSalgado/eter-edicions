@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\OrderFirstStepRequest;
+use App\Http\Requests\CheckoutRequest;
 use Exception;
 
 class CheckoutController extends Controller
@@ -13,78 +13,23 @@ class CheckoutController extends Controller
      * Actualmente solo redirige al primer paso del checkout, pero puede
      * ser usado para controlar el acceso, controlar el carrito...
      */
-    public function index($step="personal_data") {
+    public static function index() {
         // Previous actions
-        return view("public.checkout", compact("step"));
+        return view("public.checkout");
     }
 
-    public function changeStep(Request $request) {
-        $step = $request->get("step");
-        if ($request->get("prev") != null) {
-            // Previous
-            switch ($step) {
-                case "personal_data":
-                    return redirect("cart");
-                break;
-                case "address":
-                    return $this->redirectCheckout("personal_data");
-                break;
-                case "shippment":
-                    return $this->redirectCheckout("address");
-                break;
-                case "payment":
-                    return $this->redirectCheckout("shippment");
-                break;
-            }
-        }
-        else {
-            // Next
-            switch ($step) {
-                case "personal_data":
-                    try {
-                        // Vañidar Request
-                        return $this->redirectCheckout("address");
-                    }
-                    catch (Exception $e) {
-                        return back()->withError("");
-                    }
-                break;
-                case "address":
-                    try {
-                        // Vañidar Request
-                        return $this->redirectCheckout("shippment");
-                    }
-                    catch (Exception $e) {
-                        return back()->withError("");
-                    }
-                break;
-                case "shippment":
-                    try {
-                        // Vañidar Request
-                        return $this->redirectCheckout("payment");
-                    }
-                    catch (Exception $e) {
-                        return back()->withError("");
-                    }
-                break;
-                case "payment":
-                    try {
-                        // Vañidar Request
-                        return $this->redirectCheckout("completed");
-                    }
-                    catch (Exception $e) {
-                        return back()->withError("");
-                    }
-                break;
-            }
-        }
+    /**
+     * Metodo para el control del formulairo antes de proceder al método de pago.
+     */
+    public static function toPayment(CheckoutRequest $request) {
+        $request->validate();
+        dd($request);
     }
 
-    private function redirectCheckout($step="", $locale = "ca") {
-        return to_route("checkout.{$locale}.action", $step);
-    }
+    /**
+     * Método para actualizar el estado de pago de un pedido tras el proceso de pago.
+     */
+    public function registerPayment() {
 
-    private function form() {
-        
     }
 }
