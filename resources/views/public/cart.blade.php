@@ -61,7 +61,7 @@
         @endif
 
         <div class="space-y-8">
-            @if (count(Cart::content()) > 0)
+            @if (count(Cart::instance('default')->content()) > 0)
                 <div class="space-y-4">
                     <table class="table w-full">
                         <thead class="border-b border-lightgrey mb-3">
@@ -77,7 +77,7 @@
                             </tr>
                         </thead>
                         <tbody class="border-b border-lightgrey mb-3">
-                            @foreach (Cart::content() as $item)
+                            @foreach (Cart::instance('default')->content() as $item)
                                 {{-- @dump($item) --}}
                                 <tr class="">
                                     <td class="py-2 pr-3 flex items-center space-x-3 ">
@@ -166,9 +166,11 @@
                                                                 style="width: 15px"></span>
                                                     </button>
                                                 </form>
-                                                <input type="text" value="{{ $item->qty }}" readonly
+
+                                                <input type="text" value="{{ $item->qty }}" name="quantity" readonly
                                                     onblur=""
-                                                    class="inline-block text-center border border-lightgrey w-12 h-8">{{-- implement onblur submit form with new item value --}}
+                                                    min="1"
+                                                    class="inline-block text-center border border-lightgrey w-14 h-8 appearance-none">
                                                 <form action="{{ route('cart.add', $item->rowId) }}" method="POST"
                                                     class="inline-block">
                                                     @csrf
@@ -195,7 +197,7 @@
 
                     <div class="flex flex-col items-center md:items-end space-y-4">
                         <div>
-                            <h5>{{ __('shopping-cart.total') }}: {{ Cart::total() }}€</h5>
+                            <h5>{{ __('shopping-cart.total') }}: {{ Cart::instance('default')->total() }}€</h5>
                         </div>
                         <div>
                             <a href="{{ route('cart.view_checkout') }}" class="">
@@ -247,6 +249,7 @@
                                             <form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
+                                                <input type="text" value="outOfStock" hidden name="instance">
                                                 <button type="submit"
                                                     class="flex justify-center items-center border border-lightgrey rounded p-1 w-8 h-8"><img
                                                         src="{{ asset('img/icons/dark/trash.webp') }}" width="20px"
@@ -305,5 +308,7 @@
         @endif
     </div>
     </div>
+
 </x-layouts.app>
+
 <script src="/js/form/messages.js"></script>
