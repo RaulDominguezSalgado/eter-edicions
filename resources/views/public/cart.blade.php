@@ -81,7 +81,7 @@
                                 <tr class="">
                                     <td class="py-2 pr-3 flex items-center space-x-3 ">
                                         <a href="{{ route("book-detail.{$locale}", $item->options->id) }}">
-                                            <img style="height: 6em; width: 4.5em"
+                                            <img class=" border border-lightgrey" style="height: 6em; width: 4.5em"
                                             src="{{ asset('img/books/thumbnails/' . $item->options->image) }}"
                                             alt="{{ $item->name }}">
                                         </a>
@@ -233,7 +233,7 @@
                                     <td class="py-2 pr-3 w-3/4">
                                         <div class="flex space-x-6">
                                             {{-- <label for="name">{{ $item->name }}</label> --}}
-                                            <img style="height: 6em; width: 4.5em"
+                                            <img class=" border border-lightgrey" style="height: 6em; width: 4.5em"
                                                 src="{{ asset('img/books/thumbnails/' . $item->options->image) }}"
                                                 alt="{{ $item->name }}">
                                             <div>
