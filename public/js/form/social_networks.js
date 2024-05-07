@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('agregar_red_social').addEventListener('click', function() {
         var nuevas_redes_sociales = document.createElement('div');
         nuevas_redes_sociales.classList.add('red_social' + contador);
-        nuevas_redes_sociales.innerHTML = '<input type="text" name="red_social[]" placeholder="Nombre de la red social"> <input type="text" name="usuario_red_social[]" placeholder="Nombre de usuario">';
+        nuevas_redes_sociales.innerHTML = '<input type="text" name="red_social[]" placeholder="Nombre de la red social"> <input type="text" name="usuario_red_social[]" placeholder="URL del usuario">';
         document.getElementById('redes_sociales').appendChild(nuevas_redes_sociales);
         contador++;
     });
