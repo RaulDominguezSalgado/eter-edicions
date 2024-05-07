@@ -708,6 +708,7 @@ class BookController extends Controller
         //Get the first 4 books (they will always be the more relevant)
         $result = array_slice($result, 0, 3);
 
+        // dump($result);
         return $result;
     }
 
@@ -720,12 +721,19 @@ class BookController extends Controller
      *
      * @return array an array with a preview of 3 related books
      */
-    public function getRelatedBooksFromMultiple(array $books, string $locale){
+    public function getRelatedBooksFromMultiple(array $books, string $locale)
+    {
+        $bookTitles = [];
         $result = [];
-        foreach($books as $book){
-            array_merge($result, $this->getRelatedBooks($book, $locale));
+        foreach ($books as $book) {
+            $bookTitles[$book->title]=true; //Save book title as key in $bookTitles to delete it from related books array, if present
+            $result = array_merge($result, $this->getRelatedBooks($book, $locale));
         }
 
+        //Remove books in $books from array of related books ($result)
+        $result = array_diff_key($result, $bookTitles);
+
+        //Get the first 3 books
         $result = array_slice($result, 0, 3);
 
         return $result;

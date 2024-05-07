@@ -8,11 +8,11 @@
 
     <main class="body space-y-4 mb-12">
         <div class="book">
-            @if ($message = Session::get('success'))
+            {{-- @if ($message = Session::get('success'))
                 <div class="alert alert-success m-4">
                     <p>{{ $message }}</p>
                 </div>
-            @endif
+            @endif --}}
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
                     {{-- <div id="book-image" class="book-image"></div> --}}
@@ -63,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="space-y-3">
+                    <div class="space-y-4">
                         <a href="{{ route('book.sample', $book['sample']) }}" target="_blank"
                             class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
@@ -76,7 +76,7 @@
                                 @csrf
                                 <input type="hidden" name="book_id" value="{{ $book['id'] }}">
 
-                            <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
+                            <input type="number" class="border border-black mb-2" name="number_of_items" placeholder="1"
                                 value="1" min="1">
                             <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
                                 <span class="flex items-center leading-none text-white">{{ucfirst(__('phrases.afegir a la cistella'))}}</span>

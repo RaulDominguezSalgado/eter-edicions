@@ -337,7 +337,7 @@ class PostController extends Controller
 
 
         $page = [
-            'title' => "Articles",
+            'title' => ucfirst(__('words.articles')),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -363,7 +363,7 @@ class PostController extends Controller
         }
 
         $page = [
-            'title' => "Articles",
+            'title' => ucfirst(__('words.activitats')),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -413,7 +413,7 @@ class PostController extends Controller
 
         $translatorName = !is_null($translator) ? $translator->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $translator->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
         $translatorId = !is_null($translator) ? $translator->id : "";
-        $translation = OrthographicRules::startsWithDe($translatorName) ? "Traducció de " : "Traducció d'";
+        $translation = __('general.translation') . " " . (OrthographicRules::startsWithDe($translatorName) ? __('orthographicRules.with_d') : __('orthographicRules.with_de'));
 
         $userName = !is_null($user) ? $user->first_name . " " . $user->last_name : "";
 
@@ -448,7 +448,7 @@ class PostController extends Controller
             'description' => $post->description,
             'date' => Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y'),
             'image' => $post->image,
-            'post_type' => "ARTICLES",
+            'post_type' => ucfirst(__('words.articles')),
             'slug' => $post->slug
         ];
 
@@ -474,7 +474,7 @@ class PostController extends Controller
             'published_by' => $userName,
             'published_by_id' => $userId,
             'publication_date' => Carbon::createFromFormat('Y-m-d', $activity->publication_date)->format('d/m/Y'),
-            'post_type' => "ACTIVITATS",
+            'post_type' => ucfirst(__('words.activitats')),
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,
             'meta_description' => $activity->meta_description
@@ -494,7 +494,7 @@ class PostController extends Controller
             'date' => Carbon::createFromFormat('Y-m-d H:i:s', $activity->date)->format('d/m/Y'),
             'location' => str_contains($activity->location, ".") ? substr($activity->location, 0, strpos($activity->location, '.')) : $activity->location,
             'image' => $activity->image,
-            'post_type' => "ACTIVITATS",
+            'post_type' => ucfirst(__('words.activitats')),
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,
             'meta_description' => $activity->meta_description
@@ -506,7 +506,7 @@ class PostController extends Controller
     public function getPreviewGenericPost($post, $locale)
     {
         //dd($post);
-        $postType = (is_null($post->date) && is_null($post->location)) ? "ARTICLES" : "ACTIVITATS";
+        $postType = (is_null($post->date) && is_null($post->location)) ? ucfirst(__('words.articles')) : ucfirst(__('words.activitats'));
         $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y') : Carbon::createFromFormat('Y-m-d H:i:s', $post->date)->format('d/m/Y');
         // Verificar si la fecha de publicación está presente y formatearla
         //$date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : Carbon::createFromFormat('Y-m-d', $post->date)->format('d/m/Y');

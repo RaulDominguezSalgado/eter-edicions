@@ -14,9 +14,11 @@ use Illuminate\Http\Request;
 class ShoppingCartController extends Controller
 {
 
-    private $locale = "ca";
     function addProduct(Request $request)
     {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
+
         //Cart::destroy();
         $message = "";
         $book = Book::find($request->book_id);
@@ -24,7 +26,7 @@ class ShoppingCartController extends Controller
             if ($book->stock > 0) {
                 $authorNames = [];
                 foreach ($book->authors as $author) {
-                    $auth = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $this->locale)->first();
+                    $auth = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
                     $authorNames[] = $auth->first_name . " " . $auth->last_name;
                 }
                 //dd($authorNames);
@@ -40,19 +42,19 @@ class ShoppingCartController extends Controller
                 if ($item) {
                     //added succesfully
                     Cart::instance('default')->setTax($item->rowId, $book->iva);
-                    $message = "Llibre afegit a la cistella";
+                    $message = __('shopping-cart.book-added');
                     return redirect()->back()->with('success', $message);
                 } else {
                     //error
-                    $message = "No s'ha pogut afegir el llibre a la cistella";
+                    $message = __('shopping-cart.book-not-added');
                     return redirect()->back()->with('error', $message);
                 }
             } else {
-                $message = "No hi ha stock disponible per afegir aquest llibre";
+                $message = __('shopping-cart.book-no-stock');
                 return redirect()->back()->with('error', $message);
             }
         } else {
-            $message = "Llibre no trobat a la base de dades";
+            $message = __('shopping-cart.book-not-in-db');
             return redirect()->back()->with('error', $message);
         }
     }
@@ -63,16 +65,20 @@ class ShoppingCartController extends Controller
      */
     function viewCart()
     {
+        // Get the locale from the app or fallback to Catalan
+        $locale = app()->getLocale() ?: 'ca';
+
         $errors = $this->checkCartStock();
         $books = $this->convertCartToBooks(Cart::instance('default')->content());
         $controller = new BookController();
-        $relatedBooks = $controller->getRelatedBooksFromMultiple($books, "ca");
+        $relatedBooks = $controller->getRelatedBooksFromMultiple($books, $locale);
         if (count($relatedBooks) < 1) {
         }
         // dump(Cart::content());
         // dump(Cart::instance('default')->content());
         // dump(Cart::instance('outOfStock')->content());
-        return view('public.cart', compact('relatedBooks','errors'));
+        // dump($relatedBooks);
+        return view('public.cart', compact('relatedBooks','errors', 'locale'));
     }
 
     /**
@@ -89,15 +95,15 @@ class ShoppingCartController extends Controller
             if ($book) {
                 if ($book->visible) {
                     if ($book->stock <= 0) {
-                        $message []= "Hi han productes de la teva cistella que no tenim estoc disponible\n";
+                        $message []= __('shopping-cart.no-stock-of-products-in-cart')."\n";
                         Cart::instance('outOfStock')->add($item);
                         Cart::instance('default')->remove($item->rowId);
                     } elseif ($book->stock < $item->qty) {
                         Cart::instance('default')->update($item->rowId, $book->stock);
-                        $message []= "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles\n";
+                        $message []= __('shopping-cart.not-enough-stock') . ". " . trans_choice('shopping-cart.we-only-have-x-units',$book->stock, ['units' => $book->stock]) . ".\n";
                     }
                 } else {
-                    $message []= "Hi han productes de la teva cistella que ja no es troben disponibles\n";
+                    $message []= __('shopping-cart.not-available-products-in-cart') . "\n";
                     Cart::instance('notAvailable')->add($item);
                     Cart::instance('default')->remove($item->rowId);
                     // Cart::instance('outOfStock')->add($item);
@@ -113,15 +119,16 @@ class ShoppingCartController extends Controller
                     if ($book->stock > 0) {
                         if ($book->stock < $item->qty) { //In case that there's only fewer stock that the user required
                             $item->qty = $book->stock;
-                            $message []= "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles\n";
-                        } else if ($book->stock >= $item->qty) {
-                            $message []= "Tenim mes stock d'alguns productes\n";
+                            $message []= __('shopping-cart.not-enough-stock') . ". " . trans_choice('shopping-cart.we-only-have-x-units',$book->stock, ['units' => $book->stock]) . ".\n";
                         }
+                        // else if ($book->stock >= $item->qty) {
+                        //     $message []= __('shopping-cart.more-stock-available').".\n";
+                        // }
                         Cart::instance('default')->add($item);
                         Cart::instance('outOfStock')->remove($item->rowId);
                     }
                 } else {
-                    $message []= "Hi han productes de la teva cistella que ja no es troben disponibles\n";
+                    $message []= __('shopping-cart.not-available-products-in-cart') . "\n";
                     Cart::instance('notAvailable')->add($item);
                     Cart::instance('outOfStock')->remove($item->rowId);
                     // Cart::instance('outOfStock')->add($item);
@@ -139,9 +146,9 @@ class ShoppingCartController extends Controller
                     if ($book->stock > 0) {
                         if ($book->stock < $item->qty) { //In case that there's only fewer stock that the user required
                             $item->qty = $book->stock;
-                            $message []= "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles\n";
+                            $message []= __('shopping-cart.not-enough-stock') . ". " . trans_choice('shopping-cart.we-only-have-x-units',$book->stock, ['units' => $book->stock]) . ".\n";
                         } else if ($book->stock >= $item->qty) {
-                            $message []= "Tenim mes stock d'alguns productes\n";
+                            $message []= __('shopping-cart.more-stock-available').".\n";
                         }
                             Cart::instance('default')->add($item);
                             Cart::instance('notAvailable')->remove($item->rowId);
@@ -243,7 +250,7 @@ class ShoppingCartController extends Controller
         }
         Cart::instance($instance)->remove($rowId);
         return redirect()->back()
-            ->with('success', 'Llibre esborrat correctament');
+            ->with('success', __('shopping-cart.book-removed'));
     }
 
     /**
@@ -259,24 +266,24 @@ class ShoppingCartController extends Controller
                 if ($book->stock > $item->qty) {
                     Cart::instance('default')->update($rowId, $item->qty + 1);
                 } else if ($book->stock == 0) {
-                    $message = "No hi ha suficient stock per aquesta acció. Ja no ens queden unitats disponibles per al llibre \"{$item->name}\"";
+                    $message = __('shopping-cart.not-enough-stock');
                     Cart::instance('default')->remove($rowId);
                     Cart::instance('outOfStock')->add($item);
                 } else {
                     Cart::instance('default')->update($rowId, $book->stock);
-                    $message = "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles";
+                    $message = __('shopping-cart.not-enough-stock') . ". " . trans_choice('shopping-cart.we-only-have-x-units',$book->stock, ['units' => $book->stock]) . ".\n";
                 }
             } else {
-                $message = 'El llibre "' . $item->name . '" ja no es troba disponible';
+                $message = __('shopping-cart.book-x-not-available', ['book' => $item->name]);
                 Cart::instance('default')->remove($rowId);
                 Cart::instance('outOfStock')->add($item);
             }
         } else {
-            $message = 'Error desconegut';
+            $message = __('errors.unknown-error');
         }
         if ($message == "") {
             return redirect()->back()
-                ->with('success', "Quantitat actualizada satisfactoriament");
+                ->with('success', __('shopping-cart.quantity-updated'));
         } else {
             return redirect()->back()
                 ->with('error', $message);
@@ -293,24 +300,24 @@ class ShoppingCartController extends Controller
                 if ($book->stock >= $item->qty) {
                     Cart::instance('default')->update($rowId, $item->qty - 1);
                 } else if ($book->stock == 0) {
-                    $message = "No hi ha suficient stock per aquesta acció. Ja no ens queden unitats disponibles";
+                    $message = __('shopping-cart.not-enough-stock');
                     Cart::instance('default')->remove($rowId);
                     Cart::instance('outOfStock')->add($item);
                 } else {
                     Cart::instance('default')->update($rowId, $book->stock);
-                    $message = "No hi ha suficient stock per aquesta acció. Només ens queden {$book->stock} unitats disponibles";
+                    $message = __('shopping-cart.not-enough-stock') . ". " . trans_choice('shopping-cart.we-only-have-x-units',$book->stock, ['units' => $book->stock]) . ".\n";
                 }
             } else {
-                $message = 'El llibre "' . $item->name . '" ja no es troba disponible';
+                $message = __('shopping-cart.book-x-not-available', ['book' => $item->name]);
                 Cart::instance('default')->remove($rowId);
                 Cart::instance('outOfStock')->add($item);
             }
         } else {
-            $message = 'Error desconegut';
+            $message = __('errors.unknown-error');
         }
         if ($message == "") {
             return redirect()->back()
-                ->with('success', "Quantitat actualizada satisfactoriament");
+                ->with('success', __('shopping-cart.quantity-updated'));
         } else {
             return redirect()->back()
                 ->with('error', $message);

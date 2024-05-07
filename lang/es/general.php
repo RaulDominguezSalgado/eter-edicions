@@ -61,8 +61,8 @@ return [
 
     'you-may-also-like' => 'También pueden gustarte',
 
-    'where' => '¿Dónde',
-    'when' => '¿Cuándo',
+    'where' => 'Dónde',
+    'when' => 'Cuándo',
 
     'read-more' => 'Leer más',
 
