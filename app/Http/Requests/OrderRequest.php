@@ -27,7 +27,7 @@ class OrderRequest extends FormRequest
                 'total' => '',
                 'reference' => 'required',
                 'dni' => 'required',
-                'first_name' => 'required',
+                'first_name' => 'required', //'required|regex:/^[a-zA-Z]+$/|string',permite caracteres alfabéticos entre mayúsculas y minúsculas, creo no acepta comillas simples tampoco
                 'last_name' => 'required',
                 'email' => 'required',
                 'phone_number' => 'required',
