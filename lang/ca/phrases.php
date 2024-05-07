@@ -8,5 +8,7 @@ return [
     'descarregar sample' => 'descarregar sample',
 
     'botó per' => 'botó per',
+
+    "no s'ha trobat cap resultat" => "no s'ha trobat cap resultat",
 ];
 
