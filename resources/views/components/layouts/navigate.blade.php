@@ -34,11 +34,12 @@ $locale = app()->getLocale() ?: 'ca';
         </li>
         <li class="relative">
             <a href="{{ route("cart.view") }}" class="">
-                <i class="icon shopping-bag relative">
-                    <div class="bg-dark rounded-full text-light min-w-4 min-h-4 p-0.5 m-0 absolute top-[28px] left-[8px]">
+                <div class="icon shopping-bag relative">
+                    <img src="{{asset('img/icons/dark/shopping-bag.webp')}}" alt="{{__('shopping-cart.shopping-bag')}}" class="w-4 h-4">
+                    <div class="bg-dark rounded-full text-light min-w-4 min-h-4 p-0.5 m-0 absolute top-2.5 left-2">
                         <p class="p12 not-italic leading-3 text-center">{{Cart::instance('default')->count()}}</p> {{-- number of items in cart in real time --}}
                     </div>
-                </i>
+                </div>
             </a>
         </li>
     </ul>
