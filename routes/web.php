@@ -124,25 +124,35 @@ Route::group(['middleware' => 'language.redirect'], function () {
 // Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
 
 /* Admin Backoffice */
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('components.layouts.admin.dashboard');
-    })->name('admin_dashboard');
-    Route::resource('books', App\Http\Controllers\BookController::class);
-    Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
-    Route::resource('collections', App\Http\Controllers\CollectionController::class);
-    Route::resource('users', App\Http\Controllers\UserController::class);
-    Route::resource('authors', App\Http\Controllers\AuthorController::class);
-    Route::resource('translators', App\Http\Controllers\TranslatorController::class);
-    Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
+Route::middleware(['auth.redirectUnauthenticated'])->group(function (){
+    //Dashboard route
+    Route::prefix('admin')->group(function () {
+        Route::get('/', function () {
+            return view('components.layouts.admin.dashboard');
+        })->name('admin_dashboard');
+
+    //Posts
     Route::resource('posts', App\Http\Controllers\PostController::class);
-    Route::resource('orders', App\Http\Controllers\OrderController::class);
-    Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
-    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
-    Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
-    // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
-    Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
-})->middleware(AdminCheck::class);
+    // Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
+
+    //Admin routes
+    Route::middleware(['auth.redirectPermissionAdmin'])->group(function(){
+        Route::resource('books', App\Http\Controllers\BookController::class);
+        Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+        Route::resource('collections', App\Http\Controllers\CollectionController::class);
+        Route::resource('users', App\Http\Controllers\UserController::class);
+        Route::resource('authors', App\Http\Controllers\AuthorController::class);
+        Route::resource('translators', App\Http\Controllers\TranslatorController::class);
+        Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
+
+        Route::resource('orders', App\Http\Controllers\OrderController::class);
+        Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
+        Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
+        Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
+        // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
+    });
+    })->middleware(['auth']);
+});
 
 //Route::get('{slug}');
 

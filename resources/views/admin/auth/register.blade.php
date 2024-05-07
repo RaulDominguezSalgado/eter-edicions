@@ -47,7 +47,7 @@
         </div>
 
 
-        <button type="submit">Entrar</button>
+        <button type="submit">Registrar-se</button>
     </form>
 
 {{-- </x-layouts.app> --}}

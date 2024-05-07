@@ -5,8 +5,7 @@ $locale = 'ca';
 <nav id="admin-nav"
     class="md:h-screen
                             flex flex-col
-                            items-center
-                            justify-evenly
+                            space-y-10
                             bg-lightgrey
                             sticky
                             z-[100]">
@@ -27,6 +26,7 @@ $locale = 'ca';
         </a>
     </div>
 
+    @if(Auth::user()->role_id == 1)
     <ul id="sidebar" class="hidden md:flex flex-col duration-100">
         {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
         <li class="">
@@ -73,6 +73,7 @@ $locale = 'ca';
                 </div>
             </a>
         </li>
+
         <li>
             <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('posts.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
@@ -98,4 +99,25 @@ $locale = 'ca';
             </a>
         </li>
     </ul>
+    @else
+    <ul id="sidebar" class="hidden md:flex flex-col duration-100">
+        {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
+        <li>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('posts.index') }}">
+                <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
+                    <img class="w-10 h-10" src="/img/icons/posts.webp">
+                    <div class="text-base">Publicacions</div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="">
+                <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
+                    <img class="w-10 h-10" src="/img/icons/pages.webp">
+                    <div class="text-base">Pàgines</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+    @endif
 </nav>

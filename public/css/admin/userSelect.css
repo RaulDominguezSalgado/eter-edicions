@@ -1,0 +1,13 @@
+.user-select {
+    transition: all 200ms ease;
+    max-height: 0px;
+    overflow: hidden; /* Initially hide the content */
+    box-shadow: -2px 3px 8px rgb(0, 0, 0, 0.15);
+    position: absolute;
+}
+
+/* Add expanded state */
+.user-select.expanded {
+    max-height: 288px;
+    overflow: visible; /* Show scrollbar when expanded */
+}

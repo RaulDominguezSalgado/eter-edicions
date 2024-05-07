@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="/css/admin/main.css">
     <link rel="stylesheet" href="/css/admin/form.css">
     <link rel="stylesheet" href="/css/admin/nav.css">
+    <link rel="stylesheet" href="/css/admin/userSelect.css">
     <link rel="stylesheet" href="/css/admin/table.css">
+    <script src="/js/admin/userSelect.js"></script>
     <script src="/js/admin/nav.js"></script>
     {{-- <script src="/js/form/post_dates.js"></script> --}}
     <title>{{ $title ?? 'Èter Edicions' }}</title>
@@ -19,7 +21,8 @@
 </head>
 <body class="flex flex-col md:flex-row space-y-5 md:space-y-5 m-0">
     <x-layouts.admin.navigate/>
-    <main class="w-full p-5 md:p-8 lg:p-20">
+    <main class="w-full p-5 md:p-8 lg:p-20 space-y-8">
+        <x-layouts.admin.usernav/>
         {{$slot}}
     </main>
 </body>

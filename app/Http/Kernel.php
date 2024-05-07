@@ -70,5 +70,8 @@ class Kernel extends HttpKernel
 
         'language.switch' => \App\Http\Middleware\LanguageMiddleware::class, //middleware for language switching
         'language.redirect' => \App\Http\Middleware\LanguageRedirect::class, //middleware for locale based redirection
+
+        'auth.redirectUnauthenticated' => \App\Http\Middleware\RedirectUnauthenticatedTo404::class, //middleware for redirecting to 404 unauthenticated users in restricted pages
+        'auth.redirectPermissionAdmin' => \App\Http\Middleware\RedirectUserPermissionsAdmin::class, //middleware for redirecting to 404 users that are not admins
     ];
 }
