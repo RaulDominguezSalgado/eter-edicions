@@ -198,7 +198,7 @@
                             <h5>{{ __('shopping-cart.total') }}: {{ Cart::total() }}€</h5>
                         </div>
                         <div>
-                            <a href="{{ route('cart.view_checkout') }}" class="">
+                            <a href="{{ route("checkout.{$locale}") }}">
                                 <button class="send-button">
                                     {{ __('shopping-cart.checkout') }}
                                 </button>

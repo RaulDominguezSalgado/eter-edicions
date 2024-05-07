@@ -24,16 +24,16 @@ class CheckoutController extends Controller
             // Previous
             switch ($step) {
                 case "personal_data":
-                    return $this->index("personal_data");
+                    return redirect("cart");
                 break;
                 case "address":
-                    return $this->index("personal_data");
+                    return $this->redirectCheckout("personal_data");
                 break;
                 case "shippment":
-                    return $this->index("address");
+                    return $this->redirectCheckout("address");
                 break;
                 case "payment":
-                    return $this->index("completed");
+                    return $this->redirectCheckout("shippment");
                 break;
             }
         }
@@ -43,7 +43,7 @@ class CheckoutController extends Controller
                 case "personal_data":
                     try {
                         // Vañidar Request
-                        return $this->index("address");
+                        return $this->redirectCheckout("address");
                     }
                     catch (Exception $e) {
                         return back()->withError("");
@@ -52,7 +52,7 @@ class CheckoutController extends Controller
                 case "address":
                     try {
                         // Vañidar Request
-                        return $this->index("shippment");
+                        return $this->redirectCheckout("shippment");
                     }
                     catch (Exception $e) {
                         return back()->withError("");
@@ -61,7 +61,7 @@ class CheckoutController extends Controller
                 case "shippment":
                     try {
                         // Vañidar Request
-                        return $this->index("payment");
+                        return $this->redirectCheckout("payment");
                     }
                     catch (Exception $e) {
                         return back()->withError("");
@@ -70,7 +70,7 @@ class CheckoutController extends Controller
                 case "payment":
                     try {
                         // Vañidar Request
-                        return $this->index("completed");
+                        return $this->redirectCheckout("completed");
                     }
                     catch (Exception $e) {
                         return back()->withError("");
@@ -78,5 +78,9 @@ class CheckoutController extends Controller
                 break;
             }
         }
+    }
+
+    private function redirectCheckout($step="", $locale = "ca") {
+        return to_route("checkout.{$locale}", compact($step));
     }
 }
