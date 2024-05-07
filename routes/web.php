@@ -69,6 +69,9 @@ Route::group(['middleware' => 'language.redirect'], function () {
 
             // Search
             Route::get(__('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
+
+            // Checkout
+            // Route::get(__('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
         } else {
 
             // Home
@@ -112,6 +115,9 @@ Route::group(['middleware' => 'language.redirect'], function () {
 
             // Search
             Route::get("{$locale}/" . __('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
+
+            // Checkout
+            // Route::get("{$locale}/" . __('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
         }
 
         Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
@@ -146,9 +152,13 @@ Route::prefix('admin')->group(function () {
 
 //Route::get('{slug}');
 
+// Cart absolute routes
 Route::post('/cart/less/{item}', [App\Http\Controllers\ShoppingCartController::class, 'less'])->name('cart.less');
 Route::post('/cart/add/{item}', [App\Http\Controllers\ShoppingCartController::class, 'add'])->name('cart.add');
 Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct'])->name('cart.insert');
 Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('cart.view');
 Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
+
+// Checkout absolute routes
+// Route::post("/checkout/change-step/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
