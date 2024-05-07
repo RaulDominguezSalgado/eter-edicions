@@ -81,6 +81,6 @@ class CheckoutController extends Controller
     }
 
     private function redirectCheckout($step="", $locale = "ca") {
-        return to_route("checkout.{$locale}", compact($step));
+        return to_route("checkout.{$locale}.action", $step);
     }
 }
