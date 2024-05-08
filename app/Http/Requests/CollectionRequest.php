@@ -23,7 +23,7 @@ class CollectionRequest extends FormRequest
     {
         return [
             'lang'=>'required|string|in:ca,es,ar-sy',
-            'name' => 'required',
+            'name' => 'required|regex:/^[a-zA-ZàáâãäåçèéêëìíîïðòóôõöùúûüýÿÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÐÒÓÔÕÖÙÚÛÜÝŸ]+$/|string',
             'description' => 'required'
         ];
     }

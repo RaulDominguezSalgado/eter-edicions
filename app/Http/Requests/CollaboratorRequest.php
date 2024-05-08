@@ -23,8 +23,8 @@ class CollaboratorRequest extends FormRequest
     {
         return [
 			'social_networks' => '',//TODO VALIDATION
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|regex:/^[^0-9\?\!\$\%\&]+$/|string',
+            'last_name' => 'required|regex:/^[^0-9\?\!\$\%\&]+$/|string',
             'biography' => 'required',
             'lang'=>'required',
         ];
