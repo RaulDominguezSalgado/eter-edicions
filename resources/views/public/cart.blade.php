@@ -204,11 +204,20 @@
                             <h5>{{ __('shopping-cart.total') }}: {{ Cart::instance('default')->total() }}€</h5>
                         </div>
                         <div>
-                            <a href="{{ route('cart.view_checkout') }}" class="">
+                            <a href="{{ route("checkout.{$locale}") }}">
                                 <button class="send-button">
                                     {{ __('shopping-cart.checkout') }}
                                 </button>
                             </a>
+                        </div>
+                        <div>
+                            <form action="{{route('paypal')}}" method="POST">
+                                @csrf
+                                <input type="text" name="total" value="{{Cart::instance('default')->total()}}" id="total" hidden>
+                                <button class="send-button">
+                                    {{ __('shopping-cart.paypal') }}
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

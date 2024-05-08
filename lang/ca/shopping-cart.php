@@ -22,6 +22,7 @@ return [
     'shopping-cart' => 'Carro',
     'keep-shopping' => 'Seguir comprant',
     'checkout' => 'Tramitar comanda',
+    'paypal' => 'Pagar amb Paypal',
     'proceed-to-payment' => 'Procedir al pagament',
 
     'add-to-cart' => 'Afegir a la cistella',
