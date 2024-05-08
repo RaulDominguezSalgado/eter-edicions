@@ -29,7 +29,7 @@ class CheckoutController extends Controller
             'date' => date('Y-m-d'),
             'total' => preg_replace('/[,.]+/', '.', $data['total']),
             'reference' => 'FA0003',
-            'dni' => $data['first_name'],
+            'dni' => $data['dni'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
