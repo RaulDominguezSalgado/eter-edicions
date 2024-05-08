@@ -212,7 +212,6 @@
                         </div>
                         <div>
                             <form action="{{route('paypal')}}" method="POST">
-                                
                                 @csrf
                                 <input type="text" name="total" value="{{Cart::instance('default')->total()}}" id="total" hidden>
                                 <button class="send-button">

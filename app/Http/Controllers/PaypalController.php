@@ -2,58 +2,81 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use CodersFree\Shoppingcart\Facades\Cart;
-
 use Illuminate\Http\Request;
+use App\Http\Requests\CheckoutRequest;
+use App\Models\OrderStatusHistory;
 
-class PaypalController extends Controller
+class PayPalController extends Controller
 {
 
     function payment(Request $request)
     {
-        $provider = new PayPalClient();
-        $provider->setApiCredentials(config('paypal'));
-        $paypalToken = $provider->getAccessToken();
-        $provider->setCurrency('EUR');
-        $response = $provider->createOrder([
-            "intent" => "CAPTURE",
-            "application_context" => [
-                "return_url" => route('paypal.success'),
-                "cancel_url" => route('paypal.cancel'),
-            ],
-            "purchase_units" => [
-                [
-                    "amount" => [
-                        "currency_code" => "EUR",
-                        "value" => $request->total,
+        // dd($request->total);
+        if ($request->payment_method == "paypal") {
+            $provider = new PayPalClient();
+            $provider->setApiCredentials(config('paypal'));
+            $paypalToken = $provider->getAccessToken();
+            $provider->setCurrency('EUR');
+            $response = $provider->createOrder([
+                "intent" => "CAPTURE",
+                "application_context" => [
+                    "return_url" => route('paypal.success', ['orderId' => $request->orderId]),
+                    "cancel_url" => route('paypal.cancel'),
+                ],
+                "purchase_units" => [
+                    [
+                        "amount" => [
+                            "currency_code" => "EUR",
+                            "value" => $request->total,
+                        ]
                     ]
                 ]
-            ]
-        ]);
-        // dd($response);
+            ]);
+            // dd($response);
 
-        if (isset($response['id']) && $response['id'] != null) {
-            foreach ($response['links'] as $link) {
-                if ($link['rel'] === 'approve') {
-                    return redirect()->away($link['href']);
+            if (isset($response['id']) && $response['id'] != null) {
+                // dd('isset');
+                foreach ($response['links'] as $link) {
+                    // dd('response link');
+                    if ($link['rel'] === 'approve') {
+                        // dd($link['href']);
+                        return (redirect()->away($link['href']));
+                    }
                 }
+            } else {
+                return redirect()->route('paypal.cancel');
             }
-        } else {
-            return redirect()->route('paypal.cancel');
+        }else{
+            $message="Payment method not implemented.\nPlease select another payment method";
+            return redirect()->back()->with('error', $message);
         }
     }
     function success(Request $request)
     {
+
         $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
         $provider->setCurrency('EUR');
         $response = $provider->capturePaymentOrder($request->token);
-        if(isset($response['status']) && $response['status']=="COMPLETED"){
+
+        if (isset($response['status']) && $response['status'] == "COMPLETED") {
+            $order = Order::where("reference",'LIKE', $request->orderId)->first();
+            $order->status_id = 2;
+            $order->save();
+
+            $orderStatusHistory = new OrderStatusHistory();
+            $orderStatusHistory->order_id = $order->id;
+            $orderStatusHistory->status_id = $order->status_id;
+            $orderStatusHistory->save();
+
             Cart::instance("default")->destroy();
+
             return redirect()->route('cart.view')->with('success', 'Compra realitzada correctament!!');
-        }else{
+        } else {
             return redirect()->route('paypal.cancel');
         }
         // dd($response);
@@ -61,6 +84,6 @@ class PaypalController extends Controller
 
     function cancel()
     {
-        return redirect()->route('cart.view')->with('error', 'Error en la compra');
+        return redirect()->route('checkout.payment_method')->with('error', 'Error en la compra');
     }
 }

@@ -7,7 +7,7 @@
         $item->options->publisher
         $item->options->image
         -->
-    @foreach (Cart::content() as $item)
+    @foreach (Cart::instance("default")->content() as $item)
         <li>
             <div class="flex mb-5">
                 <div class="w-1/3 flex items-center">

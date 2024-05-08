@@ -40,10 +40,9 @@ class CheckoutRequest extends FormRequest
             'products' => 'required',
             'quantities' => 'required',
             'total' => 'required',
-
+            'reference'=>'',
             // Order options
             'shipment_method' => 'required',
-            'payment_method' => 'required',
         ];
     }
 }

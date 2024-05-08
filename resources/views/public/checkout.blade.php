@@ -22,11 +22,12 @@
                 @endif
                 @csrf
                 <div style="display:none">
-                    @foreach (Cart::content() as $item)
+                    @foreach (Cart::instance("default")->content() as $item)
                         <input type="hidden" name="products[]" value="{{ $item->id }}">
                         <input type="hidden" name="quantities[]" value="{{ $item->qty }}">
+                        <input type="hidden" name="prices[]" value="{{ $item->priceTax() }}">
                     @endforeach
-                    <input type="hidden" name="total" value="{{ Cart::total() }}" id="total">
+                    <input type="hidden" name="total" value="{{ Cart::instance("default")->total() }}" id="total">
                 </div>
                 <div>
                     <h2>Dades Personals</h2>
@@ -102,7 +103,7 @@
                         </label>
                     </div>
                 </div>
-                <div id="payment">
+                {{-- <div id="payment">
                     <h2>Pagament</h2>
                     <div class="flex">
                         <ul>
@@ -123,7 +124,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="checkout-controls my-10">
                     <a href="{{ route('cart.view') }}" class="previous-button">{{__('form.return')}}</a>
                     <input type="submit" value="{{__('form.next')}}" name="next" class="next-button">
@@ -196,7 +197,7 @@
             cursor: pointer;
             padding: 10px;
         }
-        
+
         #payment > div > ul,
         #shipment > div > ul {
             list-style: none;
