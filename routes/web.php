@@ -169,3 +169,6 @@ Route::get('cart/paypal/cancel',[App\Http\Controllers\PayPalController::class, '
 // Route::post("/checkout/change-step/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
 Route::post("/checkout", [\App\Http\Controllers\CheckoutController::class, 'toPayment'])->name("checkout.toPayment");
 Route::get("/checkout/{orderId}", [\App\Http\Controllers\CheckoutController::class, 'showPaymentMethodView'])->name("checkout.payment_method");
+
+
+Route::get('/orders/{orderId}/pdf',[App\Http\Controllers\PayPalController::class, 'generateOrderPdf'])->name('orders.pdf');

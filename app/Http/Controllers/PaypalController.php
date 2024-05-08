@@ -8,6 +8,8 @@ use CodersFree\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use App\Models\OrderStatusHistory;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class PayPalController extends Controller
 {
@@ -49,8 +51,8 @@ class PayPalController extends Controller
             } else {
                 return redirect()->route('paypal.cancel');
             }
-        }else{
-            $message="Payment method not implemented.\nPlease select another payment method";
+        } else {
+            $message = "Payment method not implemented.\nPlease select another payment method";
             return redirect()->back()->with('error', $message);
         }
     }
@@ -64,7 +66,7 @@ class PayPalController extends Controller
         $response = $provider->capturePaymentOrder($request->token);
 
         if (isset($response['status']) && $response['status'] == "COMPLETED") {
-            $order = Order::where("reference",'LIKE', $request->orderId)->first();
+            $order = Order::where("reference", 'LIKE', $request->orderId)->first();
             $order->status_id = 2;
             $order->save();
 
@@ -72,10 +74,11 @@ class PayPalController extends Controller
             $orderStatusHistory->order_id = $order->id;
             $orderStatusHistory->status_id = $order->status_id;
             $orderStatusHistory->save();
-
+            //
+            $this->generateOrderPdf($order);
             Cart::instance("default")->destroy();
-
-            return redirect()->route('cart.view')->with('success', 'Compra realitzada correctament!!');
+            //dd( $order->details->first()->book->title);
+            return view('public.order_pdf', compact('order'));
         } else {
             return redirect()->route('paypal.cancel', ['orderId' => $request->orderId]);
         }
@@ -84,6 +87,37 @@ class PayPalController extends Controller
 
     function cancel(Request $request)
     {
-        return redirect()->route('checkout.payment_method',['orderId' => $request->orderId])->with('error', 'Error en la compra');
+        return redirect()->route('checkout.payment_method', ['orderId' => $request->orderId])->with('error', 'Error en la compra');
+    }
+
+    public function generateOrderPdf($order)
+    {
+        // Obtener la orden y sus detalles
+        // $order = Order::find($orderId);
+
+        // Crear una nueva instancia de Dompdf
+        $pdf = new Dompdf();
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $pdf->setOptions($options);
+
+        // HTML para el ticket de la orden
+        $html = view('public.order_pdf', compact('order'))->render();
+
+        // Cargar HTML en Dompdf
+        $pdf->loadHtml($html);
+
+        // Renderizar PDF
+        $pdf->render();
+
+
+        // Guardar el PDF en una ubicación específica
+        $pdfFilePath = public_path('files/orders/' . $order->reference . '.pdf');
+        file_put_contents($pdfFilePath, $pdf->output());
+
+        // Devolver la ruta del archivo guardado
+        return $pdfFilePath;
+        // Descargar el PDF
+        //return $pdf->stream('order.pdf');
     }
 }

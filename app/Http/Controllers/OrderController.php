@@ -266,7 +266,7 @@ class OrderController extends Controller
     public function saveOrderCheckout($validatedData){
         if (isset($validatedData['reference'])) {
             $newFileName = $validatedData['reference'] . ".pdf";
-            //request()->file('pdf')->move(public_path('files/orders'), $newFileName);
+            // request()->file('pdf')->move(public_path('files/orders'), $newFileName);
             $validatedData['pdf'] = $newFileName;
         }
 
@@ -322,8 +322,8 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-
         return view('admin.order.show', compact('order'));
+        //return view('public.order_pdf', compact('order'));
     }
 
     /**
