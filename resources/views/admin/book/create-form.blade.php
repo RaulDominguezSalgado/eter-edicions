@@ -77,7 +77,8 @@ function getLanguagesOptions($languages, $selected = null)
         <div>
             <label for="title">Títol llibre</label>
             <input type="text" name="title" id="title"
-                class="@error('title') border border-systemerror  @enderror">
+                class="@error('title') border border-systemerror  @enderror"
+                value="{{ old('title', $book['title']) }}">
             @error('title')
                 <small class="text-systemerror">{{ $message }}</small>
             @enderror
@@ -173,7 +174,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="isbn">ISBN</label>
                 <input type="text" name="isbn" id="isbn"
-                    class="max-h-min @error('isbn') is-invalid  @enderror"></input>
+                    class="max-h-min @error('isbn') is-invalid  @enderror"
+                    value="{{ old('isbn', $book['isbn']) }}"></input>
                 @error('isbn')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -181,7 +183,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="publisher">Edita</label>
                 <input type="text" name="publisher" id="publisher"
-                    class="max-h-min @error('publisher') is-invalid  @enderror" value="Èter Edicions"></input>
+                    class="max-h-min @error('publisher') is-invalid  @enderror" value="Èter Edicions" ></input>
                 @error('publisher')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -213,7 +215,9 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="number_of_pages">Número de pàgines</label>
                 <input class="max-h-fit @error('number_of_pages') is-invalid @enderror" type="number"
-                    name="number_of_pages" id="number_of_pages" value="1">
+                    name="number_of_pages" id="number_of_pages" placeholder="0"
+                    value="{{ old('number_of_pages', $book['number_of_pages']) }}"
+                    min="0">
                 @error('number_of_pages')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -221,6 +225,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="dimensions">Dimensions</label>
                 <input class="max-h-fit @error('size') is-invalid @enderror" type="text" name="dimensions"
+                    value="{{ old('size', $book['size']) }}"
                     id="dimensions">
                 @error('size')
                     <small class="text-systemerror">{{ $message }}</small>
@@ -239,7 +244,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="enviromental_footprint">Petjada ambiental</label>
                 <input class="max-h-fit @error('enviromental_footprint') is-invalid @enderror" type="text"
-                    name="enviromental_footprint" id="enviromental_footprint">
+                    name="enviromental_footprint" id="enviromental_footprint"
+                    value="{{ old('enviromental_footprint', $book['enviromental_footprint']) }}">
                 @error('enviromental_footprint')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -249,7 +255,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="legal_diposit">Dipòsit Legal</label>
                 <input type="text" name="legal_diposit" id="legal_diposit"
-                    class="@error('legal_diposit') is-invalid @enderror">
+                    class="@error('legal_diposit') is-invalid @enderror"
+                    value="{{ old('legal_diposit', $book['legal_diposit']) }}">
                 @error('legal_diposit')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -293,7 +300,8 @@ function getLanguagesOptions($languages, $selected = null)
         <div>
             <label for="original_title">Títol original</label>
             <input type="text" name="original_title" id="original_title"
-                class="@error('original_title') is-invalid @enderror">
+                class="@error('original_title') is-invalid @enderror"
+                value="{{ old('original_title', $book['original_title']) }}">
             @error('original_title')
                 <small class="text-systemerror">{{ $message }}</small>
             @enderror
@@ -302,7 +310,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="original_publisher">Editorial original</label>
                 <input type="text" name="original_publisher" id="original_publisher"
-                    class="@error('original_publisher') is-invalid @enderror">
+                    class="@error('original_publisher') is-invalid @enderror"
+                    value="{{ old('original_publisher', $book['original_publisher']) }}">
                 @error('original_publisher')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -311,7 +320,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="original_publication_date">Data de publicació original</label>
                 <input type="date" name="original_publication_date" id="original_publication_date"
-                    class="@error('original_publication_date') is-invalid @enderror">
+                    class="@error('original_publication_date') is-invalid @enderror"
+                    value="{{ old('original_publication_date', $book['original_publication_date']) }}">
                 @error('original_publication_date')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
