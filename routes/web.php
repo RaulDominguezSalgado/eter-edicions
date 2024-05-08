@@ -160,5 +160,10 @@ Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCa
 Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
 
+
+Route::post('cart/paypal',[App\Http\Controllers\PaypalController::class, 'payment'])->name('paypal');
+Route::get('cart/paypal/succes',[App\Http\Controllers\PaypalController::class, 'success'])->name('paypal.success');
+Route::get('cart/paypal/cancel',[App\Http\Controllers\PaypalController::class, 'cancel'])->name('paypal.cancel');
+
 // Checkout absolute routes
 Route::post("/checkout/change-step/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
