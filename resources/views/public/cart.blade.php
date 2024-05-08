@@ -244,7 +244,7 @@
                                                 {{-- @dump($item->options) --}}
                                                 <small>{{ $item->options->publisher }}</small><br>
                                                 <small class="">{{ $item->options->isbn }}</small><br>
-                                                <small class="font-semibold p12">{{ $item->priceTax() }}€</small>
+                                                <small class="font-semibold p12">{{ $item->options->pvp }}€</small>
                                             </div>
                                         </div>
                                     </td>
