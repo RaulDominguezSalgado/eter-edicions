@@ -36,9 +36,9 @@ class FortifyServiceProvider extends ServiceProvider
             return view('admin.auth.password.edit');
         });
 
-        // Fortify::verifyEmailView(function(){
-        //     return view('admin.auth.verify-email');
-        // });
+        Fortify::verifyEmailView(function(){
+            return view('admin.auth.verify-email');
+        });
     }
 
     /**

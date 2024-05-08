@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Settings\PasswordController;
+use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -124,14 +126,18 @@ Route::group(['middleware' => 'language.redirect'], function () {
 // Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
 
 /* Admin Backoffice */
-Route::middleware(['auth.redirectUnauthenticated'])->group(function (){
+Route::middleware(['auth.redirectUnauthenticated', 'verified'])->group(function (){
     //Dashboard route
     Route::prefix('admin')->group(function () {
         Route::get('/', function () {
             return view('components.layouts.admin.dashboard');
         })->name('admin_dashboard');
 
-    //Posts
+    //Profile settings route
+    Route::get('/settings/profile-information', ProfileController::class)->name('user-profile-information.edit');
+    Route::get('/settings/password', PasswordController::class)->name('user-password.edit');
+
+    //Posts route
     Route::resource('posts', App\Http\Controllers\PostController::class);
     // Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
 
@@ -151,7 +157,7 @@ Route::middleware(['auth.redirectUnauthenticated'])->group(function (){
         Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
         // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
     });
-    })->middleware(['auth']);
+    })->middleware(['auth', 'verified']);
 });
 
 //Route::get('{slug}');
