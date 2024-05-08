@@ -196,7 +196,7 @@
             cursor: pointer;
             padding: 10px;
         }
-
+        
         #payment > div > ul,
         #shipment > div > ul {
             list-style: none;
