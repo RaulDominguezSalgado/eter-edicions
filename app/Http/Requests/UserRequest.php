@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
                 'first_name' => 'required|regex:/^[a-zA-Z]+$/|string', //permite caracteres alfabéticos entre mayúsculas y minúsculas
                 'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
                 'email' => 'required|email|unique:users,email', // El campo "email" es obligatorio y debe ser único en la tabla "users"
-                'password' => 'required|regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/',
+                'password' => 'nullable|regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/',
                 // (?=.*[A-Z]) indica que debe haber al menos una letra mayúscula
                 // (?=.*[^\w]) indica que debe haber al menos un carácter especial (no alfanumérico)
                 // {8,} indica que el campo debe tener al menos 8 caracteres
@@ -39,7 +39,7 @@ class UserRequest extends FormRequest
                 'first_name' => 'required|regex:/^[a-zA-Z]+$/|string',
                 'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
                 'email' => 'required|email',
-                'password' => 'required|regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/',
+                'password' => 'nullable|regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/',
                 'phone' => 'required|digits:9',
                 'role_id' => 'required',
             ];
