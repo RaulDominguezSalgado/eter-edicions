@@ -1,45 +1,60 @@
 <?php
     $locale = "ca";
+    $order = old() ?? [];
 ?>
 <x-layouts.app>
-    <h1 class="pb-20 text-center">Checkout</h1>   
-    <div class="flex">
-        <div id="checkout-main-content" class="flex-col w-2/3 pr-5">
-            <form action="{{ route('checkout.toPayment') }}" method="POST">
-            @if ($errors->any())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                        <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
-                            <title>Close</title>
-                            <path
-                                d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                        </svg>
-                    </span>
-                </div>
-            @endif
+    <h1 class="pb-20 text-center">Checkout</h1>
+    <form action="{{ route('checkout.toPayment') }}" method="POST">
+        <div class="flex">
+            <div id="checkout-main-content" class="flex-col w-2/3 pr-5">
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong>Hi ha hagut algún error al formulari, reivsa tots els camps destacats.</strong>
+                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                                <title>Close</title>
+                                <path
+                                    d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                            </svg>
+                        </span>
+                    </div>
+                @endif
                 @csrf
+                <div style="display:none">
+                    @foreach (Cart::content() as $item)
+                        <input type="hidden" name="products[]" value="{{ $item->id }}">
+                        <input type="hidden" name="quantities[]" value="{{ $item->qty }}">
+                    @endforeach
+                </div>
                 <div>
                     <h2>Dades Personals</h2>
                     <div class="flex">
                         <label class="flex-col w-1/2 my-3" for="first_name">Nom
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="first_name" id="first_name">
+                            <input type="text" value="{{ $order['first_name'] ?? '' }}" class="@error('first_name') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="first_name" id="first_name">
+                            @error('first_name')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                         <label class="flex-col w-1/2 my-3" for="last_name">Cognoms
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="last_name" id="last_name">
+                            <input type="text" value="{{ $order['last_name'] ?? '' }}" class="@error('last_name') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="last_name" id="last_name">
+                            @error('last_name')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                     </div>
                     <div class="flex">
                         <label class="flex-col w-1/2 my-3" for="email">Correu electrónic
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="email">
+                            <input type="text" value="{{ $order['email'] ?? '' }}" class="@error('email') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="email">
+                            @error('email')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                         <label class="flex-col w-1/2 my-3" for="telephone">Teléfon
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="telephone" id="telephone">
+                            <input type="text" value="{{ $order['telephone'] ?? '' }}" class="@error('telephone') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="telephone" id="telephone">
+                            @error('telephone')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                     </div>
                 </div>
@@ -47,21 +62,36 @@
                     <h2>Direccións</h2>
                     <div class="flex">
                         <label class="flex-col w-1/3 my-3" for="address">Direcció
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="address" id="address">
+                            <input type="text" value="{{ $order['address'] ?? '' }}" class="@error('address') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="address" id="address">
+                            @error('address')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                         <label class="flex-col w-1/3 my-3" for="zip_code">Codi postal
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="zip_code" id="zip_code">
+                            <input type="text" value="{{ $order['zip_code'] ?? '' }}" class="@error('zip_code') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="zip_code" id="zip_code">
+                            @error('zip_code')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                         <label class="flex-col w-1/3 my-3" for="population">Població
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="population" id="population">
+                            <input type="text" value="{{ $order['population'] ?? '' }}" class="@error('population') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="population" id="population">
+                            @error('population')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                     </div>
                     <div class="flex">
                         <label class="flex-col w-1/2 my-3" for="province">Provincia
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="province" id="province">
+                            <input type="text" value="{{ $order['province'] ?? '' }}" class="@error('province') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="province" id="province">
+                            @error('province')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                         <label class="flex-col w-1/2 my-3" for="country">País
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="country" id="country">
+                            <input type="text" value="{{ $order['country'] ?? '' }}" class="@error('country') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="country" id="country">
+                            @error('country')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                         </label>
                     </div>
                 </div>
@@ -69,16 +99,19 @@
                     <h2>Pagament</h2>
                     <div class="flex">
                         <ul>
+                            @error('payment_method')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
                             <li>
-                                <input value="paypal" type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="paypal">
+                                <input value="paypal" @if (isset($order['payment_method']) && $order['payment_method'] == "paypal") checked @endif type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="paypal" value="paypal">
                                 <label for="paypal">PayPal</label>
                             </li>
                             <li>
-                            <input value="wire" type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="wire">
+                            <input value="wire" @if (isset($order['payment_method']) && $order['payment_method'] == "wire") checked @endif type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="wire" value="wire">
                                 <label for="wire">Transferéncia bancaria</label>
                             </li>
                             <li>
-                                <input value="redsys" type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="redsys">
+                                <input value="redsys" @if (isset($order['payment_method']) && $order['payment_method'] == "redsys") checked @endif type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="redsys" value="redsys">
                                 <label for="redsys">RedSys</label>
                             </li>
                         </ul>
@@ -88,53 +121,68 @@
                     <a href="{{ route('cart.view') }}" class="previous-button">{{__('form.return')}}</a>
                     <input type="submit" value="{{__('form.next')}}" name="next" class="next-button">
                 </div>
-            </form>
+            </div>
+            <aside id="checkout-aside" class="flex-col w-1/3 pl-5">
+                <div>
+                    <h2>Articles</h2>
+                    <x-partials.cartContent></x-partials.cartContent>
+                </div>
+                <div id="shipment">
+                    <h2>Mètodes d'enviament</h2>
+                    <div class="flex">
+                        <ul>
+                            @error('shipment_method')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                            <li>
+                                <input type="radio" name="shipment_method" id="seur" value="seur" @if (isset($order['shipment_method']) && $order['shipment_method'] == "seur") checked @endif class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <label for="seur">SEUR</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="shipment_method" id="ups" value="ups" @if (isset($order['shipment_method']) && $order['shipment_method'] == "ups") checked @endif class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <label for="ups">UPS</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div id="price_table" class="py-5">
+                        <x-partials.cartInfo></x-partials.cartInfo>
+                    </div>
+                </div>
+            </aside>
         </div>
-        <aside id="checkout-aside" class="flex-col w-1/3 pl-5">
-            <div>
-                <h2>Articles</h2>
-                <x-partials.cartContent></x-partials.cartContent>
-            </div>
-            <div>
-                <h2>Mètodes d'enviament</h2>
-                <div class="flex">
-                    <label class="flex-col w-1/2 my-3" for="shipment_method">Métode d'enviament
-                        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="shipment_method" id="shipment_method">
-                    </label>
-                </div>
-            </div>
-            <div>
-                <div id="price_table" class="py-5">
-                    <x-partials.cartInfo></x-partials.cartInfo>
-                </div>
-            </div>
-        </aside>
-    </div>
+    </form>
     <style>
         label {
             user-select: none;
         }
-        form > div {
+        #checkout-main-content > div {
             margin-bottom: 60px;
         }
-        form > div > div > label {
+        #checkout-main-content > div > div > label {
             margin: 20px !important;
         }
-        form > div > div > label:first-of-type {
+        #checkout-main-content > div > div > label:first-of-type {
             margin-left: 0 !important;
         }
-        form > div > div > label:last-of-type {
+        #checkout-main-content > div > div > label:last-of-type {
             margin-right: 0 !important;
         }
-        #payment input {
+
+        #payment input,
+        #shipment input {
             display: none;
         }
         #payment input:checked + label,
-        #payment label:hover {
+        #payment label:hover,
+        #shipment input:checked + label,
+        #shipment label:hover {
             background-color: #ccc;
             transition: .3s;
         }
-        #payment label {
+        #payment label,
+        #shipment label {
             display: block;
             width: 100%;
             transition: .3s;
@@ -142,11 +190,13 @@
             padding: 10px;
         }
         
-        #payment > div > ul {
+        #payment > div > ul,
+        #shipment > div > ul {
             list-style: none;
             width: 100%;
         }
-        #payment > div > ul > li {
+        #payment > div > ul > li,
+        #shipment > div > ul > li {
             padding: 10px;
         }
 
