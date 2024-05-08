@@ -28,10 +28,11 @@ return new class extends Migration
             $table->string('country');
             $table->string('payment_method');
             $table->unsignedBigInteger('status_id');
-            $table->string('pdf')->unique();
-            $table->string('tracking_id')->unique();
+            $table->string('pdf')->unique()->nullable();
+            $table->string('tracking_id')->unique()->nullable();
 
             $table->timestamps();
+
 
 
             $table->foreign('status_id')->references('id')->on('order_statuses')->onDelete('restrict')->onUpdate('cascade');
