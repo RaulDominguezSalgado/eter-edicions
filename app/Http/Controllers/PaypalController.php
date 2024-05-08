@@ -24,7 +24,7 @@ class PayPalController extends Controller
                 "intent" => "CAPTURE",
                 "application_context" => [
                     "return_url" => route('paypal.success', ['orderId' => $request->orderId]),
-                    "cancel_url" => route('paypal.cancel'),
+                    "cancel_url" => route('paypal.cancel', ['orderId' => $request->orderId]),
                 ],
                 "purchase_units" => [
                     [
@@ -77,13 +77,13 @@ class PayPalController extends Controller
 
             return redirect()->route('cart.view')->with('success', 'Compra realitzada correctament!!');
         } else {
-            return redirect()->route('paypal.cancel');
+            return redirect()->route('paypal.cancel', ['orderId' => $request->orderId]);
         }
         // dd($response);
     }
 
-    function cancel()
+    function cancel(Request $request)
     {
-        return redirect()->route('checkout.payment_method')->with('error', 'Error en la compra');
+        return redirect()->route('checkout.payment_method',['orderId' => $request->orderId])->with('error', 'Error en la compra');
     }
 }
