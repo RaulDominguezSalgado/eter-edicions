@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
+use Illuminate\Http\Request;
+use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
+use Illuminate\Support\Facades\Password;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordResetWelcomeEmail;
+
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
@@ -30,7 +37,7 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
-            'phone' => [],
+            'phone' => ['nullable', 'max:20'],
             'role_id' => ['required', 'integer'],
         ])->validate());
 
@@ -42,5 +49,49 @@ class CreateNewUser implements CreatesNewUsers
             'phone' => $input['phone'],
             'role_id' => $input['role_id'],
         ]);
+    }
+
+    /**
+     * Validate and create a newly added user (added by admin).
+     *
+     * @param  array<string, string>  $input
+     */
+    public function add(array $input): User
+    {
+        // dd($input);
+        (Validator::make($input, [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique(User::class),
+            ],
+            // 'password' => $this->passwordRules(),
+            'phone' => ['nullable', 'max:20'],
+            'role_id' => ['required', 'integer'],
+        ])->validate());
+
+        $user = User::create([
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'email' => $input['email'],
+            'password' => Hash::make(rand()),
+            'phone' => $input['phone'],
+            'role_id' => $input['role_id'],
+        ]);
+
+        // Create a request instance with email data
+        $request = new Request(['email' => $input['email']]);
+
+        // Instantiate PasswordResetLinkController
+        $passwordResetLinkController = new PasswordResetLinkController();
+
+        // Call store method on PasswordResetLinkController
+        $passwordResetLinkController->store($request);
+
+        return $user;
     }
 }

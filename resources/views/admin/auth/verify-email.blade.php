@@ -1,4 +1,4 @@
-<x-layouts.auth.app>
+<x-layouts.admin.app>
 
     <x-slot name="title">
         Verificació de correu || Èter Edicions
@@ -20,7 +20,7 @@
                         </div>
                         <form action="{{ route('verification.send') }}" method="POST">
                             @csrf
-                            <button class="border border-dark p-2">Tornar a enviar correu de verificació</button>
+                            <button class="border border-dark p-2">Enviar correu de verificació</button>
                         </form>
                     </div>
                 </div>
@@ -28,4 +28,4 @@
         </div>
     </main>
 
-</x-layouts.auth.app>
+</x-layouts.admin.app>

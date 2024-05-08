@@ -126,7 +126,7 @@ Route::group(['middleware' => 'language.redirect'], function () {
 // Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
 
 /* Admin Backoffice */
-Route::middleware(['auth.redirectUnauthenticated', 'verified'])->group(function (){
+Route::middleware(['auth.authenticated', 'verified'])->group(function (){
     //Dashboard route
     Route::prefix('admin')->group(function () {
         Route::get('/', function () {
@@ -142,7 +142,7 @@ Route::middleware(['auth.redirectUnauthenticated', 'verified'])->group(function 
     // Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
 
     //Admin routes
-    Route::middleware(['auth.redirectPermissionAdmin'])->group(function(){
+    Route::middleware(['auth.admin'])->group(function(){
         Route::resource('books', App\Http\Controllers\BookController::class);
         Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
         Route::resource('collections', App\Http\Controllers\CollectionController::class);

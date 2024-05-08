@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
                 'first_name' => 'required|string',
                 'last_name' => 'required|string',
                 'email' => 'required|unique:users,email',// El campo "email" es obligatorio y debe ser único en la tabla "users"
-                'password' => 'required',
+                'password' => 'nullable',
                 'phone' => 'required|digits:9',//digits:9 onliga que sea numero y logitud 9
                 'role_id' => 'required',
             ];
@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
                 'first_name' => 'required|string',
                 'last_name' => 'required|string',
                 'email' => 'required',
-                'password' => 'required',
+                'password' => 'nullable',
                 'phone' => 'required|digits:9',
                 'role_id' => 'required',
             ];
