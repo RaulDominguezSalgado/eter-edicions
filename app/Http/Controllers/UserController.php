@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use App\Models\Role;
+use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Validation\Rules\Password;
 
 /**
  * Class UserController
@@ -49,29 +51,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request)
+    public function store(UserRequest $request, CreateNewUser $createNewUser)
     {
         try {
-            // Validar los datos de la solicitud
-            $validatedData = $request->validated();
-
-            // Crear una nueva traducción de usuario con los datos validados
-            $translationData = [
-                //'user_id' => $user->id,
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'email' => $validatedData['email'],
-                'password' => $validatedData['password'],
-                'phone' => $validatedData['phone'],
-                'role_id' => $validatedData['role_id'],
-            ];
-            User::create($translationData);
+            // Create user using Fortify's CreateNewUser action
+            // this way, Fortify will automatically send the verification email to the new user
+            $user = $createNewUser->add($request->all());
 
             return redirect()->route('users.index')
                 ->with('success', 'User created successfully.');
-
         } catch (QueryException $e) {
-            // Manejar otras excepciones de la base de datos si es necesario
+            abort(500, $e->getMessage()); // Manejar otras excepciones de la base de datos si es necesario
         }
     }
 
@@ -93,7 +83,7 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::all();
 
-        return view('admin.user.edit', compact('user','roles'));
+        return view('admin.user.edit', compact('user', 'roles'));
     }
 
     /**

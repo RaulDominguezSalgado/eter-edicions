@@ -1,12 +1,12 @@
-{{-- <x-layouts.app> --}}
+<x-layouts.auth.app>
 
-    {{-- <x-slot name="title">
-        {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
-    </x-slot> --}}
+    <x-slot name="title">
+        Login || Èter Edicions
+    </x-slot>
 
-    <form action="{{ route('login')}}" method="POST">
+    <form action="{{ route('login')}}" method="POST" class="space-y-4">
         @csrf
-        <div id="emailInputDiv">
+        <div id="emailInputDiv" class="flex flex-col space-y-0.5">
             <label for="email">Email</label>
             <input type="email" class="form-control" @error('email') is-invalid @enderror name="email" value="{{old('email')}}">
             @error('email')
@@ -14,7 +14,7 @@
             @enderror
         </div>
 
-        <div id="passwordInputDiv">
+        <div id="passwordInputDiv" class="flex flex-col space-y-0.5">
             <label for="password">Contrasenya</label>
             <input type="password" class="form-control" @error('password') is-invalid @enderror name="password" value="{{old('password')}}">
             @error('password')
@@ -28,22 +28,19 @@
                 <label class="form-check-label" for="remember">Recorda'm</label>
             </div>
             <div>
-                <a href="{{ route('password.request') }}" class="text-muted font-weight-bold">He oblidat la meva contrasenya</a>
+                <a href="{{ route('password.request') }}" class="underline">He oblidat la meva contrasenya</a>
             </div>
         </div>
 
         <div>
-            <div>
-                <button type="submit" class="btn btn-block btn-primary">Accedir</button>
+            <div class="flex justify-center">
+                <button type="submit" class="border border-dark p-2">Accedir</button>
             </div>
             {{-- <small class="py-2 text-muted">
                 ¿No tienes cuenta?
                 <a href="{{ route('register') }}" class="text-muted font-weight-bold">Regístrate</a>
             </small> --}}
         </div>
-
-
-        <button type="submit">Entrar</button>
     </form>
 
-{{-- </x-layouts.app> --}}
+</x-layouts.auth.app>

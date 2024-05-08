@@ -5,8 +5,7 @@ $locale = 'ca';
 <nav id="admin-nav"
     class="md:h-screen
                             flex flex-col
-                            items-center
-                            justify-evenly
+                            space-y-10
                             bg-lightgrey
                             sticky
                             z-[100]">
@@ -22,16 +21,16 @@ $locale = 'ca';
             </button>
         </div>
         <a href="{{ route("home.{$locale}") }}"
-            class="py-2.5 px-5 hover:bg-light focus:bg-light text-dark no-underline logo"><img
+            class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light text-dark no-underline logo"><img
                 src="/img/logo/lg/logo_eter_black.webp">
         </a>
     </div>
 
+    @if(Auth::user()->role_id == 1)
     <ul id="sidebar" class="hidden md:flex flex-col duration-100">
         {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
         <li class="">
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('orders.index') }}"
-                @if (Route::currentRouteName() == 'orders.index') class="active" @endif>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'orders.index') bg-light @endif" href="{{ route('orders.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/order.webp">
                     <div class="text-base">Comandes</div>
@@ -39,8 +38,7 @@ $locale = 'ca';
             </a>
         </li>
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('books.index') }}"
-                @if (Route::currentRouteName() == 'books.index') class="active" @endif>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'books.index') bg-light @endif" href="{{ route('books.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/catalog.webp">
                     <div class="text-base">Catàleg</div>
@@ -48,8 +46,7 @@ $locale = 'ca';
             </a>
         </li>
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('collections.index') }}"
-                @if (Route::currentRouteName() == 'collections.index') class="active" @endif>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'collections.index') bg-light @endif" href="{{ route('collections.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/collections.webp">
                     <div class="text-base">Col·leccions</div>
@@ -57,8 +54,7 @@ $locale = 'ca';
             </a>
         </li>
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('collaborators.index') }}"
-                @if (Route::currentRouteName() == 'collaborators.index') class="active" @endif>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'collaborators.index') bg-light @endif" href="{{ route('collaborators.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/collaborators.webp">
                     <div class="text-base">Col·laboradors</div>
@@ -66,15 +62,16 @@ $locale = 'ca';
             </a>
         </li>
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('bookstores.index') }}">
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'bookstores.index') bg-light @endif" href="{{ route('bookstores.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/bookstores.webp">
                     <div class="text-base">Llibreries</div>
                 </div>
             </a>
         </li>
+
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('posts.index') }}">
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'posts.index') bg-light @endif" href="{{ route('posts.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/posts.webp">
                     <div class="text-base">Publicacions</div>
@@ -82,7 +79,7 @@ $locale = 'ca';
             </a>
         </li>
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="">
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'pages.index') bg-light @endif" href="">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/pages.webp">
                     <div class="text-base">Pàgines</div>
@@ -90,7 +87,7 @@ $locale = 'ca';
             </a>
         </li>
         <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light" href="{{ route('users.index') }}">
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'users.index') bg-light @endif" href="{{ route('users.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/users.webp">
                     <div class="text-base">Usuaris</div>
@@ -98,4 +95,25 @@ $locale = 'ca';
             </a>
         </li>
     </ul>
+    @else
+    <ul id="sidebar" class="hidden md:flex flex-col duration-100">
+        {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
+        <li>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'posts.index') bg-light @endif" href="{{ route('posts.index') }}">
+                <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
+                    <img class="w-10 h-10" src="/img/icons/posts.webp">
+                    <div class="text-base">Publicacions</div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'pages.index') bg-light @endif" href="">
+                <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
+                    <img class="w-10 h-10" src="/img/icons/pages.webp">
+                    <div class="text-base">Pàgines</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+    @endif
 </nav>
