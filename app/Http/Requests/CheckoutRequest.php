@@ -22,20 +22,24 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Order data
+            // User data
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|email',
-            'telephone' => 'required|numeric',
+            'phone_number' => 'required|numeric',
+            'dni' => 'required|string',
+
+            // Adress data
             'address' => 'required|string',
             'zip_code' => 'required|numeric',
-            'population' => 'required|string',
+            'city' => 'required|string',
             'province' => 'required|string',
             'country' => 'required|string',
 
             // Products data
             'products' => 'required',
             'quantities' => 'required',
+            'total' => 'required',
 
             // Order options
             'shipment_method' => 'required',

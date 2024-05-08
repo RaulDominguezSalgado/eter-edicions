@@ -26,6 +26,7 @@
                         <input type="hidden" name="products[]" value="{{ $item->id }}">
                         <input type="hidden" name="quantities[]" value="{{ $item->qty }}">
                     @endforeach
+                    <input type="hidden" name="total" value="{{ Cart::total() }}" id="total">
                 </div>
                 <div>
                     <h2>Dades Personals</h2>
@@ -44,15 +45,21 @@
                         </label>
                     </div>
                     <div class="flex">
-                        <label class="flex-col w-1/2 my-3" for="email">Correu electrónic
-                            <input type="text" value="{{ $order['email'] ?? '' }}" class="@error('email') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="email">
+                        <label class="flex-col w-1/3 my-3" for="dni">NIF (DNI, NIE, pasaport)
+                            <input type="text" value="{{ $order['dni'] ?? '' }}" class="@error('dni') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="dni" id="dni">
+                            @error('dni')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                        </label>
+                        <label class="flex-col w-1/3 my-3" for="email">Correu electrónic
+                            <input type="email" value="{{ $order['email'] ?? '' }}" class="@error('email') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="email">
                             @error('email')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
-                        <label class="flex-col w-1/2 my-3" for="telephone">Teléfon
-                            <input type="text" value="{{ $order['telephone'] ?? '' }}" class="@error('telephone') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="telephone" id="telephone">
-                            @error('telephone')
+                        <label class="flex-col w-1/3 my-3" for="phone_number">Teléfon
+                            <input type="tel" value="{{ $order['phone_number'] ?? '' }}" class="@error('phone_number') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="phone_number" id="phone_number">
+                            @error('phone_number')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
@@ -73,9 +80,9 @@
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
-                        <label class="flex-col w-1/3 my-3" for="population">Població
-                            <input type="text" value="{{ $order['population'] ?? '' }}" class="@error('population') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="population" id="population">
-                            @error('population')
+                        <label class="flex-col w-1/3 my-3" for="city">Població
+                            <input type="text" value="{{ $order['city'] ?? '' }}" class="@error('city') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="city" id="city">
+                            @error('city')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>

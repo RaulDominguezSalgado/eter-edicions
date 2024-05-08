@@ -27,9 +27,9 @@ class CheckoutController extends Controller
         // dd($data);
         $order = Order::create([
             'date' => date('Y-m-d'),
-            'total' => '',
-            'reference' => '',
-            'dni' => '',
+            'total' => preg_replace('/[,.]+/', '.', $data['total']),
+            'reference' => 'FA0003',
+            'dni' => $data['first_name'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
@@ -39,9 +39,17 @@ class CheckoutController extends Controller
             "city" => $data['city'],
             "country" => $data['country'],
             'payment_method' => $data['payment_method'],
-            'status_id' => '',
-            'pdf' => '',
-            'tracking_id' => '',
+            'status_id' => 1,
         ]);
+
+        // Delegar al controlador de pago
+        $pagoCompletado = true;
+
+        if ($pagoCompletado) {
+            return view("public.purchaseCompleted");
+        }
+        else {
+            return back();
+        }
     }
 }

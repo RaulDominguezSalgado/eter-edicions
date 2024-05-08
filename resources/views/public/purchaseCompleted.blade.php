@@ -7,6 +7,8 @@
         <div class="w-2/3 float-left pr-3">
             <div>
                 <h2>Comanda enregistrada correctament</h2>
+                <x-partials.cartContent></x-partials.cartContent>
+                {{ Cart::destroy() }}
             </div>
         </div>
         <div class="w-1/3 float-right pl-3">
