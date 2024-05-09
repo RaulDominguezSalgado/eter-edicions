@@ -78,14 +78,14 @@ $locale = 'ca';
                 </div>
             </a>
         </li>
-        <li>
+        {{-- <li>
             <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'pages.index') bg-light @endif" href="">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/pages.webp">
                     <div class="text-base">Pàgines</div>
                 </div>
             </a>
-        </li>
+        </li> --}}
         <li>
             <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'users.index') bg-light @endif" href="{{ route('users.index') }}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
@@ -94,6 +94,14 @@ $locale = 'ca';
                 </div>
             </a>
         </li>
+        {{-- <li>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'settings.index') bg-light @endif" href="">
+                <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
+                    <img class="w-10 h-10" src="/img/icons/settings.webp">
+                    <div class=" text-base">Configuració</div>
+                </div>
+            </a>
+        </li> --}}
     </ul>
     @else
     <ul id="sidebar" class="hidden md:flex flex-col duration-100">
