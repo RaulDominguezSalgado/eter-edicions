@@ -79,8 +79,8 @@ $order = old() ?? [];
                         </ul>
                     </div>
                 </div>
-                <input type="text" name="total" value="{{ Cart::instance('default')->total() }}" id="total"
-                    hidden>
+                {{-- <input type="text" name="total" value="{{ Cart::instance('default')->total() + $order->shipment_taxes }}" id="total"
+                    hidden> --}}
                 <input type="text" name="orderId" value="{{$orderId }}" id="total"
                     hidden>
                 <button class="send-button">

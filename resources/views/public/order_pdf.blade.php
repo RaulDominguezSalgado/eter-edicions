@@ -1,10 +1,10 @@
 <?php
-    $paymentMethod= $order->payment_method;
-    if($paymentMethod=="wire"){
-        $paymentMethod= "Transferencia bancaria";
-    }else if($paymentMethod=="paypal"){
-        $paymentMethod= "PayPal";
-    }
+$paymentMethod = $order->payment_method;
+if ($paymentMethod == 'wire') {
+    $paymentMethod = 'Transferencia bancaria';
+} elseif ($paymentMethod == 'paypal') {
+    $paymentMethod = 'PayPal';
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,7 +30,7 @@
         .ticket h2 {
             margin-top: 0;
             font-size: 1.2em;
-            border-bottom: 1px solid #ccc;
+            /* border-bottom: 1px solid #ccc; */
             padding-bottom: 10px;
         }
 
@@ -74,26 +74,30 @@
 
 <body>
 
-    <div class="ticket">
-        <h2>Ticket</h2>
+    <div class="ticket space-y-2">
+        <div class="flex justify-between items-baseline pb-1 border-b border-b-lightgrey">
+            <h2>{{ __('checkout.ticket') }}</h2>
+            <img src="{{asset('img/logo/lg/logo_eter_black.webp')}}" alt="Èter Edicions" style="width: 3em">
+        </div>
 
         <div class="order-details">
-            <p>Nom: {{ $order->first_name. " ".$order->last_name }}</p>
-            <p>Adreça d'entrega: {{ $order->address.", ". $order->zip_code.", ".$order->city."."}}</p>
-            <p>Data: {{ $order->date }}</p>
-            <p>Nº referència: {{ $order->reference }}</p>
-            <p>Mètode de pagament: {{ $paymentMethod }}</p>
-            <p>Total: {{ $order->total }}€</p>
+            <p>{{ __('form.name') }}: {{ $order->first_name . ' ' . $order->last_name }}</p>
+            <p>{{ __('form.shipping_address') }}: {{ $order->address . ', ' . $order->zip_code . ', ' . $order->city . '.' }}</p>
+            <p>{{ __('form.date') }}: {{ $order->date }}</p>
+            <p>{{ __('form.reference-number') }}: {{ $order->reference }}</p>
+            <p>{{ __('form.payment-method') }}: {{ $paymentMethod }}</p>
+            <p>{{ __('form.shipping-cost') }}: {{ $order->shipment_taxes }}€</p>
+            <p>{{ __('shopping-cart.total') }}: {{ $order->total }}€</p>
             <!-- Other order details -->
         </div>
 
         <table class="order-items">
             <thead>
                 <tr>
-                    <th>Llibre</th>
-                    <th>Quantitat</th>
-                    <th>Preu unitari</th>
-                    <th>Total</th>
+                    <th>{{ __('shopping-cart.product') }}</th>
+                    <th>{{ __('shopping-cart.quantity') }}</th>
+                    <th>{{ __('shopping-cart.price') }}</th>
+                    <th>{{ __('shopping-cart.total') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -111,7 +115,7 @@
     </div>
 
     <footer>
-        Gràcies por la teva compra.
+        {{ __('checkout.thanks-for-your-purchase') }}
     </footer>
 
 </body>

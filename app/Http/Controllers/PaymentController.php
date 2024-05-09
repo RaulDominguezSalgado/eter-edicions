@@ -16,6 +16,7 @@ class PaymentController extends Controller
 
     function payment(Request $request)
     {
+        $order = Order::where("reference", 'LIKE', $request->orderId)->first();
         switch ($request->payment_method) {
             case "paypal":
                 $provider = new PayPalClient();
@@ -32,7 +33,7 @@ class PaymentController extends Controller
                         [
                             "amount" => [
                                 "currency_code" => "EUR",
-                                "value" => $request->total,
+                                "value" => $order->total,
                             ]
                         ]
                     ]

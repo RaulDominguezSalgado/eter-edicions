@@ -19,6 +19,7 @@ class Order extends Model
     protected $fillable = [
         'date',
         'total',
+        'shipment_taxes',
         'reference',
         'dni',
         'first_name',

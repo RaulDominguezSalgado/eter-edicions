@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('reference')->unique();
             $table->date('date');
             $table->decimal('total', 8, 2);
+            $table->decimal('shipment_taxes', 8, 2)->nullable();
             $table->string('dni');
             $table->string('first_name');
             $table->string('last_name');

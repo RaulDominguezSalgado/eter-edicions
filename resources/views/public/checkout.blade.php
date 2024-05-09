@@ -1,5 +1,6 @@
 <?php
-    $locale = "ca";
+    // $locale = "ca";
+    // $shipment_taxes=4.99;
     $order = old() ?? [];
 ?>
 <x-layouts.app>
@@ -27,7 +28,9 @@
                         <input type="hidden" name="quantities[]" value="{{ $item->qty }}">
                         <input type="hidden" name="prices[]" value="{{ $item->priceTax() }}">
                     @endforeach
-                    <input type="hidden" name="total" value="{{ Cart::instance("default")->total() }}" id="total">
+
+                    <input type="hidden" name="shipment_taxes" value="{{ $shipment_taxes }}" id="shipment_taxes">
+                    <input type="hidden" name="total" value="{{ Cart::instance("default")->total() + $shipment_taxes }}" id="total">
                 </div>
                 <div>
                     <h2>Dades Personals</h2>
