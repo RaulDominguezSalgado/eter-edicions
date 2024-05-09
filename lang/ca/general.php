@@ -65,6 +65,7 @@ return [
     'where' => 'On',
     'when' => 'Quan',
 
+    'checkout' => 'Caixa',
 
     'read-more' => 'Saber-ne més',
 

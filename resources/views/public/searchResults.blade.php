@@ -14,7 +14,7 @@ $locale = 'ca';
             {{ ucfirst(__('phrases.faci una cerca')) }}
         @endif
     </h1>
-    <div class="flex justify-center mb-20">
+    <div class="flex justify-center mb-10">
         <x-partials.searchBar :term="$results['term'] ?? ''"></x-partials.searchBar>
     </div>
     @if (isset($results) && ($results['books'] != [] || $results['collaborators'] != [] || $results['activities'] != [] || $results['articles'] != []))
@@ -24,7 +24,7 @@ $locale = 'ca';
                 id="catalog">
                 @foreach ($results['books'] as $i => $book)
                     @if ($book['visible'])
-                        <div class="book w-auto flex flex-col items-center mb-6">
+                        <div class="book w-auto max-w-[40em] flex flex-col items-center mb-6">
                             <div class="cover mb-4">
                                 <a href="{{ route("book-detail.{$locale}", $book['id']) }}">
                                     <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
@@ -67,7 +67,10 @@ $locale = 'ca';
                                                 {{ $translator }}
                                             @endif
                                         @endforeach
+                                        </div>
+                                    </div>
                                 @endif
+                            </div>
                             {{-- @if ($book['filter']['key'] == 'description' && $book['filter']['value'])
                                 <p class="book-description"><small>{{ $book['filter']['value'][0]}}<span class="bg-secondary">{{$book['filter']['value'][1]}}</span>{{$book['filter']['value'][2] }}</small></p>
                             @else --}}
@@ -102,7 +105,7 @@ $locale = 'ca';
 
         @if ($results['activities'] != [])
         <h2 class="text-center mb-8">{{__('general.activities')}}</h2>
-        <div class="results-container w-full flex flex-wrap justify-center space-x-10 h-auto px-16 mb-40"
+        <div class="results-container w-full flex flex-wrap justify-center space-x-10 space-y-10 h-auto px-16 mb-40"
             id="catalog">
             @foreach ($results['activities'] as $i => $post)
                 <div class="post space-y-2">
@@ -143,7 +146,7 @@ $locale = 'ca';
         @endif
         @if ($results['articles'] != [])
         <h2 class="text-center mb-8">{{__('general.posts')}}</h2>
-        <div class="results-container w-full flex flex-wrap justify-center space-x-10 h-auto px-16 mb-40"
+        <div class="results-container w-full flex flex-wrap justify-center space-x-10 space-y-10 h-auto px-16 mb-40"
             id="catalog">
             @foreach ($results['articles'] as $i => $post)
                 <div class="post space-y-2">
@@ -183,8 +186,7 @@ $locale = 'ca';
         @endif
 
     @else
-        @dump("NO")
-        <div>No s'ha trobat cap resultat.</div>
+        <div>{{__("phrases.no s'ha trobat cap resultat")}}</div>
     @endif
 
 </x-layouts.app>

@@ -14,4 +14,5 @@ return [
 
 
     'unknown-error' => 'Error desconegut',
+    'errors-in-form' => 'Hi ha errors al formulari, revisa tots els camps destacats.',
 ];

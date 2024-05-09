@@ -323,20 +323,14 @@ class ShoppingCartController extends Controller
                 ->with('error', $message);
         }
     }
-    // function add($rowId)
-    // {
-    //     $qty = Cart::get($rowId)->qty;
-    //     Cart::update($rowId, $qty + 1);
-    //     return redirect()->back()
-    //         ->with('success', '');
-    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $rowId)
     {
-        $rowId = $request->input('rowId');
+        $message="";
+        //$rowId = $request->input('rowId');
         $quantity = $request->input('quantity');
 
         $item = Cart::instance('default')->get($rowId);
@@ -347,9 +341,7 @@ class ShoppingCartController extends Controller
         }
 
         // Devuelve la nueva información del carrito en formato JSON
-        return response()->json([
-            'item' => Cart::instance('default')->get($rowId),
-            'total' => Cart::instance('default')->total(),
-        ]);
+        return redirect()->back()
+        ->with('success', $message);
     }
 }

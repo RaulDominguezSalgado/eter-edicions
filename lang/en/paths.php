@@ -11,4 +11,5 @@ return [
     'foreign-rights' => 'foreign-rights',
     'contact' => 'contact',
     'search' => 'search',
+    'checkout' => 'checkout',
 ];

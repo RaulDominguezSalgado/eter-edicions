@@ -19,6 +19,12 @@ i.icon:before{
 .icon.shopping-bag:before{
     background-image: url('/img/icons/dark/shopping-bag.webp');
 }
+.icon.add-to-cart:before{
+    background-image: url('/img/icons/dark/add-to-cart.webp');
+}
+.icon.added-to-cart:before{
+    background-image: url('/img/icons/dark/added-to-cart.webp');
+}
 .icon.control-panel:before{
     background-image: url('/img/icons/dark/control-panel.webp');
 }
