@@ -1,3 +1,11 @@
+<?php
+    $paymentMethod= $order->payment_method;
+    if($paymentMethod=="wire"){
+        $paymentMethod= "Transferencia bancaria";
+    }else if($paymentMethod=="paypal"){
+        $paymentMethod= "PayPal";
+    }
+?>
 <!DOCTYPE html>
 <html>
 
@@ -71,9 +79,10 @@
 
         <div class="order-details">
             <p>Nom: {{ $order->first_name. " ".$order->last_name }}</p>
-            <p>Direcció d'entrega: {{ $order->address.", ". $order->zip_code.", ".$order->city."."}}</p>
+            <p>Adreça d'entrega: {{ $order->address.", ". $order->zip_code.", ".$order->city."."}}</p>
             <p>Data: {{ $order->date }}</p>
             <p>Nº referència: {{ $order->reference }}</p>
+            <p>Mètode de pagament: {{ $paymentMethod }}</p>
             <p>Total: {{ $order->total }}€</p>
             <!-- Other order details -->
         </div>

@@ -135,7 +135,7 @@
                     <h2>Articles</h2>
                     <x-partials.cartContent></x-partials.cartContent>
                 </div>
-                <div id="shipment">
+                {{-- <div id="shipment">
                     <h2>Mètodes d'enviament</h2>
                     <div class="flex">
                         <ul>
@@ -152,7 +152,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div>
                     <div id="price_table" class="py-5">
                         <x-partials.cartInfo></x-partials.cartInfo>

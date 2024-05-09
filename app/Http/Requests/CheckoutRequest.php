@@ -42,7 +42,6 @@ class CheckoutRequest extends FormRequest
             'total' => 'required',
             'reference'=>'',
             // Order options
-            'shipment_method' => 'required',
         ];
     }
 }

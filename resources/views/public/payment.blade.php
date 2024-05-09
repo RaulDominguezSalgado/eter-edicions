@@ -70,12 +70,12 @@ $order = old() ?? [];
                                     name="payment_method" id="wire" value="wire">
                                 <label for="wire">Transferéncia bancaria</label>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <input value="redsys" @if (isset($order['payment_method']) && $order['payment_method'] == 'redsys') checked @endif type="radio"
                                     class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="payment_method" id="redsys" value="redsys">
                                 <label for="redsys">RedSys</label>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>

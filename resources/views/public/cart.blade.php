@@ -93,10 +93,8 @@
                                                         {{ $item->name }}</h6>
                                                 </a>
                                                 <small
-                                                    class="hidden md:block">{{ $item->options->publisher }}</small><br
-                                                    class="hidden md:block">
-                                                <small class="hidden md:block">{{ $item->options->isbn }}</small><br
-                                                    class="hidden md:block">
+                                                    class="hidden md:block">{{ $item->options->publisher }}</small>
+                                                <small class="hidden md:block">{{ $item->options->isbn }}</small>
                                                 <small class="md:font-semibold p12">{{ $item->priceTax() }}€</small>
                                             </div>
                                             <div class="flex md:hidden justify-between items-center space-x-2 ">
