@@ -210,7 +210,7 @@
                                 </button>
                             </a>
                         </div>
-                        <div>
+                        {{-- <div>
                             <form action="{{route('paypal')}}" method="POST">
                                 @csrf
                                 <input type="text" name="total" value="{{Cart::instance('default')->total()}}" id="total" hidden>
@@ -218,7 +218,7 @@
                                     {{ __('shopping-cart.paypal') }}
                                 </button>
                             </form>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             @else
