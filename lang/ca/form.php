@@ -19,13 +19,17 @@ return [
     'email' => 'Correu electrònic',
     'phone' => 'Telèfon',
 
+    'date' => 'Data',
+
     'personal-data' => 'Dades personals',
 
     'method' => 'Mètode',
 
     'shipping' => 'Enviament',
     'shipping-method' => "Mètode d'enviament",
-    'direction' => 'Adreça',
+    'shipping-address' => "Adreça d'entrega",
+    'shipping-cost' => "Despeses d'enviament",
+    'address' => 'Adreça',
     'zip-code' => 'Codi postal',
     'city' => 'Població',
     'province' => 'Província',
@@ -36,6 +40,9 @@ return [
     'paypal' => 'PayPal',
     'bank-transfer' => 'Transferència bancària',
     'redsys' => 'Targeta de crèdit',
+
+    'reference' => "Referència",
+    'reference-number' => 'Nº de referència',
 
     'message' => "Missatge",
 
