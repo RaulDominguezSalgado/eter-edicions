@@ -362,7 +362,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="pvp">PVP</label>
                 <input type="number" step="0.01" name="pvp" id="pvp"
-                    class="@error('pvp') is-invalid @enderror" placeholder="15.00">
+                    class="@error('pvp') is-invalid @enderror" placeholder="00.00" min="0.01">
                 @error('pvp')
                     <p><small class="text-systemerror">{{ $message }}</small></p>
                 @enderror
@@ -371,7 +371,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="iva">IVA (%)</label>
                 <input type="number" name="iva" id="iva"
-                    class="@error('iva') is-invalid @enderror" value="4">
+                    class="@error('iva') is-invalid @enderror" value="4" min="0">
                 @error('iva')
                     <small class=" text-systemerror">{{ $message }}</small>
                 @enderror
@@ -379,7 +379,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="discounted_price">Preu amb descompte</label>
                 <input type="number" step="0.01" name="discounted_price" id="discounted_price"
-                    class="@error('discounted_price') is-invalid @enderror" value="0">
+                    class="@error('discounted_price') is-invalid @enderror" value="0" min="0">
                 @error('discounted_price')
                     <p><small class=" text-systemerror">{{ $message }}</small></p>
                 @enderror

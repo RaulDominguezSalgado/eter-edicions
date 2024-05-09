@@ -309,7 +309,7 @@ function getLanguagesOptions($languages, $selected = null)
                         class="flex items-center mx-2.5 min-w-fit @error('number_of_pages') is-invalid @else border0 @enderror"
                         for="number_of_pages">Pàgines:</label>
                     <input id="number_of_pages" class="border-0 number" type="number" name="number_of_pages"
-                        value="{{ $book['number_of_pages'] ?? '' }}" readonly>
+                        value="{{ $book['number_of_pages'] ?? '' }}" readonly min="0">
                     @error('number_of_pages')
                         <small class="text-systemerror">{{ $message }}</small>
                     @enderror
@@ -504,7 +504,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <div class="flex space-x-2">
                         <label class="flex items-center mx-2.5 min-w-fit" for="pvp">Preu</label>
                         <input class="@error('pvp') is-invalid @else border-0 @enderror number" type="number"
-                            name="pvp" id="pvp" step="0.01" value="{{ $book['pvp'] ?? '' }}" readonly>
+                            name="pvp" id="pvp" step="0.01" value="{{ $book['pvp'] ?? '' }}" readonly min="0.01">
                     </div>
                     <div class="flex ">
                         <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -523,7 +523,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <div class="flex space-x-2">
                         <label class="flex items-center mx-2.5 min-w-fit" for="iva">IVA (%)</label>
                         <input class="@error('iva') is-invalid @else border-0 @enderror number" type="number"
-                            name="iva" id="iva" value="{{ $book['iva'] ?? '' }}" readonly>
+                            name="iva" id="iva" value="{{ $book['iva'] ?? '' }}" readonly min="0">
                     </div>
                     <div class="flex ">
                         <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -545,7 +545,7 @@ function getLanguagesOptions($languages, $selected = null)
                             final)</label>
                         <input class="@error('discounted_price') is-invalid @else border-0 @enderror number"
                             type="number" name="discounted_price" id="discounted_price"
-                            value="{{ $book['discounted_price'] ?? '' }}" readonly>
+                            value="{{ $book['discounted_price'] ?? '' }}" readonly min="0">
                     </div>
                     <div class="flex ">
                         <button class="edit-button" type="button" onclick="enableInput(this)">
