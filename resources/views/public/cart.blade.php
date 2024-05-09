@@ -253,57 +253,56 @@
                                                         alt="Eliminar"></button>
                                             </form>
                                         </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                </td>
-                </tr>
-            @endforeach
-            </tbody>
-            </table>
-        </div>
-        @endif
-        @if (count($relatedBooks) > 0)
-            <div id="related-books" class="flex flex-col items-center space-y-4">
-                <h2>{{ __('general.you-may-also-like') }}</h2>
+            @endif
+            @if (count($relatedBooks) > 0)
+                <div id="related-books" class="flex flex-col items-center space-y-4">
+                    <h2>{{ __('general.you-may-also-like') }}</h2>
 
-                <div class="flex">
-                    @foreach ($relatedBooks as $i => $relatedBook)
-                        <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
-                            <div class="cover mb-4 flex justify-center">
-                                <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
-                                    <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
-                                        alt="{{ $relatedBook['title'] }}" style="height: 13.75em"
-                                        class="aspect-[2/3]">
-                                </a>
-                            </div>
-                            <div id="book-info-{{ $relatedBook['slug'] }}"
-                                class="flex flex-col items-center space-y-2 w-full">
-                                <div class="book-title flex justify-center items-center text-center">
-                                    {{ $relatedBook['title'] }}
+                    <div class="flex">
+                        @foreach ($relatedBooks as $i => $relatedBook)
+                            <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
+                                <div class="cover mb-4 flex justify-center">
+                                    <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
+                                        <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
+                                            alt="{{ $relatedBook['title'] }}" style="height: 13.75em"
+                                            class="aspect-[2/3]">
+                                    </a>
+                                </div>
+                                <div id="book-info-{{ $relatedBook['slug'] }}"
+                                    class="flex flex-col items-center space-y-2 w-full">
+                                    <div class="book-title flex justify-center items-center text-center">
+                                        {{ $relatedBook['title'] }}
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+
+                                    <form action="{{ route('cart.insert') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}">
+
+                                        <input hidden type="number" class=" border border-black"
+                                            name="number_of_items" placeholder="1" value="1" min="1">
+                                        <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
+                                            <span
+                                                class="flex items-center leading-none text-white">{{ __('shopping-cart.add-to-cart') }}</span>
+                                            <span class="bg-dark"><img
+                                                    src="{{ asset('img/icons/add-to-cart-white.webp') }}"
+                                                    alt="Botó per afegir a la cistella" style="width: 20px"></span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="add-to-cart">
-
-                                <form action="{{ route('cart.insert') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}">
-
-                                    <input hidden type="number" class=" border border-black" name="number_of_items"
-                                        placeholder="1" value="1" min="1">
-                                    <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
-                                        <span
-                                            class="flex items-center leading-none text-white">{{ __('shopping-cart.add-to-cart') }}</span>
-                                        <span class="bg-dark"><img
-                                                src="{{ asset('img/icons/add-to-cart-white.webp') }}"
-                                                alt="Botó per afegir a la cistella" style="width: 20px"></span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        @endif
-    </div>
+            @endif
+        </div>
     </div>
 </x-layouts.app>
 <script src="/js/form/messages.js"></script>
