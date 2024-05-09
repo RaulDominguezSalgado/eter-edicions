@@ -64,6 +64,8 @@ return [
     'where' => 'Dónde',
     'when' => 'Cuándo',
 
+    'checkout' => 'Caja',
+
     'read-more' => 'Leer más',
 
     'privacy-policy' => 'Política de privacidad',
