@@ -8,11 +8,11 @@
 
     <main class="body space-y-4 mb-12">
         <div class="book">
-            @if ($message = Session::get('success'))
+            {{-- @if ($message = Session::get('success'))
                 <div class="alert alert-success m-4">
                     <p>{{ $message }}</p>
                 </div>
-            @endif
+            @endif --}}
             <div class="book-detail flex justify-between mb-4">
                 <div class="mr-6 cover">
                     {{-- <div id="book-image" class="book-image"></div> --}}
@@ -63,11 +63,11 @@
                         </div>
                     </div>
 
-                    <div class="space-y-3">
+                    <div class="space-y-4">
                         <a href="{{ route('book.sample', $book['sample']) }}" target="_blank"
                             class="sample flex space-x-2.5">
                             <img src="{{ asset('img/icons/download.webp') }}"
-                                alt="{{ucfirst(__('phrases.descarregar sample'))}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de") ? __('orthographic-rules.with_d') : __('orthographic-rules.with_de')) : __('orthographic-rules.by') }} {{ $book['title'] }}" class="clickable" style="width: 15px">
+                                alt="{{ucfirst(__('phrases.descarregar sample'))}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de") ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }} {{ $book['title'] }}" class="clickable" style="width: 15px">
                             <small class="text-slate-600">{{__('general.sample')}}</small>
                         </a>
 
@@ -76,7 +76,7 @@
                                 @csrf
                                 <input type="hidden" name="book_id" value="{{ $book['id'] }}">
 
-                            <input type="number" class=" border border-black" name="number_of_items" placeholder="1"
+                            <input type="number" class="border border-black mb-2" name="number_of_items" placeholder="1"
                                 value="1" min="1">
                             <button type="submit" class="py-2.5 px-3 flex space-x-2 items-center">
                                 <span class="flex items-center leading-none text-white">{{ucfirst(__('phrases.afegir a la cistella'))}}</span>
@@ -97,7 +97,7 @@
                     <div>
                         <small class="text-red-700">{{__('general.not-available')}}</small>
                         <br>
-                        <small>{{__('general.You can find it in')}} {{__('orthographic-rules.les')}} <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">
+                        <small>{{__('general.You can find it in')}} {{__('orthographicRules.les')}} <a href="{{ route("bookstores.{$locale}") }}" class="text-decoration-line: underline">
                             {{ strtolower(__('general.bookstores')) }}</a>
                                 {{__('general.with whom we work')}}</small>
                     </div>
@@ -312,11 +312,26 @@
                 <div class="flex">
                     @foreach ($related_books as $i => $relatedBook)
                         <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
-                            <div class="cover mb-4 flex justify-center">
+                            <div class="cover mb-4 flex justify-center relative">
                                 <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
                                     <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
                                         alt="{{ $relatedBook['title'] }}" style="height: 13.75em"
                                         class="aspect-[2/3]">
+                                </a>
+                                <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}" class="flex items-end w-[9.16em] h-[13.75em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+                                    <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
+                                        <p class="font-bold text-xl">{{$relatedBook['pvp']}}€</p>
+                                        <form action="{{ route('cart.insert') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}">
+
+                                            <input hidden type="number" class=" border border-black" name="number_of_items"
+                                                placeholder="1" value="1" min="1">
+                                                <button>
+                                                    <i class="icon text-3xl add-to-cart"></i>
+                                                </button>
+                                        </form>
+                                    </div>
                                 </a>
                             </div>
                             <div id="book-info-{{ $relatedBook['slug'] }}"

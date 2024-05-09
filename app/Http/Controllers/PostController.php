@@ -9,6 +9,7 @@ use App\Models\Author;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
+
 use App\Services\Translation\OrthographicRules;
 
 use Carbon\Carbon;
@@ -322,9 +323,7 @@ class PostController extends Controller
 
     public function posts()
     {
-        // $locale = Config::get('app.locale');
-        $locale = app()->getLocale();
-        // $locale = 'ca';
+        $locale = "ca";
 
         $posts_lv = Post::whereNull('date')
             ->whereNull('location')
@@ -338,7 +337,7 @@ class PostController extends Controller
 
 
         $page = [
-            'title' => __('general.posts'),
+            'title' => ucfirst(__('words.articles')),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -349,9 +348,7 @@ class PostController extends Controller
 
     public function activities()
     {
-        // $locale = Config::get('app.locale');
-        $locale = app()->getLocale();
-        // $locale = 'ca';
+        $locale = "ca";
 
         $posts_lv = Post::whereNotNull('date')
             ->whereNotNull('location')
@@ -366,7 +363,7 @@ class PostController extends Controller
         }
 
         $page = [
-            'title' => __('general.activities'),
+            'title' => ucfirst(__('words.activitats')),
             'shortDescription' => '',
             'longDescription' => '',
             'web' => 'Èter Edicions'
@@ -377,9 +374,7 @@ class PostController extends Controller
 
     public function postDetail($id)
     {
-        // $locale = Config::get('app.locale');
-        $locale = app()->getLocale();
-        // $locale = 'ca';
+        $locale = "ca";
 
 
         $post_lv = Post::find($id);
@@ -418,7 +413,7 @@ class PostController extends Controller
 
         $translatorName = !is_null($translator) ? $translator->collaborator->translations()->where('lang', $locale)->first()->first_name . " " . $translator->collaborator->translations()->where('lang', $locale)->first()->last_name : "";
         $translatorId = !is_null($translator) ? $translator->id : "";
-        $translation = OrthographicRules::startsWithDe($translatorName) ? "Traducció de " : "Traducció d'";
+        $translation = __('general.translation') . " " . (OrthographicRules::startsWithDe($translatorName) ? __('orthographicRules.with_d') : __('orthographicRules.with_de'));
 
         $userName = !is_null($user) ? $user->first_name . " " . $user->last_name : "";
 
@@ -436,7 +431,7 @@ class PostController extends Controller
             'published_by' => $userName,
             'publication_date' => Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y'),
             'image' => $post->image,
-            'post_type' => ucfirst(__('words.articles')),
+            'post_type' => "ARTICLES",
             'slug' => $post->slug,
             'meta_title' => $post->meta_title,
             'meta_description' => $post->meta_description
@@ -479,7 +474,7 @@ class PostController extends Controller
             'published_by' => $userName,
             'published_by_id' => $userId,
             'publication_date' => Carbon::createFromFormat('Y-m-d', $activity->publication_date)->format('d/m/Y'),
-            'post_type' => "ACTIVITATS",
+            'post_type' => ucfirst(__('words.activitats')),
             'slug' => $activity->slug,
             'meta_title' => $activity->meta_title,
             'meta_description' => $activity->meta_description
@@ -511,8 +506,8 @@ class PostController extends Controller
     public function getPreviewGenericPost($post, $locale)
     {
         //dd($post);
-        $postType = (is_null($post->date) && is_null($post->location)) ? "ARTICLES" : "ACTIVITATS";
-        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : ($post->date);
+        $postType = (is_null($post->date) && is_null($post->location)) ? ucfirst(__('words.articles')) : ucfirst(__('words.activitats'));
+        $date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d', $post->publication_date)->format('d/m/Y') : Carbon::createFromFormat('Y-m-d H:i:s', $post->date)->format('d/m/Y');
         // Verificar si la fecha de publicación está presente y formatearla
         //$date = is_null($post->date) ? Carbon::createFromFormat('Y-m-d H:i:s', $post->publication_date)->format('d/m/Y') : Carbon::createFromFormat('Y-m-d', $post->date)->format('d/m/Y');
         // @dump($post->date);
@@ -525,7 +520,7 @@ class PostController extends Controller
             'date' => $date,
             'location' => str_contains($post->location, ".") ? substr($post->location, 0, strpos($post->location, '.')) : $post->location,
             'image' => $post->image,
-            'post_type' => ucfirst(__('words.'.strtolower($postType))),
+            'post_type' => $postType,
             'slug' => $post->slug,
             'meta_title' => $post->meta_title,
             'meta_description' => $post->meta_description
@@ -581,5 +576,77 @@ class PostController extends Controller
         }
 
         return response()->json(['error' => 'No file uploaded.'], 400);
+    }
+
+    /**
+    * Method that generates the Book array used by the view
+    */
+    public static function getData($type = null, $key = null, $value = null, $search = false) {
+        // try {
+            $locale = 'ca';
+
+            if ($key == null || $value == null) {
+                switch ($type) {
+                    case null:
+                        $query_data = Post::paginate();
+                    break;
+                    case 'activities':
+                        $query_data = Post::whereNotNull('location')->whereNotNull('date')->paginate();
+                    break;
+                    case 'articles':
+                        $query_data = Post::whereNull('location')->whereNull('date')->paginate();
+                    break;
+                }
+            }
+            else if ($search) {
+                switch ($type) {
+                    case null:
+                        $query_data = Post::where($key, 'LIKE', '%' . $value . '%')->paginate();
+                    break;
+                    case 'activities':
+                        $query_data = Post::whereNotNull('location')->whereNotNull('date')->where($key, 'LIKE', '%' . $value . '%')->paginate();
+                    break;
+                    case 'articles':
+                        $query_data = Post::whereNull('location')->whereNull('date')->where($key, 'LIKE', '%' . $value . '%')->paginate();
+                    break;
+                }
+            }
+            else {
+                switch ($type) {
+                    case null:
+                        $query_data = Post::where($key, $value)->paginate();
+                    break;
+                    case 'activities':
+                        $query_data = Post::whereNotNull('location')->whereNotNull('date')->where($key, $value)->paginate();
+                    break;
+                    case 'articles':
+                        $query_data = Post::whereNull('location')->whereNull('date')->where($key, $value)->paginate();
+                    break;
+                }
+            }
+            $posts = [];
+            foreach ($query_data as $single_data) {
+                $posts[] = [
+                    'id' => $single_data->id,
+                    'title' => $single_data->title,
+                    'author_id' => $single_data->author_id,
+                    'translator_id' => $single_data->translator_id,
+                    'description' => $single_data->description,
+                    'date' => $single_data->date,
+                    'location' => $single_data->location,
+                    'image' => $single_data->image,
+                    'content' => $single_data->content,
+                    'publication_date' => $single_data->publication_date,
+                    'published_by' => $single_data->published_by,
+                    'slug' => $single_data->slug,
+                    'meta_name' => $single_data->meta_name,
+                    'meta_description' => $single_data->meta_description,
+                ];
+            }
+            return $posts;
+        // }
+        // catch (Exception $e) {
+        //     abort(500, 'Server Error');
+        // }
     }
 }

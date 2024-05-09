@@ -7,6 +7,17 @@
         @apply py-4 px-12 border border-dark rounded text-light bg-primary hover:bg-secondary
     }
 
+    .options-button {
+        @apply py-4 px-12 border border-dark rounded text-dark font-bold bg-light
+    }
+
+    .previous-button{
+        @apply py-2 px-6 border border-darkgrey rounded text-dark font-bold bg-light hover:opacity-50 transition duration-300 hover:transition hover:duration-300 cursor-pointer
+    }
+    .next-button{
+        @apply py-2 px-6 border border-primarydark rounded text-light bg-primary hover:opacity-50 transition duration-300 hover:transition hover:duration-300 cursor-pointer
+    }
+
     .is-invalid {
         @apply border border-systemerror
     }

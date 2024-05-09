@@ -25,35 +25,36 @@ class OrderRequest extends FormRequest
             return [
                 'date' => 'required',
                 'total' => '',
+                'shipment_taxes' => '',
                 'reference' => 'required',
                 'dni' => 'required',
-                'first_name' => 'required',
-                'last_name' => 'required',
+                'first_name' => 'required|regex:/^[a-zA-Z]+$/|string', //'required|regex:/^[a-zA-Z]+$/|string',permite caracteres alfabéticos entre mayúsculas y minúsculas, creo no acepta comillas simples tampoco
+                'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
                 'email' => 'required',
-                'phone_number' => 'required',
+                'phone_number' => 'required|digits:9',
                 'address' => 'required',
-                'zip_code' => 'required',
-                'city' => 'required',
-                'country' => 'required',
+                'zip_code' => 'required|digits:5',
+                'city' => 'required|regex:/^[a-zA-Z]+$/|string',
+                'country' => 'required|regex:/^[a-zA-Z]+$/|string',
                 'payment_method' => 'required',
                 'status_id' => 'required',
                 'pdf' => 'required|file|mimes:pdf',
                 'products' => 'required|array',
                 'products.*' => 'array:id,quantity,pvp',
-                'tracking_id' => 'required|string',
+                'tracking_id' => 'required|regex:/^[a-zA-Z0-9-]+$/',
             ];
         } else {
             return [
                 'date' => 'required',
                 'total' => '',
-                'reference' => 'required',
+                'reference' => 'required|regex:/^[a-zA-Z0-9]+$/',
                 'dni' => 'required',
-                'first_name' => 'required',
-                'last_name' => 'required',
+                'first_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+                'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
                 'email' => 'required',
-                'phone_number' => 'required',
+                'phone_number' => 'required|digits:9',
                 'address' => 'required',
-                'zip_code' => 'required',
+                'zip_code' => 'required|digits:5',
                 'city' => 'required',
                 'country' => 'required',
                 'payment_method' => 'required',
@@ -61,8 +62,68 @@ class OrderRequest extends FormRequest
                 'pdf' => '',
                 'products' => 'required|array',
                 'products.*' => 'array:id,quantity,pvp',
-                'tracking_id' => 'required|string',
+                'tracking_id' => 'required|regex:/^[a-zA-Z0-9-]+$/',
             ];
         }
     }
+
+
+    //Las siguientes rules tiene validacion dni pero hay que testear
+    // public function rules(): array
+    // {
+    //     if ($this->isMethod('post')) {
+    //         return [
+    //             'date' => 'required',
+    //             'total' => '',
+    //             'reference' => 'required|regex:/^[a-zA-Z0-9]+$/',
+    //             'dni' => 'required|digits:8|regex:/^[0-9]{8}[A-Z]$/|callback:validateDNI',
+    //             'first_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+    //             'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+    //             'email' => 'required',
+    //             'phone_number' => 'required|digits:9',
+    //             'address' => 'required',
+    //             'zip_code' => 'required|digits:5',
+    //             'city' => 'required|regex:/^[a-zA-Z]+$/|string',
+    //             'country' => 'required|regex:/^[a-zA-Z]+$/|string',
+    //             'payment_method' => 'required',
+    //             'status_id' => 'required',
+    //             'pdf' => 'required|file|mimes:pdf',
+    //             'products' => 'required|array',
+    //             'products.*' => 'array:id,quantity,pvp',
+    //             'tracking_id' => 'required|regex:/^[a-zA-Z0-9-]+$/',
+    //         ];
+    //     } else {
+    //         return [
+    //             'date' => 'required',
+    //             'total' => '',
+    //             'reference' => 'required|regex:/^[a-zA-Z0-9]+$/',
+    //             'dni' => 'required|digits:8|regex:/^[0-9]{8}[A-Z]$/|callback:validateDNI',
+    //             'first_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+    //             'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+    //             'email' => 'required',
+    //             'phone_number' => 'required|digits:9',
+    //             'address' => 'required',
+    //             'zip_code' => 'required|digits:5',
+    //             'city' => 'required',
+    //             'country' => 'required',
+    //             'payment_method' => 'required',
+    //             'status_id' => 'required',
+    //             'pdf' => '',
+    //             'products' => 'required|array',
+    //             'products.*' => 'array:id,quantity,pvp',
+    //             'tracking_id' => 'required|regex:/^[a-zA-Z0-9-]+$/',
+    //         ];
+    //     }
+    // }
+
+    // public function validateDNI($value)
+    // {
+    //     $dni = substr($value, 0, 8);
+    //     $letter = substr($value, 8, 1);
+    //     $letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+    //     $index = (int)$dni % 23;
+    //     $correctLetter = $letters[$index];
+
+    //     return $letter == $correctLetter;
+    // }
 }

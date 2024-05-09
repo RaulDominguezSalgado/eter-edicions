@@ -7,7 +7,7 @@
             src="{{ asset('img/collab/covers/' . ($collaborator['image'] ?? 'default.webp')) }}"
             alt="{{ ($collaborator['image'] ?? 'default.webp') . ' - ' }}">
             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
-                value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge">
+                value="{{ old('image', $collaborator['image']) }}" id="image" placeholder="Imatge" accept="image/*">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         {{-- <div id="redes_sociales">
@@ -34,7 +34,7 @@
             @endif
         </div>
         <div class="form-group mb-2 mb20">
-            <label for="lang" class="form-label">{{ __('Llenguatge') }}</label>
+            <label for="lang" class="form-label">{{ __('Idioma') }}</label>
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
                 <option value="ca" {{ old('lang', $collaborator['lang']) == 'ca' ? 'selected' : '' }}>Català
                 </option>

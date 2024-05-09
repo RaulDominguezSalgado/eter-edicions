@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\CanResetPassword;
+
+// use App\Notifications\ResetPasswordNotification;
 
 /**
  * Class User
@@ -33,12 +36,13 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, Notifiable;
 
     static $rules = [
-        'first_name' => ['required'],
-        'last_name' => ['required'],
+        'first_name' => ['required', 'string', 'max:255'],
+        'last_name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'unique:users', 'max:60'],
         'password' => ['required'],
-        'phone' => [],
-        'role_id' => ['required', ]
+        'phone' => ['nullable', 'string', 'max:20'],
+        'profile_picture' => ['nullable', 'image'],
+        'role_id' => ['required', 'integer']
     ];
     /**
      * Attributes that should be mass-assignable.
@@ -51,6 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'phone',
+        'profile_picture',
         'role_id'
     ];
 

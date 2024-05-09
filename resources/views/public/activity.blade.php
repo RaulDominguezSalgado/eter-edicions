@@ -28,7 +28,7 @@
                         <div class="event-info space-x-2">
                             <img src="{{ asset('img/icons/location-colored.webp') }}" alt=""
                                 class="" style="height: 1.95em">
-                            <p class="">On?</p>
+                            <p class="">{{__('orthographicRules.¿')}}{{__('general.where')}}?</p>
                         </div>
                         <p class=" flex align-end">{{ $post['location'] }}</p>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="event-info space-x-2">
                             <img src="{{ asset('img/icons/calendar-colored.webp') }}" alt=""
                                 class="" style="height: 1.95em">
-                            <p class="">Quan?</p>
+                            <p class="">{{__('orthographicRules.¿')}}{{__('general.when')}}?</p>
                         </div>
                         <p class=" flex align-end">{{ $post['date'] }}</p>
                     </div>

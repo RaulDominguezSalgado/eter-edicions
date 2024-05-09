@@ -16,7 +16,7 @@ return [
 
     'home' => 'Portada',
     'catalog' => 'Catálogo',
-    'authors' => 'Autores',
+    'authors' => '{1}Autor|[2,*]Autores',
     'agency' => 'Agencia',
     'news' => 'Noticias',
     'posts' => 'Artículos',
@@ -61,8 +61,10 @@ return [
 
     'you-may-also-like' => 'También pueden gustarte',
 
-    'where' => '¿Dónde',
-    'when' => '¿Cuándo',
+    'where' => 'Dónde',
+    'when' => 'Cuándo',
+
+    'checkout' => 'Caja',
 
     'read-more' => 'Leer más',
 

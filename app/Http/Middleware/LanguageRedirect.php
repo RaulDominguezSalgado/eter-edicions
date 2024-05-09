@@ -52,7 +52,7 @@ class LanguageRedirect
 
             // Generate the correct URL for the preferred locale including query parameters
             $correctUrl = route($requestedRouteName, $routeParams + $queryParams);
-            dd($correctUrl);
+            // dd($correctUrl);
 
             // Redirect the user to the correct URL
             return redirect($correctUrl);

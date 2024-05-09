@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Settings\PasswordController;
+use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +24,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Route::post('/cart/{id}', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('stock.update');
 Route::group(['middleware' => 'language.redirect'], function () {
     /* Rutas públicas en multi-idioma */
     foreach (config('languages') as $locale) {
@@ -68,6 +71,9 @@ Route::group(['middleware' => 'language.redirect'], function () {
 
             // Search
             Route::get(__('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
+
+            // Checkout
+            Route::get(__('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
         } else {
 
             // Home
@@ -111,6 +117,9 @@ Route::group(['middleware' => 'language.redirect'], function () {
 
             // Search
             Route::get("{$locale}/" . __('paths.search', [], $locale), [\App\Http\Controllers\SearchController::class, 'index'])->name("search.{$locale}");
+
+            // Checkout
+            Route::get("{$locale}/" . __('paths.checkout', [], $locale), [\App\Http\Controllers\CheckoutController::class, 'index'])->name("checkout.{$locale}");
         }
 
         Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
@@ -123,25 +132,39 @@ Route::group(['middleware' => 'language.redirect'], function () {
 // Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
 
 /* Admin Backoffice */
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('components.layouts.admin.dashboard');
-    })->name('admin_dashboard');
-    Route::resource('books', App\Http\Controllers\BookController::class);
-    Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
-    Route::resource('collections', App\Http\Controllers\CollectionController::class);
-    Route::resource('users', App\Http\Controllers\UserController::class);
-    Route::resource('authors', App\Http\Controllers\AuthorController::class);
-    Route::resource('translators', App\Http\Controllers\TranslatorController::class);
-    Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
+Route::middleware(['auth.authenticated', 'verified'])->group(function (){
+    //Dashboard route
+    Route::prefix('admin')->group(function () {
+        Route::get('/', function () {
+            return view('components.layouts.admin.dashboard');
+        })->name('admin_dashboard');
+
+    //Profile settings route
+    Route::get('/settings/profile-information', ProfileController::class)->name('user-profile-information.edit');
+    Route::get('/settings/password', PasswordController::class)->name('user-password.edit');
+
+    //Posts route
     Route::resource('posts', App\Http\Controllers\PostController::class);
-    Route::resource('orders', App\Http\Controllers\OrderController::class);
-    Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
-    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
-    Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
-    // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
-    Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
-})->middleware(AdminCheck::class);
+    // Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
+
+    //Admin routes
+    Route::middleware(['auth.admin'])->group(function(){
+        Route::resource('books', App\Http\Controllers\BookController::class);
+        Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+        Route::resource('collections', App\Http\Controllers\CollectionController::class);
+        Route::resource('users', App\Http\Controllers\UserController::class);
+        Route::resource('authors', App\Http\Controllers\AuthorController::class);
+        Route::resource('translators', App\Http\Controllers\TranslatorController::class);
+        Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
+
+        Route::resource('orders', App\Http\Controllers\OrderController::class);
+        Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
+        Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
+        Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
+        // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
+    });
+    })->middleware(['auth', 'verified']);
+});
 
 //Route::get('{slug}');
 
@@ -151,3 +174,18 @@ Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'a
 Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('cart.view');
 Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
+
+Route::get('cart/payment', function () {
+    return redirect(route('cart.view'));
+});
+Route::post('cart/payment',[App\Http\Controllers\PaymentController::class, 'payment'])->name('payment');
+Route::get('cart/payment/succes',[App\Http\Controllers\PaymentController::class, 'success'])->name('payment.success');
+Route::get('cart/payment/cancel',[App\Http\Controllers\PaymentController::class, 'cancel'])->name('payment.cancel');
+
+// Checkout absolute routes
+// Route::post("/checkout/change-step/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
+Route::post("/checkout", [\App\Http\Controllers\CheckoutController::class, 'toPayment'])->name("checkout.toPayment");
+Route::get("/checkout/{orderId}", [\App\Http\Controllers\CheckoutController::class, 'showPaymentMethodView'])->name("checkout.payment_method");
+
+
+Route::get('/orders/{orderId}/pdf',[App\Http\Controllers\PaymentController::class, 'generateOrderPdf'])->name('orders.pdf');

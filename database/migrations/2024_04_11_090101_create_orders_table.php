@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('reference')->unique();
             $table->date('date');
             $table->decimal('total', 8, 2);
+            $table->decimal('shipment_taxes', 8, 2)->nullable();
             $table->string('dni');
             $table->string('first_name');
             $table->string('last_name');
@@ -28,10 +29,11 @@ return new class extends Migration
             $table->string('country');
             $table->string('payment_method');
             $table->unsignedBigInteger('status_id');
-            $table->string('pdf')->unique();
-            $table->string('tracking_id')->unique();
+            $table->string('pdf')->unique()->nullable();
+            $table->string('tracking_id')->unique()->nullable();
 
             $table->timestamps();
+
 
 
             $table->foreign('status_id')->references('id')->on('order_statuses')->onDelete('restrict')->onUpdate('cascade');

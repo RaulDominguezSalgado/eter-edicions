@@ -132,9 +132,9 @@ class BookController extends Controller
 
             if ($request->input('visible') != null) {
                 $request->merge([
-                    'visible' => $request->input('visible') == 'on' ? 1 : 0,
+                    'visible' => $request->input('visible'),
                 ]);
-                $data['visible'] = $data['visible']  == 'on' ? 1 : 0;
+                $data['visible'] = $data['visible'];
             } else {
                 $request->merge([
                     'visible' => 0,
@@ -273,14 +273,17 @@ class BookController extends Controller
         // try {
         // \App\Models\Book::class;
         $new_data = $request->validated();
+        // \App\Models\Book::class;
+        $new_data = $request->validated();
 
+        // dump($new_data);
         // dump($new_data);
 
         if ($request->input('visible') != null) {
             $request->merge([
-                'visible' => $request->input('visible') == 'on' ? 1 : 0,
+                'visible' => $request->input('visible'),
             ]);
-            $new_data['visible'] = $new_data['visible']  == 'on' ? 1 : 0;
+            $new_data['visible'] = $new_data['visible'];
         } else {
             $request->merge([
                 'visible' => 0,
@@ -301,6 +304,11 @@ class BookController extends Controller
 
         $this->setBookData($book, $request);
 
+        // // Controla la selección del usuario
+        // if ($request->input('action') == 'redirect') {
+        //     return redirect()->route('books.index')
+        //         ->with('success', 'Book created successfully');
+        // } else if ($request->input('action') == 'stay') {
         // // Controla la selección del usuario
         // if ($request->input('action') == 'redirect') {
         //     return redirect()->route('books.index')
@@ -700,6 +708,7 @@ class BookController extends Controller
         //Get the first 4 books (they will always be the more relevant)
         $result = array_slice($result, 0, 3);
 
+        // dump($result);
         return $result;
     }
 
@@ -712,12 +721,19 @@ class BookController extends Controller
      *
      * @return array an array with a preview of 3 related books
      */
-    public function getRelatedBooksFromMultiple(array $books, string $locale){
+    public function getRelatedBooksFromMultiple(array $books, string $locale)
+    {
+        $bookTitles = [];
         $result = [];
-        foreach($books as $book){
-            array_merge($result, $this->getRelatedBooks($book, $locale));
+        foreach ($books as $book) {
+            $bookTitles[$book->title]=true; //Save book title as key in $bookTitles to delete it from related books array, if present
+            $result = array_merge($result, $this->getRelatedBooks($book, $locale));
         }
 
+        //Remove books in $books from array of related books ($result)
+        $result = array_diff_key($result, $bookTitles);
+
+        //Get the first 3 books
         $result = array_slice($result, 0, 3);
 
         return $result;
@@ -809,9 +825,63 @@ class BookController extends Controller
     public static function getData($key = null, $value = null, $search = false)
     {
         // try {
-            // $locale = Config::get('app.locale');
-            $locale = app()->getLocale();
+        $locale = 'ca';
 
+        if ($key == null || $value == null) {
+            $query_data = Book::paginate();
+        } else if ($search) {
+            $query_data = Book::where($key, 'LIKE', '%' . $value . '%')->where('visible', 'LIKE', 1)->paginate();
+        } else {
+            $query_data = Book::where($key, $value)->paginate();
+        }
+        $books = [];
+        foreach ($query_data as $single_data) {
+            $collections_names = [];
+            if (!empty($single_data->collections)) {
+                foreach ($single_data->collections as $collection) {
+                    // dd($collection);
+                    $name = $collection->translations()->first()->name;
+                    $collections_names[] = [
+                        'id' => $collection->id,
+                        'name' => $name,
+                    ];
+                }
+                // dd($collections_names);
+            }
+            $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
+            // dd($single_data);
+            $books[] = [
+                'id' => $single_data->id,
+                'title' => $single_data->title,
+                'description' => $single_data->description,
+                'slug' => $single_data->slug,
+                'lang' => $single_data->languages()->first()->iso,
+                'isbn' => $single_data->isbn,
+                'publisher' => $single_data->publisher,
+                'image' => $single_data->image,
+                'pvp' => $single_data->pvp,
+                'iva' => $single_data->iva,
+                'discounted_price' => $single_data->discounted_price,
+                'stock' => $single_data->stock,
+                'visible' => $single_data->visible,
+                'sample_url' => $single_data->sample,
+                'number_of_pages' => $single_data->number_of_pages,
+                'publication_date' => date('Y-m-d', strtotime($single_data->publication_date)),
+                'collections' => $collections_names,
+                'collaborators' => $collaborators,
+                'original_title' => $single_data->original_title,
+                'original_publication_date' => date('Y-m-d', strtotime($single_data->original_publication_date)),
+                'original_publisher' => $single_data->original_publisher,
+                'legal_diposit' => $single_data->legal_diposit,
+                'headline' => $single_data->headline,
+                'size' => $single_data->size,
+                'enviromental_footprint' => $single_data->enviromental_footprint,
+                'meta_title' => $single_data->meta_title,
+                'meta_description' => $single_data->meta_description,
+                'filter' => $key ? ['key' => $key, 'value' => self::searchDetails($single_data->$key, $value, 5)] :  ''
+            ];
+        }
+        return $books;
         if ($key == null || $value == null) {
             $query_data = Book::paginate();
         } else if ($search) {
@@ -943,8 +1013,7 @@ class BookController extends Controller
 
                 // // Procesar y guardar la imagen
                 $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                $imageHelper = new ImageHelperEditor();
-                $imageHelper->editImage($nombreImagenOriginal, "book");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "book");
 
                 $book->image = $nombreImagenOriginal;
                 $book->save();
@@ -979,8 +1048,7 @@ class BookController extends Controller
      */
     public function editImage($filename)
     {
-        $imageHelper = new ImageHelperEditor();
-        $imageHelper->editImage($filename, "book");
+        ImageHelperEditor::editImage($filename, "book");
     }
 
     /**

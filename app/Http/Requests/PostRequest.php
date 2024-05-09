@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
                 'author_id' => 'nullable',
                 'translator_id' => 'nullable',
                 'content' => 'required|string',
-                'date' => 'nullable|date_format:Y-m-d',
+                'date' => 'nullable|date_format:Y-m-d', 
                 'time' => 'nullable|date_format:H:i', //buscar regex format 00:00:00, 00 son números de 2 dígitos
                 'location' => 'nullable',
                 'image' => 'required',

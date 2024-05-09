@@ -126,7 +126,7 @@ class BookSeeder extends Seeder
         $nenssuecs->description = <<<HEREDOC
         La síndrome de resignació és una malaltia psiquiàtrica que afecta infants i adolescents refugiats a Suècia: la somatització d’un trauma, reaparegut per la possibilitat d’una deportació —que significa el retorn al bell mig de la ferida— s’inicia amb els símptomes d’una depressió, que sumirà gradualment els afectats en un estat catatònic. Aquest assaig narra alguns dels molts casos que l’autora Elisabeth Hultcrantz ha anat acompanyant els darrers quinze anys. Sense condescendència ni morbositats, ressalta vivament el rostre més humà dels malalts, denuncia la crueltat de les institucions europees i alça la veu en defensa dels drets humans i, d’entre ells, dels drets del col·lectiu més vulnerable: la infància.
         HEREDOC;
-        $nenssuecs->publisher = "Èter Edicions i Pol·len Edicions";
+        $nenssuecs->publisher = "Èter Edicions";
         $nenssuecs->original_publisher = "Etikkommissionen i Sverige";
         $nenssuecs->image = "si-fossin-nens-suecs.webp";
         $nenssuecs->size = "15x21 cm";
@@ -190,7 +190,7 @@ class BookSeeder extends Seeder
         $orientalisme->description = <<<HEREDOC
         L’assaig Orientalisme i Orientalisme invers aparegué en àrab [al-Istixraq wa-l-Istixraq ma’kussan] per primer cop en la revista libanesa al-Hayat al-Jadida [Nova Vida], al número 2 de gener-febrer de 1981. El text es divideix en dos articles. El primer és una extensa ressenya del llibre Orientalisme d’Edward Said, publicat a Nova York l’any 1978. El segon, «Orientalisme invers», estructura una crítica aguda i no gens comportívola de dos corrents de pensament aleshores en alça al món àrab: el nacionalisme essencialista conservador i el radicalisme islàmic. L’autor enfoca la crítica partint dels estrets lligams que observa entre els postulats de l’orientalisme occidental i ambdós corrents. La crítica que Sàdiq Jalal al-Àzem planteja a Edward Said, tanmateix, no el situa pas d’entrada en la llista de ‘detractors’, perquè a «Orientalisme invers», al-Àzem expressa el seu acord amb Said en alguns aspectes del discurs exposat a Orientalisme i els fa servir com a punt de partida per a dirigir la crítica vers el nacionalisme conservador i l’islamisme. Com a principi vertebrador del text, trobem el rebuig a l’essencialisme que defineix trets propis, inalterables i irreconciliables. Aquesta edició, primera en català de la mà de la traductora Margarida Castells, inclou la breu, però intensa, correspondència que mantingueren al-Àzem i Edward W. Said.
         HEREDOC;
-        $orientalisme->publisher = "Èter Edicions";
+        $orientalisme->publisher = "Èter Edicions i Pol·len Edicions";
         $orientalisme->original_publisher = "al-Hayat al-Jadida";
         $orientalisme->image = "orientalisme-i-orientalisme-invers.webp";
         $orientalisme->number_of_pages = 118;
