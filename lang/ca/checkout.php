@@ -15,6 +15,7 @@ return [
 
     'checkout' => 'Caixa',
     'ticket' => 'Tiquet',
-    'purchase-completed' => 'Comanda realitzada correctament.',
+    'continue-with-payment' => 'Continuar amb el pagament',
+    'purchase-completed' => 'Comanda realitzada correctament',
     'thanks-for-your-purchase' => 'Gràcies per la teva compra.'
 ];

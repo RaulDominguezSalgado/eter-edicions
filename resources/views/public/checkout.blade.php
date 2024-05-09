@@ -129,7 +129,7 @@
                     </div>
                 </div> --}}
                 <div class="checkout-controls my-10">
-                    <a href="{{ route('cart.view') }}" class="previous-button">{{__('form.return')}}</a>
+                    <a href="{{ route('cart.view') }}" class="previous-button">{{__('form.back')}}</a>
                     <input type="submit" value="{{__('form.next')}}" name="next" class="next-button">
                 </div>
             </div>

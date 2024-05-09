@@ -16,7 +16,7 @@ return [
 
     'home' => 'Portada',
     'catalog' => 'Catálogo',
-    'authors' => 'Autores',
+    'authors' => '{1}Autor|[2,*]Autores',
     'agency' => 'Agencia',
     'news' => 'Noticias',
     'posts' => 'Artículos',

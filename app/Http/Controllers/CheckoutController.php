@@ -24,6 +24,11 @@ class CheckoutController extends Controller
 
         $locale = app()->getLocale();
 
+        if(Cart::instance('default')->content() == []){
+
+            return redirect()->route("catalog.{$locale}");
+        }
+
         return view("public.checkout", compact("order", 'shipment_taxes', 'locale'));
     }
 

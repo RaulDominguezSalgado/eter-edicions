@@ -54,5 +54,8 @@ return [
     'send' => "Enviar",
     'log in' => 'Accedir',
     'sign up' => 'Registrar-se',
+    'previous' => 'Anterior',
+    'next' => 'Següent',
+    'back' => 'Enrere',
 
 ];

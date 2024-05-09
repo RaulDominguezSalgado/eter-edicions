@@ -30,8 +30,8 @@ class PaymentController extends Controller
                 $response = $provider->createOrder([
                     "intent" => "CAPTURE",
                     "application_context" => [
-                        "return_url" => route('paypal.success', ['orderId' => $request->orderId]),
-                        "cancel_url" => route('paypal.cancel', ['orderId' => $request->orderId]),
+                        "return_url" => route('payment.success', ['orderId' => $request->orderId]),
+                        "cancel_url" => route('payment.cancel', ['orderId' => $request->orderId]),
                     ],
                     "purchase_units" => [
                         [

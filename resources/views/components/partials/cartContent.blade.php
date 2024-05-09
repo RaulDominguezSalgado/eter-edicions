@@ -17,18 +17,24 @@
                     <div class="font-bold text-xl mb-2">
                         {{ $item->name }}
                         @if (gettype($item->options->author) == "array")
-                            <p class="text-gray-700 text-base">{{__('general.authors')}}:
+                            <p class="text-gray-700 text-base">
                                 {{-- {{trans_choice('general.authors', count($item->options->author))}} --}}
                                 @foreach ($item->options->author as $author)
-                                    {{ $author }},
+                                    {{-- if not last iteration --}}
+                                    @if (!$loop->last)
+                                        {{ $author }},
+                                        {{-- if last iteration --}}
+                                    @else
+                                        {{ $author }}
+                                    @endif
                                 @endforeach
                             </p>
                         @elseif (gettype($item->options->author) == "string")
-                            <p class="text-gray-700 text-base">{{__('general.authors')}}: {{ $item->options->author }}</p>{{-- {{trans_choice('general.authors', count($item->options->author))}} --}}
+                            <p class="text-gray-700 text-base">{{ $item->options->author }}</p>{{-- {{trans_choice('general.authors', count($item->options->author))}} --}}
                         @endif
-                        <p class="text-gray-700 text-base">{{__('general.published-by')}}: {{ $item->options->publisher }}</p>
-                        <p class="text-gray-700 text-base">{{__('general.isbn')}}: {{ $item->options->isbn }}</p>
-                        <p class="font-bold text-base">{{__('general.price')}}: {{ $item->price }}€</p>
+                        <p class="text-gray-700 text-base">{{ $item->options->publisher }}</p>
+                        <p class="text-gray-700 text-base">{{ $item->options->isbn }}</p>
+                        <p class="font-bold text-base">{{ $item->price }}€</p>
                     </div>
                 </div>
             </div>
