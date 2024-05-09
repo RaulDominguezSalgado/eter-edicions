@@ -11,6 +11,10 @@ use App\Models\OrderStatusHistory;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+// Mailling
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderCompleted;
+
 class PaymentController extends Controller
 {
 
@@ -59,6 +63,7 @@ class PaymentController extends Controller
                 $order->save();
                 //
                 $this->generateOrderPdf($order);
+                Mail::to($order->email)->send(new OrderCompleted($order));
                 Cart::instance("default")->destroy();
                 return view('public.purchaseCompleted', compact('order'));
                 break;
@@ -131,6 +136,7 @@ class PaymentController extends Controller
             $orderStatusHistory->save();
             //
             $this->generateOrderPdf($order);
+            Mail::to($order->email)->send(new OrderCompleted($order));
             Cart::instance("default")->destroy();
             //dd( $order->details->first()->book->title);
             return view('public.purchaseCompleted', compact('order'));

@@ -156,7 +156,6 @@
                         </ul>
                     </div>
                 </div> --}}
-                </div> --}}
                 <div>
                     <div id="price_table" class="py-5">
                         <x-partials.cartInfo></x-partials.cartInfo>

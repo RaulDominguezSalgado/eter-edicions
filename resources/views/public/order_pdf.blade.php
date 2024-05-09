@@ -72,17 +72,26 @@ if ($paymentMethod == 'wire') {
     </style>
 </head>
 
+
+<?php
+$path = 'img/logo/lg/logo_eter_black.webp';
+$type = pathinfo($path, PATHINFO_EXTENSION);
+$data = file_get_contents($path);
+$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+?>
+
 <body>
 
     <div class="ticket space-y-2">
-        <div class="flex justify-between items-baseline pb-1 border-b border-b-lightgrey">
-            <h2>{{ __('checkout.ticket') }}</h2>
-            <img src="{{asset('img/logo/lg/logo_eter_black.webp')}}" alt="Èter Edicions" style="width: 3em">
+        <div class="items-baseline pb-1">
+            <h2 class="float-left">{{ __('checkout.ticket') }}</h2>
+            <img src="{{ $base64 }}" alt="Èter Edicions" style="width: 3em; height: 3em" class="float-right">
         </div>
-
+        <br class="clear-both">
+        <hr>
         <div class="order-details">
             <p>{{ __('form.name') }}: {{ $order->first_name . ' ' . $order->last_name }}</p>
-            <p>{{ __('form.shipping_address') }}: {{ $order->address . ', ' . $order->zip_code . ', ' . $order->city . '.' }}</p>
+            <p>{{ __('form.shipping-address') }}: {{ $order->address . ', ' . $order->zip_code . ', ' . $order->city . '.' }}</p>
             <p>{{ __('form.date') }}: {{ $order->date }}</p>
             <p>{{ __('form.reference-number') }}: {{ $order->reference }}</p>
             <p>{{ __('form.payment-method') }}: {{ $paymentMethod }}</p>

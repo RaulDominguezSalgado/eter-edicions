@@ -46,7 +46,7 @@ $order = old() ?? [];
             </span>
         </div>
     @endif
-    <form action="{{ route('paypal') }}" method="POST">
+    <form action="{{ route('payment') }}" method="POST">
         <div class="flex">
             <div id="checkout-main-content" class="flex-col w-2/3 pr-5">
 
