@@ -616,7 +616,7 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex space-x-2">
                     <label class="flex items-center mx-2.5" for="stock">Stock:</label>
                     <input class="@error('stock') is-invalid @else border-0 @enderror number" type="number"
-                        name="stock" id="stock" value="{{ $book['stock'] ?? '' }}" readonly>
+                        name="stock" id="stock" value="{{ $book['stock'] ?? '' }}" readonly min="0">
                 </div>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">

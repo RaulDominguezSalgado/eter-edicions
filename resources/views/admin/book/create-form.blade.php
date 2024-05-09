@@ -362,7 +362,9 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="pvp">PVP</label>
                 <input type="number" step="0.01" name="pvp" id="pvp"
-                    class="@error('pvp') is-invalid @enderror" placeholder="00.00" min="0.01">
+                    class="@error('pvp') is-invalid @enderror" placeholder="00.00" min="0.01"
+                    value="{{ old('pvp', $book['pvp']) }}"
+                    >
                 @error('pvp')
                     <p><small class="text-systemerror">{{ $message }}</small></p>
                 @enderror
@@ -379,7 +381,9 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="discounted_price">Preu amb descompte</label>
                 <input type="number" step="0.01" name="discounted_price" id="discounted_price"
-                    class="@error('discounted_price') is-invalid @enderror" value="0" min="0">
+                    class="@error('discounted_price') is-invalid @enderror" value="0" min="0"
+                    value="{{ old('discounted_price', $book['discounted_price']) }}"
+                    >
                 @error('discounted_price')
                     <p><small class=" text-systemerror">{{ $message }}</small></p>
                 @enderror
@@ -391,7 +395,10 @@ function getLanguagesOptions($languages, $selected = null)
         <legend>Stock</legend>
         <div class="w-full">
             <label for="stock">Stock en magatzem</label>
-            <input type="number" name="stock" id="stock" class="@error('stock') is-invalid @enderror">
+            <input type="number" name="stock" id="stock" class="@error('stock') is-invalid @enderror"
+            value="{{ old('stock', $book['stock']) }}"
+            min="0"
+            >
             @error('stock')
                 <small class="ms-2.5 text-systemerror">{{ $message }}</small>
             @enderror
@@ -425,7 +432,8 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="w-full flex items-center space-x-1">
                     <p class="min-w-fit">eteredicions.com /</p>
                     <input class="md:min-w-80 m-0 ps-1 pe-0 is-disabled @error('slug') is-invalid @else border-0 @enderror" type="text" name="slug"
-                        id="slug" placeholder="titol-del-llibre" readonly disabled>
+                        id="slug" placeholder="titol-del-llibre" readonly disabled
+                        value="{{ old('slug', $book['slug']) }}">
                 </div>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -449,7 +457,9 @@ function getLanguagesOptions($languages, $selected = null)
             </label>
             <div class="flex justify-between items-center space-x-5">
                 <input type="text" name="meta_title" id="meta_title" class="is-disabled @error('meta_title') is-invalid @else border-0 @enderror" readonly
-                    disabled>
+                    disabled
+                    value="{{ old('meta_title', $book['meta_title']) }}"
+                    >
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">
