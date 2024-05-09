@@ -38,11 +38,12 @@ class CheckoutRequest extends FormRequest
 
             // Products data
             'products' => 'required',
+            'shipment_taxes' => 'required',
             'quantities' => 'required',
+            'prices' => 'required',
             'total' => 'required',
             'reference'=>'',
             // Order options
-            'shipment_method' => 'required',
         ];
     }
 }

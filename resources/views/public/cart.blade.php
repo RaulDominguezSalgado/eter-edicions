@@ -93,10 +93,8 @@
                                                         {{ $item->name }}</h6>
                                                 </a>
                                                 <small
-                                                    class="hidden md:block">{{ $item->options->publisher }}</small><br
-                                                    class="hidden md:block">
-                                                <small class="hidden md:block">{{ $item->options->isbn }}</small><br
-                                                    class="hidden md:block">
+                                                    class="hidden md:block">{{ $item->options->publisher }}</small>
+                                                <small class="hidden md:block">{{ $item->options->isbn }}</small>
                                                 <small class="md:font-semibold p12">{{ $item->priceTax() }}€</small>
                                             </div>
                                             <div class="flex md:hidden justify-between items-center space-x-2 ">
@@ -210,7 +208,7 @@
                                 </button>
                             </a>
                         </div>
-                        <div>
+                        {{-- <div>
                             <form action="{{route('paypal')}}" method="POST">
                                 @csrf
                                 <input type="text" name="total" value="{{Cart::instance('default')->total()}}" id="total" hidden>
@@ -218,7 +216,7 @@
                                     {{ __('shopping-cart.paypal') }}
                                 </button>
                             </form>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             @else

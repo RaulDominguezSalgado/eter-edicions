@@ -25,6 +25,7 @@ class OrderRequest extends FormRequest
             return [
                 'date' => 'required',
                 'total' => '',
+                'shipment_taxes' => '',
                 'reference' => 'required',
                 'dni' => 'required',
                 'first_name' => 'required',

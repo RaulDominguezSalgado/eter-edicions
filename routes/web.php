@@ -160,12 +160,17 @@ Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCa
 Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
 
-
-Route::post('cart/paypal',[App\Http\Controllers\PayPalController::class, 'payment'])->name('paypal');
-Route::get('cart/paypal/succes',[App\Http\Controllers\PayPalController::class, 'success'])->name('paypal.success');
-Route::get('cart/paypal/cancel',[App\Http\Controllers\PayPalController::class, 'cancel'])->name('paypal.cancel');
+Route::get('cart/payment', function () {
+    return redirect(route('cart.view'));
+});
+Route::post('cart/payment',[App\Http\Controllers\PaymentController::class, 'payment'])->name('payment');
+Route::get('cart/payment/succes',[App\Http\Controllers\PaymentController::class, 'success'])->name('payment.success');
+Route::get('cart/payment/cancel',[App\Http\Controllers\PaymentController::class, 'cancel'])->name('payment.cancel');
 
 // Checkout absolute routes
 // Route::post("/checkout/change-step/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
 Route::post("/checkout", [\App\Http\Controllers\CheckoutController::class, 'toPayment'])->name("checkout.toPayment");
 Route::get("/checkout/{orderId}", [\App\Http\Controllers\CheckoutController::class, 'showPaymentMethodView'])->name("checkout.payment_method");
+
+
+Route::get('/orders/{orderId}/pdf',[App\Http\Controllers\PaymentController::class, 'generateOrderPdf'])->name('orders.pdf');

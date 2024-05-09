@@ -13,6 +13,9 @@ return [
     */
 
 
-    'unknown-error' => 'Error desconegut',
-    'errors-in-form' => 'Hi ha errors al formulari, revisa tots els camps destacats.',
+    'checkout' => 'Caixa',
+    'ticket' => 'Tiquet',
+    'continue-with-payment' => 'Continuar amb el pagament',
+    'purchase-completed' => 'Comanda realitzada correctament',
+    'thanks-for-your-purchase' => 'Gràcies per la teva compra.'
 ];

@@ -4,7 +4,7 @@ $order = old() ?? [];
 ?>
 <x-layouts.app>
 
-    <h1 class="pb-20 text-center">Checkout</h1>
+    {{-- <h2 class="mb-8 text-center">{{ __('form.payment') }}</h2> --}}
     @if (session('success'))
         {{-- <div class="alert alert-danger">{{ session('error') }}</div> --}}
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
@@ -35,7 +35,7 @@ $order = old() ?? [];
     @endif
     @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong>Hi ha hagut algún error al formulari, reivsa tots els camps destacats.</strong>
+            <strong>{{ __('errors.errors-in-form') }}</strong>
             <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                 <svg class="fill-current h-6 w-6 text-systemerror" role="button" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
@@ -46,45 +46,57 @@ $order = old() ?? [];
             </span>
         </div>
     @endif
-    <form action="{{ route('paypal') }}" method="POST">
+    <form action="{{ route('payment') }}" method="POST">
         <div class="flex">
-            <div id="checkout-main-content" class="flex-col w-2/3 pr-5">
-
+            <div id="checkout-main-content" class="flex-col w-1/2 pr-5 space-y-4 ">
                 @csrf
-                <div id="payment">
-                    <h2>Pagament</h2>
-                    <div class="flex">
-                        <ul>
-                            @error('payment_method')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
-                            <li>
-                                <input value="paypal" @if (isset($order['payment_method']) && $order['payment_method'] == 'paypal') checked @endif type="radio"
-                                    class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="payment_method" id="paypal" value="paypal">
-                                <label for="paypal">PayPal</label>
-                            </li>
-                            <li>
-                                <input value="wire" @if (isset($order['payment_method']) && $order['payment_method'] == 'wire') checked @endif type="radio"
-                                    class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="payment_method" id="wire" value="wire">
-                                <label for="wire">Transferéncia bancaria</label>
-                            </li>
-                            <li>
+                <h2>{{ __('form.payment-method') }}</h2>
+                <div class="">
+                    <ul class="space-y-2.5">
+                        @error('payment_method')
+                            <small class="text-systemerror">{{ $message }}</small>
+                        @enderror
+                        <li class="w-2/5 flex items-center space-x-4 ">
+                            <input value="paypal" @if (isset($order['payment_method']) && $order['payment_method'] == 'paypal') checked @endif type="radio"
+                                class="" name="payment_method" id="paypal" value="paypal">
+                            <label for="paypal" class="w-full">
+                                <div class="flex justify-between text-lg">
+                                    {{-- {{ __('form.paypal') }} --}}
+                                    <img src="{{ asset('img/icons/third-party-logos/paypal.svg') }}"
+                                        alt="{{ __('Pay with PayPal') }}">
+                                </div>
+                            </label>
+                        </li>
+                        <li class="w-1/3 flex items-center space-x-4 ">
+                            <input value="wire" @if (isset($order['payment_method']) && $order['payment_method'] == 'wire') checked @endif type="radio"
+                                class="" name="payment_method" id="wire" value="wire">
+                            <label for="wire">
+                                <div class="flex justify-between text-lg">
+                                    {{ __('form.bank-transfer') }}
+                                </div>
+                            </label>
+                        </li>
+                        {{-- <li class="w-80 flex items-center space-x-4 ">
                                 <input value="redsys" @if (isset($order['payment_method']) && $order['payment_method'] == 'redsys') checked @endif type="radio"
-                                    class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    class="shadow appearance-none round py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="payment_method" id="redsys" value="redsys">
-                                <label for="redsys">RedSys</label>
-                            </li>
-                        </ul>
-                    </div>
+                                <label for="redsys">
+                                    <div class="flex justify-between text-lg">
+                                    {{__('form.redsys')}}
+                                    <img src="{{ asset('img/icons/third-party-logos/paypal.svg') }}"
+                                        alt="{{ __('Pay with PayPal') }}">
+                                </div>
+                                </label>
+                            </li> --}}
+                    </ul>
                 </div>
-                <input type="text" name="total" value="{{ Cart::instance('default')->total() }}" id="total"
-                    hidden>
-                <input type="text" name="orderId" value="{{$orderId }}" id="total"
-                    hidden>
-                <button class="send-button">
-                    {{ __('shopping-cart.paypal') }}
-                </button>
+                {{-- <input type="text" name="total" value="{{ Cart::instance('default')->total() + $order->shipment_taxes }}" id="total"
+                    hidden> --}}
+                <div>
+                    <input type="text" name="orderId" value="{{ $orderId }}" id="total" hidden>
+                    <button class="send-button">
+                        {{ __('checkout.continue-with-payment') }}
+                    </button>
+                </div>
     </form>
 </x-layouts.app>

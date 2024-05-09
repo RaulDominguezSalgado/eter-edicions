@@ -20,8 +20,16 @@ class CheckoutController extends Controller
      */
     public function index($order = null)
     {
-        // Previous actions
-        return view("public.checkout", compact("order"));
+        $shipment_taxes = 4.99;
+
+        $locale = app()->getLocale();
+
+        if(Cart::instance('default')->content() == []){
+
+            return redirect()->route("catalog.{$locale}");
+        }
+
+        return view("public.checkout", compact("order", 'shipment_taxes', 'locale'));
     }
 
     /**
@@ -35,6 +43,7 @@ class CheckoutController extends Controller
         $data['date'] = now()->toDateString();
         $data['status_id'] =1;
         $data['payment_method'] ="Pending";
+        // $data['shipment_taxes'] =5;
         // dd($request);
 
         // $order = Order::create([
@@ -56,7 +65,9 @@ class CheckoutController extends Controller
 
         $controller = new OrderController();
         $orderId=$controller->saveOrderCheckout($data);
-        return redirect()->route('checkout.payment_method', ['orderId' => $orderId]);
+        return redirect()->route('checkout.payment_method', [
+            'orderId' => $orderId
+        ]);
         // }
         // else {
         //     return back();
@@ -88,4 +99,6 @@ class CheckoutController extends Controller
 
         return $cadenaFinal;
     }
+
+
 }
