@@ -11,65 +11,7 @@ if ($paymentMethod == 'wire') {
 
 <head>
     <title>Order Ticket</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .ticket {
-            width: 500px;
-            /* margin: 20px auto; */
-            border: 1px solid #ccc;
-            padding: 20px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .ticket h2 {
-            margin-top: 0;
-            font-size: 1.2em;
-            /* border-bottom: 1px solid #ccc; */
-            padding-bottom: 10px;
-        }
-
-        .ticket p {
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .order-details {
-            margin-bottom: 20px;
-        }
-
-        .order-details p {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .order-items {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .order-items th,
-        .order-items td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .order-items th {
-            background-color: #f2f2f2;
-        }
-
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="{{asset('css/public/order_pdf.css')}}">
 </head>
 
 
@@ -122,9 +64,9 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                 </tbody>
             </table>
         </div>
-        <footer>
+        <div class="footer">
             {{ __('checkout.thanks-for-your-purchase') }}
-        </footer>
+        </div>
     </div>
 
 

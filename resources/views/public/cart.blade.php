@@ -83,8 +83,8 @@
                                     <td class="py-2 pr-3 flex items-center space-x-3 ">
                                         <a href="{{ route("book-detail.{$locale}", $item->options->id) }}">
                                             <img class=" border border-lightgrey" style="height: 6em; width: 4.5em"
-                                            src="{{ asset('img/books/thumbnails/' . $item->options->image) }}"
-                                            alt="{{ $item->name }}">
+                                                src="{{ asset('img/books/thumbnails/' . $item->options->image) }}"
+                                                alt="{{ $item->name }}">
                                         </a>
                                         <div class="py-2 flex flex-col justify-between">
                                             <div class="">
@@ -92,8 +92,7 @@
                                                     <h6 class="text-baseline md:text-lg font-bold w-max">
                                                         {{ $item->name }}</h6>
                                                 </a>
-                                                <small
-                                                    class="hidden md:block">{{ $item->options->publisher }}</small>
+                                                <small class="hidden md:block">{{ $item->options->publisher }}</small>
                                                 <small class="hidden md:block">{{ $item->options->isbn }}</small>
                                                 <small class="md:font-semibold p12">{{ $item->priceTax() }}€</small>
                                             </div>
@@ -169,9 +168,8 @@
                                                     </button>
                                                 </form>
 
-                                                <input type="text" value="{{ $item->qty }}" name="quantity" readonly
-                                                    onblur=""
-                                                    min="1"
+                                                <input type="text" value="{{ $item->qty }}" name="quantity"
+                                                    readonly onblur="" min="1"
                                                     class="inline-block text-center border border-lightgrey w-14 h-8 appearance-none">
                                                 <form action="{{ route('cart.add', $item->rowId) }}" method="POST"
                                                     class="inline-block">
