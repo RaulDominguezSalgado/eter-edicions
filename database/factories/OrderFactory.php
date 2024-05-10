@@ -29,7 +29,7 @@ class OrderFactory extends Factory
             'phone_number' => $this->faker->phoneNumber,
             'address' => $this->faker->streetAddress,
             'zip_code' => $this->faker->postcode,
-            'city' => $this->faker->city,
+            'locality' => $this->faker->city,
             'country' => $this->faker->country,
             'payment_method' => $this->faker->randomElement(['Credit Card', 'PayPal', 'Bank Transfer']),
             'status_id' => $this->faker->randomElement($statusIds),

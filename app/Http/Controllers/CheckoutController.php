@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
+use App\Utility\ShippingCostsTable;
 use App\Http\Controllers\PayPalController;
 use App\Models\Order;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -14,7 +15,8 @@ use Exception;
 
 class CheckoutController extends Controller
 {
-
+    private $shippingCostsSpanishProvinces;
+    private $shippingCostsInternationalCountries;
     private $provinces;
     private $countries;
 
@@ -22,6 +24,8 @@ class CheckoutController extends Controller
         $countriesAndProvinces= new CountriesAndProvinces();
         $this->provinces = $countriesAndProvinces->provinces;
         $this->countries = $countriesAndProvinces->countries;
+        $this->shippingCostsSpanishProvinces = (new ShippingCostsTable)->shippingCostsSpanishProvinces();
+        $this->shippingCostsInternationalCountries = (new ShippingCostsTable)->shippingCostsInternationalCountries();
     }
     /**
      * Método para el control del acceso al checkout
@@ -39,7 +43,9 @@ class CheckoutController extends Controller
         $provinces = $this->provinces;
         $countries = $this->countries;
 
-        return view("public.checkout", compact("order", 'locale', 'provinces', 'countries'));
+        $shipment_tax = 0;
+
+        return view("public.checkout", compact("order", 'shipment_tax', 'locale', 'provinces', 'countries'));
     }
 
     /**
@@ -47,40 +53,51 @@ class CheckoutController extends Controller
      */
     public function toPayment(CheckoutRequest $request)
     {
-        try {
-            $data = $request->validated();
-            $data['reference'] = $this->generateRandomReference();
-            $data['date'] = now()->toDateString();
-            $data['status_id'] = 1;
-            $data['payment_method'] = "Pending";
-            // $data['shipment_taxes'] =5;
-            // dd($request);
 
-            // $order = Order::create([
-            //     'date' => date('Y-m-d'),
-            //     'total' => preg_replace('/[,.]+/', '.', $data['total']),
-            //     'reference' => $this->generateRandomReference(),
-            //     'dni' => $data['dni'],
-            //     'first_name' => $data['first_name'],
-            //     'last_name' => $data['last_name'],
-            //     'email' => $data['email'],
-            //     "phone_number" => $data['phone_number'],
-            //     "address" => $data['address'],
-            //     "zip_code" => $data['zip_code'],
-            //     "city" => $data['city'],
-            //     "country" => $data['country'],
-            //     'payment_method' => $data['payment_method'],
-            //     'status_id' => 1,
-            // ]);
+        // dd($request);
+        // try {
+        $data = $request->validated();
+        $data['reference'] = $this->generateRandomReference();
+        $data['date'] = now()->toDateString();
+        $data['status_id'] = 1;
+        $data['payment_method'] = "Pending";
+        // $data['shipment_taxes'] =5;
 
-            $controller = new OrderController();
-            $orderId = $controller->saveOrderCheckout($data);
-            return redirect()->route('checkout.payment_method', [
-                'orderId' => $orderId
-            ]);
-        } catch (Exception $e) {
-            abort(500, __('errors.unknown-error'));
+        // dd($data);
+
+        if ($data['country'] == 'ES') {
+            if (isset($this->shippingCostsSpanishProvinces[$data['province']])) {
+                // dd("province in array");
+                $shipment_options = $this->shippingCostsSpanishProvinces[$data['province']];
+                $shipment_tax = $shipment_options['standard']['price'];
+            } else {
+                $shipment_options = $this->shippingCostsSpanishProvinces['ES'];
+                $shipment_tax = $shipment_options['standard']['price'];
+            }
+        } else {
+            if (isset($this->shippingCostsInternationalCountries[$data['country']])) {
+                $shipment_options = $this->shippingCostsInternationalCountries[$data['country']];
+                $shipment_tax = $shipment_options['price'];
+            } else {
+                $shipment_options = $this->shippingCostsInternationalCountries['default'];
+                $shipment_tax = $shipment_options['price'];
+            }
         }
+        // dd($shipment_options);
+
+        $controller = new OrderController();
+        // dd($data);
+        $orderId = $controller->saveOrderCheckout($data);
+        // return redirect()->route('checkout.payment_method', [
+        //     'orderId' => $orderId,
+        // ]);
+
+        return view("public.payment", compact('orderId', 'shipment_options', 'shipment_tax'));
+
+
+        // } catch (Exception $e) {
+        //     abort(500, __('errors.unknown-error'));
+        // }
     }
 
     function showPaymentMethodView($orderId)

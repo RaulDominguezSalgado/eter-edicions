@@ -20,6 +20,9 @@ $order = old() ?? [];
                                     d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
                             </svg>
                         </span>
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}<br />
+                        @endforeach
                     </div>
                 @endif
                 @csrf
@@ -87,16 +90,19 @@ $order = old() ?? [];
                         <label class="flex-col w-full max-w-[calc(100%-16rem)] mb-4"
                             for="address">{{ __('form.address') }}
                             <div
-                                class="w-full flex items-center justify-between shadow appearance-none border border-dark rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline p-1">
+                                class="w-full hidden lg:flex items-center justify-between shadow appearance-none border border-dark rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline p-1">
                                 <input type="text" class="w-full border-0 py-1 px-2" name="search_input"
                                     id="search_input">
                                 <i class="icon search"></i>
                             </div>
+                            <input type="text"
+                                class="flex lg:hidden w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="address" id="address">
                         </label>
                         <label class="flex-col w-min my-3" for="apartment">{{ __('form.apartment') }}
                             <input type="text" value="{{ $order['apartment'] ?? '' }}"
                                 class="h-[42px] @error('apartment') border-systemerror @enderror w-min shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="apartment" id="apartment">
+                                name="apartment" id="apartment" placeholder="(opcional)">
                             @error('apartment')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
@@ -116,10 +122,14 @@ $order = old() ?? [];
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('province') border-systemerror @enderror"
                                 name="province" id="province">
                                 @foreach ($provinces as $code => $province)
-                                    <option value="{{ $code }}"
-                                        @if (isset($order['province']) &&
-                                         $order['province'] == $code) selected
-                                         @endif>{{ __('provinces.' . $province['code']) }}</option>
+                                    @if($loop->first)
+                                    <option id="{{ $province['name'] }}" value="{{ $code }}">
+                                        {{ __('provinces.' . $province['name']) }}</option>
+                                    @else
+                                        <option id="{{ $code }}" value="{{ $code }}"
+                                        @if ($code == 'B') selected @endif>
+                                            {{ __('provinces.' . $province['code']) }}</option>
+                                    @endif
                                 @endforeach
                             </select>
 
@@ -129,15 +139,14 @@ $order = old() ?? [];
                         </label>
                         <label class="flex-col w-1/3 my-3" for="country">{{ __('form.country') }}
                             <select
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('country') border-systemerror @enderror"
-                            name="province" id="province">
-                            @foreach ($countries as $key => $country)
-                                <option value="{{ $code }}"
-                                    @if (isset($order['country']) &&
-                                     $order['country'] == $code) selected
-                                     @endif>{{ __('countries.' . $key) }}</option>
-                            @endforeach
-                        </select>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('country') border-systemerror @enderror"
+                                name="country" id="country">
+                                @foreach ($countries as $key => $country)
+                                    <option value="{{ $key }}"
+                                        @if ($key == 'ES') selected @endif>
+                                        {{ __('countries.' . $key) }}</option>
+                                @endforeach
+                            </select>
                             {{-- <input type="text" value="{{ $order['country'] ?? '' }}"
                                 class="@error('country') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="country" id="country"> --}}
@@ -157,6 +166,28 @@ $order = old() ?? [];
                         </label>
                     </div>
                 </div>
+                {{-- <div id="payment">
+                    <h2>Pagament</h2>
+                    <div class="flex">
+                        <ul>
+                            @error('payment_method')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                            <li>
+                                <input value="paypal" @if (isset($order['payment_method']) && $order['payment_method'] == 'paypal') checked @endif type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="paypal" value="paypal">
+                                <label for="paypal">{{__('form.paypal')}}</label>
+                            </li>
+                            <li>
+                            <input value="wire" @if (isset($order['payment_method']) && $order['payment_method'] == 'wire') checked @endif type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="wire" value="wire">
+                                <label for="wire">{{__('form.bank-transfer')}}</label>
+                            </li>
+                            <li>
+                                <input value="redsys" @if (isset($order['payment_method']) && $order['payment_method'] == 'redsys') checked @endif type="radio" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="payment_method" id="redsys" value="redsys">
+                                <label for="redsys">{{__('form.redsys')}}</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div> --}}
                 <div class="checkout-controls my-10">
                     <a href="{{ route('cart.view') }}" class="previous-button">{{ __('form.back') }}</a>
                     <input type="submit" value="{{ __('form.next') }}" name="next" class="next-button">
@@ -167,9 +198,49 @@ $order = old() ?? [];
                     <h2>{{ trans_choice('words.producte', 2) }}</h2>
                     <x-partials.cartContent></x-partials.cartContent>
                 </div>
+                {{-- <div id="shipment">
+                    <h2>Mètodes d'enviament</h2>
+                    <div class="flex">
+                        <ul>
+                            @error('shipment_method')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                            <li>
+                                <input type="radio" name="shipment_method" id="seur" value="seur" @if (isset($order['shipment_method']) && $order['shipment_method'] == 'seur') checked @endif class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <label for="seur">SEUR</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="shipment_method" id="ups" value="ups" @if (isset($order['shipment_method']) && $order['shipment_method'] == 'ups') checked @endif class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <label for="ups">UPS</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div> --}}
                 <div>
                     <div id="price_table" class="py-5">
-                        <x-partials.cartInfo></x-partials.cartInfo>
+                        {{-- <x-partials.cartInfo shipment_tax="{{$shipment_tax}}"></x-partials.cartInfo> --}}
+                        <div class="flex">
+                            <div class="flex-col w-1/2  min-w-fit">{{ __('Subtotal') }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', Cart::instance('default')->subTotal()) }}€</div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-col w-1/2  min-w-fit">{{ __('IVA') }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', Cart::instance('default')->tax()) }}€</div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-col w-1/2  min-w-fit">{{ __("Despeses d'enviament") }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', !$shipment_tax ? 'Per calcular' : $shipment_tax . '€') }}
+                            </div>
+                        </div>
+                        <div class="border my-3"></div>
+                        <div class="flex">
+                            <div class="flex-col w-1/2 min-w-fit">{{ __('Total') }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', Cart::instance('default')->total() + $shipment_tax) }}€</div>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -178,4 +249,4 @@ $order = old() ?? [];
 
     <link rel="stylesheet" href="{{ asset('css/public/checkout.css') }}">
 </x-layouts.app>
-<script src="{{ asset('js/form/places.js') }}"></script>
+<script src="{{ asset('js/form/checkout.js') }}"></script>

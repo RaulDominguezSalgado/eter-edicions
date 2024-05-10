@@ -1,4 +1,4 @@
-<ul class="cart-info">
+<ul class="cart-info max-h-32 overflow-y-auto">
     <!--
         $item->name
         $item->price
@@ -9,7 +9,7 @@
         -->
     @foreach (Cart::instance("default")->content() as $item)
         <li>
-            <div class="flex mb-5">
+            <div class="w-full flex mb-5">
                 <div class="w-1/3 flex items-center">
                     <img class="w-full h-full object-contain" src="{{ asset('img/books/thumbnails/' . $item->options->image) }}" alt="{{ $item->name }}">
                 </div>

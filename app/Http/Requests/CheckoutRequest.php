@@ -31,14 +31,15 @@ class CheckoutRequest extends FormRequest
 
             // Adress data
             'address' => 'required|string',
+            'apartment' => 'nullable|string',
             'zip_code' => 'required|numeric',
-            'city' => 'required|string',
-            'province' => 'required|string',
+            'locality' => 'required|string',
+            'province' => 'nullable|string',
             'country' => 'required|string',
 
             // Products data
             'products' => 'required',
-            'shipment_taxes' => 'required',
+            // 'shipment_taxes' => 'required',
             'quantities' => 'required',
             'prices' => 'required',
             'total' => 'required',

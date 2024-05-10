@@ -24,8 +24,10 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone_number');
             $table->string('address');
+            $table->string('apartment')->nullable();
             $table->string('zip_code');
-            $table->string('city');
+            $table->string('locality');
+            $table->string('province')->nullable();
             $table->string('country');
             $table->string('payment_method');
             $table->unsignedBigInteger('status_id');

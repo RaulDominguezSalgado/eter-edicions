@@ -10,6 +10,11 @@ class CountriesAndProvinces
 {
 
     public $provinces = [
+        "placeholder" => [
+            "name" => "placeholder",
+            "pc" => "",
+            "code" => ""
+        ],
         "VI" => [
             "name" => "Álava",
             "pc" => "01",
@@ -90,10 +95,10 @@ class CountriesAndProvinces
             "pc" => "16",
             "code" => "CU"
         ],
-        "GE" => [
-            "name" => "Gerona",
+        "GI" => [
+            "name" => "Girona",
             "pc" => "17",
-            "code" => "GE"
+            "code" => "GI"
         ],
         "GR" => [
             "name" => "Granada",
@@ -131,7 +136,7 @@ class CountriesAndProvinces
             "code" => "LE"
         ],
         "L" => [
-            "name" => "Lérida",
+            "name" => "Lleida",
             "pc" => "25",
             "code" => "L"
         ],
@@ -275,1471 +280,255 @@ class CountriesAndProvinces
 
 
     public $countries = [
-        "AFG" => [
-            "name" => "Afganistán",
-            "iso3" => "AFG",
-            "code" => "004"
-        ],
-        "ALI" => [
-            "name" => "Åland Islands",
-            "iso3" => "ALI",
-            "code" => "248"
-        ],
-        "ALB" => [
-            "name" => "Albania",
-            "iso3" => "ALB",
-            "code" => "008"
-        ],
-        "DEU" => [
-            "name" => "Alemania",
-            "iso3" => "DEU",
-            "code" => "276"
-        ],
-        "AND" => [
-            "name" => "Andorra",
-            "iso3" => "AND",
-            "code" => "020"
-        ],
-        "AGO" => [
-            "name" => "Angola",
-            "iso3" => "AGO",
-            "code" => "024"
-        ],
-        "AIA" => [
-            "name" => "Anguila",
-            "iso3" => "AIA",
-            "code" => "660"
-        ],
-        "ATA" => [
-            "name" => "Antártida",
-            "iso3" => "ATA",
-            "code" => "010"
-        ],
-        "ATG" => [
-            "name" => "Antigua y Barbuda",
-            "iso3" => "ATG",
-            "code" => "028"
-        ],
-        "SAU" => [
-            "name" => "Arabia Saudita",
-            "iso3" => "SAU",
-            "code" => "682"
-        ],
-        "DZA" => [
-            "name" => "Argelia",
-            "iso3" => "DZA",
-            "code" => "012"
-        ],
-        "ARG" => [
-            "name" => "Argentina",
-            "iso3" => "ARG",
-            "code" => "032"
-        ],
-        "ARM" => [
-            "name" => "Armenia",
-            "iso3" => "ARM",
-            "code" => "051"
-        ],
-        "ABW" => [
-            "name" => "Aruba",
-            "iso3" => "ABW",
-            "code" => "533"
-        ],
-        "AUS" => [
-            "name" => "Australia",
-            "iso3" => "AUS",
-            "code" => "036"
-        ],
-        "AUT" => [
-            "name" => "Austria",
-            "iso3" => "AUT",
-            "code" => "040"
-        ],
-        "AZE" => [
-            "name" => "Azerbaiyán",
-            "iso3" => "AZE",
-            "code" => "031"
-        ],
-        "BHS" => [
-            "name" => "Bahamas",
-            "iso3" => "BHS",
-            "code" => "044"
-        ],
-        "BHR" => [
-            "name" => "Bahrein",
-            "iso3" => "BHR",
-            "code" => "048"
-        ],
-        "BGD" => [
-            "name" => "Bangladesh",
-            "iso3" => "BGD",
-            "code" => "050"
-        ],
-        "BRB" => [
-            "name" => "Barbados",
-            "iso3" => "BRB",
-            "code" => "052"
-        ],
-        "BLR" => [
-            "name" => "Belarús",
-            "iso3" => "BLR",
-            "code" => "112"
-        ],
-        "BEL" => [
-            "name" => "Bélgica",
-            "iso3" => "BEL",
-            "code" => "056"
-        ],
-        "BLX" => [
-            "name" => "Bélgica-Luxemburgo",
-            "iso3" => "BLX",
-            "code" => "058"
-        ],
-        "BLZ" => [
-            "name" => "Belice",
-            "iso3" => "BLZ",
-            "code" => "084"
-        ],
-        "BEN" => [
-            "name" => "Benin",
-            "iso3" => "BEN",
-            "code" => "204"
-        ],
-        "BMU" => [
-            "name" => "Bermudas",
-            "iso3" => "BMU",
-            "code" => "060"
-        ],
-        "BTN" => [
-            "name" => "Bhután",
-            "iso3" => "BTN",
-            "code" => "064"
-        ],
-        "BOL" => [
-            "name" => "Bolivia",
-            "iso3" => "BOL",
-            "code" => "068"
-        ],
-        "BES" => [
-            "name" => "Bonaire",
-            "iso3" => "BES",
-            "code" => "535"
-        ],
-        "BIH" => [
-            "name" => "Bosnia y Herzegovina",
-            "iso3" => "BIH",
-            "code" => "070"
-        ],
-        "BWA" => [
-            "name" => "Botswana",
-            "iso3" => "BWA",
-            "code" => "072"
-        ],
-        "BRA" => [
-            "name" => "Brasil",
-            "iso3" => "BRA",
-            "code" => "076"
-        ],
-        "BRN" => [
-            "name" => "Brunei Darussalam",
-            "iso3" => "BRN",
-            "code" => "096"
-        ],
-        "BGR" => [
-            "name" => "Bulgaria",
-            "iso3" => "BGR",
-            "code" => "100"
-        ],
-        "BFA" => [
-            "name" => "Burkina Faso",
-            "iso3" => "BFA",
-            "code" => "854"
-        ],
-        "BDI" => [
-            "name" => "Burundi",
-            "iso3" => "BDI",
-            "code" => "108"
-        ],
-        "CPV" => [
-            "name" => "Cabo Verde",
-            "iso3" => "CPV",
-            "code" => "132"
-        ],
-        "KHM" => [
-            "name" => "Camboya",
-            "iso3" => "KHM",
-            "code" => "116"
-        ],
-        "CMR" => [
-            "name" => "Camerún",
-            "iso3" => "CMR",
-            "code" => "120"
-        ],
-        "CAN" => [
-            "name" => "Canadá",
-            "iso3" => "CAN",
-            "code" => "124"
-        ],
-        "TCD" => [
-            "name" => "Chad",
-            "iso3" => "TCD",
-            "code" => "148"
-        ],
-        "CSK" => [
-            "name" => "Checoslovaquia",
-            "iso3" => "CSK",
-            "code" => "200"
-        ],
-        "CHL" => [
-            "name" => "Chile",
-            "iso3" => "CHL",
-            "code" => "152"
-        ],
-        "CHN" => [
-            "name" => "China",
-            "iso3" => "CHN",
-            "code" => "156"
-        ],
-        "CYP" => [
-            "name" => "Chipre",
-            "iso3" => "CYP",
-            "code" => "196"
-        ],
-        "COL" => [
-            "name" => "Colombia",
-            "iso3" => "COL",
-            "code" => "170"
-        ],
-        "COM" => [
-            "name" => "Comoras",
-            "iso3" => "COM",
-            "code" => "174"
-        ],
-        "COG" => [
-            "name" => "Congo, Rep. del",
-            "iso3" => "COG",
-            "code" => "178"
-        ],
-        "KOR" => [
-            "name" => "Corea, Rep. de",
-            "iso3" => "KOR",
-            "code" => "410"
-        ],
-        "PRK" => [
-            "name" => "Corea, Rep. Dem. de",
-            "iso3" => "PRK",
-            "code" => "408"
-        ],
-        "CRI" => [
-            "name" => "Costa Rica",
-            "iso3" => "CRI",
-            "code" => "188"
-        ],
-        "CIV" => [
-            "name" => "Côte d'Ivoire",
-            "iso3" => "CIV",
-            "code" => "384"
-        ],
-        "HRV" => [
-            "name" => "Croacia",
-            "iso3" => "HRV",
-            "code" => "191"
-        ],
-        "CUB" => [
-            "name" => "Cuba",
-            "iso3" => "CUB",
-            "code" => "192"
-        ],
-        "CUW" => [
-            "name" => "Curacao",
-            "iso3" => "CUW",
-            "code" => "531"
-        ],
-        "DNK" => [
-            "name" => "Dinamarca",
-            "iso3" => "DNK",
-            "code" => "208"
-        ],
-        "DJI" => [
-            "name" => "Djibouti",
-            "iso3" => "DJI",
-            "code" => "262"
-        ],
-        "DMA" => [
-            "name" => "Dominica",
-            "iso3" => "DMA",
-            "code" => "212"
-        ],
-        "ECU" => [
-            "name" => "Ecuador",
-            "iso3" => "ECU",
-            "code" => "218"
-        ],
-        "EGY" => [
-            "name" => "Egipto, Rep. ?rabe de",
-            "iso3" => "EGY",
-            "code" => "818"
-        ],
-        "SLV" => [
-            "name" => "El Salvador",
-            "iso3" => "SLV",
-            "code" => "222"
-        ],
-        "ARE" => [
-            "name" => "Emiratos ?rabes Unidos",
-            "iso3" => "ARE",
-            "code" => "784"
-        ],
-        "ERI" => [
-            "name" => "Eritrea",
-            "iso3" => "ERI",
-            "code" => "232"
-        ],
-        "SVN" => [
-            "name" => "Eslovenia",
-            "iso3" => "SVN",
-            "code" => "705"
-        ],
-        "ESP" => [
-            "name" => "España",
-            "iso3" => "ESP",
-            "code" => "724"
-        ],
-        "USA" => [
-            "name" => "Estados Unidos",
-            "iso3" => "USA",
-            "code" => "840"
-        ],
-        "EST" => [
-            "name" => "Estonia",
-            "iso3" => "EST",
-            "code" => "233"
-        ],
-        "ETH" => [
-            "name" => "Etiopía (excluida Eritrea)",
-            "iso3" => "ETH",
-            "code" => "231"
-        ],
-        "SDN" => [
-            "name" => "Ex Sudán",
-            "iso3" => "SDN",
-            "code" => "736"
-        ],
-        "RUS" => [
-            "name" => "Federación de Rusia",
-            "iso3" => "RUS",
-            "code" => "643"
-        ],
-        "FJI" => [
-            "name" => "Fiji",
-            "iso3" => "FJI",
-            "code" => "242"
-        ],
-        "PHL" => [
-            "name" => "Filipinas",
-            "iso3" => "PHL",
-            "code" => "608"
-        ],
-        "FIN" => [
-            "name" => "Finlandia",
-            "iso3" => "FIN",
-            "code" => "246"
-        ],
-        "FRA" => [
-            "name" => "Francia",
-            "iso3" => "FRA",
-            "code" => "250"
-        ],
-        "GAB" => [
-            "name" => "Gabón",
-            "iso3" => "GAB",
-            "code" => "266"
-        ],
-        "GMB" => [
-            "name" => "Gambia",
-            "iso3" => "GMB",
-            "code" => "270"
-        ],
-        "GAZ" => [
-            "name" => "Gaza Strip",
-            "iso3" => "GAZ",
-            "code" => "274"
-        ],
-        "GEO" => [
-            "name" => "Georgia",
-            "iso3" => "GEO",
-            "code" => "268"
-        ],
-        "GHA" => [
-            "name" => "Ghana",
-            "iso3" => "GHA",
-            "code" => "288"
-        ],
-        "GIB" => [
-            "name" => "Gibraltar",
-            "iso3" => "GIB",
-            "code" => "292"
-        ],
-        "GRD" => [
-            "name" => "Granada",
-            "iso3" => "GRD",
-            "code" => "308"
-        ],
-        "GRC" => [
-            "name" => "Grecia",
-            "iso3" => "GRC",
-            "code" => "300"
-        ],
-        "GRL" => [
-            "name" => "Groenlandia",
-            "iso3" => "GRL",
-            "code" => "304"
-        ],
-        "GLP" => [
-            "name" => "Guadalupe",
-            "iso3" => "GLP",
-            "code" => "312"
-        ],
-        "GUM" => [
-            "name" => "Guam",
-            "iso3" => "GUM",
-            "code" => "316"
-        ],
-        "GTM" => [
-            "name" => "Guatemala",
-            "iso3" => "GTM",
-            "code" => "320"
-        ],
-        "GUF" => [
-            "name" => "Guayana Francesa",
-            "iso3" => "GUF",
-            "code" => "254"
-        ],
-        "GIN" => [
-            "name" => "Guinea",
-            "iso3" => "GIN",
-            "code" => "324"
-        ],
-        "GNQ" => [
-            "name" => "Guinea Ecuatorial",
-            "iso3" => "GNQ",
-            "code" => "226"
-        ],
-        "GNB" => [
-            "name" => "Guinea-Bissau",
-            "iso3" => "GNB",
-            "code" => "624"
-        ],
-        "GUY" => [
-            "name" => "Guyana",
-            "iso3" => "GUY",
-            "code" => "328"
-        ],
-        "HTI" => [
-            "name" => "Haití",
-            "iso3" => "HTI",
-            "code" => "332"
-        ],
-        "HND" => [
-            "name" => "Honduras",
-            "iso3" => "HND",
-            "code" => "340"
-        ],
-        "HKG" => [
-            "name" => "Hong Kong (China)",
-            "iso3" => "HKG",
-            "code" => "344"
-        ],
-        "HUN" => [
-            "name" => "Hungría",
-            "iso3" => "HUN",
-            "code" => "348"
-        ],
-        "IND" => [
-            "name" => "India",
-            "iso3" => "IND",
-            "code" => "356"
-        ],
-        "IDN" => [
-            "name" => "Indonesia",
-            "iso3" => "IDN",
-            "code" => "360"
-        ],
-        "IRN" => [
-            "name" => "Irán, Rep. Islámica del",
-            "iso3" => "IRN",
-            "code" => "364"
-        ],
-        "IRQ" => [
-            "name" => "Iraq",
-            "iso3" => "IRQ",
-            "code" => "368"
-        ],
-        "IRL" => [
-            "name" => "Irlanda",
-            "iso3" => "IRL",
-            "code" => "372"
-        ],
-        "CXR" => [
-            "name" => "Isla de Navidad",
-            "iso3" => "CXR",
-            "code" => "162"
-        ],
-        "NFK" => [
-            "name" => "Isla Norfolk",
-            "iso3" => "NFK",
-            "code" => "574"
-        ],
-        "ISL" => [
-            "name" => "Islandia",
-            "iso3" => "ISL",
-            "code" => "352"
-        ],
-        "CYM" => [
-            "name" => "Islas Caimán",
-            "iso3" => "CYM",
-            "code" => "136"
-        ],
-        "CCK" => [
-            "name" => "Islas Cocos (Keeling)",
-            "iso3" => "CCK",
-            "code" => "166"
-        ],
-        "COK" => [
-            "name" => "Islas Cook",
-            "iso3" => "COK",
-            "code" => "184"
-        ],
-        "FLK" => [
-            "name" => "Islas Falkland",
-            "iso3" => "FLK",
-            "code" => "238"
-        ],
-        "FRO" => [
-            "name" => "Islas Feroe",
-            "iso3" => "FRO",
-            "code" => "234"
-        ],
-        "SGS" => [
-            "name" => "Islas Georgias del Sur y Sandwich del Sur",
-            "iso3" => "SGS",
-            "code" => "239"
-        ],
-        "HMD" => [
-            "name" => "Islas Heard y McDonald",
-            "iso3" => "HMD",
-            "code" => "334"
-        ],
-        "MHL" => [
-            "name" => "Islas Marshall",
-            "iso3" => "MHL",
-            "code" => "584"
-        ],
-        "SLB" => [
-            "name" => "Islas Salomón",
-            "iso3" => "SLB",
-            "code" => "090"
-        ],
-        "TCA" => [
-            "name" => "Islas Turcas y Caicos",
-            "iso3" => "TCA",
-            "code" => "796"
-        ],
-        "UMI" => [
-            "name" => "Islas Ultramarinas Menores de Estados Unidos",
-            "iso3" => "UMI",
-            "code" => "581"
-        ],
-        "VIR" => [
-            "name" => "Islas Vírgenes (EE.UU.)",
-            "iso3" => "VIR",
-            "code" => "850"
-        ],
-        "VGB" => [
-            "name" => "Islas Vírgenes Británicas",
-            "iso3" => "VGB",
-            "code" => "092"
-        ],
-        "WLF" => [
-            "name" => "Islas Wallis y Futuna",
-            "iso3" => "WLF",
-            "code" => "876"
-        ],
-        "ISR" => [
-            "name" => "Israel",
-            "iso3" => "ISR",
-            "code" => "376"
-        ],
-        "ITA" => [
-            "name" => "Italia",
-            "iso3" => "ITA",
-            "code" => "380"
-        ],
-        "JAM" => [
-            "name" => "Jamaica",
-            "iso3" => "JAM",
-            "code" => "388"
-        ],
-        "JPN" => [
-            "name" => "Japón",
-            "iso3" => "JPN",
-            "code" => "392"
-        ],
-        "JOR" => [
-            "name" => "Jordania",
-            "iso3" => "JOR",
-            "code" => "400"
-        ],
-        "KAZ" => [
-            "name" => "Kazajistán",
-            "iso3" => "KAZ",
-            "code" => "398"
-        ],
-        "KEN" => [
-            "name" => "Kenia",
-            "iso3" => "KEN",
-            "code" => "404"
-        ],
-        "KIR" => [
-            "name" => "Kiribati",
-            "iso3" => "KIR",
-            "code" => "296"
-        ],
-        "PRK" => [
-            "name" => "Corea del Norte",
-            "iso3" => "PRK",
-            "code" => "408"
-        ],
-        "KOR" => [
-            "name" => "Corea del Sur",
-            "iso3" => "KOR",
-            "code" => "410"
-        ],
-        "KWT" => [
-            "name" => "Kuwait",
-            "iso3" => "KWT",
-            "code" => "414"
-        ],
-        "KGZ" => [
-            "name" => "Kirguistán",
-            "iso3" => "KGZ",
-            "code" => "417"
-        ],
-        "LAO" => [
-            "name" => "Laos",
-            "iso3" => "LAO",
-            "code" => "418"
-        ],
-        "LVA" => [
-            "name" => "Letonia",
-            "iso3" => "LVA",
-            "code" => "428"
-        ],
-        "LSO" => [
-            "name" => "Lesoto",
-            "iso3" => "LSO",
-            "code" => "426"
-        ],
-        "LBR" => [
-            "name" => "Liberia",
-            "iso3" => "LBR",
-            "code" => "430"
-        ],
-        "LBN" => [
-            "name" => "Líbano",
-            "iso3" => "LBN",
-            "code" => "422"
-        ],
-        "LBY" => [
-            "name" => "Libia",
-            "iso3" => "LBY",
-            "code" => "434"
-        ],
-        "LIE" => [
-            "name" => "Liechtenstein",
-            "iso3" => "LIE",
-            "code" => "438"
-        ],
-        "LTU" => [
-            "name" => "Lituania",
-            "iso3" => "LTU",
-            "code" => "440"
-        ],
-        "LUX" => [
-            "name" => "Luxemburgo",
-            "iso3" => "LUX",
-            "code" => "442"
-        ],
-        "MAC" => [
-            "name" => "Macao",
-            "iso3" => "MAC",
-            "code" => "446"
-        ],
-        "MKD" => [
-            "name" => "Macedonia",
-            "iso3" => "MKD",
-            "code" => "807"
-        ],
-        "MDG" => [
-            "name" => "Madagascar",
-            "iso3" => "MDG",
-            "code" => "450"
-        ],
-        "MWI" => [
-            "name" => "Malawi",
-            "iso3" => "MWI",
-            "code" => "454"
-        ],
-        "MYS" => [
-            "name" => "Malasia",
-            "iso3" => "MYS",
-            "code" => "458"
-        ],
-        "MDV" => [
-            "name" => "Maldivas",
-            "iso3" => "MDV",
-            "code" => "462"
-        ],
-        "MLI" => [
-            "name" => "Malí",
-            "iso3" => "MLI",
-            "code" => "466"
-        ],
-        "MLT" => [
-            "name" => "Malta",
-            "iso3" => "MLT",
-            "code" => "470"
-        ],
-        "MHL" => [
-            "name" => "Islas Marshall",
-            "iso3" => "MHL",
-            "code" => "584"
-        ],
-        "MTQ" => [
-            "name" => "Martinica",
-            "iso3" => "MTQ",
-            "code" => "474"
-        ],
-        "MRT" => [
-            "name" => "Mauritania",
-            "iso3" => "MRT",
-            "code" => "478"
-        ],
-        "MUS" => [
-            "name" => "Mauricio",
-            "iso3" => "MUS",
-            "code" => "480"
-        ],
-        "MYT" => [
-            "name" => "Mayotte",
-            "iso3" => "MYT",
-            "code" => "175"
-        ],
-        "MEX" => [
-            "name" => "México",
-            "iso3" => "MEX",
-            "code" => "484"
-        ],
-        "FSM" => [
-            "name" => "Micronesia",
-            "iso3" => "FSM",
-            "code" => "583"
-        ],
-        "MDA" => [
-            "name" => "Moldavia",
-            "iso3" => "MDA",
-            "code" => "498"
-        ],
-        "MCO" => [
-            "name" => "Mónaco",
-            "iso3" => "MCO",
-            "code" => "492"
-        ],
-        "MNG" => [
-            "name" => "Mongolia",
-            "iso3" => "MNG",
-            "code" => "496"
-        ],
-        "MNE" => [
-            "name" => "Montenegro",
-            "iso3" => "MNE",
-            "code" => "499"
-        ],
-        "MSR" => [
-            "name" => "Montserrat",
-            "iso3" => "MSR",
-            "code" => "500"
-        ],
-        "MAR" => [
-            "name" => "Marruecos",
-            "iso3" => "MAR",
-            "code" => "504"
-        ],
-        "MOZ" => [
-            "name" => "Mozambique",
-            "iso3" => "MOZ",
-            "code" => "508"
-        ],
-        "MMR" => [
-            "name" => "Myanmar",
-            "iso3" => "MMR",
-            "code" => "104"
-        ],
-        "NAM" => [
-            "name" => "Namibia",
-            "iso3" => "NAM",
-            "code" => "516"
-        ],
-        "NRU" => [
-            "name" => "Nauru",
-            "iso3" => "NRU",
-            "code" => "520"
-        ],
-        "NPL" => [
-            "name" => "Nepal",
-            "iso3" => "NPL",
-            "code" => "524"
-        ],
-        "NLD" => [
-            "name" => "Países Bajos",
-            "iso3" => "NLD",
-            "code" => "528"
-        ],
-        "NCL" => [
-            "name" => "Nueva Caledonia",
-            "iso3" => "NCL",
-            "code" => "540"
-        ],
-        "NZL" => [
-            "name" => "Nueva Zelanda",
-            "iso3" => "NZL",
-            "code" => "554"
-        ],
-        "NIC" => [
-            "name" => "Nicaragua",
-            "iso3" => "NIC",
-            "code" => "558"
-        ],
-        "NER" => [
-            "name" => "Níger",
-            "iso3" => "NER",
-            "code" => "562"
-        ],
-        "NGA" => [
-            "name" => "Nigeria",
-            "iso3" => "NGA",
-            "code" => "566"
-        ],
-        "NIU" => [
-            "name" => "Niue",
-            "iso3" => "NIU",
-            "code" => "570"
-        ],
-        "NFK" => [
-            "name" => "Isla Norfolk",
-            "iso3" => "NFK",
-            "code" => "574"
-        ],
-        "MNP" => [
-            "name" => "Islas Marianas del Norte",
-            "iso3" => "MNP",
-            "code" => "580"
-        ],
-        "NOR" => [
-            "name" => "Noruega",
-            "iso3" => "NOR",
-            "code" => "578"
-        ],
-        "OMN" => [
-            "name" => "Omán",
-            "iso3" => "OMN",
-            "code" => "512"
-        ],
-        "PAK" => [
-            "name" => "Pakistán",
-            "iso3" => "PAK",
-            "code" => "586"
-        ],
-        "PLW" => [
-            "name" => "Palau",
-            "iso3" => "PLW",
-            "code" => "585"
-        ],
-        "PSE" => [
-            "name" => "Territorios Palestinos",
-            "iso3" => "PSE",
-            "code" => "275"
-        ],
-        "PAN" => [
-            "name" => "Panamá",
-            "iso3" => "PAN",
-            "code" => "591"
-        ],
-        "PNG" => [
-            "name" => "Papúa Nueva Guinea",
-            "iso3" => "PNG",
-            "code" => "598"
-        ],
-        "PRY" => [
-            "name" => "Paraguay",
-            "iso3" => "PRY",
-            "code" => "600"
-        ],
-        "PER" => [
-            "name" => "Perú",
-            "iso3" => "PER",
-            "code" => "604"
-        ],
-        "PHL" => [
-            "name" => "Filipinas",
-            "iso3" => "PHL",
-            "code" => "608"
-        ],
-        "POL" => [
-            "name" => "Polonia",
-            "iso3" => "POL",
-            "code" => "616"
-        ],
-        "PRT" => [
-            "name" => "Portugal",
-            "iso3" => "PRT",
-            "code" => "620"
-        ],
-        "PRI" => [
-            "name" => "Puerto Rico",
-            "iso3" => "PRI",
-            "code" => "630"
-        ],
-        "QAT" => [
-            "name" => "Qatar",
-            "iso3" => "QAT",
-            "code" => "634"
-        ],
-        "REU" => [
-            "name" => "Reunión",
-            "iso3" => "REU",
-            "code" => "638"
-        ],
-        "ROU" => [
-            "name" => "Rumania",
-            "iso3" => "ROU",
-            "code" => "642"
-        ],
-        "RUS" => [
-            "name" => "Federación de Rusia",
-            "iso3" => "RUS",
-            "code" => "643"
-        ],
-        "RWA" => [
-            "name" => "Ruanda",
-            "iso3" => "RWA",
-            "code" => "646"
-        ],
-        "BLM" => [
-            "name" => "San Bartolomé",
-            "iso3" => "BLM",
-            "code" => "652"
-        ],
-        "SHN" => [
-            "name" => "Santa Elena",
-            "iso3" => "SHN",
-            "code" => "654"
-        ],
-        "LCA" => [
-            "name" => "Santa Lucía",
-            "iso3" => "LCA",
-            "code" => "662"
-        ],
-        "SPM" => [
-            "name" => "San Pedro y Miquelón",
-            "iso3" => "SPM",
-            "code" => "666"
-        ],
-        "VCT" => [
-            "name" => "San Vicente y las Granadinas",
-            "iso3" => "VCT",
-            "code" => "670"
-        ],
-        "WSM" => [
-            "name" => "Samoa",
-            "iso3" => "WSM",
-            "code" => "882"
-        ],
-        "SMR" => [
-            "name" => "San Marino",
-            "iso3" => "SMR",
-            "code" => "674"
-        ],
-        "STP" => [
-            "name" => "Santo Tomé y Príncipe",
-            "iso3" => "STP",
-            "code" => "678"
-        ],
-        "SAU" => [
-            "name" => "Arabia Saudita",
-            "iso3" => "SAU",
-            "code" => "682"
-        ],
-        "SEN" => [
-            "name" => "Senegal",
-            "iso3" => "SEN",
-            "code" => "686"
-        ],
-        "SRB" => [
-            "name" => "Serbia",
-            "iso3" => "SRB",
-            "code" => "688"
-        ],
-        "SYC" => [
-            "name" => "Seychelles",
-            "iso3" => "SYC",
-            "code" => "690"
-        ],
-        "SLE" => [
-            "name" => "Sierra Leona",
-            "iso3" => "SLE",
-            "code" => "694"
-        ],
-        "SGP" => [
-            "name" => "Singapur",
-            "iso3" => "SGP",
-            "code" => "702"
-        ],
-        "SXM" => [
-            "name" => "Sint Maarten",
-            "iso3" => "SXM",
-            "code" => "534"
-        ],
-        "SVK" => [
-            "name" => "Eslovaquia",
-            "iso3" => "SVK",
-            "code" => "703"
-        ],
-        "SVN" => [
-            "name" => "Eslovenia",
-            "iso3" => "SVN",
-            "code" => "705"
-        ],
-        "SLB" => [
-            "name" => "Islas Salomón",
-            "iso3" => "SLB",
-            "code" => "090"
-        ],
-        "SOM" => [
-            "name" => "Somalia",
-            "iso3" => "SOM",
-            "code" => "706"
-        ],
-        "ZAF" => [
-            "name" => "Sudáfrica",
-            "iso3" => "ZAF",
-            "code" => "710"
-        ],
-        "SGS" => [
-            "name" => "Islas Georgias del Sur y Sandwich del Sur",
-            "iso3" => "SGS",
-            "code" => "239"
-        ],
-        "MLI" => [
-            "name" => "Malí",
-            "iso3" => "MLI",
-            "code" => "466"
-        ],
-        "MLT" => [
-            "name" => "Malta",
-            "iso3" => "MLT",
-            "code" => "470"
-        ],
-        "MHL" => [
-            "name" => "Islas Marshall",
-            "iso3" => "MHL",
-            "code" => "584"
-        ],
-        "MTQ" => [
-            "name" => "Martinica",
-            "iso3" => "MTQ",
-            "code" => "474"
-        ],
-        "MRT" => [
-            "name" => "Mauritania",
-            "iso3" => "MRT",
-            "code" => "478"
-        ],
-        "MUS" => [
-            "name" => "Mauricio",
-            "iso3" => "MUS",
-            "code" => "480"
-        ],
-        "MYT" => [
-            "name" => "Mayotte",
-            "iso3" => "MYT",
-            "code" => "175"
-        ],
-        "MEX" => [
-            "name" => "México",
-            "iso3" => "MEX",
-            "code" => "484"
-        ],
-        "FSM" => [
-            "name" => "Micronesia",
-            "iso3" => "FSM",
-            "code" => "583"
-        ],
-        "MDA" => [
-            "name" => "Moldavia",
-            "iso3" => "MDA",
-            "code" => "498"
-        ],
-        "MCO" => [
-            "name" => "Mónaco",
-            "iso3" => "MCO",
-            "code" => "492"
-        ],
-        "MNG" => [
-            "name" => "Mongolia",
-            "iso3" => "MNG",
-            "code" => "496"
-        ],
-        "MNE" => [
-            "name" => "Montenegro",
-            "iso3" => "MNE",
-            "code" => "499"
-        ],
-        "MSR" => [
-            "name" => "Montserrat",
-            "iso3" => "MSR",
-            "code" => "500"
-        ],
-        "MAR" => [
-            "name" => "Marruecos",
-            "iso3" => "MAR",
-            "code" => "504"
-        ],
-        "MOZ" => [
-            "name" => "Mozambique",
-            "iso3" => "MOZ",
-            "code" => "508"
-        ],
-        "MMR" => [
-            "name" => "Myanmar",
-            "iso3" => "MMR",
-            "code" => "104"
-        ],
-        "NAM" => [
-            "name" => "Namibia",
-            "iso3" => "NAM",
-            "code" => "516"
-        ],
-        "NRU" => [
-            "name" => "Nauru",
-            "iso3" => "NRU",
-            "code" => "520"
-        ],
-        "NPL" => [
-            "name" => "Nepal",
-            "iso3" => "NPL",
-            "code" => "524"
-        ],
-        "NLD" => [
-            "name" => "Países Bajos",
-            "iso3" => "NLD",
-            "code" => "528"
-        ],
-        "NCL" => [
-            "name" => "Nueva Caledonia",
-            "iso3" => "NCL",
-            "code" => "540"
-        ],
-        "NZL" => [
-            "name" => "Nueva Zelanda",
-            "iso3" => "NZL",
-            "code" => "554"
-        ],
-        "NIC" => [
-            "name" => "Nicaragua",
-            "iso3" => "NIC",
-            "code" => "558"
-        ],
-        "NER" => [
-            "name" => "Níger",
-            "iso3" => "NER",
-            "code" => "562"
-        ],
-        "NGA" => [
-            "name" => "Nigeria",
-            "iso3" => "NGA",
-            "code" => "566"
-        ],
-        "NIU" => [
-            "name" => "Niue",
-            "iso3" => "NIU",
-            "code" => "570"
-        ],
-        "NFK" => [
-            "name" => "Isla Norfolk",
-            "iso3" => "NFK",
-            "code" => "574"
-        ],
-        "MNP" => [
-            "name" => "Islas Marianas del Norte",
-            "iso3" => "MNP",
-            "code" => "580"
-        ],
-        "NOR" => [
-            "name" => "Noruega",
-            "iso3" => "NOR",
-            "code" => "578"
-        ],
-        "OMN" => [
-            "name" => "Omán",
-            "iso3" => "OMN",
-            "code" => "512"
-        ],
-        "PAK" => [
-            "name" => "Pakistán",
-            "iso3" => "PAK",
-            "code" => "586"
-        ],
-        "PLW" => [
-            "name" => "Palau",
-            "iso3" => "PLW",
-            "code" => "585"
-        ],
-        "PSE" => [
-            "name" => "Territorios Palestinos",
-            "iso3" => "PSE",
-            "code" => "275"
-        ],
-        "PAN" => [
-            "name" => "Panamá",
-            "iso3" => "PAN",
-            "code" => "591"
-        ],
-        "PNG" => [
-            "name" => "Papúa Nueva Guinea",
-            "iso3" => "PNG",
-            "code" => "598"
-        ],
-        "PRY" => [
-            "name" => "Paraguay",
-            "iso3" => "PRY",
-            "code" => "600"
-        ],
-        "PER" => [
-            "name" => "Perú",
-            "iso3" => "PER",
-            "code" => "604"
-        ],
-        "PHL" => [
-            "name" => "Filipinas",
-            "iso3" => "PHL",
-            "code" => "608"
-        ],
-        "POL" => [
-            "name" => "Polonia",
-            "iso3" => "POL",
-            "code" => "616"
-        ],
-        "PRT" => [
-            "name" => "Portugal",
-            "iso3" => "PRT",
-            "code" => "620"
-        ],
-        "PRI" => [
-            "name" => "Puerto Rico",
-            "iso3" => "PRI",
-            "code" => "630"
-        ],
-        "QAT" => [
-            "name" => "Qatar",
-            "iso3" => "QAT",
-            "code" => "634"
-        ],
-        "REU" => [
-            "name" => "Reunión",
-            "iso3" => "REU",
-            "code" => "638"
-        ],
-        "ROU" => [
-            "name" => "Rumania",
-            "iso3" => "ROU",
-            "code" => "642"
-        ],
-        "RUS" => [
-            "name" => "Federación de Rusia",
-            "iso3" => "RUS",
-            "code" => "643"
-        ],
-        "RWA" => [
-            "name" => "Ruanda",
-            "iso3" => "RWA",
-            "code" => "646"
-        ],
-        "BLM" => [
-            "name" => "San Bartolomé",
-            "iso3" => "BLM",
-            "code" => "652"
-        ],
-        "SHN" => [
-            "name" => "Santa Elena",
-            "iso3" => "SHN",
-            "code" => "654"
-        ],
-        "LCA" => [
-            "name" => "Santa Lucía",
-            "iso3" => "LCA",
-            "code" => "662"
-        ],
-        "SPM" => [
-            "name" => "San Pedro y Miquelón",
-            "iso3" => "SPM",
-            "code" => "666"
-        ],
-        "VCT" => [
-            "name" => "San Vicente y las Granadinas",
-            "iso3" => "VCT",
-            "code" => "670"
-        ],
-        "WSM" => [
-            "name" => "Samoa",
-            "iso3" => "WSM",
-            "code" => "882"
-        ],
-        "SMR" => [
-            "name" => "San Marino",
-            "iso3" => "SMR",
-            "code" => "674"
-        ],
-        "STP" => [
-            "name" => "Santo Tomé y Príncipe",
-            "iso3" => "STP",
-            "code" => "678"
-        ],
-        "SAU" => [
-            "name" => "Arabia Saudita",
-            "iso3" => "SAU",
-            "code" => "682"
-        ],
-        "SEN" => [
-            "name" => "Senegal",
-            "iso3" => "SEN",
-            "code" => "686"
-        ],
-        "SRB" => [
-            "name" => "Serbia",
-            "iso3" => "SRB",
-            "code" => "688"
-        ],
-        "SYC" => [
-            "name" => "Seychelles",
-            "iso3" => "SYC",
-            "code" => "690"
-        ],
-        "SLE" => [
-            "name" => "Sierra Leona",
-            "iso3" => "SLE",
-            "code" => "694"
-        ],
-        "SGP" => [
-            "name" => "Singapur",
-            "iso3" => "SGP",
-            "code" => "702"
-        ],
-        "SXM" => [
-            "name" => "Sint Maarten",
-            "iso3" => "SXM",
-            "code" => "534"
-        ],
-        "SVK" => [
-            "name" => "Eslovaquia",
-            "iso3" => "SVK",
-            "code" => "703"
-        ],
-        "SVN" => [
-            "name" => "Eslovenia",
-            "iso3" => "SVN",
-            "code" => "705"
-        ],
-        "SLB" => [
-            "name" => "Islas Salomón",
-            "iso3" => "SLB",
-            "code" => "090"
-        ],
-        "SOM" => [
-            "name" => "Somalia",
-            "iso3" => "SOM",
-            "code" => "706"
-        ],
-        "ZAF" => [
-            "name" => "Sudáfrica",
-            "iso3" => "ZAF",
-            "code" => "710"
-        ],
-        "SGS" => [
-            "name" => "Islas Georgias del Sur y Sandwich del Sur",
-            "iso3" => "SGS",
-            "code" => "239"
-        ],
-        "SWE" => [
-            "name" => "Suecia",
-            "iso3" => "SWE",
-            "code" => "752"
-        ],
-        "CHE" => [
-            "name" => "Suiza",
-            "iso3" => "CHE",
-            "code" => "756"
-        ],
-        "THA" => [
-            "name" => "Thailandia",
-            "iso3" => "THA",
-            "code" => "764"
-        ],
-        "TWN" => [
-            "name" => "Taiwán",
-            "iso3" => "TWN",
-            "code" => "158"
-        ],
-        "TUN" => [
-            "name" => "Tunez",
-            "iso3" => "TWN",
-            "code" => "788"
-        ],
-        "TUR" => [
-            "name" => "Turquia",
-            "iso3" => "TUR",
-            "code" => "792"
-        ],
-        "VEN" => [
-            "name" => "Venezuela",
-            "iso3" => "VEN",
-            "code" => "862"
-        ],
-        "UKR" => [
-            "name" => "Ucrania",
-            "iso3" => "UKR",
-            "code" => "804"
-        ],
-        "URY" => [
-            "name" => "Uruguay",
-            "iso3" => "URY",
-            "code" => "858"
-        ],
-        "UGA" => [
-            "name" => "Uganda",
-            "iso3" => "UGA",
-            "code" => "800"
-        ],
-        "VNM" => [
-            "name" => "Vietnam",
-            "iso3" => "VNM",
-            "code" => "704"
-        ],
-        "ZWE" => [
-            "name" => "Zimbabwe",
-            "iso3" => "ZWE",
-            "code" => "716"
-        ],
+        "AF" => "Afghanistan",
+        "AX" => "Åland Islands",
+        "AL" => "Albania",
+        "DZ" => "Algeria",
+        "AS" => "American Samoa",
+        "AD" => "Andorra",
+        "AO" => "Angola",
+        "AI" => "Anguilla",
+        "AQ" => "Antarctica",
+        "AG" => "Antigua and Barbuda",
+        "AR" => "Argentina",
+        "AM" => "Armenia",
+        "AW" => "Aruba",
+        "AU" => "Australia",
+        "AT" => "Austria",
+        "AZ" => "Azerbaijan",
+        "BS" => "Bahamas",
+        "BH" => "Bahrain",
+        "BD" => "Bangladesh",
+        "BB" => "Barbados",
+        "BY" => "Belarus",
+        "BE" => "Belgium",
+        "BZ" => "Belize",
+        "BJ" => "Benin",
+        "BM" => "Bermuda",
+        "BT" => "Bhutan",
+        "BO" => "Bolivia, Plurinational State of",
+        "BQ" => "Bonaire, Sint Eustatius and Saba",
+        "BA" => "Bosnia and Herzegovina",
+        "BW" => "Botswana",
+        "BV" => "Bouvet Island",
+        "BR" => "Brazil",
+        "IO" => "British Indian Ocean Territory",
+        "BN" => "Brunei Darussalam",
+        "BG" => "Bulgaria",
+        "BF" => "Burkina Faso",
+        "BI" => "Burundi",
+        "KH" => "Cambodia",
+        "CM" => "Cameroon",
+        "CA" => "Canada",
+        "CV" => "Cape Verde",
+        "KY" => "Cayman Islands",
+        "CF" => "Central African Republic",
+        "TD" => "Chad",
+        "CL" => "Chile",
+        "CN" => "China",
+        "CX" => "Christmas Island",
+        "CC" => "Cocos (Keeling) Islands",
+        "CO" => "Colombia",
+        "KM" => "Comoros",
+        "CG" => "Congo",
+        "CD" => "Congo, the Democratic Republic of the",
+        "CK" => "Cook Islands",
+        "CR" => "Costa Rica",
+        "CI" => "Côte d'Ivoire",
+        "HR" => "Croatia",
+        "CU" => "Cuba",
+        "CW" => "Curaçao",
+        "CY" => "Cyprus",
+        "CZ" => "Czech Republic",
+        "DK" => "Denmark",
+        "DJ" => "Djibouti",
+        "DM" => "Dominica",
+        "DO" => "Dominican Republic",
+        "EC" => "Ecuador",
+        "EG" => "Egypt",
+        "SV" => "El Salvador",
+        "GQ" => "Equatorial Guinea",
+        "ER" => "Eritrea",
+        "EE" => "Estonia",
+        "ET" => "Ethiopia",
+        "FK" => "Falkland Islands (Malvinas)",
+        "FO" => "Faroe Islands",
+        "FJ" => "Fiji",
+        "FI" => "Finland",
+        "FR" => "France",
+        "GF" => "French Guiana",
+        "PF" => "French Polynesia",
+        "TF" => "French Southern Territories",
+        "GA" => "Gabon",
+        "GM" => "Gambia",
+        "GE" => "Georgia",
+        "DE" => "Germany",
+        "GH" => "Ghana",
+        "GI" => "Gibraltar",
+        "GR" => "Greece",
+        "GL" => "Greenland",
+        "GD" => "Grenada",
+        "GP" => "Guadeloupe",
+        "GU" => "Guam",
+        "GT" => "Guatemala",
+        "GG" => "Guernsey",
+        "GN" => "Guinea",
+        "GW" => "Guinea-Bissau",
+        "GY" => "Guyana",
+        "HT" => "Haiti",
+        "HM" => "Heard Island and McDonald Islands",
+        "VA" => "Holy See (Vatican City State)",
+        "HN" => "Honduras",
+        "HK" => "Hong Kong",
+        "HU" => "Hungary",
+        "IS" => "Iceland",
+        "IN" => "India",
+        "ID" => "Indonesia",
+        "IR" => "Iran, Islamic Republic of",
+        "IQ" => "Iraq",
+        "IE" => "Ireland",
+        "IM" => "Isle of Man",
+        "IL" => "Israel",
+        "IT" => "Italy",
+        "JM" => "Jamaica",
+        "JP" => "Japan",
+        "JE" => "Jersey",
+        "JO" => "Jordan",
+        "KZ" => "Kazakhstan",
+        "KE" => "Kenya",
+        "KI" => "Kiribati",
+        "KP" => "Korea, Democratic People's Republic of",
+        "KR" => "Korea, Republic of",
+        "KW" => "Kuwait",
+        "KG" => "Kyrgyzstan",
+        "LA" => "Lao People's Democratic Republic",
+        "LV" => "Latvia",
+        "LB" => "Lebanon",
+        "LS" => "Lesotho",
+        "LR" => "Liberia",
+        "LY" => "Libya",
+        "LI" => "Liechtenstein",
+        "LT" => "Lithuania",
+        "LU" => "Luxembourg",
+        "MO" => "Macao",
+        "MK" => "Macedonia, the Former Yugoslav Republic of",
+        "MG" => "Madagascar",
+        "MW" => "Malawi",
+        "MY" => "Malaysia",
+        "MV" => "Maldives",
+        "ML" => "Mali",
+        "MT" => "Malta",
+        "MH" => "Marshall Islands",
+        "MQ" => "Martinique",
+        "MR" => "Mauritania",
+        "MU" => "Mauritius",
+        "YT" => "Mayotte",
+        "MX" => "Mexico",
+        "FM" => "Micronesia, Federated States of",
+        "MD" => "Moldova, Republic of",
+        "MC" => "Monaco",
+        "MN" => "Mongolia",
+        "ME" => "Montenegro",
+        "MS" => "Montserrat",
+        "MA" => "Morocco",
+        "MZ" => "Mozambique",
+        "MM" => "Myanmar",
+        "NA" => "Namibia",
+        "NR" => "Nauru",
+        "NP" => "Nepal",
+        "NL" => "Netherlands",
+        "NC" => "New Caledonia",
+        "NZ" => "New Zealand",
+        "NI" => "Nicaragua",
+        "NE" => "Niger",
+        "NG" => "Nigeria",
+        "NU" => "Niue",
+        "NF" => "Norfolk Island",
+        "MP" => "Northern Mariana Islands",
+        "NO" => "Norway",
+        "OM" => "Oman",
+        "PK" => "Pakistan",
+        "PW" => "Palau",
+        "PS" => "Palestine, State of",
+        "PA" => "Panama",
+        "PG" => "Papua New Guinea",
+        "PY" => "Paraguay",
+        "PE" => "Peru",
+        "PH" => "Philippines",
+        "PN" => "Pitcairn",
+        "PL" => "Poland",
+        "PT" => "Portugal",
+        "PR" => "Puerto Rico",
+        "QA" => "Qatar",
+        "RE" => "Réunion",
+        "RO" => "Romania",
+        "RU" => "Russian Federation",
+        "RW" => "Rwanda",
+        "BL" => "Saint Barthélemy",
+        "SH" => "Saint Helena, Ascension and Tristan da Cunha",
+        "KN" => "Saint Kitts and Nevis",
+        "LC" => "Saint Lucia",
+        "MF" => "Saint Martin (French Part)",
+        "PM" => "Saint Pierre and Miquelon",
+        "VC" => "Saint Vincent and the Grenadines",
+        "WS" => "Samoa",
+        "SM" => "San Marino",
+        "ST" => "Sao Tome and Principe",
+        "SA" => "Saudi Arabia",
+        "SN" => "Senegal",
+        "RS" => "Serbia",
+        "SC" => "Seychelles",
+        "SL" => "Sierra Leone",
+        "SG" => "Singapore",
+        "SX" => "Sint Maarten (Dutch Part)",
+        "SK" => "Slovakia",
+        "SI" => "Slovenia",
+        "SB" => "Solomon Islands",
+        "SO" => "Somalia",
+        "ZA" => "South Africa",
+        "GS" => "South Georgia and the South Sandwich Islands",
+        "SS" => "South Sudan",
+        "ES" => "Spain",
+        "LK" => "Sri Lanka",
+        "SD" => "Sudan",
+        "SR" => "Suriname",
+        "SJ" => "Svalbard and Jan Mayen",
+        "SZ" => "Swaziland",
+        "SE" => "Sweden",
+        "CH" => "Switzerland",
+        "SY" => "Syrian Arab Republic",
+        "TW" => "Taiwan, Province of China",
+        "TJ" => "Tajikistan",
+        "TZ" => "Tanzania, United Republic of",
+        "TH" => "Thailand",
+        "TL" => "Timor-Leste",
+        "TG" => "Togo",
+        "TK" => "Tokelau",
+        "TO" => "Tonga",
+        "TT" => "Trinidad and Tobago",
+        "TN" => "Tunisia",
+        "TR" => "Turkey",
+        "TM" => "Turkmenistan",
+        "TC" => "Turks and Caicos Islands",
+        "TV" => "Tuvalu",
+        "UG" => "Uganda",
+        "UA" => "Ukraine",
+        "AE" => "United Arab Emirates",
+        "GB" => "United Kingdom",
+        "US" => "United States",
+        "UM" => "United States Minor Outlying Islands",
+        "UY" => "Uruguay",
+        "UZ" => "Uzbekistan",
+        "VU" => "Vanuatu",
+        "VE" => "Venezuela, Bolivarian Republic of",
+        "VN" => "Viet Nam",
+        "VG" => "Virgin Islands, British",
+        "VI" => "Virgin Islands, U.S.",
+        "WF" => "Wallis and Futuna",
+        "EH" => "Western Sahara",
+        "YE" => "Yemen",
+        "ZM" => "Zambia",
+        "ZW" => "Zimbabwe"
     ];
 
     public function countries()

@@ -11,7 +11,7 @@ return [
     | provinces that we need to display to the user.
     |
     */
-    
+    'placeholder' => 'Selecciona una provincia',
     'VI' => 'Álava',
     'AB' => 'Albacete',
     'A' => 'Alicante',
