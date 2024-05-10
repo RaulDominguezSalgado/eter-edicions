@@ -10,19 +10,23 @@ use App\Models\Order;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use CodersFree\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
+use App\Utility\CountriesAndProvinces;
 use Exception;
 
 class CheckoutController extends Controller
 {
     private $shippingCostsSpanishProvinces;
     private $shippingCostsInternationalCountries;
+    private $provinces;
+    private $countries;
 
-    function __construct()
-    {
+    public function __construct() {
+        $countriesAndProvinces= new CountriesAndProvinces();
+        $this->provinces = $countriesAndProvinces->provinces;
+        $this->countries = $countriesAndProvinces->countries;
         $this->shippingCostsSpanishProvinces = (new ShippingCostsTable)->shippingCostsSpanishProvinces();
         $this->shippingCostsInternationalCountries = (new ShippingCostsTable)->shippingCostsInternationalCountries();
     }
-
     /**
      * Método para el control del acceso al checkout
      * Actualmente solo redirige al primer paso del checkout, pero puede
@@ -36,10 +40,12 @@ class CheckoutController extends Controller
 
             return redirect()->route("catalog.{$locale}");
         }
+        $provinces = $this->provinces;
+        $countries = $this->countries;
 
         $shipment_tax = 0;
 
-        return view("public.checkout", compact("order", 'shipment_tax', 'locale'));
+        return view("public.checkout", compact("order", 'shipment_tax', 'locale', 'provinces', 'countries'));
     }
 
     /**

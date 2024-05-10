@@ -9,8 +9,7 @@ $order = old() ?? [];
         <div class="flex">
             <div id="checkout-main-content" class="flex-col w-2/3 pr-5">
                 @if ($errors->any())
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                        role="alert">
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <strong>{{ __('errors.errors-in-form') }}</strong>
                         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                             <svg class="fill-current h-6 w-6 text-systemerror" role="button"
@@ -96,7 +95,9 @@ $order = old() ?? [];
                                     id="search_input">
                                 <i class="icon search"></i>
                             </div>
-                            <input type="text" class="flex lg:hidden w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="address" id="address">
+                            <input type="text"
+                                class="flex lg:hidden w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="address" id="address">
                         </label>
                         <label class="flex-col w-min my-3" for="apartment">{{ __('form.apartment') }}
                             <input type="text" value="{{ $order['apartment'] ?? '' }}"
@@ -117,21 +118,33 @@ $order = old() ?? [];
                             @enderror
                         </label>
                         <label class="flex-col w-1/3 my-3" for="province">{{ __('form.province') }}
-                            <select type="text"
-                                class="@error('province') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('province') border-systemerror @enderror"
                                 name="province" id="province">
+                                @foreach ($provinces as $code => $province)
+                                    <option value="{{ $code }}"
+                                    @if ($code == 'B') selected @endif>
+                                        {{ __('provinces.' . $province['code']) }}</option>
+                                @endforeach
                             </select>
+
                             @error('province')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
                         <label class="flex-col w-1/3 my-3" for="country">{{ __('form.country') }}
-                            <select type="text"
-                                class="@error('country') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="country" id="country">
-                                <option value="ES">Espanya</option>
-                                <option value="FR">França</option>
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('country') border-systemerror @enderror"
+                                name="province" id="province">
+                                @foreach ($countries as $key => $country)
+                                    <option value="{{ $key }}"
+                                        @if ($key == 'ESP') selected @endif>
+                                        {{ __('countries.' . $key) }}</option>
+                                @endforeach
                             </select>
+                            {{-- <input type="text" value="{{ $order['country'] ?? '' }}"
+                                class="@error('country') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="country" id="country"> --}}
                             @error('country')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
@@ -202,21 +215,26 @@ $order = old() ?? [];
                     <div id="price_table" class="py-5">
                         {{-- <x-partials.cartInfo shipment_tax="{{$shipment_tax}}"></x-partials.cartInfo> --}}
                         <div class="flex">
-                            <div class="flex-col w-1/2  min-w-fit">{{__("Subtotal")}}</div>
-                            <div class="flex-col w-1/2 text-right">{{ str_replace(".", ",", Cart::instance("default")->subTotal()) }}€</div>
+                            <div class="flex-col w-1/2  min-w-fit">{{ __('Subtotal') }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', Cart::instance('default')->subTotal()) }}€</div>
                         </div>
                         <div class="flex">
-                            <div class="flex-col w-1/2  min-w-fit">{{__("IVA")}}</div>
-                            <div class="flex-col w-1/2 text-right">{{ str_replace(".", ",", Cart::instance("default")->tax())}}€</div>
+                            <div class="flex-col w-1/2  min-w-fit">{{ __('IVA') }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', Cart::instance('default')->tax()) }}€</div>
                         </div>
                         <div class="flex">
-                            <div class="flex-col w-1/2  min-w-fit">{{__("Despeses d'enviament")}}</div>
-                            <div class="flex-col w-1/2 text-right">{{str_replace(".", ",", !$shipment_tax ? "Per calcular" : $shipment_tax . "€")}}</div>
+                            <div class="flex-col w-1/2  min-w-fit">{{ __("Despeses d'enviament") }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', !$shipment_tax ? 'Per calcular' : $shipment_tax . '€') }}
+                            </div>
                         </div>
                         <div class="border my-3"></div>
                         <div class="flex">
-                            <div class="flex-col w-1/2 min-w-fit">{{__("Total")}}</div>
-                            <div class="flex-col w-1/2 text-right">{{ str_replace(".", ",", Cart::instance("default")->total()+$shipment_tax )}}€</div>
+                            <div class="flex-col w-1/2 min-w-fit">{{ __('Total') }}</div>
+                            <div class="flex-col w-1/2 text-right">
+                                {{ str_replace('.', ',', Cart::instance('default')->total() + $shipment_tax) }}€</div>
                         </div>
                     </div>
                 </div>
