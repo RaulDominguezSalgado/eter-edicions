@@ -13,6 +13,8 @@ use Exception;
 
 class CheckoutController extends Controller
 {
+
+
     /**
      * Método para el control del acceso al checkout
      * Actualmente solo redirige al primer paso del checkout, pero puede
