@@ -9,12 +9,20 @@ use App\Models\Order;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use CodersFree\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
+use App\Utility\CountriesAndProvinces;
 use Exception;
 
 class CheckoutController extends Controller
 {
 
+    private $provinces;
+    private $countries;
 
+    public function __construct() {
+        $countriesAndProvinces= new CountriesAndProvinces();
+        $this->provinces = $countriesAndProvinces->provinces;
+        $this->countries = $countriesAndProvinces->countries;
+    }
     /**
      * Método para el control del acceso al checkout
      * Actualmente solo redirige al primer paso del checkout, pero puede
@@ -28,8 +36,10 @@ class CheckoutController extends Controller
 
             return redirect()->route("catalog.{$locale}");
         }
+        $provinces = $this->provinces;
+        $countries = $this->countries;
 
-        return view("public.checkout", compact("order", 'locale'));
+        return view("public.checkout", compact("order", 'locale', 'provinces', 'countries'));
     }
 
     /**

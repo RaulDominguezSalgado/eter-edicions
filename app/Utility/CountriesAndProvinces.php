@@ -9,7 +9,7 @@ namespace App\Utility;
 class CountriesAndProvinces
 {
 
-    private $provinces = [
+    public $provinces = [
         "VI" => [
             "name" => "Álava",
             "pc" => "01",
@@ -274,7 +274,7 @@ class CountriesAndProvinces
 
 
 
-    private $countries = [
+    public $countries = [
         "AFG" => [
             "name" => "Afganistán",
             "iso3" => "AFG",
@@ -480,11 +480,6 @@ class CountriesAndProvinces
             "iso3" => "CAN",
             "code" => "124"
         ],
-        "SPE" => [
-            "name" => "Categorías especiales",
-            "iso3" => "SPE",
-            "code" => "839"
-        ],
         "TCD" => [
             "name" => "Chad",
             "iso3" => "TCD",
@@ -515,11 +510,6 @@ class CountriesAndProvinces
             "iso3" => "COL",
             "code" => "170"
         ],
-        "USP" => [
-            "name" => "Comando I del Pacífico de Estados Unidos",
-            "iso3" => "USP",
-            "code" => "849"
-        ],
         "COM" => [
             "name" => "Comoras",
             "iso3" => "COM",
@@ -529,11 +519,6 @@ class CountriesAndProvinces
             "name" => "Congo, Rep. del",
             "iso3" => "COG",
             "code" => "178"
-        ],
-        "ZAR" => [
-            "name" => "Congo, Rep. Dem. del",
-            "iso3" => "ZAR",
-            "code" => "180"
         ],
         "KOR" => [
             "name" => "Corea, Rep. de",
@@ -635,16 +620,6 @@ class CountriesAndProvinces
             "iso3" => "ETH",
             "code" => "231"
         ],
-        "ETF" => [
-            "name" => "Etiopía (incluida Eritrea)",
-            "iso3" => "ETF",
-            "code" => "230"
-        ],
-        "EUN" => [
-            "name" => "European Union",
-            "iso3" => "EUN",
-            "code" => "918"
-        ],
         "SDN" => [
             "name" => "Ex Sudán",
             "iso3" => "SDN",
@@ -669,36 +644,6 @@ class CountriesAndProvinces
             "name" => "Finlandia",
             "iso3" => "FIN",
             "code" => "246"
-        ],
-        "codeZ" => [
-            "name" => "Fm Panama Cz",
-            "iso3" => "codeZ",
-            "code" => "592"
-        ],
-        "ZW1" => [
-            "name" => "Fm Rhod Nyas",
-            "iso3" => "ZW1",
-            "code" => "717"
-        ],
-        "TAN" => [
-            "name" => "Fm Tanganyik",
-            "iso3" => "TAN",
-            "code" => "835"
-        ],
-        "VDR" => [
-            "name" => "Fm Vietnam DR",
-            "iso3" => "VDR",
-            "code" => "866"
-        ],
-        "SVR" => [
-            "name" => "Fm Vietnam Rp",
-            "iso3" => "SVR",
-            "code" => "868"
-        ],
-        "ZPM" => [
-            "name" => "Fm Zanz-Pemb",
-            "iso3" => "ZPM",
-            "code" => "836"
         ],
         "FRA" => [
             "name" => "Francia",
@@ -835,16 +780,6 @@ class CountriesAndProvinces
             "iso3" => "IRL",
             "code" => "372"
         ],
-        "BVT" => [
-            "name" => "Isla Bouvet",
-            "iso3" => "BVT",
-            "code" => "074"
-        ],
-        "BUN" => [
-            "name" => "Isla Bunker",
-            "iso3" => "BUN",
-            "code" => "837"
-        ],
         "CXR" => [
             "name" => "Isla de Navidad",
             "iso3" => "CXR",
@@ -874,11 +809,6 @@ class CountriesAndProvinces
             "name" => "Islas Cook",
             "iso3" => "COK",
             "code" => "184"
-        ],
-        "codeE" => [
-            "name" => "Islas del Pacífico",
-            "iso3" => "codeE",
-            "code" => "582"
         ],
         "FLK" => [
             "name" => "Islas Falkland",
@@ -954,11 +884,6 @@ class CountriesAndProvinces
             "name" => "Japón",
             "iso3" => "JPN",
             "code" => "392"
-        ],
-        "JTN" => [
-            "name" => "Jhonston Island",
-            "iso3" => "JTN",
-            "code" => "396"
         ],
         "JOR" => [
             "name" => "Jordania",
@@ -1270,11 +1195,6 @@ class CountriesAndProvinces
             "iso3" => "PHL",
             "code" => "608"
         ],
-        "codeN" => [
-            "name" => "Pitcairn",
-            "iso3" => "codeN",
-            "code" => "612"
-        ],
         "POL" => [
             "name" => "Polonia",
             "iso3" => "POL",
@@ -1324,11 +1244,6 @@ class CountriesAndProvinces
             "name" => "Santa Elena",
             "iso3" => "SHN",
             "code" => "654"
-        ],
-        "KNA" => [
-            "name" => "San Cristóbal y Nieves",
-            "iso3" => "KNA",
-            "code" => "659"
         ],
         "LCA" => [
             "name" => "Santa Lucía",
@@ -1620,11 +1535,6 @@ class CountriesAndProvinces
             "iso3" => "PHL",
             "code" => "608"
         ],
-        "codeN" => [
-            "name" => "Pitcairn",
-            "iso3" => "codeN",
-            "code" => "612"
-        ],
         "POL" => [
             "name" => "Polonia",
             "iso3" => "POL",
@@ -1674,11 +1584,6 @@ class CountriesAndProvinces
             "name" => "Santa Elena",
             "iso3" => "SHN",
             "code" => "654"
-        ],
-        "KNA" => [
-            "name" => "San Cristóbal y Nieves",
-            "iso3" => "KNA",
-            "code" => "659"
         ],
         "LCA" => [
             "name" => "Santa Lucía",
@@ -1775,8 +1680,67 @@ class CountriesAndProvinces
             "iso3" => "SGS",
             "code" => "239"
         ],
+        "SWE" => [
+            "name" => "Suecia",
+            "iso3" => "SWE",
+            "code" => "752"
+        ],
+        "CHE" => [
+            "name" => "Suiza",
+            "iso3" => "CHE",
+            "code" => "756"
+        ],
+        "THA" => [
+            "name" => "Thailandia",
+            "iso3" => "THA",
+            "code" => "764"
+        ],
+        "TWN" => [
+            "name" => "Taiwán",
+            "iso3" => "TWN",
+            "code" => "158"
+        ],
+        "TUN" => [
+            "name" => "Tunez",
+            "iso3" => "TWN",
+            "code" => "788"
+        ],
+        "TUR" => [
+            "name" => "Turquia",
+            "iso3" => "TUR",
+            "code" => "792"
+        ],
+        "VEN" => [
+            "name" => "Venezuela",
+            "iso3" => "VEN",
+            "code" => "862"
+        ],
+        "UKR" => [
+            "name" => "Ucrania",
+            "iso3" => "UKR",
+            "code" => "804"
+        ],
+        "URY" => [
+            "name" => "Uruguay",
+            "iso3" => "URY",
+            "code" => "858"
+        ],
+        "UGA" => [
+            "name" => "Uganda",
+            "iso3" => "UGA",
+            "code" => "800"
+        ],
+        "VNM" => [
+            "name" => "Vietnam",
+            "iso3" => "VNM",
+            "code" => "704"
+        ],
+        "ZWE" => [
+            "name" => "Zimbabwe",
+            "iso3" => "ZWE",
+            "code" => "716"
+        ],
     ];
-
 
     public function countries()
     {
@@ -1787,7 +1751,7 @@ class CountriesAndProvinces
     {
         return $this->provinces;
     }
-    
+
 
     /**
      * Function that returns an array with the country information corresponding to the provided ISO3 code.
