@@ -183,7 +183,7 @@ $locale = 'ca';
         @endif
 
     @else
-        @dump("NO")
+        {{-- @dump("NO") --}}
         <div>No s'ha trobat cap resultat.</div>
     @endif
 

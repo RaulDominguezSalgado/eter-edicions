@@ -186,6 +186,25 @@ return [
     |
     */
 
-    'attributes' => [],
-
+    'attributes' => [
+        'image' => 'image',
+        'social_networks' => 'social networks',
+        'first_name' => 'first name',
+        'last_name' => 'last name',
+        'email' => 'email',
+        'biography' => 'biography',
+        'password' => 'password',
+        'phone' => 'phone',
+        'role_id' => 'role',
+        'date' => 'date',
+        'phone_number' => 'phone number',
+        'zip_code' => 'zip code',
+        'city' => 'city',
+        'country' => 'country',
+        'status_id' => 'order status',
+        'payment_method' => 'payment method',
+        'reference' => 'reference',
+        'tracking_id' => 'shipping code',
+        'products' => 'book',
+    ],
 ];
