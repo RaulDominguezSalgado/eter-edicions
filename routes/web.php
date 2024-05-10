@@ -151,3 +151,7 @@ Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::clas
 
 
 Route::post("/checkout/next/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
+
+Route::get("/mail-test/", function () {
+    return view("mailTest");
+});
