@@ -35,8 +35,10 @@ class CheckoutController extends Controller
      */
     public function toPayment(CheckoutRequest $request)
     {
+        // dd($request);
         try {
             $data = $request->validated();
+            dd($data);
             $data['reference'] = $this->generateRandomReference();
             $data['date'] = now()->toDateString();
             $data['status_id'] = 1;
