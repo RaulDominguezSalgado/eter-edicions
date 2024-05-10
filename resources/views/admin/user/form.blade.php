@@ -16,11 +16,16 @@
             <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user['email']) }}" id="email" placeholder="Correu Electrònic">
             {!! $errors->first('email', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        <div class="form-group mb-2 mb20">
+        {{-- <div class="form-group mb-2 mb20">
             <label for="password" class="form-label">{{ __('Contrasenya') }}</label>
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" value="{{ old('password', $user['password']) }}" id="password" placeholder="Contrasenya">
             {!! $errors->first('password', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        <div class="form-group mb-2 mb20">
+            <label for="password_confirmation" class="form-label">{{ __('Repetir contrasenya') }}</label>
+            <input type="password" name="password_confirmation" class="form-control @error('password') is-invalid @enderror" value="{{ old('password', $user['password']) }}" id="password" placeholder="Contrasenya">
+            {!! $errors->first('password_confirmation', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div> --}}
         <div class="form-group mb-2 mb20">
             <label for="phone" class="form-label">{{ __('Telèfon') }}</label>
             <input type="number" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone', $user['phone']) }}" id="phone" placeholder="Telèfon">

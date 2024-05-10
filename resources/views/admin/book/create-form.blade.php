@@ -77,7 +77,8 @@ function getLanguagesOptions($languages, $selected = null)
         <div>
             <label for="title">Títol llibre</label>
             <input type="text" name="title" id="title"
-                class="@error('title') border border-systemerror  @enderror">
+                class="@error('title') border border-systemerror  @enderror"
+                value="{{ old('title', $book['title']) }}">
             @error('title')
                 <small class="text-systemerror">{{ $message }}</small>
             @enderror
@@ -173,7 +174,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="isbn">ISBN</label>
                 <input type="text" name="isbn" id="isbn"
-                    class="max-h-min @error('isbn') is-invalid  @enderror"></input>
+                    class="max-h-min @error('isbn') is-invalid  @enderror"
+                    value="{{ old('isbn', $book['isbn']) }}"></input>
                 @error('isbn')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -181,7 +183,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="publisher">Edita</label>
                 <input type="text" name="publisher" id="publisher"
-                    class="max-h-min @error('publisher') is-invalid  @enderror" value="Èter Edicions"></input>
+                    class="max-h-min @error('publisher') is-invalid  @enderror" value="Èter Edicions" ></input>
                 @error('publisher')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -213,7 +215,9 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="number_of_pages">Número de pàgines</label>
                 <input class="max-h-fit @error('number_of_pages') is-invalid @enderror" type="number"
-                    name="number_of_pages" id="number_of_pages" value="1">
+                    name="number_of_pages" id="number_of_pages" placeholder="0"
+                    value="{{ old('number_of_pages', $book['number_of_pages']) }}"
+                    min="0">
                 @error('number_of_pages')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -221,6 +225,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="dimensions">Dimensions</label>
                 <input class="max-h-fit @error('size') is-invalid @enderror" type="text" name="dimensions"
+                    value="{{ old('size', $book['size']) }}"
                     id="dimensions">
                 @error('size')
                     <small class="text-systemerror">{{ $message }}</small>
@@ -239,7 +244,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="enviromental_footprint">Petjada ambiental</label>
                 <input class="max-h-fit @error('enviromental_footprint') is-invalid @enderror" type="text"
-                    name="enviromental_footprint" id="enviromental_footprint">
+                    name="enviromental_footprint" id="enviromental_footprint"
+                    value="{{ old('enviromental_footprint', $book['enviromental_footprint']) }}">
                 @error('enviromental_footprint')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -249,7 +255,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="legal_diposit">Dipòsit Legal</label>
                 <input type="text" name="legal_diposit" id="legal_diposit"
-                    class="@error('legal_diposit') is-invalid @enderror">
+                    class="@error('legal_diposit') is-invalid @enderror"
+                    value="{{ old('legal_diposit', $book['legal_diposit']) }}">
                 @error('legal_diposit')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -293,7 +300,8 @@ function getLanguagesOptions($languages, $selected = null)
         <div>
             <label for="original_title">Títol original</label>
             <input type="text" name="original_title" id="original_title"
-                class="@error('original_title') is-invalid @enderror">
+                class="@error('original_title') is-invalid @enderror"
+                value="{{ old('original_title', $book['original_title']) }}">
             @error('original_title')
                 <small class="text-systemerror">{{ $message }}</small>
             @enderror
@@ -302,7 +310,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="original_publisher">Editorial original</label>
                 <input type="text" name="original_publisher" id="original_publisher"
-                    class="@error('original_publisher') is-invalid @enderror">
+                    class="@error('original_publisher') is-invalid @enderror"
+                    value="{{ old('original_publisher', $book['original_publisher']) }}">
                 @error('original_publisher')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -311,7 +320,8 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="original_publication_date">Data de publicació original</label>
                 <input type="date" name="original_publication_date" id="original_publication_date"
-                    class="@error('original_publication_date') is-invalid @enderror">
+                    class="@error('original_publication_date') is-invalid @enderror"
+                    value="{{ old('original_publication_date', $book['original_publication_date']) }}">
                 @error('original_publication_date')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
@@ -352,7 +362,9 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="pvp">PVP</label>
                 <input type="number" step="0.01" name="pvp" id="pvp"
-                    class="@error('pvp') is-invalid @enderror" placeholder="15.00">
+                    class="@error('pvp') is-invalid @enderror" placeholder="00.00" min="0.01"
+                    value="{{ old('pvp', $book['pvp']) }}"
+                    >
                 @error('pvp')
                     <p><small class="text-systemerror">{{ $message }}</small></p>
                 @enderror
@@ -361,7 +373,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="iva">IVA (%)</label>
                 <input type="number" name="iva" id="iva"
-                    class="@error('iva') is-invalid @enderror" value="4">
+                    class="@error('iva') is-invalid @enderror" value="4" min="0">
                 @error('iva')
                     <small class=" text-systemerror">{{ $message }}</small>
                 @enderror
@@ -369,7 +381,9 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label for="discounted_price">Preu amb descompte</label>
                 <input type="number" step="0.01" name="discounted_price" id="discounted_price"
-                    class="@error('discounted_price') is-invalid @enderror" value="0">
+                    class="@error('discounted_price') is-invalid @enderror" value="0" min="0"
+                    value="{{ old('discounted_price', $book['discounted_price']) }}"
+                    >
                 @error('discounted_price')
                     <p><small class=" text-systemerror">{{ $message }}</small></p>
                 @enderror
@@ -381,7 +395,10 @@ function getLanguagesOptions($languages, $selected = null)
         <legend>Stock</legend>
         <div class="w-full">
             <label for="stock">Stock en magatzem</label>
-            <input type="number" name="stock" id="stock" class="@error('stock') is-invalid @enderror">
+            <input type="number" name="stock" id="stock" class="@error('stock') is-invalid @enderror"
+            value="{{ old('stock', $book['stock']) }}"
+            min="0"
+            >
             @error('stock')
                 <small class="ms-2.5 text-systemerror">{{ $message }}</small>
             @enderror
@@ -415,7 +432,8 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="w-full flex items-center space-x-1">
                     <p class="min-w-fit">eteredicions.com /</p>
                     <input class="md:min-w-80 m-0 ps-1 pe-0 is-disabled @error('slug') is-invalid @else border-0 @enderror" type="text" name="slug"
-                        id="slug" placeholder="titol-del-llibre" readonly disabled>
+                        id="slug" placeholder="titol-del-llibre" readonly disabled
+                        value="{{ old('slug', $book['slug']) }}">
                 </div>
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -439,7 +457,9 @@ function getLanguagesOptions($languages, $selected = null)
             </label>
             <div class="flex justify-between items-center space-x-5">
                 <input type="text" name="meta_title" id="meta_title" class="is-disabled @error('meta_title') is-invalid @else border-0 @enderror" readonly
-                    disabled>
+                    disabled
+                    value="{{ old('meta_title', $book['meta_title']) }}"
+                    >
                 <div class="flex ">
                     <button class="edit-button" type="button" onclick="enableInput(this)">
                         <img src="{{ asset('img/icons/dark/edit.webp') }}" alt="Editar camp" style="width: 20px">

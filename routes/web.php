@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Settings\PasswordController;
+use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -130,29 +132,42 @@ Route::group(['middleware' => 'language.redirect'], function () {
 // Route::post('/lang-switch', [\App\Http\Controllers\LanguageController::class, 'langSwitch'])->name('lang.switch');
 
 /* Admin Backoffice */
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('components.layouts.admin.dashboard');
-    })->name('admin_dashboard');
-    Route::resource('books', App\Http\Controllers\BookController::class);
-    Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
-    Route::resource('collections', App\Http\Controllers\CollectionController::class);
-    Route::resource('users', App\Http\Controllers\UserController::class);
-    Route::resource('authors', App\Http\Controllers\AuthorController::class);
-    Route::resource('translators', App\Http\Controllers\TranslatorController::class);
-    Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
+Route::middleware(['auth.authenticated', 'verified'])->group(function (){
+    //Dashboard route
+    Route::prefix('admin')->group(function () {
+        Route::get('/', function () {
+            return view('components.layouts.admin.dashboard');
+        })->name('admin_dashboard');
+
+    //Profile settings route
+    Route::get('/settings/profile-information', ProfileController::class)->name('user-profile-information.edit');
+    Route::get('/settings/password', PasswordController::class)->name('user-password.edit');
+
+    //Posts route
     Route::resource('posts', App\Http\Controllers\PostController::class);
-    Route::resource('orders', App\Http\Controllers\OrderController::class);
-    Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
-    Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
-    Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
-    // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
-    Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
-})->middleware(AdminCheck::class);
+    // Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
+
+    //Admin routes
+    Route::middleware(['auth.admin'])->group(function(){
+        Route::resource('books', App\Http\Controllers\BookController::class);
+        Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+        Route::resource('collections', App\Http\Controllers\CollectionController::class);
+        Route::resource('users', App\Http\Controllers\UserController::class);
+        Route::resource('authors', App\Http\Controllers\AuthorController::class);
+        Route::resource('translators', App\Http\Controllers\TranslatorController::class);
+        Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
+
+        Route::resource('orders', App\Http\Controllers\OrderController::class);
+        Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
+        Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
+        Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
+        // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');
+    });
+    })->middleware(['auth', 'verified']);
+});
 
 //Route::get('{slug}');
 
-// Cart absolute routes
 Route::post('/cart/less/{item}', [App\Http\Controllers\ShoppingCartController::class, 'less'])->name('cart.less');
 Route::post('/cart/add/{item}', [App\Http\Controllers\ShoppingCartController::class, 'add'])->name('cart.add');
 Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct'])->name('cart.insert');

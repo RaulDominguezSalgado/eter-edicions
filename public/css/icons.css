@@ -25,3 +25,12 @@ i.icon:before{
 .icon.added-to-cart:before{
     background-image: url('/img/icons/dark/added-to-cart.webp');
 }
+.icon.control-panel:before{
+    background-image: url('/img/icons/dark/control-panel.webp');
+}
+.icon.settings:before{
+    background-image: url('/img/icons/dark/settings.webp');
+}
+.icon.logout:before{
+    background-image: url('/img/icons/dark/logout.webp');
+}
