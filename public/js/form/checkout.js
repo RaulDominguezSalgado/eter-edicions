@@ -2,7 +2,9 @@
 var provinceOptions = {
     'ES': {
         'B': 'Barcelona',
+        'GI': 'Girona',
         'CS': 'Catelló',
+        'PM': 'Balears'
         // Add more province options for Spain if needed
     },
 };

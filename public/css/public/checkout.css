@@ -14,7 +14,7 @@ label {
     margin-right: 0 !important;
 }
 
-#payment input,
+/* #payment input,
 #shipment input {
     display: none;
 }
@@ -43,7 +43,7 @@ label {
 #payment > div > ul > li,
 #shipment > div > ul > li {
     padding: 10px;
-}
+} */
 
 aside#checkout-aside > div {
     margin-bottom: 45px;
