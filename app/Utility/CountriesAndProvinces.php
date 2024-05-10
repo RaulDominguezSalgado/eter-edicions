@@ -90,10 +90,10 @@ class CountriesAndProvinces
             "pc" => "16",
             "code" => "CU"
         ],
-        "GE" => [
-            "name" => "Gerona",
+        "GI" => [
+            "name" => "Girona",
             "pc" => "17",
-            "code" => "GE"
+            "code" => "GI"
         ],
         "GR" => [
             "name" => "Granada",
@@ -131,7 +131,7 @@ class CountriesAndProvinces
             "code" => "LE"
         ],
         "L" => [
-            "name" => "Lérida",
+            "name" => "Lleida",
             "pc" => "25",
             "code" => "L"
         ],
@@ -1787,7 +1787,7 @@ class CountriesAndProvinces
     {
         return $this->provinces;
     }
-    
+
 
     /**
      * Function that returns an array with the country information corresponding to the provided ISO3 code.
