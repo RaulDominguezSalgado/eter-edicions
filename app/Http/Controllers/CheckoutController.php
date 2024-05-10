@@ -18,18 +18,16 @@ class CheckoutController extends Controller
      * Actualmente solo redirige al primer paso del checkout, pero puede
      * ser usado para controlar el acceso, controlar el carrito...
      */
-    public function index($order = null)
+    public function index(Request $request, $order = null)
     {
-        $shipment_taxes = 4.99;
-
         $locale = app()->getLocale();
 
-        if(Cart::instance('default')->content() == []){
+        if (Cart::instance('default')->content() == []) {
 
             return redirect()->route("catalog.{$locale}");
         }
 
-        return view("public.checkout", compact("order", 'shipment_taxes', 'locale'));
+        return view("public.checkout", compact("order", 'locale'));
     }
 
     /**
@@ -37,47 +35,52 @@ class CheckoutController extends Controller
      */
     public function toPayment(CheckoutRequest $request)
     {
-        //TODO CHECK TRY CATCH
-        $data = $request->validated();
-        $data['reference'] = $this->generateRandomReference();
-        $data['date'] = now()->toDateString();
-        $data['status_id'] =1;
-        $data['payment_method'] ="Pending";
-        // $data['shipment_taxes'] =5;
-        // dd($request);
+        try {
+            $data = $request->validated();
+            $data['reference'] = $this->generateRandomReference();
+            $data['date'] = now()->toDateString();
+            $data['status_id'] = 1;
+            $data['payment_method'] = "Pending";
+            // $data['shipment_taxes'] =5;
+            // dd($request);
 
-        // $order = Order::create([
-        //     'date' => date('Y-m-d'),
-        //     'total' => preg_replace('/[,.]+/', '.', $data['total']),
-        //     'reference' => $this->generateRandomReference(),
-        //     'dni' => $data['dni'],
-        //     'first_name' => $data['first_name'],
-        //     'last_name' => $data['last_name'],
-        //     'email' => $data['email'],
-        //     "phone_number" => $data['phone_number'],
-        //     "address" => $data['address'],
-        //     "zip_code" => $data['zip_code'],
-        //     "city" => $data['city'],
-        //     "country" => $data['country'],
-        //     'payment_method' => $data['payment_method'],
-        //     'status_id' => 1,
-        // ]);
+            // $order = Order::create([
+            //     'date' => date('Y-m-d'),
+            //     'total' => preg_replace('/[,.]+/', '.', $data['total']),
+            //     'reference' => $this->generateRandomReference(),
+            //     'dni' => $data['dni'],
+            //     'first_name' => $data['first_name'],
+            //     'last_name' => $data['last_name'],
+            //     'email' => $data['email'],
+            //     "phone_number" => $data['phone_number'],
+            //     "address" => $data['address'],
+            //     "zip_code" => $data['zip_code'],
+            //     "city" => $data['city'],
+            //     "country" => $data['country'],
+            //     'payment_method' => $data['payment_method'],
+            //     'status_id' => 1,
+            // ]);
 
-        $controller = new OrderController();
-        $orderId=$controller->saveOrderCheckout($data);
-        return redirect()->route('checkout.payment_method', [
-            'orderId' => $orderId
-        ]);
-        // }
-        // else {
-        //     return back();
-        // }
+            $controller = new OrderController();
+            $orderId = $controller->saveOrderCheckout($data);
+            return redirect()->route('checkout.payment_method', [
+                'orderId' => $orderId
+            ]);
+        } catch (Exception $e) {
+            abort(500, __('errors.unknown-error'));
+        }
     }
 
     function showPaymentMethodView($orderId)
     {
-        return view("public.payment",compact('orderId'));
+        return view("public.payment", compact('orderId'));
     }
+
+    /**
+     * Generates a reference number for an order.
+     * The reference number is comprised by the date when the order is made, in format YmdHis
+     * and a random 6 characters string
+     */
     function generateRandomReference()
     {
         // Obtener la fecha y hora actual
@@ -88,7 +91,7 @@ class CheckoutController extends Controller
 
         // Generar una cadena aleatoria de 6 caracteres
         $cadenaAleatoria = '';
-        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $caracteres = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $longitud = strlen($caracteres);
         for ($i = 0; $i < 6; $i++) {
             $cadenaAleatoria .= $caracteres[rand(0, $longitud - 1)];
@@ -99,6 +102,4 @@ class CheckoutController extends Controller
 
         return $cadenaFinal;
     }
-
-
 }

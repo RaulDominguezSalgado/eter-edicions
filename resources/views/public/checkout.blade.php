@@ -29,20 +29,20 @@
                         <input type="hidden" name="prices[]" value="{{ $item->priceTax() }}">
                     @endforeach
 
-                    <input type="hidden" name="shipment_taxes" value="{{ $shipment_taxes }}" id="shipment_taxes">
-                    <input type="hidden" name="total" value="{{ Cart::instance("default")->total() + $shipment_taxes }}" id="total">
+                    {{-- <input type="hidden" name="shipment_taxes" value="{{ $shipment_taxes }}" id="shipment_taxes"> --}}
+                    <input type="hidden" name="total" value="{{ Cart::instance("default")->total() }}" id="total">
                 </div>
                 <div>
                     <h2>{{__('form.personal-data')}}</h2>
                     <div class="flex">
                         <label class="flex-col w-1/2 my-3" for="first_name">{{__('form.first_name')}}
-                            <input type="text" value="{{ $order['first_name'] ?? '' }}" class="@error('first_name') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="first_name" id="first_name">
+                            <input type="text" value="{{ $order['first_name'] ?? '' }}" class="@error('first_name') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="first_name" id="first_name">
                             @error('first_name')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
                         <label class="flex-col w-1/2 my-3" for="last_name">{{__('form.last_name')}}
-                            <input type="text" value="{{ $order['last_name'] ?? '' }}" class="@error('last_name') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="last_name" id="last_name">
+                            <input type="text" value="{{ $order['last_name'] ?? '' }}" class="@error('last_name') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="last_name" id="last_name">
                             @error('last_name')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
@@ -50,19 +50,19 @@
                     </div>
                     <div class="flex">
                         <label class="flex-col w-1/3 my-3" for="dni">NIF (DNI, NIE)
-                            <input type="text" value="{{ $order['dni'] ?? '' }}" class="@error('dni') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="dni" id="dni">
+                            <input type="text" value="{{ $order['dni'] ?? '' }}" class="@error('dni') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="dni" id="dni">
                             @error('dni')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
                         <label class="flex-col w-1/3 my-3" for="email">{{__('form.email')}}
-                            <input type="email" value="{{ $order['email'] ?? '' }}" class="@error('email') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="email">
+                            <input type="email" value="{{ $order['email'] ?? '' }}" class="@error('email') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" id="email">
                             @error('email')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
                         <label class="flex-col w-1/3 my-3" for="phone_number">{{__('form.phone')}}
-                            <input type="tel" value="{{ $order['phone_number'] ?? '' }}" class="@error('phone_number') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="phone_number" id="phone_number">
+                            <input type="tel" value="{{ $order['phone_number'] ?? '' }}" class="@error('phone_number') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="phone_number" id="phone_number">
                             @error('phone_number')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
@@ -71,36 +71,44 @@
                 </div>
                 <div>
                     <h2>{{__('form.shipping')}}</h2>
-                    <div class="flex">
-                        <label class="flex-col w-1/3 my-3" for="address">{{__('form.address')}}
-                            <input type="text" value="{{ $order['address'] ?? '' }}" class="@error('address') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="address" id="address">
-                            @error('address')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                    <div class="flex flex-wrap w-full">
+                        <label class="flex-col w-full max-w-[calc(100%-16rem)] mb-4" for="address">{{__('form.address')}}
+                            <div class="w-full flex items-center justify-between shadow appearance-none border border-dark rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline p-1">
+                                <input type="text" class="w-full border-0 py-1 px-2" name="search_input" id="search_input">
+                                <i class="icon search"></i>
+                            </div>
                         </label>
-                        <label class="flex-col w-1/3 my-3" for="zip_code">{{__('form.zip-code')}}
-                            <input type="text" value="{{ $order['zip_code'] ?? '' }}" class="@error('zip_code') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="zip_code" id="zip_code">
-                            @error('zip_code')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
-                        </label>
-                        <label class="flex-col w-1/3 my-3" for="city">{{__('form.city')}}
-                            <input type="text" value="{{ $order['city'] ?? '' }}" class="@error('city') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="city" id="city">
-                            @error('city')
+                        <label class="flex-col w-min my-3" for="apartment">{{__('form.apartment')}}
+                            <input type="text" value="{{ $order['apartment'] ?? '' }}" class="h-[42px] @error('apartment') border-systemerror @enderror w-min shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="apartment" id="apartment">
+                            @error('apartment')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
                     </div>
                     <div class="flex">
-                        <label class="flex-col w-1/2 my-3" for="province">{{__('form.province')}}
-                            <input type="text" value="{{ $order['province'] ?? '' }}" class="@error('province') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="province" id="province">
+                        <label class="flex-col w-1/3 my-3" for="locality">{{__('form.locality')}}
+                            <input type="text" value="{{ $order['locality'] ?? '' }}" class="@error('locality') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="locality" id="locality">
+                            @error('locality')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                        </label>
+                        <label class="flex-col w-1/3 my-3" for="province">{{__('form.province')}}
+                            <input type="text" value="{{ $order['province'] ?? '' }}" class="@error('province') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="province" id="province">
                             @error('province')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
-                        <label class="flex-col w-1/2 my-3" for="country">{{__('form.country')}}
-                            <input type="text" value="{{ $order['country'] ?? '' }}" class="@error('country') border border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="country" id="country">
+                        <label class="flex-col w-1/3 my-3" for="country">{{__('form.country')}}
+                            <input type="text" value="{{ $order['country'] ?? '' }}" class="@error('country') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="country" id="country">
                             @error('country')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                        </label>
+                    </div>
+                    <div class="flex">
+                        <label class="flex-col w-min my-3" for="zip_code">{{__('form.zip-code')}}
+                            <input type="text" value="{{ $order['zip_code'] ?? '' }}" class="@error('zip_code') border-systemerror @enderror w-min shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="zip_code" id="zip_code">
+                            @error('zip_code')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
@@ -164,71 +172,8 @@
             </aside>
         </div>
     </form>
-    <style>
-        label {
-            user-select: none;
-        }
-        #checkout-main-content > div {
-            margin-bottom: 60px;
-        }
-        #checkout-main-content > div > div > label {
-            margin: 20px !important;
-        }
-        #checkout-main-content > div > div > label:first-of-type {
-            margin-left: 0 !important;
-        }
-        #checkout-main-content > div > div > label:last-of-type {
-            margin-right: 0 !important;
-        }
 
-        #payment input,
-        #shipment input {
-            display: none;
-        }
-        #payment input:checked + label,
-        #payment label:hover,
-        #shipment input:checked + label,
-        #shipment label:hover {
-            background-color: #ccc;
-            transition: .3s;
-        }
-        #payment label,
-        #shipment label {
-            display: block;
-            width: 100%;
-            transition: .3s;
-            cursor: pointer;
-            padding: 10px;
-        }
-
-
-        #payment > div > ul,
-        #shipment > div > ul {
-            list-style: none;
-            width: 100%;
-        }
-        #payment > div > ul > li,
-        #shipment > div > ul > li {
-            padding: 10px;
-        }
-
-        aside#checkout-aside > div {
-            margin-bottom: 45px;
-        }
-        h2 {
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-            margin-bottom: 3px;
-        }
-        .cart-info {
-            max-height: 450px;
-            overflow-y: auto;
-        }
-        #price_table {
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            padding: 15px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="{{asset('css/public/checkout.css')}}">
 </x-layouts.app>
+<script src="{{asset('js/form/places.js')}}"></script>
 
