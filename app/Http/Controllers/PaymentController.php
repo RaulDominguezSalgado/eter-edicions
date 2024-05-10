@@ -21,6 +21,8 @@ class PaymentController extends Controller
     function payment(Request $request)
     {
         $order = Order::where("reference", 'LIKE', $request->orderId)->first();
+        $order->update(['shipment_taxes' => $request->input('shipment_taxes')]);
+
         switch ($request->payment_method) {
             case "paypal":
                 $provider = new PayPalClient();
