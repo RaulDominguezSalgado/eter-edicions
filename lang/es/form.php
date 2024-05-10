@@ -30,7 +30,7 @@ return [
     'shipping-cost' => "Gastos de envío",
     'shipping-address' => "Adreça d'entrega",
     'address' => 'Dirección',
-    'apartment' => 'Apartamento, piso, puerta, etc.',
+    'apartment' => 'Apartamento, piso, etc.',
     'zip-code' => 'Código postal',
     'locality' => 'Población',
     'province' => 'Provincia',

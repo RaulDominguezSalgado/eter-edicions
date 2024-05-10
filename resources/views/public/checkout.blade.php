@@ -122,9 +122,14 @@ $order = old() ?? [];
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('province') border-systemerror @enderror"
                                 name="province" id="province">
                                 @foreach ($provinces as $code => $province)
-                                    <option value="{{ $code }}"
-                                    @if ($code == 'B') selected @endif>
-                                        {{ __('provinces.' . $province['code']) }}</option>
+                                    @if($loop->first)
+                                    <option id="{{ $province['name'] }}" value="{{ $code }}">
+                                        {{ __('provinces.' . $province['name']) }}</option>
+                                    @else
+                                        <option id="{{ $code }}" value="{{ $code }}"
+                                        @if ($code == 'B') selected @endif>
+                                            {{ __('provinces.' . $province['code']) }}</option>
+                                    @endif
                                 @endforeach
                             </select>
 
@@ -135,10 +140,10 @@ $order = old() ?? [];
                         <label class="flex-col w-1/3 my-3" for="country">{{ __('form.country') }}
                             <select
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('country') border-systemerror @enderror"
-                                name="province" id="province">
+                                name="country" id="country">
                                 @foreach ($countries as $key => $country)
                                     <option value="{{ $key }}"
-                                        @if ($key == 'ESP') selected @endif>
+                                        @if ($key == 'ES') selected @endif>
                                         {{ __('countries.' . $key) }}</option>
                                 @endforeach
                             </select>

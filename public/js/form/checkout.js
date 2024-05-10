@@ -1,11 +1,58 @@
 // Define province options for each country
 var provinceOptions = {
     'ES': {
+        'VI': 'Álava',
+        'AB': 'Albacete',
+        'A': 'Alicante',
+        'AL': 'Almería',
+        'AV': 'Ávila',
+        'BA': 'Badajoz',
+        'PM': 'Baleares',
         'B': 'Barcelona',
+        'BU': 'Burgos',
+        'CC': 'Cáceres',
+        'CA': 'Cádiz',
+        'CS': 'Castellón',
+        'CR': 'Ciudad Real',
+        'CO': 'Córdoba',
+        'C': 'La Coruña',
+        'CU': 'Cuenca',
         'GI': 'Girona',
-        'CS': 'Catelló',
-        'PM': 'Balears'
-        // Add more province options for Spain if needed
+        'GR': 'Granada',
+        'GU': 'Guadalajara',
+        'SS': 'Guipúzcoa',
+        'H': 'Huelva',
+        'HU': 'Huesca',
+        'J': 'Jaén',
+        'LE': 'León',
+        'L': 'Lleida',
+        'LO': 'La Rioja',
+        'LU': 'Lugo',
+        'M': 'Madrid',
+        'MA': 'Málaga',
+        'MU': 'Murcia',
+        'NA': 'Navarra',
+        'OR': 'Orense',
+        'O': 'Asturias',
+        'P': 'Palencia',
+        'GC': 'Las Palmas',
+        'PO': 'Pontevedra',
+        'SA': 'Salamanca',
+        'TF': 'Santa Cruz de Tenerife',
+        'S': 'Cantabria',
+        'SG': 'Segovia',
+        'SE': 'Sevilla',
+        'SO': 'Soria',
+        'T': 'Tarragona',
+        'TE': 'Teruel',
+        'TO': 'Toledo',
+        'V': 'Valencia',
+        'VA': 'Valladolid',
+        'BI': 'Vizcaya',
+        'ZA': 'Zamora',
+        'Z': 'Zaragoza',
+        'CE': 'Ceuta',
+        'ML': 'Melilla'
     },
 };
 
@@ -42,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
  */
 function autocompleteInput(key, value) {
     var input = document.getElementById(key);
+    // console.log(input);
 
     input.value = value;
 }
@@ -54,6 +102,7 @@ function autocompleteInput(key, value) {
  */
 function autocompleteSelect(key, value) {
     var select = document.getElementById(key);
+    // console.log(select);
 
     // Loop through options to find a match
     for (var i = 0; i < select.options.length; i++) {
@@ -128,30 +177,27 @@ function updateProvinceOptions() {
     var selectedCountry = document.getElementById('country').value;
     var provinceSelect = document.getElementById('province');
 
-    // Clear existing options
-    provinceSelect.innerHTML = '';
-
-    // // Add default "Select Province" option
-    // var defaultOption = document.createElement('option');
-    // defaultOption.value = '';
-    // defaultOption.textContent = 'Select Province';
-    // provinceSelect.appendChild(defaultOption);
-
     // Add province options based on the selected country
     if (selectedCountry in provinceOptions) {
         provinceSelect.disabled = false;
         provinceSelect.parentElement.classList.remove("hidden");
 
-        var provinces = provinceOptions[selectedCountry];
-        Object.keys(provinces).forEach(function(code) {
-            var option = document.createElement('option');
-            option.value = code;
-            option.textContent = provinces[code];
-            provinceSelect.appendChild(option);
-        });
+        var provincePlaceholder = provinceSelect.querySelector('#placeholder');
+        provincePlaceholder.selected=false;
+
+        // var provinces = provinceOptions[selectedCountry];
+        // Object.keys(provinces).forEach(function(code) {
+        //     var option = document.createElement('option');
+        //     option.value = code;
+        //     option.textContent = provinces[code];
+        //     provinceSelect.appendChild(option);
+        // });
     }
     else{
         provinceSelect.disabled = true;
         provinceSelect.parentElement.classList.add("hidden")
+
+        var provincePlaceholder = provinceSelect.querySelector('#placeholder');
+        provincePlaceholder.selected=true;
     }
 }
