@@ -100,7 +100,7 @@
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div> --}}
                         <div class="headline headline flex justify-between items-end">
-                            <div class="">
+                            <div class="min-w-max">
                                 <p class="uppercase">{{ $post['post_type'] }}</p>
                             </div>
                             <div class="date-info h-auto">

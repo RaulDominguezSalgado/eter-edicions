@@ -5,7 +5,7 @@
 
 $locale = app()->getLocale() ?: 'ca';
 ?>
-<div class="p-3">
+<div class="">
     <form action="{{ route("search.{$locale}") }}" method="GET" class="flex">
         {{-- <div class="flex border border-dark">
             <i class="icon search"></i>

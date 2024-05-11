@@ -5,7 +5,7 @@
 
 $locale = app()->getLocale() ?: 'ca';
 ?>
-<nav class="flex justify-end px-2.5 pt-3">
+<nav class="flex justify-end px-4 pt-3">
     <ul class="flex space-x-2">
         <li class="relative">
             <div id="lang" class="">
@@ -44,7 +44,7 @@ $locale = app()->getLocale() ?: 'ca';
         </li>
     </ul>
 </nav>
-<nav id="main-nav" class="mb-6">
+<nav id="main-nav" class="mb-6 px-4">
     <a href="{{ route("home.{$locale}") }}" class="logo">
         <img src="{{ asset('img/logo/lg/logo_eter_black.webp') }}" alt="Logotip d'Èter Edicions" style="width: 5em">
     </a>

@@ -108,17 +108,17 @@
         <div class="mb-8" id="infoTab">
             <div class="mb-8">
                 <ul class="flex flex-wrap -mb-px" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
-                    <li class="mr-2" role="presentation">
+                    <li class="mr-2">
                         <button
-                            class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b active"
+                            class="inline-block border-gray-950 hover:border-gray-950 focus:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b active"
                             id="description-tab" data-tabs-target="#description" type="button" role="tab"
                             aria-controls="description" aria-selected="true">
                             <h5 class="">{{__('general.description')}}</h5>
                         </button>
                     </li>
-                    <li class="mr-2" role="presentation">
+                    <li class="mr-2">
                         <button
-                            class="inline-block hover:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b"
+                            class="inline-block hover:border-gray-950 focus:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b"
                             id="technical-sheet-tab" data-tabs-target="#technical-sheet" type="button" role="tab"
                             aria-controls="technical-sheet" aria-selected="false">
                             <h5 class="">{{__('general.technical-sheet')}}</h5>
@@ -201,7 +201,7 @@
                     @endforeach
                 </div>
 
-                <div class="technical-sheet flex flex-col space-y-0.5" id="technical-sheet" role="tabpanel"
+                <div class="hidden technical-sheet flex-col space-y-0.5" id="technical-sheet" role="tabpanel"
                     aria-labelledby="technical-sheet-tab">
                     <div class="mb-2">
                         <div class="flex" id="title">
@@ -349,6 +349,6 @@
     </main>
 
     {{-- tab component script --}}
-    <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
+    <script src="{{ asset('js/book/book.js') }}"></script>
     <script src={{ asset('js/components/popover.js') }}></script>
 </x-layouts.app>

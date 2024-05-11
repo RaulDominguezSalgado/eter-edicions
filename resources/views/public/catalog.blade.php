@@ -20,9 +20,9 @@
                 </div> --}}
             </div>
 
-            <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
+            <div class="w-full flex flex-wrap justify-center h-auto px-16" id="catalog">
                 @foreach ($books as $i => $book)
-                    <div class="book flex flex-col items-center mb-6">
+                    <div class="book flex flex-col items-center mb-6 mr-10">
                         <div class="cover mb-4 relative ">
                             <a href="{{ route("book-detail.{$locale}", $book['id']) }}">
                                 <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
