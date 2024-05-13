@@ -7,12 +7,15 @@ use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
 use App\Models\Author;
+use App\Models\Language;
+use App\Models\LanguageTranslation;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class CollaboratorController
@@ -68,7 +71,14 @@ class CollaboratorController extends Controller
     public function create()
     {
         $collaborator = new Collaborator();
-        return view('admin.collaborator.create', compact('collaborator'));
+        //$this->getCollaborator();
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+            ->where(function ($query) {
+                $query->where('iso_language', 'ca')
+                    ->orWhere('iso_language', 'es');
+            })
+            ->get();
+        return view('admin.collaborator.create', compact('collaborator', 'languages'));
     }
 
     /**
@@ -78,6 +88,7 @@ class CollaboratorController extends Controller
     {
         try {
             // Validate the request data
+            dd($request);
             $validatedData = $request->validated();
             if ($request->hasFile('image')) {
                 // Obtener el archivo de imagen
@@ -148,9 +159,18 @@ class CollaboratorController extends Controller
     {
         $locale = $this->lang;
 
-        $collaborator = $this->getFullCollaborator($id, $locale);
+        // $languages= LanguageTranslation::where("iso_translation", $locale)->get();
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+            ->where(function ($query) {
+                $query->where('iso_language', 'ca')
+                    ->orWhere('iso_language', 'es');
+            })
+            ->get();
 
-        return view('admin.collaborator.edit', compact('collaborator'));
+        // dd($languages);
+        $collaborator = $this->getCollaborator($id);
+        // dd($collaborator);
+        return view('admin.collaborator.edit', compact('collaborator', 'languages'));
     }
 
     /**
@@ -320,6 +340,52 @@ class CollaboratorController extends Controller
         return [$collaborators_lv, $collaborators];
     }
 
+    /**
+     * Get all the relevant details of a collaborator
+     *
+     * @param int $id: the id of the collaborator
+     * @param string $locale: the current language of the app
+     *
+     * @return array $collaborator
+     */
+    public function getCollaborator($id = 0)
+    {
+        $collab = Collaborator::find($id);
+        $collaborator = [];
+        if ($id = 0) {
+            $collaborator = [
+                'id' => $collab->id,
+                'image' => $collab->image,
+                'social_networks' => json_decode($collab->social_networks, true),
+                'translations' => []
+            ];
+        } else {
+            if ($collab) {
+                $collaborator = [
+                    'id' => $collab->id,
+                    'image' => $collab->image,
+                    'social_networks' => json_decode($collab->social_networks, true),
+                    'translations' => []
+                ];
+
+                $translations = $collab->translations;
+
+                foreach ($translations as $translation) {
+                    // Verificamos si la traducción es válida
+                    if ($translation) {
+                        $collaborator['translations'][$translation->lang] = [
+                            'first_name' => $translation->first_name,
+                            'last_name' => $translation->last_name,
+                            'biography' => $translation->biography,
+                            'slug' => $translation->slug
+                        ];
+                    }
+                }
+            }
+        }
+        return $collaborator;
+    }
+
 
     /**
      * Get all the relevant details of a collaborator
@@ -329,7 +395,8 @@ class CollaboratorController extends Controller
      *
      * @return array $collaborator
      */
-    public function getFullCollaborator($id, $locale){
+    public function getFullCollaborator($id, $locale)
+    {
         $collab = Collaborator::find($id);
         // $collaborator = [];
         $translation = $collab->translations->where('lang', $locale)->first();
@@ -391,7 +458,7 @@ class CollaboratorController extends Controller
                     'collaborator_id' => $author->collaborator_id,
                     'first_name' => $translation->first_name,
                     'last_name' => $translation->last_name,
-                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'full_name' => $translation->first_name . " " . $translation->last_name,
                     'biography' => $translation->biography,
                     'image' => $collaborator->image,
                 ];
@@ -406,7 +473,7 @@ class CollaboratorController extends Controller
                     'collaborator_id' => $translator->collaborator_id,
                     'first_name' => $translation->first_name,
                     'last_name' => $translation->last_name,
-                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'full_name' => $translation->first_name . " " . $translation->last_name,
                     'biography' => $translation->biography,
                     'image' => $collaborator->image,
                 ];
@@ -415,68 +482,66 @@ class CollaboratorController extends Controller
                 'authors' => $authors,
                 'translators' => $translators,
             ];
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
 
 
     /**
-    * Method that generates the Author array used by the view
-    */
-    public static function getData($key = null, $value = null, $search = false) {
+     * Method that generates the Author array used by the view
+     */
+    public static function getData($key = null, $value = null, $search = false)
+    {
         // try {
-            // $locale = Config::get('app.locale');
-            $locale = app()->getLocale();
-            // $locale = 'ca';
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
 
-            $query_data = [];
+        $query_data = [];
 
-            if ($key == null || $value == null) {
-                $query_data = Collaborator::paginate();
-            }
-            else if ($search) {
-                switch ($key) {
-                    case 'id':
-                    case 'collaborator_id':
-                        $query_data = Collaborator::where($key, 'LIKE', '%' . $value . '%')->translation()->paginate();
+        if ($key == null || $value == null) {
+            $query_data = Collaborator::paginate();
+        } else if ($search) {
+            switch ($key) {
+                case 'id':
+                case 'collaborator_id':
+                    $query_data = Collaborator::where($key, 'LIKE', '%' . $value . '%')->translation()->paginate();
                     break;
-                    case 'lang':
-                    case 'first_name':
-                    case 'last_name':
-                    case 'biography':
-                    case 'slug':
-                    case 'meta_title':
-                    case 'meta_description':
-                        // Aux es un conjunto de traducciones de collaboradores los cuales tienen autores
-                        $query_data = CollaboratorTranslation::where($key, 'LIKE', '%' . $value . '%')
+                case 'lang':
+                case 'first_name':
+                case 'last_name':
+                case 'biography':
+                case 'slug':
+                case 'meta_title':
+                case 'meta_description':
+                    // Aux es un conjunto de traducciones de collaboradores los cuales tienen autores
+                    $query_data = CollaboratorTranslation::where($key, 'LIKE', '%' . $value . '%')
                         ->where('lang', $locale)
                         ->paginate();
                     break;
-                    default:
-                        $query_data = [];
+                default:
+                    $query_data = [];
                     break;
-                }
             }
-            else {
-                $query_data = Collaborator::where($key, $value)->paginate();
-            }
-            $collaborators = [];
-            foreach ($query_data as $single_data) {
-                $collaborators[] = [
-                    'id' => $single_data->collaborator()->first()->id,
-                    'image' => $single_data->collaborator()->first()->image,
-                    'first_name' => $single_data->first_name,
-                    'last_name' => $single_data->last_name,
-                    'full_name' => $single_data->first_name." ".$single_data->last_name,
-                    'biography' => $single_data->biography,
-                    'slug' => \App\Http\Actions\FormatDocument::slugify($single_data),
-                    'lang' => $single_data->lang,
-                ];
-            }
+        } else {
+            $query_data = Collaborator::where($key, $value)->paginate();
+        }
+        $collaborators = [];
+        foreach ($query_data as $single_data) {
+            $collaborators[] = [
+                'id' => $single_data->collaborator()->first()->id,
+                'image' => $single_data->collaborator()->first()->image,
+                'first_name' => $single_data->first_name,
+                'last_name' => $single_data->last_name,
+                'full_name' => $single_data->first_name . " " . $single_data->last_name,
+                'biography' => $single_data->biography,
+                'slug' => \App\Http\Actions\FormatDocument::slugify($single_data),
+                'lang' => $single_data->lang,
+            ];
+        }
 
-            return $collaborators;
+        return $collaborators;
         // }
         // catch (Exception $e) {
         //     abort(500, 'Server Error');
