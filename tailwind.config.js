@@ -34,6 +34,9 @@ export default {
             systemerror: '#ED0131',
             systemsuccess: '#0E6245',
 
+        },
+        boxShadow: {
+            'login': '-3px 3px 6px rgba(0, 0, 0, 0.15)'
         }
     },
   },

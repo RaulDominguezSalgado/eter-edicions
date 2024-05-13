@@ -9,11 +9,10 @@
     {{-- <link rel="stylesheet" href="/css/main.css"> --}}
     <link rel="stylesheet" href="/css/admin/main.css">
     <title>{{ $title ?? 'Èter Edicions' }}</title>
-    {{-- @vite('resources/css/app.css') --}}
     @vite(['resources/js/app.js'])
 </head>
-<body class="flex flex-col justify-center items-center h-screen space-y-5 md:space-y-5 m-0">
-    <main class="flex flex-col justify-center items-center w-[30em] p-5 md:p-8 lg:p-20 space-y-8">
+<body class="flex flex-col justify-center items-center h-screen space-y-5 md:space-y-5 m-0 bg-surfacemedium">
+    <main class="flex flex-col justify-center items-center w-[40em] px-8 py-8 space-y-8 overflow-auto">
         {{$slot}}
     </main>
 </body>

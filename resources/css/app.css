@@ -4,11 +4,15 @@
 
 @layer components {
     .send-button {
-        @apply py-4 px-12 border border-dark rounded text-light bg-primary hover:bg-secondary
+        @apply py-4 px-8 border border-dark rounded text-light bg-primary hover:bg-secondary
+    }
+
+    .send-button-sm{
+        @apply py-2 px-4 border border-darkgrey rounded text-light bg-darkgrey hover:bg-primary
     }
 
     .options-button {
-        @apply py-4 px-12 border border-dark rounded text-dark font-bold bg-light
+        @apply py-4 px-8 border border-dark rounded text-dark font-bold bg-light
     }
 
     .previous-button{
