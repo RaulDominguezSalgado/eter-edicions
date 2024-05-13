@@ -36,9 +36,19 @@ class SearchController extends Controller
      * Public index view for searches
      */
     public function index() {
+        $locale = app()->getLocale() ?: 'ca';
+
         $term = app(Request::class)->input('search_term');
         $results = self::getResultsArray($term);
-        return view('public.searchResults', compact('results'));
+
+        $page = [
+            'title' => $term ? ucfirst(__('phrases.resultats de cerca')) . " " . __('orthographicRules.with_de') . " " . $term : ucfirst(__('phrases.pagina de cerca')),
+            'shortDescription' => '',
+            'longDescription' => '',
+            'web' => 'Èter Edicions'
+        ];
+
+        return view('public.searchResults', compact('results', 'locale', 'page'));
     }
 
     /**

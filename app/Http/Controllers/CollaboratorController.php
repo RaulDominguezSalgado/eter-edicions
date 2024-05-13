@@ -464,6 +464,7 @@ class CollaboratorController extends Controller
             }
             $collaborators = [];
             foreach ($query_data as $single_data) {
+                
                 $collaborators[] = [
                     'id' => $single_data->collaborator()->first()->id,
                     'image' => $single_data->collaborator()->first()->image,
