@@ -249,4 +249,5 @@ $order = old() ?? [];
 
     <link rel="stylesheet" href="{{ asset('css/public/checkout.css') }}">
 </x-layouts.app>
+
 <script src="{{ asset('js/form/checkout.js') }}"></script>

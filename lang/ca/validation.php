@@ -151,6 +151,7 @@ return [
         'file' => 'El camp :attribute ha de ser :size kilobytes.',
         'numeric' => 'El camp :attribute ha de ser :size.',
         'string' => 'El camp :attribute ha de ser :size caràcters.',
+        'regex' => 'La grandària ha de ser en format numèric, amb opció d\'incloure "x" per a dimensions i unitat de mesura (cm o mm) al final.',
     ],
     'starts_with' => 'El camp :attribute ha de començar amb un dels següents: :values.',
     'string' => 'El camp :attribute ha de ser una cadena.',
@@ -210,6 +211,7 @@ return [
         'reference' => 'referència',
         'tracking_id' => 'codi d\'enviament',
         'products' => 'llibre',
+        'size' => 'dimensions'
     ],
 
 ];

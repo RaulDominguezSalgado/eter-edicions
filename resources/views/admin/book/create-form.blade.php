@@ -223,10 +223,10 @@ function getLanguagesOptions($languages, $selected = null)
                 @enderror
             </div>
             <div class="w-full">
-                <label for="dimensions">Dimensions</label>
-                <input class="max-h-fit @error('size') is-invalid @enderror" type="text" name="dimensions"
+                <label for="size">Dimensions</label>
+                <input class="max-h-fit @error('size') is-invalid @enderror" type="text" name="size"
                     value="{{ old('size', $book['size']) }}"
-                    id="dimensions">
+                    id="size">
                 @error('size')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror

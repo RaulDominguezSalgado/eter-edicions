@@ -26,7 +26,7 @@
                                     <div class="max-w-fit">
                                         <h5>Stock en magatzem:</h5>
                                         <input type="number" id="defaultStock" name="stock"
-                                            value="{{ $book['stock'] }}">
+                                            value="{{ $book['stock'] }}" min="0">
                                     </div>
 
                                     @csrf
