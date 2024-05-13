@@ -47,12 +47,9 @@ class BookRequest extends FormRequest
             'original_title' => 'nullable',
             'original_publication_date' => 'nullable',
             'original_publisher' => 'nullable',
-            'legal_diposit' => 'nullable|regex:/^[a-zA-Z -]+$/',
+            'legal_diposit' => 'nullable',//|regex:/^[a-zA-Z -]+$/
             'headline' => '',
-            //'size' => 'nullable|regex:/^[0-9]+[Xx]?(\s[CMcm][CMcm])?$/',
-            //'size' => 'required|regex:/^[0-9]+[xX]?(\s[0-9]+[xX])?(\s[CMcm][CMcm])?$/',
-            'size' => 'nullable|regex:/^([0-9]+[xX]?\s?[0-9]+)?(\s[CMcm][CMcm])?$/',
-            //'nullable'|'regex:/^[0-9]+[Xx]?(\s[CMcm][CMcm])?$/',
+            'size' => 'nullable|regex:/^([0-9]+[xX]?\s?[0-9]+)?(\s[CMcm][CMcm])?$/',//Validates size with numeric format, "x" and optional "cm" or "mm" units.
             'enviromental_footprint' => 'nullable',
             'meta_title' => '',
             'meta_description' => '',

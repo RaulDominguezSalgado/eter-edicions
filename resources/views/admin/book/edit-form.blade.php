@@ -480,7 +480,7 @@ function getLanguagesOptions($languages, $selected = null)
                         original:</label>
                     <input id="original_publication_date"
                         class="@error('original_publication_date') is-invalid @else border-0 @enderror"
-                        type="input" name="original_publication_date"
+                        type="date" name="original_publication_date"
                         value="{{ $book['original_publication_date'] ?? '' }}" readonly>
                     @error('original_publication_date')
                         <small class="text-systemerror">{{ $message }}</small>
