@@ -342,6 +342,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <label class="flex items-center mx-2.5 min-w-fit" for="publication_date">Publicació:</label>
                     <input id="publication_date"
                         class="@error('publication_date') is-invalid @else border-0 @enderror" type="date"
+                        {{-- work when is type text  --}}
                         name="publication_date" value="{{ $book['publication_date'] ?? '' }}" readonly>
                     @error('publication_date')
                         <small class="text-systemerror">{{ $message }}</small>
@@ -481,6 +482,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <input id="original_publication_date"
                         class="@error('original_publication_date') is-invalid @else border-0 @enderror"
                         type="date" name="original_publication_date"
+                        {{-- work when is type text  --}}
                         value="{{ $book['original_publication_date'] ?? '' }}" readonly>
                     @error('original_publication_date')
                         <small class="text-systemerror">{{ $message }}</small>
