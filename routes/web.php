@@ -181,6 +181,9 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
             ->name('login');
         }
     }
+    Route::get('/home', function(){
+        return redirect(route('admin_dashboard'));
+    });
 
     $limiter = config('fortify.limiters.login');
     $twoFactorLimiter = config('fortify.limiters.two-factor');

@@ -11,8 +11,8 @@
     <title>{{ $title ?? 'Èter Edicions' }}</title>
     @vite(['resources/js/app.js'])
 </head>
-<body class="flex flex-col justify-center items-center h-screen space-y-5 md:space-y-5 m-0 bg-surfacemedium">
-    <main class="flex flex-col justify-center items-center w-[40em] px-8 py-8 space-y-8 overflow-auto">
+<body class="flex flex-col justify-center items-center h-screen m-0 bg-surfacemedium">
+    <main class="flex flex-col justify-center items-center w-[40em] px-8 py-8  overflow-auto">
         {{$slot}}
     </main>
 </body>
