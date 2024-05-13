@@ -196,9 +196,24 @@ return [
     'attributes' => [
         'image' => 'imagen',
         'social_networks' => 'redes sociales',
-        'name' => 'nombre',
+        'first_name' => 'nombre',
         'last_name' => 'apellido',
+        'email' => 'correo electrónico',
         'biography' => 'biografía',
+        'password' => 'contraseña',
+        'phone' => 'teléfono',
+        'role_id' => 'rol',
+        'date' => 'fecha',
+        'phone_number' => 'número de teléfono',
+        'zip_code' => 'código postal',
+        'city' => 'ciudad',
+        'country' => 'país',
+        'status_id' => 'estado del pedido',
+        'payment_method' => 'método de pago',
+        'reference' => 'referencia',
+        'tracking_id' => 'código de envío',
+        'products' => 'libro',
+        'size' => 'dimensiones'
     ],
 
 ];
