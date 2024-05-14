@@ -60,7 +60,7 @@
             </div>
         @endif
 
-        <div class="space-y-8">
+        <div class="space-y-8 cart-content">
             @if (count(Cart::instance('default')->content()) > 0)
                 <div class="space-y-4">
                     <table class="table w-full">

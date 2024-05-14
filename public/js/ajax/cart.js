@@ -114,9 +114,10 @@ class cartAjaxHelper {
                 fila.remove();
             break;
         }
-        let tabla = document.querySelectorAll(".cart-content").length;
-        if (tabla == 0) {
-            tabla.remove();
+        let content = document.querySelector(".cart-content");
+        let tabla = content.querySelector("table");
+        if (tabla.querySelectorAll('tr').length == 1) {
+            content.innerHTML = "La cistella està buida.";
         }
     }
 }
@@ -126,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function ()  {
         e.addEventListener("click", function () {
             let book_id = e.getAttribute("book-id");
             cartAjaxHelper.addItem(book_id);
+            cartAjaxHelper.updateCart("add", book_id);
         });
     });
 
