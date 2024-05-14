@@ -33,21 +33,21 @@
                 @endforeach
             @endif
         </div>
-        {{-- <div class="form-group mb-2 mb20">
+        <div class="form-group mb-2 mb20">
             <label for="lang" class="form-label">{{ __('Idioma') }}</label>
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
+                <option selected disabled>Selecciona un idioma</option>
                 @foreach ($languages as $language)
 
-                    <option value="{{ $language['iso_language'] }}"
-                        {{ old('lang', $collaborator['lang']) == $language['iso_language'] ? 'selected' : '' }}>
+                    <option value="{{ $language['iso_language'] }}">
                         {{ $language['translation'] }}
                     </option>
                 @endforeach
             </select>
             {!! $errors->first('lang', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div> --}}
+        </div>
         @foreach ($languages as $language)
-            <div class="border rounded-md p-4 mb-4">
+            <div class="border rounded-md p-4 mb-4 idioma-container" id="{{ $language['iso_language'] }}">
                 <h2 class="text-lg font-semibold text-sm mb-2">{{ $language['translation'] }}</h2>
                 <div class="form-group mb-2 mb20">
                     <label for="first_name" class="form-label">{{ __('Nom') }}</label>
@@ -92,5 +92,20 @@
     <div class="col-md-12 mt20 mt-2">
         <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
     </div>
+    <script>
+        document.getElementById('lang').addEventListener('change', function() {
+            var selectedLanguage = this.value;
+            var idiomaContainers = document.getElementsByClassName('idioma-container');
+
+            for (var i = 0; i < idiomaContainers.length; i++) {
+                var container = idiomaContainers[i];
+                if (container.id === selectedLanguage) {
+                    container.style.display = 'block'; // Mostrar el contenedor correspondiente al idioma seleccionado
+                } else {
+                    container.style.display = 'none'; // Ocultar los otros contenedores
+                }
+            }
+        });
+    </script>
 </div>
 <script src="{{ asset('js/form/social_networks.js') }}"></script>

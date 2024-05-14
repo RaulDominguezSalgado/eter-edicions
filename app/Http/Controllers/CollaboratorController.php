@@ -229,13 +229,28 @@ class CollaboratorController extends Controller
         foreach ($validatedData['translations'] as $language => $data) {
             $translation = $collaborator->translations()->where('lang', $language)->first();
             if ($translation) {
+                $slug = \App\Http\Actions\FormatDocument::slugify($data['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($data['last_name']);
+                if($imageUpdated && $language == "ca"){
+                    $imagen = $request->file('image');
+
+                    $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+
+                    // // Procesar y guardar la imagen
+                    $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+
+                    ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
+                    // updating the collaborator
+                    $c = Collaborator::find($collaborator->id);
+                    $c->image = $nombreImagenOriginal;
+                    $c->save();
+                }
                 $translation->update([
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
                     'biography' => $data['biography'],
-                    'slug' => \App\Http\Actions\FormatDocument::slugify($data['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($data['last_name']),
+                    'slug' =>$slug,
                     'lang' => $language,
-                    'meta_title' => \App\Http\Actions\FormatDocument::slugify($data['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($data['last_name']),
+                    'meta_title' => $slug,
                     'meta_description' => $data['biography']
                 ]);
             }
