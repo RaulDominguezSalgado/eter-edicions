@@ -4,11 +4,19 @@
 
 @layer components {
     .send-button {
-        @apply py-4 px-12 border border-dark rounded text-light bg-primary hover:bg-secondary
+        @apply py-4 px-8 border border-dark rounded text-light bg-primary hover:bg-secondary
+    }
+
+    .send-button-sm{
+        @apply py-2 px-4 border border-darkgrey rounded text-light bg-darkgrey hover:bg-primary
+    }
+
+    .info-button{
+        @apply py-2 px-4 border border-darkgrey rounded text-light bg-darkgrey hover:bg-gray-500
     }
 
     .options-button {
-        @apply py-4 px-12 border border-dark rounded text-dark font-bold bg-light
+        @apply py-4 px-8 border border-dark rounded text-dark font-bold bg-light
     }
 
     .previous-button{
@@ -16,6 +24,10 @@
     }
     .next-button{
         @apply py-2 px-6 border border-primarydark rounded text-light bg-primary hover:opacity-50 transition duration-300 hover:transition hover:duration-300 cursor-pointer
+    }
+
+    .disabled{
+        @apply opacity-50 hover:bg-darkgrey
     }
 
     .is-invalid {

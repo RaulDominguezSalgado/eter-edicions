@@ -49,8 +49,8 @@ $locale = app()->getLocale() ?: 'ca';
         <img src="{{ asset('img/logo/lg/logo_eter_black.webp') }}" alt="Logotip d'Èter Edicions" style="width: 5em">
     </a>
     <ul class="nav-links">
-        <li class=""><a href="{{ route("home.{$locale}") }}"
-                @if (Route::currentRouteName() == "home.{$locale}") class="active" @endif>{{ __('nav.home') }}</a></li>
+        <li class=""><a href="{{ route("home_default.{$locale}") }}"
+                @if (Route::currentRouteName() == "home_default.{$locale}" || Route::currentRouteName() == "home.{$locale}") class="active" @endif>{{ __('nav.home') }}</a></li>
         <li class=""><a href="{{ route("catalog.{$locale}") }}"
                 @if (Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>{{ __('nav.catalog') }}</a></li>
         <li class=""><a href="{{ route("collaborators.{$locale}") }}"
