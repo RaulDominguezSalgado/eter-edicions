@@ -61,7 +61,7 @@ $locale = 'ca';
                                     <a class="relative inline-block border-2 border-transparent hover:border-black" href="{{ route($link.".{$locale}", $item['id']) }}">
                                         <img class="object-cover w-[150px] h-[150px] max-w-[150px]" src="{{ asset('img/'. $image .'/thumbnails/' . $item['image']) }}"
                                             alt="{{ $item['title'] ?? $item['full_name'] }}">
-                                            <p class="absolute text-center bg-gray-300 bottom-0 left-0 right-0">{{ $contingut }}</p>
+                                            <p class="absolute text-center bg-lightgrey bottom-0 left-0 right-0">{{ $contingut }}</p>
                                     </a>    
                                 </div>
                                 <div class="flex-col pl-5">
