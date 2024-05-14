@@ -91,19 +91,11 @@ class CollaboratorController extends Controller
             //dd($request);
             $validatedData = $request->validated();
             $translationData = [];
+            $imageInserted = false;
             if ($request->hasFile('image')) {
                 // Obtener el archivo de imagen
-                $imagen = $request->file('image');
-                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
-
-                $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
-
-                // // Procesar y guardar la imagen
-                $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                // $this->editImage($nombreImagenOriginal, "collaborator");
-                ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
-
-                $validatedData['image'] = $nombreImagenOriginal;
+                $validatedData['image'] = "procesingImage.webp";
+                $imageInserted = true;
             } else {
                 $validatedData['image'] = "default.webp";
             }
@@ -124,10 +116,22 @@ class CollaboratorController extends Controller
             ];
             $collaborator = Collaborator::create($collaboratorData);
 
-            foreach($validatedData['translations'] as $language=>$translation){
-                if($translation){
-                    if($language=="ca"){
+            foreach ($validatedData['translations'] as $language => $translation) {
+                if ($translation) {
+                    if ($language == "ca" && $imageInserted) {
+                        $imagen = $request->file('image');
+                        $slug = \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($translation['last_name']);
 
+                        $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+
+                        // // Procesar y guardar la imagen
+                        $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+
+                        ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
+                        // updating the collaborator
+                        $c = Collaborator::find($collaborator->id);
+                        $c->image = $nombreImagenOriginal;
+                        $c->save();
                     }
                     $translationData = [
                         'collaborator_id' => $collaborator->id,
@@ -140,7 +144,7 @@ class CollaboratorController extends Controller
                         'meta_description' => $translation['biography']
                     ];
                     CollaboratorTranslation::create($translationData);
-                    dd($translationData);
+                    // dd($translationData);
                 }
             }
 
@@ -191,23 +195,23 @@ class CollaboratorController extends Controller
         //$collaborator->update($request->validated());
         dd($request);
         $validatedData = $request->validated();
+        $imageUpdated = false;
         if ($request->hasFile('image')) {
             // Obtener el archivo de imagen
-            $imagen = $request->file('image');
-            $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
+            $imageUpdated = true;
+            // $imagen = $request->file('image');
+            // $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
 
-            $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+            // $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
-            // // Procesar y guardar la imagen
-            $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-            // $this->editImage($nombreImagenOriginal, "collaborator");
-            ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
-
-
-            $validatedData['image'] = $nombreImagenOriginal;
-        } else {
-            $validatedData['image'] = $collaborator->image;
+            // // // Procesar y guardar la imagen
+            // $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+            // // $this->editImage($nombreImagenOriginal, "collaborator");
+            // ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
         }
+
+        $validatedData['image'] = $collaborator->image;
+
         $redes_sociales = [];
         if ($request->filled('red_social')) {
             foreach ($request->input('red_social') as $index => $red_social) {
@@ -222,19 +226,19 @@ class CollaboratorController extends Controller
             'image' => $validatedData['image'],
             'social_networks' => $redes_sociales_json
         ]);
-
-        $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-        if ($translation) {
-            $translation->update([
-                'collaborator_id' => $collaborator->id,
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'lang' => $validatedData['lang'],
-                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'meta_description' => $validatedData['biography']
-            ]);
+        foreach ($validatedData['translations'] as $language => $data) {
+            $translation = $collaborator->translations()->where('lang', $language)->first();
+            if ($translation) {
+                $translation->update([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'biography' => $data['biography'],
+                    'slug' => \App\Http\Actions\FormatDocument::slugify($data['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($data['last_name']),
+                    'lang' => $language,
+                    'meta_title' => \App\Http\Actions\FormatDocument::slugify($data['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($data['last_name']),
+                    'meta_description' => $data['biography']
+                ]);
+            }
         }
         return redirect()->route('collaborators.index')
             ->with('success', 'Collaborator updated successfully');
@@ -384,28 +388,28 @@ class CollaboratorController extends Controller
         //         }
         //     }
         // } else {
-            if ($collab) {
-                $collaborator = [
-                    'id' => $collab->id,
-                    'image' => $collab->image,
-                    'social_networks' => json_decode($collab->social_networks, true),
-                    'translations' => []
-                ];
+        if ($collab) {
+            $collaborator = [
+                'id' => $collab->id,
+                'image' => $collab->image,
+                'social_networks' => json_decode($collab->social_networks, true),
+                'translations' => []
+            ];
 
-                $translations = $collab->translations;
+            $translations = $collab->translations;
 
-                foreach ($translations as $translation) {
-                    // Verificamos si la traducción es válida
-                    if ($translation) {
-                        $collaborator['translations'][$translation->lang] = [
-                            'first_name' => $translation->first_name,
-                            'last_name' => $translation->last_name,
-                            'biography' => $translation->biography,
-                            'slug' => $translation->slug
-                        ];
-                    }
+            foreach ($translations as $translation) {
+                // Verificamos si la traducción es válida
+                if ($translation) {
+                    $collaborator['translations'][$translation->lang] = [
+                        'first_name' => $translation->first_name,
+                        'last_name' => $translation->last_name,
+                        'biography' => $translation->biography,
+                        'slug' => $translation->slug
+                    ];
                 }
             }
+        }
         // }
         return $collaborator;
     }
