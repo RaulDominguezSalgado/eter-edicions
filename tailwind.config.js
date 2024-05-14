@@ -34,7 +34,16 @@ export default {
             systemerror: '#ED4337',
             systemsuccess: '#0E6245',
 
-        }
+        },
+        boxShadow: {
+            'login': '-3px 3px 6px rgba(0, 0, 0, 0.15)',
+        },
+        dropShadow: {
+            'logo': '-2px 2px 2px #D9D9D9',
+        },
+        backdropBlur: {
+            xs: '2px',
+        },
     },
   },
   plugins: [

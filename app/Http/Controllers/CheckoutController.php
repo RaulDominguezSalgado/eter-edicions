@@ -106,21 +106,10 @@ class CheckoutController extends Controller
      */
     public function toPaymentFromCancelledOrder(string $orderId)
     {
-        // dd($request);
-        // try {
-        // $data['shipment_taxes'] =5;
-
         $orderDb = Order::where('reference', $orderId)->first();
-        // dd($orderDb);
 
         $orderController = new OrderController();
         $order = $orderController->getFullOrder($orderDb);
-        // dd($order);
-
-        // $request = new Request($order);
-        // dd($request);
-
-        // $data = $request->validate();
 
         if ($order['country'] == 'ES') {
             if (isset($this->shippingCostsSpanishProvinces[$order['province']])) {
@@ -140,14 +129,8 @@ class CheckoutController extends Controller
                 $shipment_tax = $shipment_options['price'];
             }
         }
-        // dd($shipment_options);
 
         return view("public.payment", compact('orderId', 'shipment_options', 'shipment_tax'))->with('error', __('checkout.payment-error'));
-
-
-        // } catch (Exception $e) {
-        //     abort(500, __('errors.unknown-error'));
-        // }
     }
 
     function showPaymentMethodView($orderId)
