@@ -46,7 +46,7 @@
 
                 @csrf
 
-                <div class="card-body bg-white">
+                <div class="card-body">
                     <form action="{{ route('books.store') }}" method="POST" role="form"
                         enctype="multipart/form-data">
                         @csrf

@@ -54,6 +54,7 @@ class OrderController extends Controller
             'email' => $order->email,
             'phone_number' => $order->phone_number,
             'address' => $order->address,
+            'apartment' =>$order->apartment,
             'province' => $order->province,
             'locality' => $order->locality,
             'country' => $order->country,
