@@ -21,9 +21,9 @@
         </div>
     </div>
     @endif
-    <div class="w-full h-screen flex flex-col items-center justify-center overflow-visible space-y-6">
-        <div class="">
-            <img src="{{ asset('img/logo/md/logo_eter_black.webp') }}" alt="" class="w-[150px]">
+    <div class="w-full flex flex-col items-center justify-center overflow-y-auto space-y-6">
+        <div class="overflow-visible">
+            <img src="{{asset('img/logo/lg/logo_eter_black.webp')}}" alt="" class="w-[10vh] md:w-[10vh] lg:w-[18vh] drop-shadow-logo">
         </div>
         <div class="w-full py-4 px-8 rounded bg-light shadow-login overflow-visible space-y-3">
             <div class="py-3 mb-2">

@@ -4,9 +4,9 @@
         Login || Èter Edicions
     </x-slot>
 
-    <div class="w-full flex flex-col items-center space-y-6 overflow-visible">
+    <div class="w-full max-w-[calc(100vw-8em)] flex flex-col items-center space-y-6 overflow-visible">
         <div class="overflow-visible">
-            <img src="{{asset('img/logo/md/logo_eter_black.webp')}}" alt="" class="w-[150px] drop-shadow-logo">
+            <img src="{{asset('img/logo/lg/logo_eter_black.webp')}}" alt="" class="w-[10vh] md:w-[10vh] lg:w-[18vh] drop-shadow-logo">
         </div>
 
         <div  class="w-full py-4 px-8 rounded bg-light shadow-login overflow-visible ">
