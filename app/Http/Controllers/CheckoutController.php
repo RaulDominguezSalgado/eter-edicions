@@ -20,8 +20,9 @@ class CheckoutController extends Controller
     private $provinces;
     private $countries;
 
-    public function __construct() {
-        $countriesAndProvinces= new CountriesAndProvinces();
+    public function __construct()
+    {
+        $countriesAndProvinces = new CountriesAndProvinces();
         $this->provinces = $countriesAndProvinces->provinces;
         $this->countries = $countriesAndProvinces->countries;
         $this->shippingCostsSpanishProvinces = (new ShippingCostsTable)->shippingCostsSpanishProvinces();
@@ -53,17 +54,17 @@ class CheckoutController extends Controller
      */
     public function toPayment(CheckoutRequest $request)
     {
-
         // dd($request);
         // try {
+        // $data['shipment_taxes'] =5;
+
+        // dd($data);
+
         $data = $request->validated();
         $data['reference'] = $this->generateRandomReference();
         $data['date'] = now()->toDateString();
         $data['status_id'] = 1;
         $data['payment_method'] = "Pending";
-        // $data['shipment_taxes'] =5;
-
-        // dd($data);
 
         if ($data['country'] == 'ES') {
             if (isset($this->shippingCostsSpanishProvinces[$data['province']])) {
@@ -93,6 +94,55 @@ class CheckoutController extends Controller
         // ]);
 
         return view("public.payment", compact('orderId', 'shipment_options', 'shipment_tax'));
+
+
+        // } catch (Exception $e) {
+        //     abort(500, __('errors.unknown-error'));
+        // }
+    }
+
+    /**
+     * Metodo para el control del formulairo antes de proceder al método de pago.
+     */
+    public function toPaymentFromCancelledOrder(string $orderId)
+    {
+        // dd($request);
+        // try {
+        // $data['shipment_taxes'] =5;
+
+        $orderDb = Order::where('reference', $orderId)->first();
+        // dd($orderDb);
+
+        $orderController = new OrderController();
+        $order = $orderController->getFullOrder($orderDb);
+        // dd($order);
+
+        // $request = new Request($order);
+        // dd($request);
+
+        // $data = $request->validate();
+
+        if ($order['country'] == 'ES') {
+            if (isset($this->shippingCostsSpanishProvinces[$order['province']])) {
+                // dd("province in array");
+                $shipment_options = $this->shippingCostsSpanishProvinces[$order['province']];
+                $shipment_tax = $shipment_options['standard']['price'];
+            } else {
+                $shipment_options = $this->shippingCostsSpanishProvinces['ES'];
+                $shipment_tax = $shipment_options['standard']['price'];
+            }
+        } else {
+            if (isset($this->shippingCostsInternationalCountries[$order['country']])) {
+                $shipment_options = $this->shippingCostsInternationalCountries[$order['country']];
+                $shipment_tax = $shipment_options['price'];
+            } else {
+                $shipment_options = $this->shippingCostsInternationalCountries['default'];
+                $shipment_tax = $shipment_options['price'];
+            }
+        }
+        // dd($shipment_options);
+
+        return view("public.payment", compact('orderId', 'shipment_options', 'shipment_tax'))->with('error', __('checkout.payment-error'));
 
 
         // } catch (Exception $e) {

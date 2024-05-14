@@ -17,7 +17,7 @@ class RedirectUserPermissionsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->role_id != 1) {
-            dd("NOT ADMIN");
+            // dd("NOT ADMIN");
             abort(404);
         }
 

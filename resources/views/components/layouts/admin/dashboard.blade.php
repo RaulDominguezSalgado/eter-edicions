@@ -39,7 +39,7 @@ foreach($options as $option){
                 @if ($option['visible'])
                     <div class="w-[14em] h-[14em] flex flex-col items-center border border-dark py-2.5 px-5 mx-5 mb-10 hover:bg-surfacedark focus:bg-surfacedark active:bg-surfacedark @if (Route::currentRouteName() == 'orders.index') bg-surfacedark @endif"
                         onmouseover ="showMessage(this)" onmouseout="hideMessage(this)">
-                        <a href="{{ route('orders.index') }}">
+                        <a href="{{ route($option['routeName']) }}">
                             <div class="flex flex-row md:flex-col items-center space-y-2.5 py-5">
                                 <img class="w-[90px] h-[90px]" src={{ $option['image'] }}>
                                 <h4 class="font-semibold">{{ $option['name'] }}</h4>

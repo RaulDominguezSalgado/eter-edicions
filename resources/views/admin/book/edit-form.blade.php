@@ -95,7 +95,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <label class="flex items-center mx-2.5" for="title">Títol:</label>
                     <div>
                         <input
-                            class=" min-w-96 disabled @error('title') border border-systemerror @else border-0 @enderror"
+                            class="bg-transparent min-w-96 disabled @error('title') border border-systemerror @else border-0 @enderror"
                             type="text" name="title" id="title" value="{{ $book['title'] ?? '' }}" readonly>
 
                     </div>
@@ -117,7 +117,7 @@ function getLanguagesOptions($languages, $selected = null)
                         @for ($i = 0; $i < count($book['authors']); $i++)
                             <div class="flex">
                                 <select name="authors[]" id="authors_{{ $i }}"
-                                    class="@error('authors') is-invalid @else border-0 @enderror">
+                                    class="bg-transparent @error('authors') is-invalid @else border-0 @enderror">
                                     {!! getCollaboratorsOptions($collaborators, $book['authors'][$i]['id']) !!}
                                 </select>
                                 <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
@@ -149,7 +149,7 @@ function getLanguagesOptions($languages, $selected = null)
                             @for ($i = 0; $i < count($book['translators']); $i++)
                                 <div class="flex">
                                     <select name="translators[]" id="translators_{{ $i }}"
-                                        class="@error('translators') is-invalid @else border-0 @enderror" disabled>
+                                        class="bg-transparent @error('translators') is-invalid @else border-0 @enderror" disabled>
                                         {!! getCollaboratorsOptions($collaborators, $book['translators'][$i]['id']) !!}
                                     </select>
                                     <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
@@ -188,7 +188,7 @@ function getLanguagesOptions($languages, $selected = null)
                     </div>
                 </div>
                 <div class="grow-wrap ">
-                    <textarea name="headline" id="headline" class="@error('headline') is-invalid @else border-0 @enderror"
+                    <textarea name="headline" id="headline" class="bg-transparent @error('headline') is-invalid @else border-0 @enderror"
                         onInput="this.parentNode.dataset.replicatedValue = this.value" readonly>{{ $book['headline'] ?? '' }}</textarea>
                 </div>
                 @error('headline')
@@ -206,7 +206,7 @@ function getLanguagesOptions($languages, $selected = null)
                     </div>
                 </div>
                 <div class="grow-wrap">
-                    <textarea id="description" class="@error('description') is-invalid @else border-0 @enderror" name="description"
+                    <textarea id="description" class="bg-transparent @error('description') is-invalid @else border-0 @enderror" name="description"
                         onInput="this.parentNode.dataset.replicatedValue = this.value" readonly>{{ $book['description'] ?? '' }}</textarea>
                 </div>
                 @error('description')
@@ -225,7 +225,7 @@ function getLanguagesOptions($languages, $selected = null)
                     </a>
                 </div>
                 </a>
-                <input class="border-0 hidden" type="file" name="sample" id="sample" accept=".pdf"
+                <input class="bg-transparent border-0 hidden" type="file" name="sample" id="sample" accept=".pdf"
                     value="{{ $book['sample'] ?? '' }}" readonly>
             </div>
             <div class="flex ">
@@ -243,7 +243,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="flex justify-between items-center ">
                 <div class="flex items-center space-x-2 min-h-5">
                     <label class="flex items-center mx-2.5 min-w-fit" for="isbn">ISBN:</label>
-                    <input id="isbn" class="@error('isbn') is-invalid @else border-0 @enderror" type="text"
+                    <input id="isbn" class="bg-transparent @error('isbn') is-invalid @else border-0 @enderror" type="text"
                         name="isbn" value="{{ $book['isbn'] ?? '' }}" readonly>
                 </div>
                 @error('isbn')
@@ -262,7 +262,7 @@ function getLanguagesOptions($languages, $selected = null)
                         @for ($i = 0; $i < count($book['lang']); $i++)
                             <div class="flex items-center space-x-2">
                                 <select name="lang[]" id="language_{{ $i }}"
-                                    class="@error('lang') is-invalid @else border-0 @enderror">
+                                    class="bg-transparent @error('lang') is-invalid @else border-0 @enderror">
                                     {!! getLanguagesOptions($languages, $book['lang'][$i]['iso']) !!}
                                 </select>
                                 @error('lang')
@@ -291,7 +291,7 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex items-center space-x-2 min-h-5">
                     <label class="flex items-center mx-2.5 min-w-fit" for="publisher">Edita:</label>
                     <input type="text" name="publisher" id="publisher" value="{{ $book['publisher'] ?? '' }}"
-                        class="@error('publisher') is-invalid @else border-0 @enderror" readonly>
+                        class="bg-transparent @error('publisher') is-invalid @else border-0 @enderror" readonly>
                     @error('publisher')
                         <small class="text-systemerror">{{ $message }}</small>
                     @enderror
@@ -306,9 +306,9 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2 min-h-5">
                     <label
-                        class="flex items-center mx-2.5 min-w-fit @error('number_of_pages') is-invalid @else border0 @enderror"
+                        class="flex items-center mx-2.5 min-w-fit"
                         for="number_of_pages">Pàgines:</label>
-                    <input id="number_of_pages" class="border-0 number" type="number" name="number_of_pages"
+                    <input id="number_of_pages" class="bg-transparent @error('number_of_pages') is-invalid @else border-0 @enderror number" type="number" name="number_of_pages"
                         value="{{ $book['number_of_pages'] ?? '' }}" readonly min="0">
                     @error('number_of_pages')
                         <small class="text-systemerror">{{ $message }}</small>
@@ -325,7 +325,7 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex items-center space-x-2 min-h-5">
                     <label class="flex items-center mx-2.5 min-w-fit" for="size">Dimensions:</label>
                     <input type="text" name="size" id="size" value="{{ $book['size'] ?? '' }}"
-                        class="@error('size') is-invalid @else border-0 @enderror" readonly>
+                        class="bg-transparent @error('size') is-invalid @else border-0 @enderror" readonly placeholder="15x21cm">
                     @error('size')
                         <small class="text-systemerror">{{ $message }}</small>
                     @enderror
@@ -341,7 +341,7 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex items-center space-x-2 min-h-5">
                     <label class="flex items-center mx-2.5 min-w-fit" for="publication_date">Publicació:</label>
                     <input id="publication_date"
-                        class="@error('publication_date') is-invalid @else border-0 @enderror" type="date"
+                        class="bg-transparent @error('publication_date') is-invalid @else border-0 @enderror" type="date"
                         name="publication_date" value="{{ $book['publication_date'] ?? '' }}" readonly>
                     @error('publication_date')
                         <small class="text-systemerror">{{ $message }}</small>
@@ -359,7 +359,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <label class="flex items-center mx-2.5 min-w-fit" for="enviromental_footprint">Petjada
                         ambiental:</label>
                     <input id="enviromental_footprint"
-                        class="@error('enviromental_footprint') is-invalid @else border-0 @enderror" type="text"
+                        class="bg-transparent @error('enviromental_footprint') is-invalid @else border-0 @enderror" type="text"
                         name="enviromental_footprint" value="{{ $book['enviromental_footprint'] ?? '-' }}" readonly>
                     @error('enviromental_footprint')
                         <small class="text-systemerror">{{ $message }}</small>
@@ -375,7 +375,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
                     <label class="flex items-center mx-2.5 min-w-fit" for="legal_diposit">Dipòsit Legal:</label>
-                    <input id="legal_diposit" class="@error('legal_diposit') is-invalid @else border-0 @enderror"
+                    <input id="legal_diposit" class="bg-transparent @error('legal_diposit') is-invalid @else border-0 @enderror"
                         type="text" name="legal_diposit" value="{{ $book['legal_diposit'] ?? '' }}" readonly>
                     @error('legal_diposit')
                         <small class="text-systemerror">{{ $message }}</small>
@@ -406,7 +406,7 @@ function getLanguagesOptions($languages, $selected = null)
                                     for="extras_{{ $i }}">{{ $extra['key'] }}:</label>
                                 <input type="hidden" name="extras[{{ $i }}][key]"
                                     value="{{ $extra['key'] }}">
-                                <input class="border-0" id="extras_{{ $i }}" type="text"
+                                <input class="bg-transparent border-0" id="extras_{{ $i }}" type="text"
                                     name="extras[{{ $i }}][value]" value="{{ $extra['value'] }}"
                                     readonly>
                             </div>
@@ -443,7 +443,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <label class="flex items-center mx-2.5 min-w-fit" for="original_title">Títol
                         original:</label>
                     <input id="original_title"
-                        class="@error('original_title') is-invalid @else border-0 @enderror min-w-fit" type="text"
+                        class="bg-transparent @error('original_title') is-invalid @else border-0 @enderror min-w-fit" type="text"
                         name="original_title" value="{{ $book['original_title'] ?? '' }}" readonly>
                     @error('original_title')
                         <small class="text-systemerror">{{ $message }}</small>
@@ -460,7 +460,7 @@ function getLanguagesOptions($languages, $selected = null)
                     <label class="flex items-center mx-2.5 min-w-fit" for="original_publisher">Editorial
                         original:</label>
                     <input id="original_publisher"
-                        class="@error('original_publisher') is-invalid @else border-0 @enderror min-w-fit"
+                        class="bg-transparent @error('original_publisher') is-invalid @else border-0 @enderror min-w-fit"
                         type="text" name="original_publisher" value="{{ $book['original_publisher'] ?? '' }}"
                         readonly>
                     @error('original_publisher')
@@ -479,7 +479,7 @@ function getLanguagesOptions($languages, $selected = null)
                         publicació
                         original:</label>
                     <input id="original_publication_date"
-                        class="@error('original_publication_date') is-invalid @else border-0 @enderror"
+                        class="bg-transparent @error('original_publication_date') is-invalid @else border-0 @enderror"
                         type="input" name="original_publication_date"
                         value="{{ $book['original_publication_date'] ?? '' }}" readonly>
                     @error('original_publication_date')
@@ -503,7 +503,7 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
                         <label class="flex items-center mx-2.5 min-w-fit" for="pvp">Preu</label>
-                        <input class="@error('pvp') is-invalid @else border-0 @enderror number" type="number"
+                        <input class="bg-transparent @error('pvp') is-invalid @else border-0 @enderror number" type="number"
                             name="pvp" id="pvp" step="0.01" value="{{ $book['pvp'] ?? '' }}" readonly min="0.01">
                     </div>
                     <div class="flex ">
@@ -522,7 +522,7 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
                         <label class="flex items-center mx-2.5 min-w-fit" for="iva">IVA (%)</label>
-                        <input class="@error('iva') is-invalid @else border-0 @enderror number" type="number"
+                        <input class="bg-transparent @error('iva') is-invalid @else border-0 @enderror number" type="number"
                             name="iva" id="iva" value="{{ $book['iva'] ?? '' }}" readonly min="0">
                     </div>
                     <div class="flex ">
@@ -543,7 +543,7 @@ function getLanguagesOptions($languages, $selected = null)
                         <label class="flex items-center mx-2.5 min-w-fit" for="discounted_price">Preu amb descompte
                             (preu
                             final)</label>
-                        <input class="@error('discounted_price') is-invalid @else border-0 @enderror number"
+                        <input class="bg-transparent @error('discounted_price') is-invalid @else border-0 @enderror number"
                             type="number" name="discounted_price" id="discounted_price"
                             value="{{ $book['discounted_price'] ?? '' }}" readonly min="0">
                     </div>
@@ -580,7 +580,7 @@ function getLanguagesOptions($languages, $selected = null)
                         @for ($i = 0; $i < count($book['collections']); $i++)
                             <div class="w-full md:w-auto flex ">
                                 <select
-                                    class="-ms-2.5 md:ms-0 w-full md:w-auto @error('collections') @else border-0 is-invalid @enderror"
+                                    class="bg-transparent ms-2.5 md:ms-0 w-full md:w-auto @error('collections') @else border-0 is-invalid @enderror"
                                     name="collections[]" id="collections_{{ $i }}">
                                     {!! getCollectionsOptions($collections, $book['collections'][$i]['id'] ?? '') !!}
                                 </select>
@@ -615,7 +615,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="flex justify-between items-center">
                 <div class="flex space-x-2">
                     <label class="flex items-center mx-2.5" for="stock">Stock:</label>
-                    <input class="@error('stock') is-invalid @else border-0 @enderror number" type="number"
+                    <input class="bg-transparent @error('stock') is-invalid @else border-0 @enderror number" type="number"
                         name="stock" id="stock" value="{{ $book['stock'] ?? '' }}" readonly min="0">
                 </div>
                 <div class="flex ">
@@ -666,7 +666,7 @@ function getLanguagesOptions($languages, $selected = null)
                         <label class="flex items-center mx-2.5 min-w-fit" for="slug">Enllaç:</label>
                         <p class="min-w-fit">eteredicions.com /</p>
                     </div>
-                    <input class="md:min-w-80 m-0 px-0 @error('slug') is-invalid @else border-0 @enderror"
+                    <input class="bg-transparent md:min-w-80 m-0 px-0 @error('slug') is-invalid @else border-0 @enderror"
                         type="text" name="slug" id="slug" value="{{ $book['slug'] ?? '' }}" readonly
                         disabled>
                 </div>
@@ -690,7 +690,7 @@ function getLanguagesOptions($languages, $selected = null)
                     </div>
                 </div>
                 <div class="w-full flex justify-between">
-                    <input class="md:min-w-80 @error('meta_title') is-invalid @else border-0 @enderror"
+                    <input class="bg-transparent md:min-w-80 @error('meta_title') is-invalid @else border-0 @enderror"
                         type="text" name="meta_title" id="meta_title" value="{{ $book['meta_title'] ?? '' }}"
                         readonly disabled>
                     <button class="edit-button" type="button" onclick="enableInput(this)">
@@ -712,7 +712,7 @@ function getLanguagesOptions($languages, $selected = null)
                     </div>
                     <div class="flex items-start">
                         <div class="w-full grow-wrap">
-                            <textarea class="@error('meta_description') is-invalid @else border-0 @enderror" name="meta_description"
+                            <textarea class="bg-transparent @error('meta_description') is-invalid @else border-0 @enderror" name="meta_description"
                                 id="meta_description" onInput="this.parentNode.dataset.replicatedValue = this.value" readonly disabled>{{ $book['meta_description'] ?? '' }}</textarea>
                         </div>
                         <div class="min-w-[1.25em] flex">

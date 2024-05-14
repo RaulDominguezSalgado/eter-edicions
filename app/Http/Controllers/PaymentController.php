@@ -56,7 +56,7 @@ class PaymentController extends Controller
                         }
                     }
                 } else {
-                    return redirect()->route('paypal.cancel');
+                    return redirect()->route('payment.cancel');
                 }
                 break;
             case "wire":
@@ -84,8 +84,8 @@ class PaymentController extends Controller
         //     $response = $provider->createOrder([
         //         "intent" => "CAPTURE",
         //         "application_context" => [
-        //             "return_url" => route('paypal.success', ['orderId' => $request->orderId]),
-        //             "cancel_url" => route('paypal.cancel', ['orderId' => $request->orderId]),
+        //             "return_url" => route('payment.success', ['orderId' => $request->orderId]),
+        //             "cancel_url" => route('payment.cancel', ['orderId' => $request->orderId]),
         //         ],
         //         "purchase_units" => [
         //             [
@@ -108,7 +108,7 @@ class PaymentController extends Controller
         //             }
         //         }
         //     } else {
-        //         return redirect()->route('paypal.cancel');
+        //         return redirect()->route('payment.cancel');
         //     }
         // } else {
         //     $message = "Payment method not lp.\nPlease select another payment method";
@@ -143,14 +143,27 @@ class PaymentController extends Controller
             //dd( $order->details->first()->book->title);
             return view('public.purchaseCompleted', compact('order'));
         } else {
-            return redirect()->route('paypal.cancel', ['orderId' => $request->orderId]);
+            return redirect()->route('payment.cancel', ['orderId' => $request->orderId]);
         }
         // dd($response);
     }
 
     function cancel(Request $request)
     {
-        return redirect()->route('checkout.payment_method', ['orderId' => $request->orderId])->with('error', 'Error en la compra');
+        $order = Order::where("reference", 'LIKE', $request->orderId)->first();
+        $order->status_id = 6;
+        $order->save();
+
+        $orderStatusHistory = new OrderStatusHistory();
+        $orderStatusHistory->order_id = $order->id;
+        $orderStatusHistory->status_id = $order->status_id;
+        $orderStatusHistory->save();
+
+        $orderId = $request->orderId;
+
+        // return redirect()->route('checkout.payment_method', ['orderId' => $request->orderId])->with(['error' => 'Error en la compra', 'shipment_options']);
+        // return view("public.payment", compact('orderId', 'shipment_options', 'shipment_tax'));
+        return redirect()->route('checkout.toPaymentFromCancelled', ['orderId' => $request->orderId])->with('error', __('checkout.payment-error'));
     }
 
     public function generateOrderPdf($order)

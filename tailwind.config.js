@@ -31,7 +31,7 @@ export default {
             surfacemedium: '#f3f3f3',
             surfacedark: '#E2E7ED',
 
-            systemerror: '#ED0131',
+            systemerror: '#ED4337',
             systemsuccess: '#0E6245',
 
         }

@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <div class="card card-default">
+                <div class="">
                     <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="float-left">
                             <span class="card-title">{{ __('Create') }} Post</span>
@@ -15,7 +15,7 @@
                             <a class="btn btn-primary btn-sm" href="{{ route('posts.index') }}"> {{ __('Back') }}</a>
                         </div>
                     </div>
-                    <div class="card-body bg-white">
+                    <div class="card-body bg-transparent">
                         <form method="POST" action="{{ route('posts.store') }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
