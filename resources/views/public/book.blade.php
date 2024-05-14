@@ -110,7 +110,7 @@
                 <ul class="flex flex-wrap -mb-px" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     <li class="mr-2">
                         <button
-                            class="inline-block border-gray-950 hover:border-gray-950 focus:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-transparent border-b active"
+                            class="inline-block border-gray-950 hover:border-gray-950 focus:border-gray-950 active:border-gray-950 rounded-t-lg py-2 px-4 font-medium text-center border-b active"
                             id="description-tab" data-tabs-target="#description" type="button" role="tab"
                             aria-controls="description" aria-selected="true">
                             <h5 class="">{{__('general.description')}}</h5>

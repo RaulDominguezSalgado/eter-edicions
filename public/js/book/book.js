@@ -8,9 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     descriptionTab.addEventListener("click", function(){
         //underline description tab
         descriptionTab.classList.add('border-gray-950');
+        descriptionTab.classList.remove('border-transparent');
 
         //remove underline from technical sheet tab
         technicalSheetTab.classList.remove('border-gray-950');
+        technicalSheetTab.classList.add('border-transparent');
 
         //show description div
         description.classList.remove('hidden');
@@ -24,9 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
     technicalSheetTab.addEventListener("click", function(){
         //underline technical sheet tab
         technicalSheetTab.classList.add('border-gray-950');
+        technicalSheetTab.classList.remove('border-transparent');
 
         //remove underline from description tab
         descriptionTab.classList.remove('border-gray-950');
+        descriptionTab.classList.add('border-transparent');
 
         //show technical sheet div
         techinicalSheet.classList.remove('hidden');
