@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/v1/cart/less/{item}', [App\Http\Controllers\ShoppingCartController::class, 'less']);
+Route::post('/v1/cart/add/{item}', [App\Http\Controllers\ShoppingCartController::class, 'add']);
+Route::post('/v1/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct']);
+Route::get('/v1/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCart']);
+Route::delete('/v1/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy']);

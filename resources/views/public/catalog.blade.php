@@ -28,10 +28,19 @@
                                 <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
                                     alt="{{ $book['title'] }}" style="height: 19.7em">
                             </a>
-                            <a href="{{ route("book-detail.{$locale}", $book['id']) }}" class="flex items-end w-full h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+                            <div class="flex items-end w-full opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                 <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
                                     <p class="font-bold text-xl">{{$book['pvp']}}€</p>
-                                    <form action="{{ route('cart.insert') }}" method="POST">
+                                    <div>
+                                        <input type="hidden" name="book_id" value="{{ $book['id'] }}">
+
+                                        <input hidden type="number" class=" border border-black" name="number_of_items"
+                                            placeholder="1" value="1" min="1">
+                                            <button class="ajax-add-to-cart" book-id="{{ $book['id'] }}">
+                                                <i class="icon text-3xl add-to-cart"></i>
+                                            </button>
+                                    </div>
+                                    {{-- <form action="{{ route('cart.insert') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="book_id" value="{{ $book['id'] }}">
 
@@ -40,9 +49,9 @@
                                             <button>
                                                 <i class="icon text-3xl add-to-cart"></i>
                                             </button>
-                                    </form>
+                                    </form> --}}
                                 </div>
-                            </a>
+                            </div>
                         </div>
                         <div id="book-info-{{ $book['slug'] }}" class="flex flex-col items-center space-y-2 w-64">
                             <div class="book-title w-fit h-12 flex justify-center items-center text-center">{{ $book['title'] }}</div>

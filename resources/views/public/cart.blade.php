@@ -79,7 +79,7 @@
                         <tbody class="border-b border-lightgrey mb-3">
                             @foreach (Cart::instance('default')->content() as $item)
                                 {{-- @dump($item) --}}
-                                <tr class="">
+                                <tr class="" item-id="{{ $item->rowId }}">
                                     <td class="py-2 pr-3 flex items-center space-x-3 ">
                                         <a href="{{ route("book-detail.{$locale}", $item->options->id) }}">
                                             <img class=" border border-lightgrey" style="height: 6em; width: 4.5em"
@@ -94,7 +94,7 @@
                                                 </a>
                                                 <small class="hidden md:block">{{ $item->options->publisher }}</small>
                                                 <small class="hidden md:block">{{ $item->options->isbn }}</small>
-                                                <small class="md:font-semibold p12">{{ $item->priceTax() }}€</small>
+                                                <small class="md:font-semibold p12 item-price">{{ $item->priceTax() }}€</small>
                                             </div>
                                             <div class="flex md:hidden justify-between items-center space-x-2 ">
                                                 <form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
@@ -145,19 +145,42 @@
 
                                     <td class="hidden md:table-cell p-2 ">
                                         <div class="flex justify-between items-center space-x-2">
-                                            <form action="{{ route('cart.remove', $item->rowId) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="flex justify-center items-center border border-lightgrey rounded p-1 w-8 h-8"><img
+                                            <div>
+                                                <button book-id="{{ $item->rowId }}" book-price="{{ $item->priceTax() }}" type="submit"
+                                                    class="ajax-remove-from-cart flex justify-center items-center border border-lightgrey rounded p-1 w-8 h-8"><img
                                                         src="{{ asset('img/icons/dark/trash.webp') }}" width="20px"
                                                         alt="Eliminar"></button>
-                                            </form>
+                                            </div>
                                             <div class="flex items-center">
+                                                <div class="inline-block">
+                                                    <button book-id="{{ $item->rowId }}" type="submit"
+                                                        class="ajax-less-item flex justify-center items-center border border-r-0 border-lightgrey rounded-l p-1 w-8 h-8">
+                                                        <span class=""><img
+                                                                src="{{ asset('img/icons/dark/less.webp') }}"
+                                                                width="20px"
+                                                                alt="Botó per sumar la quantitat d'un producte de la cistella"
+                                                                style="width: 15px"></span>
+                                                    </button>
+                                                </div>
+
+                                                <input type="text" value="{{ $item->qty }}" name="quantity"
+                                                    readonly onblur="" min="1"
+                                                    class="inline-block text-center border border-lightgrey w-14 h-8 appearance-none">
+                                                <div class="inline-block">
+                                                    <button book-id="{{ $item->rowId }}" book-price="{{ $item->price }}" type="submit"
+                                                        class="ajax-more-item flex justify-center items-center border border-l-0 border-lightgrey rounded-r p-1 w-8 h-8">
+                                                        <span class=""><img
+                                                                src="{{ asset('img/icons/dark/add.webp') }}"
+                                                                width="20px"
+                                                                alt="Botó per sumar la quantitat d'un producte de la cistella"
+                                                                style="width: 15px"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="flex items-center">
                                                 <form action="{{ route('cart.less', $item->rowId) }}" method="POST"
                                                     class="inline-block">
                                                     @csrf
-                                                    {{-- <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}"> --}}
                                                     <button type="submit"
                                                         class="flex justify-center items-center border border-r-0 border-lightgrey rounded-l p-1 w-8 h-8">
                                                         <span class=""><img
@@ -174,7 +197,6 @@
                                                 <form action="{{ route('cart.add', $item->rowId) }}" method="POST"
                                                     class="inline-block">
                                                     @csrf
-                                                    {{-- <input type="hidden" name="book_id" value="{{ $relatedBook['id'] }}"> --}}
                                                     <button type="submit"
                                                         class="flex justify-center items-center border border-l-0 border-lightgrey rounded-r p-1 w-8 h-8">
                                                         <span class=""><img
@@ -184,10 +206,10 @@
                                                                 style="width: 15px"></span>
                                                     </button>
                                                 </form>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </td>
-                                    <td class="pl-3 py-2 hidden md:table-cell text-end ">{{ $item->total() }}€</td>
+                                    <td class="pl-3 py-2 hidden md:table-cell text-end item-total">{{ $item->total() }}€</td>
 
                                     {{-- <td>{{$item->options->id}}</td> --}}
                                 </tr>
@@ -227,7 +249,7 @@
                         role="alert">
                         <span class="block sm:inline">{{ __('shopping-cart.no-stock-following-products') }}.</span>
                     </div>
-                    <table class="table w-full">
+                    <table class="cart-content table w-full">
                         <thead class="border-b border-lightgrey mb-3">
                             <tr>
                                 <th class="pt-1 px-0 text-start text-xs font-normal uppercase w-3/4">
@@ -285,11 +307,10 @@
                                             alt="{{ $relatedBook['title'] }}" style="height: 13.75em"
                                             class="aspect-[2/3]">
                                     </a>
-                                    <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}"
-                                        class="flex items-end w-[9.16em] h-[13.75em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+                                    <div class="flex items-end w-[9.16em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                         <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
                                             <p class="font-bold text-xl">{{ $relatedBook['pvp'] }}€</p>
-                                            <form action="{{ route('cart.insert') }}" method="POST">
+                                            <div>
                                                 @csrf
                                                 <input type="hidden" name="book_id"
                                                     value="{{ $relatedBook['id'] }}">
@@ -297,12 +318,12 @@
                                                 <input hidden type="number" class=" border border-black"
                                                     name="number_of_items" placeholder="1" value="1"
                                                     min="1">
-                                                <button>
+                                                <button class="ajax-add-to-cart" book-id="{{ $relatedBook['id'] }}">
                                                     <i class="icon text-3xl add-to-cart"></i>
                                                 </button>
-                                            </form>
+                                            </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                                 <div id="book-info-{{ $relatedBook['slug'] }}"
                                     class="flex flex-col items-center space-y-2 w-full">
