@@ -71,7 +71,7 @@ class CollaboratorController extends Controller
     public function create()
     {
         $collaborator = new Collaborator();
-        //$this->getCollaborator();
+        // $this->getCollaborator();
         $languages = LanguageTranslation::where('iso_translation', $this->lang)
             ->where(function ($query) {
                 $query->where('iso_language', 'ca')
@@ -88,8 +88,9 @@ class CollaboratorController extends Controller
     {
         try {
             // Validate the request data
-            dd($request);
+            //dd($request);
             $validatedData = $request->validated();
+            $translationData = [];
             if ($request->hasFile('image')) {
                 // Obtener el archivo de imagen
                 $imagen = $request->file('image');
@@ -123,17 +124,26 @@ class CollaboratorController extends Controller
             ];
             $collaborator = Collaborator::create($collaboratorData);
 
-            $translationData = [
-                'collaborator_id' => $collaborator->id,
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'lang' => $validatedData['lang'],
-                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'meta_description' => $validatedData['biography']
-            ];
-            CollaboratorTranslation::create($translationData);
+            foreach($validatedData['translations'] as $language=>$translation){
+                if($translation){
+                    if($language=="ca"){
+
+                    }
+                    $translationData = [
+                        'collaborator_id' => $collaborator->id,
+                        'first_name' => $translation['first_name'],
+                        'last_name' => $translation['last_name'],
+                        'biography' => $translation['biography'],
+                        'slug' => \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($translation['last_name']),
+                        'lang' => $language,
+                        'meta_title' => \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($translation['last_name']),
+                        'meta_description' => $translation['biography']
+                    ];
+                    CollaboratorTranslation::create($translationData);
+                    dd($translationData);
+                }
+            }
+
             return redirect()->route('collaborators.index')
                 ->with('success', 'Collaborator created successfully.');
         } catch (ValidationException $e) {
@@ -179,7 +189,7 @@ class CollaboratorController extends Controller
     public function update(CollaboratorRequest $request, Collaborator $collaborator)
     {
         //$collaborator->update($request->validated());
-
+        dd($request);
         $validatedData = $request->validated();
         if ($request->hasFile('image')) {
             // Obtener el archivo de imagen
@@ -351,15 +361,29 @@ class CollaboratorController extends Controller
     public function getCollaborator($id = 0)
     {
         $collab = Collaborator::find($id);
-        $collaborator = [];
-        if ($id = 0) {
-            $collaborator = [
-                'id' => $collab->id,
-                'image' => $collab->image,
-                'social_networks' => json_decode($collab->social_networks, true),
-                'translations' => []
-            ];
-        } else {
+        // $collaborator = [];
+        // if ($id = 0) {
+        //     $collaborator = [
+        //         'id' => null,
+        //         'image' => null,
+        //         'social_networks' => null,
+        //         'translations' => []
+        //     ];
+
+        //     $translations = LanguageTranslation::where('iso_translation', $this->lang)
+        //     ->where(function ($query) {
+        //         $query->where('iso_language', 'ca')
+        //             ->orWhere('iso_language', 'es');
+        //     })
+        //     ->get();
+        //     foreach ($translations as $translation) {
+        //         // Verificamos si la traducción es válida
+        //         if ($translation) {
+        //             $collaborator['translations'][$translation->lang] = [
+        //             ];
+        //         }
+        //     }
+        // } else {
             if ($collab) {
                 $collaborator = [
                     'id' => $collab->id,
@@ -382,7 +406,7 @@ class CollaboratorController extends Controller
                     }
                 }
             }
-        }
+        // }
         return $collaborator;
     }
 

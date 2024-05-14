@@ -51,7 +51,7 @@
                 <h2 class="text-lg font-semibold text-sm mb-2">{{ $language['translation'] }}</h2>
                 <div class="form-group mb-2 mb20">
                     <label for="first_name" class="form-label">{{ __('Nom') }}</label>
-                    <input required type="text" name="first_name"
+                    <input required type="text" name="translations[{{ $language['iso_language'] }}][first_name]"
                         class="form-control @error('first_name') is-invalid @enderror"
                         value="{{ old('first_name', $collaborator['translations'][$language['iso_language']]['first_name']) }}" id="first_name" placeholder="Nom">
                     {!! $errors->first('first_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
@@ -59,14 +59,14 @@
 
                 <div class="form-group mb-2 mb20">
                     <label for="last_name" class="form-label">{{ __('Cognom') }}</label>
-                    <input required type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror"
+                    <input required type="text" name="translations[{{ $language['iso_language'] }}][last_name]" class="form-control @error('last_name') is-invalid @enderror"
                         value="{{ old('last_name', $collaborator['translations'][$language['iso_language']]['last_name']) }}" id="last_name" placeholder="Cognom">
                     {!! $errors->first('last_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
                 </div>
 
                 <div class="form-group mb-2 mb20">
                     <label for="biography" class="form-label">{{ __('Biografia') }}</label>
-                    <textarea required name="biography"
+                    <textarea required name="translations[{{ $language['iso_language'] }}][biography]"
                         class="form-textarea h-40 w-full px-3 py-2 border @error('biography') border-red-500 @enderror" id="biography"
                         placeholder="Biografía">{{ old('biography', $collaborator['translations'][$language['iso_language']]['biography']) }}</textarea>
                     {!! $errors->first('biography', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}

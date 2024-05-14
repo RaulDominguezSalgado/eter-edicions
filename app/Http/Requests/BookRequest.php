@@ -43,7 +43,7 @@ class BookRequest extends FormRequest
             'collaborators' => '',
             'collections' => 'array|required',
             'extras' => 'array',
-            'extras.*' => 'array:key,value',
+            'extras' => 'array:key,value',
             'original_title' => 'nullable',
             'original_publication_date' => 'nullable',
             'original_publisher' => 'nullable',
