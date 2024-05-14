@@ -23,16 +23,18 @@ class CheckoutRequest extends FormRequest
     {
         return [
             // User data
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'first_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
+            'last_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
             'email' => 'required|email',
-            'phone_number' => 'required|numeric',
+            'phone_number' => 'required|numeric|min:9', // + y espacios
+
+
             'dni' => 'required|string',
 
             // Adress data
             'address' => 'required|string',
             'apartment' => 'nullable|string',
-            'zip_code' => 'required|numeric',
+            'zip_code' => 'required|numeric|min:5',
             'locality' => 'required|string',
             'province' => 'nullable|string',
             'country' => 'required|string',

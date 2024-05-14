@@ -24,8 +24,8 @@ class UserRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'first_name' => 'required|regex:/^[a-zA-Z]+$/|string', //permite caracteres alfabéticos entre mayúsculas y minúsculas
-                'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+                'first_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',//permite caracteres alfabéticos entre mayúsculas y minúsculas
+                'last_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
                 'email' => 'required|email|unique:users,email', // El campo "email" es obligatorio y debe ser único en la tabla "users"
                 'password' => 'nullable|regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/',
                 // (?=.*[A-Z]) indica que debe haber al menos una letra mayúscula
@@ -36,8 +36,8 @@ class UserRequest extends FormRequest
             ];
         } else {
             return [
-                'first_name' => 'required|regex:/^[a-zA-Z]+$/|string',
-                'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+                'first_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
+                'last_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
                 'email' => 'required|email',
                 'password' => 'nullable|regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/',
                 'phone' => 'required|digits:9',

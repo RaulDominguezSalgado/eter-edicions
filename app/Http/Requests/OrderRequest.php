@@ -28,8 +28,8 @@ class OrderRequest extends FormRequest
                 'shipment_taxes' => '',
                 'reference' => 'required',
                 'dni' => 'required',
-                'first_name' => 'required|regex:/^[a-zA-Z]+$/|string', //'required|regex:/^[a-zA-Z]+$/|string',permite caracteres alfabéticos entre mayúsculas y minúsculas, creo no acepta comillas simples tampoco
-                'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
+                'first_name' => 'required|regex:/^[a-zA-Z\s]+$/|string', //'required|regex:/^[a-zA-Z]+$/|string',permite caracteres alfabéticos entre mayúsculas y minúsculas, espacios
+                'last_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',//espacios
                 'email' => 'required',
                 'phone_number' => 'required|digits:9',
                 'address' => 'required',

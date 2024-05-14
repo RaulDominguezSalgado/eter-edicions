@@ -116,7 +116,7 @@ return [
     'multiple_of' => 'El camp :attribute ha de ser un múltiple de :value.',
     'not_in' => 'El valor seleccionat :attribute és invàlid.',
     'not_regex' => 'El format del camp :attribute és invàlid.',
-    'numeric' => 'El camp :attribute ha de ser un nombre.',
+    'numeric' => 'El camp :attribute ha de ser un numero.',
     'password' => [
         'letters' => 'El camp :attribute ha de contenir com a mínim una lletra.',
         'mixed' => 'El camp :attribute ha de contenir com a mínim una lletra majúscula i una minúscula.',
