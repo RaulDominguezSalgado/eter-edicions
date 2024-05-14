@@ -91,11 +91,11 @@ $order = old() ?? [];
                             for="address">{{ __('form.address') }}
                             <div
                                 class="w-full hidden lg:flex items-center justify-between shadow appearance-none border border-dark rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline p-1">
-                                <input type="text" class="w-full border-0 py-1 px-2" name="search_input"
+                                <input type="text" class="w-full border-0 py-1 px-2" value="{{ $order['address'] ?? '' }}" name="search_input"
                                     id="search_input">
                                 <i class="icon search"></i>
                             </div>
-                            <input type="text"
+                            <input type="text" value="{{ $order['address'] ?? '' }}"
                                 class="flex lg:hidden w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="address" id="address">
                         </label>
