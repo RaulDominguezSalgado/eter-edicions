@@ -26,15 +26,14 @@ class CheckoutRequest extends FormRequest
             'first_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
             'last_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
             'email' => 'required|email',
-            'phone_number' => 'required|numeric|min:9', // + y espacios
-
-
+            //'phone_number' => 'required|numeric|digits:9', // + y espacios
+            'phone_number' => 'required|regex:/^[\d\s\+\-]{9,}$/',//regex:/^[\d\s\+\-]{9,}$/ especifica que el campo puede contener dígitos, espacios, y los símbolos '+' y '-' con un mínimo de 9 caracteres.
             'dni' => 'required|string',
 
             // Adress data
             'address' => 'required|string',
             'apartment' => 'nullable|string',
-            'zip_code' => 'required|numeric|min:5',
+            'zip_code' => 'required|numeric|digits:5',
             'locality' => 'required|string',
             'province' => 'nullable|string',
             'country' => 'required|string',
