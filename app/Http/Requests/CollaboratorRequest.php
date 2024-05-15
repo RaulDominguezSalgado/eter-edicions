@@ -25,8 +25,8 @@ class CollaboratorRequest extends FormRequest
         return [
             'social_networks' => '',//TODO VALIDATION
             'translations.*.first_name' => "required|".Validator::$validations['first_name'],
-            'translations.*.last_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',
-            'translations.*.biography' => 'required|string',
+            'translations.*.last_name' => 'required|'.Validator::$validations['last_name'],
+            'translations.*.biography' => 'required|'.Validator::$validations['biography'],
         ];
 
     }
