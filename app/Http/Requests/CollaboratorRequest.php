@@ -23,7 +23,7 @@ class CollaboratorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'social_networks' => '',//TODO VALIDATION
+            'social_networks' => 'required',//TODO VALIDATION
             'translations.*.first_name' => "required|".Validator::$validations['first_name'],
             'translations.*.last_name' => 'required|'.Validator::$validations['last_name'],
             'translations.*.biography' => 'required|'.Validator::$validations['biography'],

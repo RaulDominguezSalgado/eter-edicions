@@ -13,7 +13,8 @@ class Validator
         "first_name" =>"regex:/^[\pL\s'-]+$/u",
         "last_name"=>"regex:/^[\pL\s'-]+$/u",
         "name"=>"regex:/^[\pL\s'-]+$/u",
-        "description"=>"reggex:/^[\pL\pN\s.,!?\"'-]+$/u",
-        "biography"=>"reggex:/^[\pL\pN\s.,!?\"'-]+$/u",
+        "description"=>"regex:/^[\pL\pN\s.,:!?()\"'-]+$/u",
+        "biography"=>"regex:/^[\pL\pN\s.,:;!?()\"'-]+$/u",
+        "url"=>"regex:/(https?|ftp):\/\/[^\s/$.?#].[^\s]*/"
     ];
 }
