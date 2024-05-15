@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use App\Rules\Dni;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,7 +28,7 @@ class OrderRequest extends FormRequest
                 'total' => '',
                 'shipment_taxes' => '',
                 'reference' => 'required',
-                'dni' => 'required',
+                'dni' => ['required', 'min:9', new Dni],//dni valido: 12345678Z, nie valido: 
                 'first_name' => 'required|regex:/^[a-zA-Z\s]+$/|string', //'required|regex:/^[a-zA-Z]+$/|string',permite caracteres alfabéticos entre mayúsculas y minúsculas, espacios
                 'last_name' => 'required|regex:/^[a-zA-Z\s]+$/|string',//espacios
                 'email' => 'required',
