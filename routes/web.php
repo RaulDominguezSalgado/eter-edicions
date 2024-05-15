@@ -176,6 +176,7 @@ Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class
 Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
 Route::post('/cart/delete/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy']);
 Route::post('/cart/update-front', [App\Http\Controllers\ShoppingCartController::class, 'getCartView']);
+Route::get('/cart/items-count', [App\Http\Controllers\ShoppingCartController::class, 'getCartTotalItems']);
 
 Route::get('cart/payment', function () {
     return redirect(route('cart.view'));

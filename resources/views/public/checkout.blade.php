@@ -239,7 +239,7 @@ $order = old() ?? [];
                         <div class="flex">
                             <div class="flex-col w-1/2 min-w-fit">{{ __('Total') }}</div>
                             <div class="flex-col w-1/2 text-right">
-                                {{ str_replace('.', ',', Cart::instance('default')->total() + $shipment_tax) }}€</div>
+                                {{ number_format(str_replace(",", ".", Cart::instance('default')->total()) + $shipment_tax, 2, ',', '.') }}€
                         </div>
                     </div>
                 </div>

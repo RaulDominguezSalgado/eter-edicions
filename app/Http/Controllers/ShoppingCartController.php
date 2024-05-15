@@ -351,4 +351,8 @@ class ShoppingCartController extends Controller
             "cart" => view("components.partials.cart", compact("locale"))->render()
         ]);
     }
+
+    public function getCartTotalItems() {
+        return Cart::instance('default')->count();
+    }
 }
