@@ -58,27 +58,39 @@ var provinceOptions = {
 
 document.addEventListener('DOMContentLoaded', function () {
     var searchInput = document.getElementById('search_input');
-    var autocomplete = new google.maps.places.Autocomplete(searchInput, {
-        types: ['geocode'],
-        // componentRestrictions: { country: 'es' }
-    });
-    // console.log(autocomplete);
-    autocomplete.addListener('place_changed', function () {
-        var near_place = autocomplete.getPlace();
-        console.log(near_place.address_components);
+    try {
+        var autocomplete = new google.maps.places.Autocomplete(searchInput, {
+            types: ['geocode'],
+            // componentRestrictions: { country: 'es' }
+        });
+    } catch (error) {
 
-        extractedData = getAddressComponents(near_place.address_components);
-        console.log(extractedData);
+    }
+    if (autocomplete) {
+        // console.log(autocomplete);
+        autocomplete.addListener('place_changed', function () {
+            var near_place = autocomplete.getPlace();
 
-        autocompleteInput('address', extractedData.address + ", " + extractedData.street_number);
-        autocompleteInput('locality', extractedData.locality);
+            extractedData = getAddressComponents(near_place.address_components);
 
-        autocompleteSelect('country', extractedData.country);
-        updateProvinceOptions();
-        autocompleteSelect('province', extractedData.province);
+            autocompleteInput('address', extractedData.address + ", " + extractedData.street_number);
+            autocompleteInput('locality', extractedData.locality);
 
-        autocompleteInput('zip_code', extractedData.zip_code);
-    });
+            autocompleteSelect('country', extractedData.country);
+            updateProvinceOptions();
+            autocompleteSelect('province', extractedData.province);
+
+            autocompleteInput('zip_code', extractedData.zip_code);
+        });
+    }
+    else {
+        // console.log("no google");
+        searchInput.addEventListener('blur', function () {
+            var address = document.getElementById('address');
+            autocompleteInput('address', searchInput.value);
+            // console.log(address.value);
+        });
+    }
 });
 
 /**
@@ -183,7 +195,7 @@ function updateProvinceOptions() {
         provinceSelect.parentElement.classList.remove("hidden");
 
         var provincePlaceholder = provinceSelect.querySelector('#placeholder');
-        provincePlaceholder.selected=false;
+        provincePlaceholder.selected = false;
 
         // var provinces = provinceOptions[selectedCountry];
         // Object.keys(provinces).forEach(function(code) {
@@ -193,11 +205,11 @@ function updateProvinceOptions() {
         //     provinceSelect.appendChild(option);
         // });
     }
-    else{
+    else {
         provinceSelect.disabled = true;
         provinceSelect.parentElement.classList.add("hidden")
 
         var provincePlaceholder = provinceSelect.querySelector('#placeholder');
-        provincePlaceholder.selected=true;
+        provincePlaceholder.selected = true;
     }
 }
