@@ -344,4 +344,11 @@ class ShoppingCartController extends Controller
         return redirect()->back()
         ->with('success', $message);
     }
+
+    public function getCartView() {
+        $locale = app()->getLocale() ?: 'ca';
+        return response()->json([
+            "cart" => view("components.partials.cart", compact("locale"))->render()
+        ]);
+    }
 }
