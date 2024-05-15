@@ -193,7 +193,7 @@ class CollaboratorController extends Controller
     public function update(CollaboratorRequest $request, Collaborator $collaborator)
     {
         //$collaborator->update($request->validated());
-        dd($request);
+        //dd($request);
         $validatedData = $request->validated();
         $imageUpdated = false;
         if ($request->hasFile('image')) {
