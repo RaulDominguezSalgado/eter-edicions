@@ -10,13 +10,20 @@ export default defineConfig({
                 'resources/js/app.js',
             ],
             refresh: true,
-            resolve:{
-                alias:{
+            resolve: {
+                alias: {
                     //'~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
                     '~tinymce': path.resolve(__dirname, 'node_modules/tinymce/'),
                 }
             },
-
-        }),
-    ],
+        }),],
+    // resolve: {
+    //     alias: {
+    //         "~": path.resolve(__dirname, "node_modules"),
+    //         "@": path.resolve(__dirname, "src"),
+    //     },
+    // },
+    build: {
+        chunkSizeWarningLimit: 1600,
+    },
 });
