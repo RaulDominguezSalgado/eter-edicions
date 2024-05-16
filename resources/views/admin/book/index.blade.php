@@ -47,6 +47,75 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr class="border-b-2 border-dark">
+                                        <form action="{{ route('books.index.post') }}" method="POST">
+                                            @csrf
+                                            @method("POST")
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="isbn" id="isbn" placeholder="ISBN" value="{{ $old["isbn"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="title" id="title" placeholder="Títol" value="{{ $old["title"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="authors" id="authors" placeholder="Autors" value="{{ $old["authors"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="translators" id="translators" placeholder="Traductors" value="{{ $old["translators"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="price-min" id="price-min" placeholder="min" value="{{ $old["price-min"] ?? "" }}">
+                                                    <input type="text" name="price-max" id="price-max" placeholder="max" value="{{ $old["price-max"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="discounted_price-min" id="discounted_price-min" placeholder="min" value="{{ $old["discounted_price-min"] ?? "" }}">
+                                                    <input type="text" name="discounted_price-max" id="discounted_price-max" placeholder="max" value="{{ $old["discounted_price-max"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="stock-min" id="stock-min" placeholder="min" value="{{ $old["stock-min"] ?? "" }}">
+                                                    <input type="text" name="stock-max" id="stock-max" placeholder="max" value="{{ $old["stock-max"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <select name="visible" id="visible">
+                                                        <option value="" selected disabled>---</option>
+                                                        <option @if (isset($old["visible"]) && $old["visible"] == "true") selected @endif value="true">Visible</option>
+                                                        <option @if (isset($old["visible"]) && $old["visible"] == "false") selected @endif value="false">No visible</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="submit" value="Cerca" name="search[search]">
+                                                    <input type="submit" value="Restaura" name="search[clear]">
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     @foreach ($books as $book)
                                         <tr>
                                             <td><input type="checkbox"></td>

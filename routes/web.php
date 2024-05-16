@@ -150,6 +150,7 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
     //Admin routes
     Route::middleware(['auth.admin'])->group(function(){
         Route::resource('books', App\Http\Controllers\BookController::class);
+        Route::post('books', [App\Http\Controllers\BookController::class, "index"])->name("books.index.post");
         Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
         Route::resource('collections', App\Http\Controllers\CollectionController::class);
         Route::resource('users', App\Http\Controllers\UserController::class);

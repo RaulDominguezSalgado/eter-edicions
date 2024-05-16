@@ -37,11 +37,101 @@ class BookController extends Controller
      * Display a listing of the resource.
      * Used in the backoffice for the books listing
      */
-    public function index()
+    public function index(Request $request)
     {
+        $locale = app()->getLocale() ?? 'ca';
+
+        $data = $request->validate([
+            "isbn" => "",
+            "title" => "",
+            "authors" => "",
+            "translators" => "",
+            "price-min" => "",
+            "price-max" => "",
+            "discounted_price-min" => "",
+            "discounted_price-max" => "",
+            "stock-min" => "",
+            "stock-max" => "",
+            "visible" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $bookspag = Book::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "authors":
+                            $bookspag->whereHas('authors.collaborator.translations', function($query) use ($filtro, $locale) {
+                                $query->where('lang', $locale)
+                                ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        case "translators":
+                            $bookspag->whereHas('translators.collaborator.translations', function($query) use ($filtro, $locale) {
+                                $query->where('lang', $locale)
+                                ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        case "price-min":
+                            $bookspag->where("pvp", '>=', floatval($filtro));
+                        break;
+                        case "price-max":
+                            $bookspag->where("pvp", '<=', floatval($filtro));
+                        break;
+                        case "discounted_price-min":
+                            $bookspag->where("discounted_price", '>=', floatval($filtro))
+                                    ->whereNotNull("discounted_price");
+                        break;
+                        case "discounted_price-max":
+                            $bookspag->where("discounted_price", '<=', floatval($filtro))
+                                    ->whereNotNull("discounted_price");
+                        break;
+                        case "stock-min":
+                            $bookspag->where("stock", '>=', floatval($filtro));
+                        break;
+                        case "stock-max":
+                            $bookspag->where("stock", '<=', floatval($filtro));
+                        break;
+                        case "payment-method":
+                        case "visible":
+                            if ($filtro == "true") {
+                                $bookspag->where($key, true);
+                            }
+                            else if ($filtro == "false") {
+                                $bookspag->where($key, false);
+                            }
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $bookspag->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+                
+            }
+            $bookspag = $bookspag->paginate();
+            $books = [];
+            foreach ($bookspag as $book) {
+                $aux = $this->getFullbook($book, $locale);
+                $books[] = $aux;
+            }
+            $old = $data;
+
+            return view('admin.book.index', compact('books', 'old'));
+        }
+        else if (isset($data["search"]["clear"])) {
+            $books = $this->getData();
+            return view('admin.book.index', compact('books'));
+        }
+        else {
+            $books = $this->getData();
+            return view('admin.book.index', compact('books'));
+        }
         // try {
-        $books = $this->getData();
-        return view('admin.book.index', compact('books'));
+        // $books = $this->getData();
+        // return view('admin.book.index', compact('books'));
         // } catch (Exception $e) {
         //     abort(500, 'Server Error');
         // }
@@ -364,7 +454,7 @@ class BookController extends Controller
             ];
 
             $books_lv = Book::where('visible', "LIKE", 1)
-                ->orderBy('publication_date', 'desc')
+                ->bookBy('publication_date', 'desc')
                 ->paginate(20);
 
             $books = [];
@@ -508,9 +598,12 @@ class BookController extends Controller
             foreach ($book->authors()->get() as $author) {
 
                 $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
+                
+                // dd($author->collaborator()->first()->translations()->where("lang", $locale)->first());
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
                 $bookResult['authors'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
+                $bookResult["collaborators"]['authors'][] = ["id" => $collaboratorTranslation->collaborator_id, "full_name" => $collaboratorName];
             }
 
             // dd($bookResult);
@@ -521,11 +614,13 @@ class BookController extends Controller
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
                 $bookResult['translators'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
+                $bookResult["collaborators"]['translators'][] = ["id" => $collaboratorTranslation->collaborator_id, "full_name" => $collaboratorName];
             }
 
             // dd($bookResult);
 
-            foreach ($book->languages()->orderby('id', 'desc')->get() as $lang) {
+            // foreach ($book->languages()->bookby('id', 'desc')->get() as $lang) {
+            foreach ($book->languages()->get() as $lang) {
 
                 $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
                 $langName = $langTranslation->translation;
@@ -568,6 +663,7 @@ class BookController extends Controller
 
             return $bookResult;
         } catch (Exception $e) {
+            dd($e);
             abort(500, $e->getMessage());
         }
     }
@@ -645,7 +741,7 @@ class BookController extends Controller
                 'book_count' => $bookCount,
             ];
         }
-        // Sort authors based on the book count in descending order
+        // Sort authors based on the book count in descending book
         usort($authors, function ($a, $b) {
             return $b['book_count'] <=> $a['book_count'];
         });
@@ -679,7 +775,7 @@ class BookController extends Controller
                 'book_count' => $bookCount,
             ];
         }
-        // Sort translators based on the book count in descending order
+        // Sort translators based on the book count in descending book
         usort($translators, function ($a, $b) {
             return $b['book_count'] <=> $a['book_count'];
         });
@@ -697,7 +793,7 @@ class BookController extends Controller
         // Get the newest 4 books
         $newestBooks = Book::where('visible', 1)
             ->where('title', "!=", $book->title)
-            ->orderBy('publication_date', 'desc')
+            ->bookBy('publication_date', 'desc')
             ->take(4)
             ->get();
         foreach ($newestBooks as $book) {
@@ -743,7 +839,7 @@ class BookController extends Controller
     public function getNewestBooks($locale)
     {
         $books_lv = Book::where('visible', 1)
-            ->orderBy('publication_date', 'desc')
+            ->bookBy('publication_date', 'desc')
             ->take(4)
             ->get();
 
