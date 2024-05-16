@@ -158,6 +158,7 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
         Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
 
         Route::resource('orders', App\Http\Controllers\OrderController::class);
+        Route::post('orders', [App\Http\Controllers\OrderController::class, "index"])->name("orders.index.post");
         Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
         Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
         Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Http\Requests\OrderRequest;
+use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\OrderStatusHistory;
 use Exception;
+use Faker\Core\Number;
 use Spatie\LaravelIgnition\Recorders\DumpRecorder\Dump;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -21,14 +23,8 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orderspag = Order::paginate();
-        $orders = [];
-        foreach ($orderspag as $order) {
-            $orders[] = $this->getFullOrder($order);
-        }
-
         $status_list = [];
         foreach (OrderStatus::all() as $status) {
             $status_list[] = [
@@ -51,8 +47,85 @@ class OrderController extends Controller
         // <td>{{ $order['payment_method'] }}</td>
         // <td>{{ $order['date'] }}</td>
         // <td>{{ $order['order_pdf'] }}</td>
-        return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods'))
+
+        $data = $request->validate([
+            "reference" => "",
+            "address" => "",
+            "client" => "",
+            "total-min" => "",
+            "total-max" => "",
+            "payment-method" => "",
+            "status_id" => "",
+            "date-min" => "",
+            "date-max" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $orderspag = Order::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "client":
+                            $orderspag->where(function($query) use ($filtro) {
+                                $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        case "total-min":
+                            $orderspag->where("total", '>=', floatval($filtro));
+                        break;
+                        case "total-max":
+                            $orderspag->where("total", '<=', floatval($filtro));
+                        break;
+                        case "payment-method":
+                        case "status_id":
+                            $orderspag->where($key, $filtro);
+                        break;
+                        case "date-min":
+                            $orderspag->where("date", '>=', date($filtro));
+                        break;
+                        case "date-max":
+                            $orderspag->where("date", '<=', date($filtro));
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $orderspag->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+                
+            }
+            $orderspag = $orderspag->paginate();
+            $orders = [];
+            foreach ($orderspag as $order) {
+                $orders[] = $this->getFullOrder($order);
+            }
+            $old = $data;
+
+            return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods', 'old'))
             ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
+        }
+        else if (isset($data["search"]["clear"])) {
+            $orderspag = Order::paginate();
+            $orders = [];
+            foreach ($orderspag as $order) {
+                $orders[] = $this->getFullOrder($order);
+            }
+
+            return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods'))
+            ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
+        }
+        else {
+            $orderspag = Order::paginate();
+            $orders = [];
+            foreach ($orderspag as $order) {
+                $orders[] = $this->getFullOrder($order);
+            }
+
+            return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods'))
+            ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
+        }
     }
     //TODO CHECK ERROR CASES
     public function getFullOrder($order)

@@ -49,32 +49,33 @@
                                 </thead>
                                 <tbody>
                                     <tr class="border-b-2 border-dark">
-                                        <form action="">
+                                        <form action="{{ route('orders.index.post') }}" method="POST">
+                                            @csrf
+                                            @method("POST")
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="id-min" id="id-min" placeholder="min">
-                                                    <input type="text" name="id-max" id="id-max" placeholder="max">
+                                                    
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="reference" id="reference" placeholder="Referència">
+                                                    <input type="text" name="reference" id="reference" placeholder="Referència" value="{{ $old["reference"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="address" id="address" placeholder="Entrega">
+                                                    <input type="text" name="address" id="address" placeholder="Entrega" value="{{ $old["address"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="id" id="id" placeholder="Client">
+                                                    <input type="text" name="client" id="client" placeholder="Client" value="{{ $old["client"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="total-min" id="total-min" placeholder="min">
-                                                    <input type="text" name="total-max" id="total-max" placeholder="max">
+                                                    <input type="text" name="total-min" id="total-min" placeholder="min" value="{{ $old["total-min"] ?? "" }}">
+                                                    <input type="text" name="total-max" id="total-max" placeholder="max" value="{{ $old["total-max"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
@@ -82,36 +83,34 @@
                                                     <select name="payment-method" id="payment-method">
                                                         <option value="" selected disabled>---</option>
                                                         @foreach($payment_methods as $method)
-                                                            <option value="{{ $method }}">{{ $method }}</option>
+                                                            <option @if(isset($old["payment-method"]) && $old["payment-method"] == $method) selected @endif value="{{ $method }}">{{ $method }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <select name="order-status" id="order-status">
+                                                    <select name="status_id" id="status_id">
                                                         <option value="" selected disabled>---</option>
                                                         @foreach($status_list as $status)
-                                                            <option value="{{ $status['id'] }}">{{ $status['name'] }}</option>
+                                                            <option @if(isset($old["status_id"]) && $old["status_id"] == $status["id"]) selected @endif value="{{ $status['id'] }}">{{ $status['name'] }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="date-min" id="date-min" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="min">
-                                                    <input type="text" name="date-max" id="date-max" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="max">
+                                                    <input type="text" name="date-min" id="date-min" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="min" value="{{ $old["date-min"] ?? "" }}">
+                                                    <input type="text" name="date-max" id="date-max" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="max" value="{{ $old["date-max"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="flex">
-                                                    <input type="text" name="pdf" id="pdf" placeholder="PDF">
-                                                </div>
+                                                
                                             </td>
                                             <td>
                                                 <div>
-                                                    <input type="submit" value="Restaura" name="clear">
-                                                    <input type="submit" value="Cerca" name="search">
+                                                    <input type="submit" value="Cerca" name="search[search]">
+                                                    <input type="submit" value="Restaura" name="search[clear]">
                                                 </div>
                                             </td>
                                         </form>
