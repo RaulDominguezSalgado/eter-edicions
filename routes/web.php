@@ -170,13 +170,13 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
 
     // Authentication...
     if ($enableViews) {
-        if(strtolower(env('APP_ENV')) == 'local'){
+        if(strtolower(config('eter.appEnv')) == 'local'){
             Route::get(RoutePath::for('login', '/login'), [AuthenticatedSessionController::class, 'create'])
             ->middleware(['guest:'.config('fortify.guard')])
             ->name('login');
         }
         else{
-            Route::get(RoutePath::for('login', env('LOGIN_ROUTE') ?? '/login'), [AuthenticatedSessionController::class, 'create'])
+            Route::get(RoutePath::for('login', '/login'), [AuthenticatedSessionController::class, 'create'])
             ->middleware(['guest:'.config('fortify.guard')])
             ->name('login');
         }
