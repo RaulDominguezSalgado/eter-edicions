@@ -11,6 +11,7 @@ use Illuminate\Database\Seeder;
 
 
 /* Seeders */
+use Database\Seeders\AdminSeeder;
 use Database\Seeders\BookSeeder;
 use Database\Seeders\CollectionSeeder;
 use Database\Seeders\CollaboratorSeeder;
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(AdminSeeder::class);
 
         $this->call(CollaboratorSeeder::class);
         $this->call(AuthorSeeder::class);

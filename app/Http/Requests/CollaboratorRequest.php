@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Actions\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CollaboratorRequest extends FormRequest
@@ -22,11 +23,11 @@ class CollaboratorRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'social_networks' => '',//TODO VALIDATION
-            'first_name' => 'required|regex:/^[^0-9\?\!\$\%\&]+$/|string',
-            'last_name' => 'required|regex:/^[^0-9\?\!\$\%\&]+$/|string',
-            'biography' => 'required',
-            'lang'=>'required',
+            'social_networks' => '',//TODO VALIDATION
+            'translations.*.first_name' => ["required",Validator::$validations['first_name']],
+            'translations.*.last_name' => ['required',Validator::$validations['last_name']],
+            'translations.*.biography' => ["required",Validator::$validations["biography"]],
         ];
+
     }
 }
