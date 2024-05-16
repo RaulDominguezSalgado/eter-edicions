@@ -16,6 +16,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 /**
  * Class CollaboratorController
@@ -28,41 +29,129 @@ class CollaboratorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $locale = app()->getLocale() ?? 'ca';
 
-        $collaborators = Collaborator::paginate();
-        $collaboratorsArray = [];
-
-        //mostrar solo en español
-        foreach ($collaborators as $collaborator) {
-            $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-            if ($translation) {
-                $collaboratorsArray[] = [
-                    'id' => $collaborator->id,
-                    'image' => $collaborator->image,
-                    'full_name' => $translation->last_name . ", " . $translation->first_name,
-                    'lang' => $translation->lang,
-                    'social_networks' => json_decode($collaborator->social_networks, true)
-                ];
+        $data = $request->validate([
+            "name" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $collaborators = Collaborator::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "name":
+                            $collaborators->whereHas('translations', function($query) use ($filtro, $locale) {
+                                $query->where('lang', $locale)
+                                ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $collaborators->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+                
             }
-        }
+            $collaborators = $collaborators->paginate();
+            $collaboratorsArray = [];
 
-        //opcion 2 que me salgan todos los colaboradores en todos los idiomas
-        // foreach ($collaborators as $collaborator) {
-        //     foreach ($collaborator->translations as $collabtrad) {
-        //         $collaboratorsArray[] = [
-        //             'id' => $collaborator->id,
-        //             'lang'=>$collabtrad->lang,
-        //             'image' => $collaborator->image,
-        //             'name' => $collabtrad->name,
-        //             'last_name' => $collabtrad->last_name,
-        //             'social_networks' => $collaborator->social_networks,
-        //         ];
-        //     }
-        // }
-        return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
+            //mostrar solo en español
+            foreach ($collaborators as $collaborator) {
+                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+                if ($translation) {
+                    $collaboratorsArray[] = [
+                        'id' => $collaborator->id,
+                        'image' => $collaborator->image,
+                        'full_name' => $translation->last_name . ", " . $translation->first_name,
+                        'lang' => $translation->lang,
+                        'social_networks' => json_decode($collaborator->social_networks, true)
+                    ];
+                }
+            }
+            // $collaboratorsArray = [];
+            // foreach ($collaboratorspag as $collaborator) {
+            //     $aux = $this->getFullcollaborator($collaborator->id, $locale);
+            //     $collaboratorsArray[] = $aux;
+            // }
+            $old = $data;
+
+            return view('admin.collaborator.index', compact('collaboratorsArray', "collaborators", 'old'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+        }
+        else if (isset($data["search"]["clear"])) {
+            $collaborators = Collaborator::paginate();
+            $collaboratorsArray = [];
+
+            //mostrar solo en español
+            foreach ($collaborators as $collaborator) {
+                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+                if ($translation) {
+                    $collaboratorsArray[] = [
+                        'id' => $collaborator->id,
+                        'image' => $collaborator->image,
+                        'full_name' => $translation->last_name . ", " . $translation->first_name,
+                        'lang' => $translation->lang,
+                        'social_networks' => json_decode($collaborator->social_networks, true)
+                    ];
+                }
+            }
+
+            //opcion 2 que me salgan todos los colaboradores en todos los idiomas
+            // foreach ($collaborators as $collaborator) {
+            //     foreach ($collaborator->translations as $collabtrad) {
+            //         $collaboratorsArray[] = [
+            //             'id' => $collaborator->id,
+            //             'lang'=>$collabtrad->lang,
+            //             'image' => $collaborator->image,
+            //             'name' => $collabtrad->name,
+            //             'last_name' => $collabtrad->last_name,
+            //             'social_networks' => $collaborator->social_networks,
+            //         ];
+            //     }
+            // }
+            return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
+                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+        }
+        else {
+            $collaborators = Collaborator::paginate();
+            $collaboratorsArray = [];
+
+            //mostrar solo en español
+            foreach ($collaborators as $collaborator) {
+                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+                if ($translation) {
+                    $collaboratorsArray[] = [
+                        'id' => $collaborator->id,
+                        'image' => $collaborator->image,
+                        'full_name' => $translation->last_name . ", " . $translation->first_name,
+                        'lang' => $translation->lang,
+                        'social_networks' => json_decode($collaborator->social_networks, true)
+                    ];
+                }
+            }
+
+            //opcion 2 que me salgan todos los colaboradores en todos los idiomas
+            // foreach ($collaborators as $collaborator) {
+            //     foreach ($collaborator->translations as $collabtrad) {
+            //         $collaboratorsArray[] = [
+            //             'id' => $collaborator->id,
+            //             'lang'=>$collabtrad->lang,
+            //             'image' => $collaborator->image,
+            //             'name' => $collabtrad->name,
+            //             'last_name' => $collabtrad->last_name,
+            //             'social_networks' => $collaborator->social_networks,
+            //         ];
+            //     }
+            // }
+            return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
+                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+        }
     }
 
     /**
