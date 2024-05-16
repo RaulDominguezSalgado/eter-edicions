@@ -63,11 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             types: ['geocode'],
             // componentRestrictions: { country: 'es' }
         });
-    } catch (error) {
 
-    }
-    if (autocomplete) {
-        // console.log(autocomplete);
         autocomplete.addListener('place_changed', function () {
             var near_place = autocomplete.getPlace();
 
@@ -82,9 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             autocompleteInput('zip_code', extractedData.zip_code);
         });
-    }
-    else {
-        // console.log("no google");
+    } catch (error) {
         searchInput.addEventListener('blur', function () {
             var address = document.getElementById('address');
             autocompleteInput('address', searchInput.value);
