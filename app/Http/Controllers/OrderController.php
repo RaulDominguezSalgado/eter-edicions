@@ -28,6 +28,19 @@ class OrderController extends Controller
         foreach ($orderspag as $order) {
             $orders[] = $this->getFullOrder($order);
         }
+
+        $status_list = [];
+        foreach (OrderStatus::all() as $status) {
+            $status_list[] = [
+                "id" => $status->id,
+                "name" => $status->name,
+            ];
+        }
+
+        $payment_methods = [
+            "wire", "paypal"
+        ];
+
         //$orders= [];
 
         // <td>{{ $order['id'] }}</td>
@@ -38,7 +51,7 @@ class OrderController extends Controller
         // <td>{{ $order['payment_method'] }}</td>
         // <td>{{ $order['date'] }}</td>
         // <td>{{ $order['order_pdf'] }}</td>
-        return view('admin.order.index', compact('orders', 'orderspag'))
+        return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods'))
             ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
     }
     //TODO CHECK ERROR CASES
