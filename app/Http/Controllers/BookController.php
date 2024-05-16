@@ -454,7 +454,7 @@ class BookController extends Controller
             ];
 
             $books_lv = Book::where('visible', "LIKE", 1)
-                ->bookBy('publication_date', 'desc')
+                ->orderBy('publication_date', 'desc')
                 ->paginate(20);
 
             $books = [];
@@ -619,7 +619,7 @@ class BookController extends Controller
 
             // dd($bookResult);
 
-            // foreach ($book->languages()->bookby('id', 'desc')->get() as $lang) {
+            // foreach ($book->languages()->orderBy('id', 'desc')->get() as $lang) {
             foreach ($book->languages()->get() as $lang) {
 
                 $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
@@ -699,6 +699,13 @@ class BookController extends Controller
             $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
             $bookResult['translators'][] = $collaboratorName;
+        }
+
+        foreach ($book->collections()->get() as $collection) {
+            $collectionTranslation = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
+            $collectionName = $collectionTranslation->name;
+
+            $bookResult['collections'][] = [$collection->id, $collectionName];
         }
 
         // dd($bookResult);
@@ -793,7 +800,7 @@ class BookController extends Controller
         // Get the newest 4 books
         $newestBooks = Book::where('visible', 1)
             ->where('title', "!=", $book->title)
-            ->bookBy('publication_date', 'desc')
+            ->orderBy('publication_date', 'desc')
             ->take(4)
             ->get();
         foreach ($newestBooks as $book) {
@@ -839,7 +846,7 @@ class BookController extends Controller
     public function getNewestBooks($locale)
     {
         $books_lv = Book::where('visible', 1)
-            ->bookBy('publication_date', 'desc')
+            ->orderBy('publication_date', 'desc')
             ->take(4)
             ->get();
 
