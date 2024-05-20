@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Actions\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CollectionRequest extends FormRequest
@@ -23,8 +24,8 @@ class CollectionRequest extends FormRequest
     {
         return [
             'lang'=>'required|string|in:ca,es,ar-sy',
-            'name' => 'required|regex:/^[a-zA-ZàáâãäåçèéêëìíîïðòóôõöùúûüýÿÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÐÒÓÔÕÖÙÚÛÜÝŸ]+$/|string',
-            'description' => 'required'
+            'name' => ['required',Validator::$validations["name"]],
+            'description' =>['required',Validator::$validations["description"]],
         ];
     }
 }

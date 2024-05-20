@@ -58,7 +58,7 @@ class OrderRequest extends FormRequest
                 'address' => ['required',Validator::$validations["address"]],
                 'zip_code' =>  ['required',Validator::$validations["zip_code"]],
                 'locality' =>['required',Validator::$validations["string_only_letters"]],
-                'province' =>['required',Validator::$validations["string_only_letters"]],
+                'province' =>['nulleable',Validator::$validations["string_only_letters"]],
                 'country' => ['required',Validator::$validations["string_only_letters"]],
                 'payment_method' => ['required',Validator::$validations["string_only_letters"]],
                 'status_id' => 'required',

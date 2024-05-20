@@ -58,7 +58,20 @@ $order = old() ?? [];
                         </label>
                     </div>
                     <div class="flex">
-                        <label class="flex-col w-1/3 my-3" for="dni">NIF (DNI, NIE)
+                        <label class="flex-col w-1/3 my-3" for="typeNIF">{{ __('form.typeNIF') }}
+                            <select name="typeNIF" id="typeNIF"
+                                class="@error('typeNIF') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="" disabled selected>{{ __('form.select_type') }}</option>
+                                <option value="DNI" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'DNI' ? 'selected' : '' }}>DNI</option>
+                                <option value="NIE" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'NIE' ? 'selected' : '' }}>NIE</option>
+                                <option value="CIF" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'CIF' ? 'selected' : '' }}>CIF</option>
+                                <option value="CIF" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'CIF' ? 'selected' : '' }}>{{ __('Altres') }}</option>
+                            </select>
+                            @error('typeNIF')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                        </label>
+                        <label class="flex-col w-1/3 my-3" for="dni">NIF (DNI, NIE, CIF)
                             <input type="text" value="{{ $order['dni'] ?? '' }}"
                                 class="@error('dni') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="dni" id="dni">
