@@ -87,14 +87,23 @@ class GeneralSettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(GeneralSettingRequest $request, GeneralSetting $setting)
+    public function update(GeneralSettingRequest $request, $id)
     {
-        // dd($request->validated());
-        $setting->update($request->validated());
-        $setting->save();
+        try {
+            $validatedData = $request->validated();
+            $setting = GeneralSetting::findOrFail($id);
 
-        return redirect()->route('general-settings.index')
-            ->with('success', 'Setting updated successfully');
+            $setting->update($validatedData);
+
+            $setting->save();
+
+            return redirect()->route('general-settings.index')
+                ->with('success', 'Setting updated successfully');
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage()); // Manejar otras excepciones de la base de datos si es necesario
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
     }
 
     public function destroy($id)
@@ -113,7 +122,8 @@ class GeneralSettingController extends Controller
 
 
 
-    protected function getSettingsFromCategory($key){
+    protected function getSettingsFromCategory($key)
+    {
         try {
             $settings = GeneralSetting::where('category', $key)->get();
 
@@ -145,7 +155,7 @@ class GeneralSettingController extends Controller
             $generalSettings = [];
             $settings = (new self)->getSettingsFromCategory('general');
 
-            foreach($settings as $setting){
+            foreach ($settings as $setting) {
                 $generalSettings[$setting->key] = $setting->value;
             }
 
@@ -157,12 +167,13 @@ class GeneralSettingController extends Controller
         }
     }
 
-    public static function getLegalInfo(){
+    public static function getLegalInfo()
+    {
         try {
             $legalSettings = [];
             $settings = (new self)->getSettingsFromCategory('legal_info');
 
-            foreach($settings as $setting){
+            foreach ($settings as $setting) {
                 $legalSettings[$setting->key] = $setting->value;
             }
 
@@ -180,7 +191,7 @@ class GeneralSettingController extends Controller
             $contactSettings = [];
             $settings = (new self)->getSettingsFromCategory('contact');
 
-            foreach($settings as $setting){
+            foreach ($settings as $setting) {
                 $contactSettings[$setting->key] = $setting->value;
             }
 
@@ -198,7 +209,7 @@ class GeneralSettingController extends Controller
             $socialsSettings = [];
             $settings = (new self)->getSettingsFromCategory('social_networks');
 
-            foreach($settings as $setting){
+            foreach ($settings as $setting) {
                 $socialsSettings[$setting->key] = [
                     "name" => $setting->key,
                     "url" => $setting->value,

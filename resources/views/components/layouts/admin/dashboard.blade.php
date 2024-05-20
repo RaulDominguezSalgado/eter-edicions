@@ -9,7 +9,7 @@ if (Auth::user()->role_id == 1) {
         ['name' => 'Publicacions', 'image' => '/img/icons/posts.webp', 'routeName' => 'posts.index', 'message' => 'Gestió de les activitats i articles de la web', 'visible' => true],
         ['name' => 'Pàgines', 'image' => '/img/icons/pages.webp', 'routeName' => 'pages.index', 'message' => 'Gestió del contingut de les pàgines de la web', 'visible' => false],
         ['name' => 'Usuaris', 'image' => '/img/icons/users.webp', 'routeName' => 'users.index', 'message' => 'Gestió dels usuaris privats de la web', 'visible' => true],
-        ['name' => 'Configuració', 'image' => '/img/icons/settings.webp', 'routeName' => 'settings.index', 'message' => 'Gestió dels paràmetres generals de la web', 'visible' => true],
+        ['name' => 'Configuració', 'image' => '/img/icons/settings.webp', 'routeName' => 'general-settings.index', 'message' => 'Gestió dels paràmetres generals de la web', 'visible' => true],
     ];
 } else {
     $options = [['name' => 'Publicacions', 'image' => '/img/icons/posts.webp', 'routeName' => 'posts.index', 'message' => 'Gestió de les activitats i articles de la web', 'visible' => true], ['name' => 'Pàgines', 'image' => '/img/icons/pages.webp', 'routeName' => 'pages.index', 'message' => 'Gestió del contingut de les pàgines de la web', 'visible' => false]];
@@ -39,7 +39,7 @@ foreach($options as $option){
                 @if ($option['visible'])
                     <div class="w-[14em] h-[14em] flex flex-col items-center border border-dark py-2.5 px-5 mx-5 mb-10 hover:bg-surfacedark focus:bg-surfacedark active:bg-surfacedark @if (Route::currentRouteName() == 'orders.index') bg-surfacedark @endif"
                         onmouseover ="showMessage(this)" onmouseout="hideMessage(this)">
-                        <a href="{{ route('orders.index') }}">
+                        <a href="{{ route($option['routeName']) }}">
                             <div class="flex flex-row md:flex-col items-center space-y-2.5 py-5">
                                 <img class="w-[90px] h-[90px]" src={{ $option['image'] }}>
                                 <h4 class="font-semibold">{{ $option['name'] }}</h4>
