@@ -29,13 +29,15 @@
                     </ul>
                 </div>
                 <div id="tabs-contents">
-                    <div style="border-bottom: 1px solid black;" class="tab-content w-full flex flex-wrap justify-center h-auto px-16 catalog" id="catalog{{ $collection["name"] }}">
+                    <div class="mb-20 tab-content w-full flex flex-wrap justify-center h-auto px-16 catalog" id="catalog{{ $collection["name"] }}">
+                        <h2 class="w-full text-center mb-10">Tots els llibres</h2>
                         @foreach ($books as $i => $book)
                             <x-partials.bookPreview :locale="$locale" :book="$book" :i="$i"/>
                         @endforeach
                     </div>
                     @foreach ($collections as $collection)
-                        <div style="border-bottom: 1px solid black;" class="tab-content w-full flex flex-wrap justify-center h-auto px-16 catalog" id="catalog{{ $collection["name"] }}">
+                        <div class="mb-20 tab-content w-full flex flex-wrap justify-center h-auto px-16 catalog" id="catalog{{ $collection["name"] }}">
+                            <h2 class="w-full text-center mb-10">{{ $collection["name"] }}</h2>
                             @foreach ($books as $i => $book)
                                 @foreach ($book["collections"] as $bookCollection)
                                     @if ($collection["id"] === $bookCollection[0])
