@@ -9,6 +9,8 @@ class GeneralSetting extends Model
 {
     use HasFactory;
 
+    protected $perPage = 20;
+
     /**
      * Attributes that should be mass-assignable.
      *

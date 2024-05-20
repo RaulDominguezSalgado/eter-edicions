@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GeneralSettingRequest;
 use Illuminate\Http\Request;
 use App\Models\GeneralSetting;
+use Exception;
 use Illuminate\Database\QueryException;
 
 class GeneralSettingController extends Controller
@@ -16,15 +17,16 @@ class GeneralSettingController extends Controller
     {
         $settings = GeneralSetting::paginate();
         $settingsArray = [];
-        foreach($settings as $setting){
+        foreach ($settings as $setting) {
             $settingsArray[] = [
+                'id' => $setting->id,
                 'category' => $setting->category,
                 'key' => $setting->key,
                 'value' => $setting->value
             ];
         }
 
-        return view('admin.generalSetting.index', compact('settingsArray', 'users'))
+        return view('admin.general-setting.index', compact('settingsArray', 'settings'))
             ->with('i', (request()->input('page', 1) - 1) * $settings->perPage());
     }
 
@@ -34,7 +36,7 @@ class GeneralSettingController extends Controller
     public function create()
     {
         $setting = new GeneralSetting();
-        return view('admin.generalSetting.create', compact('setting'));
+        return view('admin.general-setting.create', compact('setting'));
     }
 
     /**
@@ -57,10 +59,10 @@ class GeneralSettingController extends Controller
      */
     public function show($id)
     {
-        try{
+        try {
             $setting = GeneralSetting::findOrFail($id);
 
-            return view('admin.generalSetting.show', compact('setting'));
+            return view('admin.general-setting.show', compact('setting'));
         } catch (QueryException $e) {
             abort(500, $e->getMessage()); // Manejar otras excepciones de la base de datos si es necesario
         }
@@ -71,11 +73,15 @@ class GeneralSettingController extends Controller
      */
     public function edit($id)
     {
-        
-        // $user = User::find($id);
-        // $roles = Role::all();
+        try {
+            $setting = GeneralSetting::findOrFail($id);
 
-        // return view('admin.user.edit', compact('user', 'roles'));
+            return view('admin.general-setting.edit', compact('setting'));
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage()); // Manejar otras excepciones de la base de datos si es necesario
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
     }
 
     /**
@@ -83,17 +89,127 @@ class GeneralSettingController extends Controller
      */
     public function update(GeneralSettingRequest $request, GeneralSetting $setting)
     {
-        // $user->update($request->validated());
+        // dd($request->validated());
+        $setting->update($request->validated());
+        $setting->save();
 
-        // return redirect()->route('users.index')
-        //     ->with('success', 'User updated successfully');
+        return redirect()->route('general-settings.index')
+            ->with('success', 'Setting updated successfully');
     }
 
     public function destroy($id)
     {
-        // User::find($id)->delete();
+        try {
+            GeneralSetting::findOrFail($id)->delete();
 
-        // return redirect()->route('users.index')
-        //     ->with('success', 'User deleted successfully');
+            return redirect()->route('general-settings.index')
+                ->with('success', 'Setting deleted successfully');
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage());
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+    }
+
+
+
+    protected function getSettingsFromCategory($key){
+        try {
+            $settings = GeneralSetting::where('category', $key)->get();
+
+            return $settings;
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage());
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+    }
+
+    public static function getSetting($key)
+    {
+        try {
+            $setting = GeneralSetting::where('key', $key)->first();
+
+            return $setting;
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage());
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+    }
+
+
+    public static function getGeneralInfo()
+    {
+        try {
+            $generalSettings = [];
+            $settings = (new self)->getSettingsFromCategory('general');
+
+            foreach($settings as $setting){
+                $generalSettings[$setting->key] = $setting->value;
+            }
+
+            return $generalSettings;
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage());
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+    }
+
+    public static function getLegalInfo(){
+        try {
+            $legalSettings = [];
+            $settings = (new self)->getSettingsFromCategory('legal_info');
+
+            foreach($settings as $setting){
+                $legalSettings[$setting->key] = $setting->value;
+            }
+
+            return $legalSettings;
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage());
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+    }
+
+    public static function getContactInfo()
+    {
+        try {
+            $contactSettings = [];
+            $settings = (new self)->getSettingsFromCategory('contact');
+
+            foreach($settings as $setting){
+                $contactSettings[$setting->key] = $setting->value;
+            }
+
+            return $contactSettings;
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage());
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+    }
+
+    public static function getSocials()
+    {
+        try {
+            $socialsSettings = [];
+            $settings = (new self)->getSettingsFromCategory('social_networks');
+
+            foreach($settings as $setting){
+                $socialsSettings[$setting->key] = [
+                    "name" => $setting->key,
+                    "url" => $setting->value,
+                ];
+            }
+
+            return $socialsSettings;
+        } catch (QueryException $e) {
+            abort(500, $e->getMessage());
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
     }
 }

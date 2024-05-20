@@ -19,6 +19,7 @@
     <main class="p-5 md:p-5 lg:p-10">
         {{$slot}}
     </main>
-    <x-layouts.footer/>
+    {{-- <x-layouts.footer/> --}}
+    @include('components.layouts.footer')
 </body>
 </html>

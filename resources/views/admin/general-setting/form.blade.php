@@ -1,49 +1,25 @@
-<div class="row padding-1 p-1">
-    <div class="col-md-12">
-
-        <div class="form-group mb-2 mb20">
-            <label for="first_name" class="form-label">{{ __('Nom') }}</label>
-            <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" value="{{ old('first_name', $user['first_name']) }}" id="first_name" placeholder="Nom">
-            {!! $errors->first('first_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+<div class="p-1">
+    <div>
+        <div class="form-group mb-4">
+            <label for="category" class="form-label">{{ __('Categoria') }}</label>
+            <input type="text" name="category" class="@error('category') is-invalid @enderror" value="{{ old('category', $setting['category']) }}" id="category" placeholder="Categoria">
+            {!! $errors->first('category', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        <div class="form-group mb-2 mb20">
-            <label for="last_name" class="form-label">{{ __('Cognom') }}</label>
-            <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror" value="{{ old('last_name', $user['last_name']) }}" id="last_name" placeholder="Cognom">
-            {!! $errors->first('last_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        <div class="form-group mb-4">
+            <label for="key" class="form-label">{{ __('Nom') }}</label>
+            <input type="text" name="key" class="@error('key') is-invalid @enderror" value="{{ old('key', $setting['key']) }}" id="key" placeholder="Nom">
+            {!! $errors->first('key', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        <div class="form-group mb-2 mb20">
-            <label for="email" class="form-label">{{ __('Correu Electrònic') }}</label>
-            <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user['email']) }}" id="email" placeholder="Correu Electrònic">
-            {!! $errors->first('email', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        <div class="form-group mb-4 space-y-4">
+            <label for="value" class="form-label">{{ __('Contingut') }}</label>
+            @if($setting['key'])
+                <img src="{{asset("img/logo/md/".$setting['value'])}}" alt="">
+            @endif
+            <input @if(isset($setting['key']) && $setting['key'] == 'logo') type="file" @else type="text" @endif name="value" class="@error('value') is-invalid @enderror" value="{{ old('value', $setting['value']) }}" id="value" placeholder="Contingut">
+            {!! $errors->first('value', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        {{-- <div class="form-group mb-2 mb20">
-            <label for="password" class="form-label">{{ __('Contrasenya') }}</label>
-            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" value="{{ old('password', $user['password']) }}" id="password" placeholder="Contrasenya">
-            {!! $errors->first('password', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-        <div class="form-group mb-2 mb20">
-            <label for="password_confirmation" class="form-label">{{ __('Repetir contrasenya') }}</label>
-            <input type="password" name="password_confirmation" class="form-control @error('password') is-invalid @enderror" value="{{ old('password', $user['password']) }}" id="password" placeholder="Contrasenya">
-            {!! $errors->first('password_confirmation', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div> --}}
-        <div class="form-group mb-2 mb20">
-            <label for="phone" class="form-label">{{ __('Telèfon') }}</label>
-            <input type="number" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone', $user['phone']) }}" id="phone" placeholder="Telèfon">
-            {!! $errors->first('phone', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-        <div class="form-group mb-2 mb20">
-            <label for="role_id" class="form-label">{{ __('Rol') }}</label>
-            <select name="role_id" class="form-control @error('role_id') is-invalid @enderror" id="role_id">
-                <option value="" selected disabled>Selecciona un rol</option>
-                @foreach ($roles as $role)
-                    <option value="{{ $role['id'] }}" {{ old('role_id', $user['role_id']) == $role['id'] ? 'selected' : '' }}>{{ $role['name'] }}</option>
-                @endforeach
-            </select>
-            {!! $errors->first('role_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-
     </div>
-    <div class="col-md-12 mt20 mt-2">
-        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+    <div class="mt-4">
+        <button type="submit" class="send-button">{{ __('Desar canvis') }}</button>
     </div>
 </div>

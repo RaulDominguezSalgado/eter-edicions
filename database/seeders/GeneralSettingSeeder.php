@@ -21,9 +21,15 @@ class GeneralSettingSeeder extends Seeder
 
         $companyLogo = new GeneralSetting();
         $companyLogo->category = "general";
-        $companyLogo->key = "logo";
-        $companyLogo->value = "logo.webp";
+        $companyLogo->key = "logo_black";
+        $companyLogo->value = "logo_eter_black.webp";
         $companyLogo->save();
+
+        $companyLogoWhite = new GeneralSetting();
+        $companyLogoWhite->category = "general";
+        $companyLogoWhite->key = "logo_white";
+        $companyLogoWhite->value = "logo_eter_white.webp";
+        $companyLogoWhite->save();
 
         $generalEmail = new GeneralSetting();
         $generalEmail->category = "contact";

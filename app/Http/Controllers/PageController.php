@@ -27,13 +27,13 @@ class PageController extends Controller
 
         $bookController = new BookController();
         $books = $bookController->getNewestBooks($locale);
-        // dd($books);
 
         $postController = new PostController();
         $posts = $postController->getLatestPosts($locale);
-        // dd($posts);
 
-        return view('public.home', compact('books', 'posts', 'page', 'locale'));
+        $legalInfo = GeneralSettingController::getContactInfo();
+
+        return view('public.home', compact('books', 'posts', 'page', 'locale', 'legalInfo'));
     }
 
 
@@ -106,7 +106,7 @@ class PageController extends Controller
             $page['title'] = $translation->meta_title;
             $page['longDescription'] = $translation->meta_description;
             $page['shortDescription'] = "";
-            $page['web'] = 'Èter Edicions';
+            $webTitle = 'Èter Edicions';
             $page['slug'] = $translation->slug;
         }
         // dd($translation->contents);
