@@ -65,7 +65,7 @@ $order = old() ?? [];
                                 <option value="DNI" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'DNI' ? 'selected' : '' }}>DNI</option>
                                 <option value="NIE" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'NIE' ? 'selected' : '' }}>NIE</option>
                                 <option value="CIF" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'CIF' ? 'selected' : '' }}>CIF</option>
-                                <option value="CIF" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'CIF' ? 'selected' : '' }}>{{ __('Altres') }}</option>
+                                <option value="others" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'others' ? 'selected' : '' }}>{{ __('Altres') }}</option>
                             </select>
                             @error('typeNIF')
                                 <small class="text-systemerror">{{ $message }}</small>

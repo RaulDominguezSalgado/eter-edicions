@@ -1,7 +1,7 @@
 <x-layouts.admin.app>
-    <x-slot name="title">
+    {{-- <x-slot name="title">
         {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $page['web'] }}
-    </x-slot>
+    </x-slot> --}}
 
     <link rel="stylesheet" href="{{ asset('css/public/post.css') }}">
 
@@ -10,6 +10,10 @@
     ?>
 
     <main class="body flex flex-col items-center space-y-6 mb-12">
+        <h2>Vista previa</h2>
+        <div class="float-right">
+            <a class="btn btn-primary btn-sm" href="{{ route('posts.index') }}"> {{ __('Enrere') }}</a>
+        </div>
         <div class="banner w-full">
             <img src="{{ asset('img/posts/covers/' . $post['image']) }}" alt="{{ $post['title'] }}">
         </div>

@@ -24,19 +24,19 @@ class CheckoutRequest extends FormRequest
     {
         return [
             // User data
-            'first_name' => ['required',Validator::$validations["first_name"]],
-            'last_name' => ['required',Validator::$validations["last_name"]],
-            'email' =>['required',Validator::$validations["email"]],
-            'phone_number' =>  ['required',Validator::$validations["phone"]],
+            'first_name' => ['required', Validator::$validations["first_name"]],
+            'last_name' => ['required', Validator::$validations["last_name"]],
+            'email' => ['required', Validator::$validations["email"]],
+            'phone_number' =>  ['required', Validator::$validations["phone"]],
             'dni' => 'required|string',
-            'typeNIF'=>'required',
+            'typeNIF' => 'required',
             // Adress data
-            'address' =>  ['required',Validator::$validations["address"]],
-            'apartment' => ['nulleable',Validator::$validations["address"]],
-            'zip_code' => ['required',Validator::$validations["zip_code"]],
-            'locality' => ['required',Validator::$validations["address"]],
-            'province' =>  ['nulleable',Validator::$validations["address"]],
-            'country' => ['required',Validator::$validations["address"]],
+            'address' =>  ['required', Validator::$validations["address"]],
+            'apartment' => ['nulleable', Validator::$validations["address"]],//discord error
+            'zip_code' => ['required', Validator::$validations["zip_code"]],
+            'locality' => ['required', Validator::$validations["address"]],
+            'province' =>  ['nulleable', Validator::$validations["address"]],//discord error
+            'country' => ['required', Validator::$validations["address"]],
 
             // Products data
             'products' => 'required',
@@ -44,18 +44,17 @@ class CheckoutRequest extends FormRequest
             'quantities' => 'required',
             'prices' => 'required',
             'total' => 'required',
-            'reference'=>'',
+            'reference' => '',
             // Order options
         ];
     }
 
     /**
-     * Configure the validator instance.
-     *
-     * @param \Illuminate\Validation\Validator $validator
-     * @return void
-     */
-    public function withValidator($validator)
+
+     *Configure the validator instance.*
+     *@param \Illuminate\Validation\Validator $validator
+     *@return void*/
+    public function withValidator(\Illuminate\Validation\Validator $validator)
     {
         $validator->after(function ($validator) {
             $type = $this->input('typeNIF');
@@ -70,5 +69,4 @@ class CheckoutRequest extends FormRequest
             }
         });
     }
-
 }
