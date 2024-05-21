@@ -38,8 +38,6 @@
 										<th>Autor</th>
 										<th>Traductor</th>
 										<th>Descripció</th>
-										<th>Data</th>
-                                        <th>Ubicació</th>
 										<th>Imatge</th>
 										<th>Contingut</th>
 										<th>Data de publicació</th>
@@ -49,6 +47,75 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr class="border-b-2 border-dark">
+                                        <form action="{{ route('books.index.post') }}" method="POST">
+                                            @csrf
+                                            @method("POST")
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="title" id="title" placeholder="Títol" value="{{ $old["title"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="author" id="author" placeholder="Autor" value="{{ $old["author"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="translator" id="translator" placeholder="Traductor" value="{{ $old["translator"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="description" id="description" placeholder="Descripció" value="{{ $old["description"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="date-min" id="date-min" placeholder="min" value="{{ $old["date-min"] ?? "" }}">
+                                                    <input type="text" name="date-max" id="date-max" placeholder="max" value="{{ $old["date-max"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="location" id="location" placeholder="Ubiació" value="{{ $old["location"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="content" id="content" placeholder="Contingut" value="{{ $old["content"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="price-min" id="price-min" placeholder="min" value="{{ $old["price-min"] ?? "" }}">
+                                                    <input type="text" name="price-max" id="price-max" placeholder="max" value="{{ $old["price-max"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="isbn" id="isbn" placeholder="ISBN" value="{{ $old["isbn"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="submit" value="Cerca" name="search[search]">
+                                                    <input type="submit" value="Restaura" name="search[clear]">
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     @foreach ($postsArray as $post)
                                         <tr>
                                             <td>{{ ++$i }}</td>
