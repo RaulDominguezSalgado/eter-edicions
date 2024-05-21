@@ -1,4 +1,11 @@
 <x-layouts.admin.app>
+    @push('styles')
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    @endpush
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
     </x-slot> --}}
@@ -62,11 +69,13 @@
                                                             class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="document.getElementById('confirmDelete-{{ $bookstore['id'] }}').classList.remove('hidden');">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $bookstore['id'], 'message' => '¿Estás seguro de que deseas eliminar esta librería? Esta acción no se puede deshacer.', 'action' => route('bookstores.destroy', $bookstore['id'])])
                                     @endforeach
                                 </tbody>
                             </table>

@@ -54,19 +54,22 @@
                                             <td>{{ $collection['description'] }}</td>
 
                                             <td>
-                                                <form action="{{ route('collections.destroy', $collection['id']) }}"
+                                                 <form action="{{ route('collections.destroy', $collection['id']) }}"
                                                     method="POST">
-
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('collections.edit', $collection['id']) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="document.getElementById('confirmDelete-{{ $collection['id'] }}').classList.remove('hidden');">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $collection['id'], 'message' => '¿Estás seguro de que deseas eliminar esta colección? Esta acción no se puede deshacer.', 'action' => route('collections.destroy', $collection['id'])])
+
                                     @endforeach
                                 </tbody>
                             </table>

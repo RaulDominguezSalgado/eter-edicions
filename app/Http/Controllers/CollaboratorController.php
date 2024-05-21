@@ -34,7 +34,7 @@ class CollaboratorController extends Controller
         $collaborators = Collaborator::paginate();
         $collaboratorsArray = [];
 
-        //mostrar solo en español
+        //mostrar solo en catalán
         foreach ($collaborators as $collaborator) {
             $translation = $collaborator->translations()->where('lang', $this->lang)->first();
             if ($translation) {
@@ -47,20 +47,6 @@ class CollaboratorController extends Controller
                 ];
             }
         }
-
-        //opcion 2 que me salgan todos los colaboradores en todos los idiomas
-        // foreach ($collaborators as $collaborator) {
-        //     foreach ($collaborator->translations as $collabtrad) {
-        //         $collaboratorsArray[] = [
-        //             'id' => $collaborator->id,
-        //             'lang'=>$collabtrad->lang,
-        //             'image' => $collaborator->image,
-        //             'name' => $collabtrad->name,
-        //             'last_name' => $collabtrad->last_name,
-        //             'social_networks' => $collaborator->social_networks,
-        //         ];
-        //     }
-        // }
         return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
             ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
