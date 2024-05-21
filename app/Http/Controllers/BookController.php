@@ -401,22 +401,13 @@ class BookController extends Controller
         try {
             $locale = app()->getLocale();
 
-            // dump(Route::currentRouteName());
-            // dump($locale);
-            // dd(Route::currentRouteName() != "home.{$locale}");
-
-
-            $book_lv = Book::find($id);
-
-            // dd($book_lv);
+            $book_lv = Book::where('slug', $id)->first();
 
             if (!$book_lv->visible) {
                 return view('components.404');
             }
 
             $book = $this->getFullBook($book_lv, $locale);
-
-            // dd($book);
 
             $authors = [];
             foreach ($book_lv->authors()->get() as $author) {
@@ -446,15 +437,9 @@ class BookController extends Controller
                 'web' => 'Èter Edicions'
             ];
 
-            // dd($book);
-            // dd($authors);
-            // dd($translators);
-            // dd($related_books);
-
             return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
         } catch (Exception $e) {
-            // abort(500, 'Server Error');
-            dump($e);
+            abort(500, $e->getMessage());
         }
     }
 

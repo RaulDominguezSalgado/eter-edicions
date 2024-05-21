@@ -21,7 +21,7 @@
                     @foreach ($authors as $i => $author)
                         <div class="collaborator flex flex-col items-center mb-6">
                             <div class="cover mb-2">
-                                <a href="{{ route("collaborator-detail.{$locale}", $author['id']) }}">
+                                <a href="{{ route("collaborator-detail.{$locale}", $author['slug']) }}">
                                     <img src="{{ asset('img/collab/thumbnails/' . $author['image']) }}"
                                         alt="{{ $author['first_name'] }} {{ $author['last_name'] }}"
                                         style="height: 19.7em">

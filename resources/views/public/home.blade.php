@@ -19,11 +19,11 @@
                 @foreach ($books as $i => $book)
                     <div class="book flex flex-col items-center mb-6 mr-10">
                         <div class="cover mb-4 relative">
-                            <a href="{{ route("book-detail.{$locale}", $book['id']) }}">
+                            <a href="{{ route("book-detail.{$locale}", $book['slug']) }}">
                                 <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
                                     alt="{{ $book['title'] }}" style="height: 19.7em">
                             </a>
-                            <a href="{{ route("book-detail.{$locale}", $book['id']) }}" class="flex items-end w-full h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+                            <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                 <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
                                     <p class="font-bold text-xl">{{$book['pvp']}}€</p>
                                     <form action="{{ route('cart.insert') }}" method="POST">
