@@ -145,6 +145,7 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
 
     //Posts route
     Route::resource('posts', App\Http\Controllers\PostController::class);
+    Route::post('posts', [App\Http\Controllers\PostController::class, "index"])->name("posts.index.post");
     // Route::post('/upload',[App\Http\Controllers\PostController::class])->name('ckeditor.upload');
 
     //Admin routes

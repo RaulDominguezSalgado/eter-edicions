@@ -35,20 +35,21 @@
                                         <th>No</th>
 
 										<th>Títol</th>
-										<th>Autor</th>
-										<th>Traductor</th>
+										{{-- <th>Autor</th>
+										<th>Traductor</th> --}}
 										<th>Descripció</th>
+										{{-- <th>Data</th>
+                                        <th>Ubicació</th> --}}
 										<th>Imatge</th>
 										<th>Contingut</th>
 										<th>Data de publicació</th>
 										<th>Publicat per</th>
-
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="border-b-2 border-dark">
-                                        <form action="{{ route('books.index.post') }}" method="POST">
+                                        <form action="{{ route('posts.index.post') }}" method="POST">
                                             @csrf
                                             @method("POST")
                                             <td>
@@ -63,28 +64,7 @@
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="author" id="author" placeholder="Autor" value="{{ $old["author"] ?? "" }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="flex">
-                                                    <input type="text" name="translator" id="translator" placeholder="Traductor" value="{{ $old["translator"] ?? "" }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="flex">
                                                     <input type="text" name="description" id="description" placeholder="Descripció" value="{{ $old["description"] ?? "" }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="flex">
-                                                    <input type="text" name="date-min" id="date-min" placeholder="min" value="{{ $old["date-min"] ?? "" }}">
-                                                    <input type="text" name="date-max" id="date-max" placeholder="max" value="{{ $old["date-max"] ?? "" }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="flex">
-                                                    <input type="text" name="location" id="location" placeholder="Ubiació" value="{{ $old["location"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
@@ -99,13 +79,13 @@
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="price-min" id="price-min" placeholder="min" value="{{ $old["price-min"] ?? "" }}">
-                                                    <input type="text" name="price-max" id="price-max" placeholder="max" value="{{ $old["price-max"] ?? "" }}">
+                                                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')"  name="publication_date-min" id="publication_date-min" placeholder="min" value="{{ $old["publication_date-min"] ?? "" }}">
+                                                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')"  name="publication_date-max" id="publication_date-max" placeholder="max" value="{{ $old["publication_date-max"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <input type="text" name="isbn" id="isbn" placeholder="ISBN" value="{{ $old["isbn"] ?? "" }}">
+                                                    <input type="text" name="published_by" id="published_by" placeholder="Publicat per" value="{{ $old["published_by"] ?? "" }}">
                                                 </div>
                                             </td>
                                             <td>
@@ -121,17 +101,17 @@
                                             <td>{{ ++$i }}</td>
 
 											<td>{{ $post['title'] }}</td>
-											<td>{{ $post['author_id'] }}</td>
-											<td>{{ $post['translator_id'] }}</td>
+											{{-- <td>{{ $post['author_id'] }}</td>
+											<td>{{ $post['translator_id'] }}</td> --}}
 											<td>{{ $post['description'] }}</td>
-											<td>{{ $post['date'] }} {{ substr($post['time'], 0, 6) }}</td>
-                                            <td>{{ $post['location'] }}</td>
+											{{-- <td>{{ $post['date'] }} {{ substr($post['time'], 0, 6) }}</td>
+                                            <td>{{ $post['location'] }}</td> --}}
 											<td>
                                                 {{-- {{ $post['image'] }} --}}
                                                 <img style="width: 100px; height: auto;" src="{{ asset('img/posts/covers/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
                                             </td>
 											{{-- <td>{{ $post['content'] }}</td> --}}
-                                            <td>{!! $post['content'] !!}</td>
+                                            <td>{!! substr($post['content'], 0, 255) !!}@if(strlen($post['content']) > 255)... <a href="{{ route('posts.show',$post['id']) }}" class="underline text-sm">Veure més</a>@endif</td>
 
 											<td>{{ $post['publication_date'] }}</td>
 											<td>{{ $post['published_by'] }}</td>
