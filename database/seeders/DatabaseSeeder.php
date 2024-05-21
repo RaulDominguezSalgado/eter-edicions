@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CollectionSeeder::class);
         $this->call(BookSeeder::class);
 
-        $this->call(OrderSeeder::class);
+        $this->call(OrderStatusSeeder::class);
 
         $this->call(PostSeeder::class);
 
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BookBookstoreSeeder::class);
 
         $this->call(PageSeeder::class);
-        // OrderStatus::factory(10)->create();
+         //OrderStatus::factory(10)->create();
         Order::factory(10)->create();
         OrderDetail::factory(50)->create();
         // \App\Models\User::factory(10)->create();

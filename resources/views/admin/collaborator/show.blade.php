@@ -1,3 +1,6 @@
+<?php
+$locale="ca"
+?>
 <x-layouts.admin.app>
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}

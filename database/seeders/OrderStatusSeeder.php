@@ -14,19 +14,6 @@ class OrderStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        //cancel·lat
-        $cancelled = new OrderStatus();
-        $cancelled->name = "Cancel·lat";
-        $cancelled->color = "#FF0000";
-        $cancelled->save();
-
-        //error en el pagament
-        $paymenterror = new OrderStatus();
-        $paymenterror->name = "Error en el pagament";
-        $paymenterror->color = "#B90126";
-        $paymenterror->save();
-
-
         //pagament pendent
         $paymentpending = new OrderStatus();
         $paymentpending->name = "Pagament pendent";
@@ -45,17 +32,31 @@ class OrderStatusSeeder extends Seeder
         $sent->color = "#0B8B4E";
         $sent->save();
 
-
         //entregat
         $delivered = new OrderStatus();
         $delivered->name = "Entregat";
         $delivered->color = "#8A2BE2";
         $delivered->save();
 
+        //error en el pagament
+        $paymenterror = new OrderStatus();
+        $paymenterror->name = "Error en el pagament";
+        $paymenterror->color = "#B90126";
+        $paymenterror->save();
+
+        //cancel·lat
+        $cancelled = new OrderStatus();
+        $cancelled->name = "Cancel·lat";
+        $cancelled->color = "#FF0000";
+        $cancelled->save();
+
         //retornat
         $returned = new OrderStatus();
         $returned->name = "Retornat";
         $returned->color = "#41007D";
         $returned->save();
+
+
+
     }
 }

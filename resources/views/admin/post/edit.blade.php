@@ -12,7 +12,7 @@
                             <span class="card-title">{{ __('Edit') }} Post</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary btn-sm" href="{{ route('posts.index') }}"> {{ __('Back') }}</a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('posts.index') }}"> {{ __('Enrere') }}</a>
                         </div>
                     </div>
                     <div class="card-body bg-white">

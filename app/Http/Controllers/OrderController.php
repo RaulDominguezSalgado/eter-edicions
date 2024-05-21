@@ -325,7 +325,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         return view('admin.order.show', compact('order'));
-        //return view('public.order_pdf', compact('order'));
+        // return view('public.order_pdf', compact('order'));
     }
 
     /**
