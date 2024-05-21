@@ -52,7 +52,8 @@ $locale = app()->getLocale() ?: 'ca';
     </nav>
     <nav id="main-nav" class="mb-6 px-4">
         <a href="{{ route("home.{$locale}") }}" class="logo">
-            <img src="{{ asset('img/logo/lg/logo_eter_black.webp') }}" alt="Logotip d'Èter Edicions" style="width: 5em">
+            <img src="{{ asset('img/logo/lg/' . $generalInfo['logo_black']) }}"
+                alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}" style="width: 5em">
         </a>
         <ul class="nav-links">
             <li class=""><a href="{{ route("home_default.{$locale}") }}"
@@ -83,8 +84,8 @@ $locale = app()->getLocale() ?: 'ca';
 <nav id="mobile-nav" class="lg:hidden">
     <nav class="flex justify-between px-6 pt-3 ">
         <a href="{{ route("home.{$locale}") }}" class="logo">
-            <img src="{{ asset('img/logo/lg/logo_eter_mobile_black.webp') }}" alt="Logotip d'Èter Edicions"
-                style="width: 5em">
+            <img src="{{ asset('img/logo/sm/' . $generalInfo['logo_black']) }}"
+                alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}" style="width: 3em">
         </a>
         <ul class="flex items-center space-x-4">
             <li class="flex relative">
