@@ -159,6 +159,7 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
         Route::resource('authors', App\Http\Controllers\AuthorController::class);
         Route::resource('translators', App\Http\Controllers\TranslatorController::class);
         Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
+        Route::post('bookstores', [App\Http\Controllers\BookstoreController::class, "index"])->name("bookstores.index.post");
 
         Route::resource('orders', App\Http\Controllers\OrderController::class);
         Route::post('orders', [App\Http\Controllers\OrderController::class, "index"])->name("orders.index.post");

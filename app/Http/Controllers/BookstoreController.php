@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bookstore;
 use App\Http\Requests\BookstoreRequest;
+use Illuminate\Http\Request;
 
 /**
  * Class BookstoreController
@@ -14,14 +15,57 @@ class BookstoreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bookstores = [];
-        foreach (Bookstore::paginate() as $bookstore) {
-            $bookstores[] = $this->getFullBookstore($bookstore);
-        }
+        $locale = app()->getLocale() ?? 'ca';
 
-        return view('admin.bookstore.index', compact('bookstores'));
+        $data = $request->validate([
+            "name" => "",
+            "address" => "",
+            "website" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $bookStorespag = BookStore::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        default:
+                            if ($key != "search") {
+                                $bookStorespag->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+                
+            }
+            $bookStorespag = $bookStorespag->paginate();
+            $bookstores = [];
+            foreach ($bookStorespag as $bookStore) {
+                $aux = $this->getFullbookStore($bookStore, $locale);
+                $bookstores[] = $aux;
+            }
+            $old = $data;
+
+            return view('admin.bookstore.index', compact('bookstores', 'old'));
+        }
+        else if (isset($data["search"]["clear"])) {
+            $bookstores = [];
+            foreach (Bookstore::paginate() as $bookstore) {
+                $bookstores[] = $this->getFullBookstore($bookstore);
+            }
+
+            return view('admin.bookstore.index', compact('bookstores'));
+        }
+        else {
+            $bookstores = [];
+            foreach (Bookstore::paginate() as $bookstore) {
+                $bookstores[] = $this->getFullBookstore($bookstore);
+            }
+
+            return view('admin.bookstore.index', compact('bookstores'));
+        }
     }
 
     /**
