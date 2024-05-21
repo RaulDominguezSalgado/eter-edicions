@@ -91,7 +91,7 @@
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div>
                         <div class="cover-min">
-                            <a href="{{ route("post-detail.{$locale}", $post['id']) }}">
+                            <a href="{{ route("post-detail.{$locale}", $post['slug']) }}">
                                 <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
                                     alt="{{ $post['title'] }}" class="">
                             </a>
@@ -114,7 +114,7 @@
                             <p class="p14">{{ $post['description'] }}</p>
                         </div>
                         <div class="w-fi">
-                            <a href="{{ route('post-detail.ca', $post['id']) }}">
+                            <a href="{{ route('post-detail.ca', $post['slug']) }}">
                                 <p class="p14 underline">{{__('general.read-more')}}</p>
                             </a>
                         </div>

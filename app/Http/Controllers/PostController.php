@@ -377,7 +377,7 @@ class PostController extends Controller
         $locale = "ca";
 
 
-        $post_lv = Post::find($id);
+        $post_lv = Post::where('slug', $id)->first();
 
         $page = [
             'title' => $post_lv->meta_title,

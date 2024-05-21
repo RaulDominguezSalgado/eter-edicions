@@ -19,7 +19,7 @@
                             <h5 class="font-bold">{{$post['title']}}</h5>
                         </div>
                         <div class="cover space-y-4">
-                            <a href="{{ route("activity-detail.{$locale}", $post['id']) }}">
+                            <a href="{{ route("activity-detail.{$locale}", $post['slug']) }}">
                                 <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
                                     alt="{{ $post['title'] }}">
                             </a>
@@ -41,7 +41,7 @@
                             <p class="p14">{{$post['description']}}</p>
                         </div>
                         <div class="w-fit">
-                            <a href="{{route('post-detail.ca', $post['id'])}}">
+                            <a href="{{route('post-detail.ca', $post['slug'])}}">
                                 <p class="p14 underline">{{__('general.read-more')}}</p>
                             </a>
                         </div>
