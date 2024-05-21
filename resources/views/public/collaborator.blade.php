@@ -1,7 +1,7 @@
 <x-layouts.app>
 
     <x-slot name="title">
-        {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $page['web'] }}
+        {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $webTitle }}
     </x-slot>
 
     <link rel="stylesheet" href="{{ asset('css/public/collaborator.css') }}">

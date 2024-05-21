@@ -16,12 +16,12 @@ use Database\Seeders\CollectionSeeder;
 use Database\Seeders\CollaboratorSeeder;
 use Database\Seeders\AuthorSeeder;
 use Database\Seeders\TranslatorSeeder;
-use Database\Seeders\IllustratorSeeder;
 use Database\Seeders\OrderSeeder;
 use Database\Seeders\PostSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\LanguageSeeder;
+use Database\Seeders\GeneralSettingSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -53,11 +53,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OrderStatusSeeder::class);
         Order::factory(10)->create();
         OrderDetail::factory(50)->create();
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(GeneralSettingSeeder::class);
     }
 }
