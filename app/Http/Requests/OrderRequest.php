@@ -26,7 +26,7 @@ class OrderRequest extends FormRequest
             return [
                 'date' => ['required',Validator::$validations["date"]],
                 'total' => '',
-                'shipment_taxes' => ['nulleable',Validator::$validations["decimal"]],
+                'shipment_taxes' => ['nullable',Validator::$validations["decimal"]],
                 'reference' => ['required',Validator::$validations["reference"]],
                 'dni' => ['required',],
                 'first_name' => ['required',Validator::$validations["first_name"]],
@@ -58,7 +58,7 @@ class OrderRequest extends FormRequest
                 'address' => ['required',Validator::$validations["address"]],
                 'zip_code' =>  ['required',Validator::$validations["zip_code"]],
                 'locality' =>['required',Validator::$validations["string_only_letters"]],
-                'province' =>['nulleable',Validator::$validations["string_only_letters"]],
+                'province' =>['nullable',Validator::$validations["string_only_letters"]],
                 'country' => ['required',Validator::$validations["string_only_letters"]],
                 'payment_method' => ['required',Validator::$validations["string_only_letters"]],
                 'status_id' => 'required',

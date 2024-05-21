@@ -268,8 +268,8 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        // dump($request);
-        // dump($book);
+          dump($request);
+        //  dd($book);
         // try {
         // \App\Models\Book::class;
         $new_data = $request->validated();
@@ -538,7 +538,7 @@ class BookController extends Controller
             foreach ($book->collections()->get() as $collection) {
                 $collection = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
 
-                $bookResult['collections'][] = ["id" => $collection->id, "name" => $collection->name];
+                $bookResult['collections'][] = ["id" => $collection->collection_id, "name" => $collection->name];
             }
 
             // dd($bookResult);
@@ -982,7 +982,6 @@ class BookController extends Controller
             } else {
                 $book->translators()->detach();
             }
-
 
             $request->has('collections') ? $book->collections()->sync(array_unique($request->input('collections'))) : '';
 

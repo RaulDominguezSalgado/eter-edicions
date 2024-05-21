@@ -2,7 +2,7 @@
 // dump($book);
 // dump($collaborators);
 // dump($languages);
-// dump($collections);
+//  dump($collections);
 
 function getCollaboratorsOptions($collaborators, $selected = -1)
 {
@@ -23,6 +23,7 @@ function getCollectionsOptions($collections, $selected = -1)
         $selectedAttr = $collection['id'] == $selected ? 'selected' : '';
         $options .= "<option class='border-0 enabled' value='{$collection['id']}' $selectedAttr>{$collection['name']}</option>";
     }
+    // dump($collections);
     return $options;
 }
 

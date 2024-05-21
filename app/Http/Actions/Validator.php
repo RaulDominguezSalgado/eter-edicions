@@ -36,6 +36,7 @@ class Validator
         "reference"=>"regex:/^\d{14}[0-9A-Z]{6}$/",
         "phone"=>"regex:/^(\+)?[\d\s()-]+$/",
         "address"=>"regex:/^[\pL\pN\s'.,·:;¡!¿‘–<>«»?()\"’-]+$/u",
+        "address_number"=>"regex:/^[\pL\pN\s'.,·‘–()\"’-]+$/u",
         "zip_code"=>"regex:/^\d{5}(?:\s[a-zA-Z]{2})?$/",
     ];
 

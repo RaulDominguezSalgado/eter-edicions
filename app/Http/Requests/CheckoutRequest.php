@@ -32,10 +32,10 @@ class CheckoutRequest extends FormRequest
             'typeNIF' => 'required',
             // Adress data
             'address' =>  ['required', Validator::$validations["address"]],
-            'apartment' => ['nulleable', Validator::$validations["address"]],//discord error
+            'apartment' => ['nullable', Validator::$validations["address_number"]],//discord error
             'zip_code' => ['required', Validator::$validations["zip_code"]],
             'locality' => ['required', Validator::$validations["address"]],
-            'province' =>  ['nulleable', Validator::$validations["address"]],//discord error
+            'province' =>  ['nullable', Validator::$validations["address"]],//discord error
             'country' => ['required', Validator::$validations["address"]],
 
             // Products data
