@@ -21,30 +21,33 @@
             </div>
             <div id="catalog-tabs">
                 <div id="tabs-links" class="w-full pb-20">
-                    <ul class="flex justify-between w-full">
-                        <li class="active">Tots els llibres</li>
+                    <ul class="flex justify-center w-full">
+                        <li class="active px-5 text-xl">Tots els llibres</li>
                         @foreach($collections as $collection)
-                            <li>{{ $collection["name"] }}</li>
+                            <li class="px-5 text-xl">{{ $collection["name"] }}</li>
                         @endforeach
                     </ul>
                 </div>
                 <div id="tabs-contents">
-                    <div class="mb-20 tab-content w-full flex flex-wrap justify-center h-auto px-16 catalog" id="catalog{{ $collection["name"] }}">
-                        <h2 class="w-full text-center mb-10">Tots els llibres</h2>
+                    <div class="active mb-20 tab-content w-full flex flex-wrap justify-center h-auto px-16 catalog" id="catalog{{ $collection["name"] }}">
                         @foreach ($books as $i => $book)
                             <x-partials.bookPreview :locale="$locale" :book="$book" :i="$i"/>
                         @endforeach
                     </div>
                     @foreach ($collections as $collection)
                         <div class="mb-20 tab-content w-full flex flex-wrap justify-center h-auto px-16 catalog" id="catalog{{ $collection["name"] }}">
-                            <h2 class="w-full text-center mb-10">{{ $collection["name"] }}</h2>
+                            <?php $libros = 0;?>
                             @foreach ($books as $i => $book)
                                 @foreach ($book["collections"] as $bookCollection)
                                     @if ($collection["id"] === $bookCollection[0])
                                         <x-partials.bookPreview :locale="$locale" :book="$book" :i="$i"/>
+                                        <?php $libros = $libros + 1;?>
                                     @endif
                                 @endforeach
                             @endforeach
+                            @if($libros == 0)
+                                <p>Encara no hi han llibres en aquesta col·lecció</p>
+                            @endif
                         </div>
                     @endforeach
                 </div>
