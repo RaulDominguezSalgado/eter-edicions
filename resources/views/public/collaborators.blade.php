@@ -42,7 +42,7 @@
                     @foreach ($translators as $i => $translator)
                         <div class="collaborator flex flex-col items-center mb-6">
                             <div class="cover mb-2">
-                                <a href="{{ route("collaborator-detail.{$locale}", $translator['id']) }}">
+                                <a href="{{ route("collaborator-detail.{$locale}", $translator['slug']) }}">
                                     <img src="{{ asset('img/collab/thumbnails/' . $translator['image']) }}"
                                         alt="{{ $translator['first_name'] }} {{ $translator['last_name'] }}"
                                         style="height: 19.7em">
