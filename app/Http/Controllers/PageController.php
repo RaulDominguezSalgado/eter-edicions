@@ -9,6 +9,10 @@ use App\Models\Post;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\PostController;
 
+
+use App\Http\Requests\ContactFormRequest;
+use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -85,9 +89,19 @@ class PageController extends Controller
     }
 
 
-    public function sendContactForm()
+    public function sendContactForm(ContactFormRequest $request)
     {
-        return "email sent";
+        try {
+            $locale = app()->getLocale() ?: 'ca';
+            $request->validated();
+            // $adminMail = \App\Models\GeneralSettings::where("key", "general_contact")->first()->value;
+            $adminMail = "rauldominguezsalgado@gmail.com";
+            Mail::to($adminMail)->send(new \App\Mail\ContactForm($request, "admin", $locale));
+            Mail::to($request->input("email"))->send(new \App\Mail\ContactForm($request, "client", $locale));
+            return back()->with(["success" => "La vostra solicitud s'ha enviat correctament."]);
+        } catch (\Exception $e) {
+            return back()->with(["error" => $e]);
+        }
     }
 
 
