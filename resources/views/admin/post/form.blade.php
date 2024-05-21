@@ -1,6 +1,7 @@
 <div class="row padding-1 p-1">
     <div class="col-md-12">
         {{-- @dump($post) --}}
+        {{-- TODO SAVE OLD VALUE --}}
         <select id="select-type">
             <option value="activity" selected>Activitats</option>
             <option value="article">Articles</option>

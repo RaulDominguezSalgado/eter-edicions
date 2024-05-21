@@ -23,7 +23,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orderspag = Order::paginate();
+            $orderspag =Order::
+            //where('payment_method', '!=', 'pending')->
+            paginate();
         $orders = [];
         foreach ($orderspag as $order) {
             $orders[] = $this->getFullOrder($order);

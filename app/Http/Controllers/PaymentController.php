@@ -25,6 +25,7 @@ class PaymentController extends Controller
 
         switch ($request->payment_method) {
             case "paypal":
+                $order= $this->saveStatusOrder($request->orderId, -1,"paypal");
                 $provider = new PayPalClient();
                 $provider->setApiCredentials(config('paypal'));
                 $paypalToken = $provider->getAccessToken();
@@ -56,13 +57,14 @@ class PaymentController extends Controller
                         }
                     }
                 } else {
-                    return redirect()->route('paypal.cancel');
+                    return redirect()->route('payment.cancel');
                 }
                 break;
             case "wire":
-                $order = Order::where("reference", 'LIKE', $request->orderId)->first();
-                $order->payment_method = "wire";
-                $order->save();
+                // $order = Order::where("reference", 'LIKE', $request->orderId)->first();
+                // $order->payment_method = "wire";
+                // $order->save();
+                $order= $this->saveStatusOrder($request->orderId, 2,"wire");
                 //
                 $this->generateOrderPdf($order);
                 Mail::to($order->email)->send(new OrderCompleted($order));
@@ -127,29 +129,21 @@ class PaymentController extends Controller
         $response = $provider->capturePaymentOrder($request->token);
 
         if (isset($response['status']) && $response['status'] == "COMPLETED") {
-            $order = Order::where("reference", 'LIKE', $request->orderId)->first();
-            $order->status_id = 2;
-            $order->payment_method = "paypal";
-            $order->save();
-
-            $orderStatusHistory = new OrderStatusHistory();
-            $orderStatusHistory->order_id = $order->id;
-            $orderStatusHistory->status_id = $order->status_id;
-            $orderStatusHistory->save();
-            //
+            $order = $this->saveStatusOrder($request->orderId, 3);
             $this->generateOrderPdf($order);
             Mail::to($order->email)->send(new OrderCompleted($order));
             Cart::instance("default")->destroy();
             //dd( $order->details->first()->book->title);
             return view('public.purchaseCompleted', compact('order'));
         } else {
-            return redirect()->route('paypal.cancel', ['orderId' => $request->orderId]);
+            return redirect()->route('payment.cancel', ['orderId' => $request->orderId]);
         }
         // dd($response);
     }
 
     function cancel(Request $request)
     {
+        $this->saveStatusOrder($request->orderId, 5);
         return redirect()->route('checkout.payment_method', ['orderId' => $request->orderId])->with('error', 'Error en la compra');
     }
 
@@ -181,5 +175,25 @@ class PaymentController extends Controller
         return $pdfFilePath;
         // Descargar el PDF
         //return $pdf->stream('order.pdf');
+    }
+
+    private function saveStatusOrder($reference, $statusId = -1, $paymentMethod = null)
+    {
+        $order = Order::where("reference", 'LIKE', $reference)->first();
+
+        if ($paymentMethod != null) {
+            $order->payment_method = $paymentMethod;
+        }
+        if ($statusId != -1) {
+            $order->status_id = $statusId;
+            $orderStatusHistory = new OrderStatusHistory();
+            $orderStatusHistory->order_id = $order->id;
+            $orderStatusHistory->status_id = $order->status_id;
+            $orderStatusHistory->save();
+        }
+        $order->save();
+
+
+        return $order;
     }
 }
