@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
                 // (?=.*[A-Z]) indica que debe haber al menos una letra mayúscula
                 // (?=.*[^\w]) indica que debe haber al menos un carácter especial (no alfanumérico)
                 // {8,} indica que el campo debe tener al menos 8 caracteres
-                'phone' => 'required|digits:9', //digits:9 onliga que sea numero y logitud 9
+                'phone' => 'nullable|digits:9', //digits:9 onliga que sea numero y logitud 9
                 'role_id' => 'required',
             ];
         } else {
@@ -40,7 +40,7 @@ class UserRequest extends FormRequest
                 'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
                 'email' => 'required|email',
                 'password' => 'nullable|regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/',
-                'phone' => 'required|digits:9',
+                'phone' => 'nullable|digits:9',
                 'role_id' => 'required',
             ];
         }
