@@ -154,6 +154,7 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
         Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
         Route::post('collaborators', [App\Http\Controllers\CollaboratorController::class, "index"])->name("collaborators.index.post");
         Route::resource('collections', App\Http\Controllers\CollectionController::class);
+        Route::post('collections', [App\Http\Controllers\CollectionController::class, "index"])->name("collections.index.post");
         Route::resource('users', App\Http\Controllers\UserController::class);
         Route::resource('authors', App\Http\Controllers\AuthorController::class);
         Route::resource('translators', App\Http\Controllers\TranslatorController::class);
