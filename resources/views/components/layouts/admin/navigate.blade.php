@@ -21,7 +21,7 @@ $locale = 'ca';
             </button>
         </div>
         <a href="{{ route("home.{$locale}") }}"
-            class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light text-dark no-underline logo"><img
+            class="py-2.5 px-5 md:hover:bg-light md:focus:bg-light md:active:bg-light text-dark no-underline logo"><img
                 src="/img/logo/lg/logo_eter_black.webp">
         </a>
     </div>
