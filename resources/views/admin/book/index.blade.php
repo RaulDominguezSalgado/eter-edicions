@@ -100,6 +100,8 @@
                                                     {{-- <a class="btn btn-sm btn-primary "
                                                         href="{{ route('libro', $book['slug']) }}" target="_blank"><i
                                                             class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a> --}}
+                                                            <a class="btn btn-sm btn-primary " href="{{ route('books.show',$book['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Vista previa') }}</a>
+
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('books.edit', $book['id']) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>

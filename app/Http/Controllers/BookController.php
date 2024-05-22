@@ -204,12 +204,55 @@ class BookController extends Controller
     public function show($id)
     {
         try {
-            $book = $this->getData()[0];
-            if (request()->is('admin*')) {
-                return redirect()->route('books.edit', $book->id);
-            } else {
-                return view('book.show', compact('book'));
+            $locale = "ca";
+
+            // dump(Route::currentRouteName());
+            // dump($locale);
+            // dd(Route::currentRouteName() != "home.{$locale}");
+
+
+            $book_lv = Book::find($id);
+
+            // dd($book_lv);
+
+            $book = $this->getFullBook($book_lv, $locale);
+
+            // dd($book);
+
+            $authors = [];
+            foreach ($book_lv->authors()->get() as $author) {
+                $collaboratorController = new CollaboratorController();
+                $collaborator = $collaboratorController->getFullCollaborator($author->id, $locale);
+
+                $authors[] = $collaborator;
             }
+
+            $translators = [];
+            foreach ($book_lv->translators()->get() as $translator) {
+                $collaboratorController = new CollaboratorController();
+                $collaborator = $collaboratorController->getFullCollaborator($translator->id, $locale);
+
+                $translators[] = $collaborator;
+            }
+
+
+            //RELATED BOOKS
+            $related_books = $this->getRelatedBooks($book_lv, $locale);
+
+
+            $page = [
+                'title' => $book_lv->title,
+                'shortDescription' => '',
+                'longDescription' => $book_lv->meta_description,
+                'web' => 'Èter Edicions'
+            ];
+
+            // dd($book);
+            // dd($authors);
+            // dd($translators);
+            // dd($related_books);
+
+            return view('admin.book.show', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
         } catch (Exception $e) {
             abort(500, 'Server Error');
         }
