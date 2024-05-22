@@ -344,7 +344,9 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
     //Admin routes
     Route::middleware(['auth.admin'])->group(function(){
         Route::resource('books', App\Http\Controllers\BookController::class);
+        Route::post('books', [App\Http\Controllers\BookController::class, "index"])->name("books.index.post");
         Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
+        Route::post('collaborators', [App\Http\Controllers\CollaboratorController::class, "index"])->name("collaborators.index.post");
         Route::resource('collections', App\Http\Controllers\CollectionController::class);
         Route::resource('users', App\Http\Controllers\UserController::class);
         Route::resource('authors', App\Http\Controllers\AuthorController::class);
@@ -352,6 +354,7 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
         Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
 
         Route::resource('orders', App\Http\Controllers\OrderController::class);
+        Route::post('orders', [App\Http\Controllers\OrderController::class, "index"])->name("orders.index.post");
         Route::resource('ilustrators', App\Http\Controllers\IllustratorController::class);
         Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
         Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
