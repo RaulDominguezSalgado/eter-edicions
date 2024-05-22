@@ -56,22 +56,27 @@ $locale = app()->getLocale() ?: 'ca';
                 alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}">
         </a>
         <ul class="nav-links">
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("home_default.{$locale}") }}"
-                    @if (Route::currentRouteName() == "home_default.{$locale}" || Route::currentRouteName() == "home.{$locale}") class="active" @endif>{{ __('nav.home') }}</a></li>
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("catalog.{$locale}") }}"
-                    @if (Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>{{ __('nav.catalog') }}</a></li>
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("collaborators.{$locale}") }}"
-                    @if (Route::currentRouteName() == "collaborators.{$locale}") class="active" @endif>{{ __('nav.authors') }}</a></li>
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("agency.{$locale}") }}"
-                    @if (Route::currentRouteName() == "agency.{$locale}") class="active" @endif>{{ __('nav.agency') }}</a></li>
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent"
-                    href="{{ route("bookstores.{$locale}") }}">{{ __('general.bookstores') }}</a></li>
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("activities.{$locale}") }}"
-                    @if (Route::currentRouteName() == "activities.{$locale}") class="active" @endif>{{ __('nav.activities') }}</a></li>
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("posts.{$locale}") }}"
-                    @if (Route::currentRouteName() == "posts.{$locale}") class="active" @endif>{{ __('nav.posts') }}</a></li>
-            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("about.{$locale}") }}"
-                    @if (Route::currentRouteName() == "about.{$locale}") class="active" @endif>{{ __('nav.about') }}</a></li>
+            <li class="min-h-14 flex items-center"><a
+                    class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent @if (Route::currentRouteName() == "home_default.{$locale}" || Route::currentRouteName() == "home.{$locale}") active" @endif"
+                    href="{{ route("home_default.{$locale}") }}">{{ __('nav.home') }}</a></li>
+            <li class="min-h-14 flex items-center"><a
+                    class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent @if (Route::currentRouteName() == "catalog.{$locale}") active @endif"
+                    href="{{ route("catalog.{$locale}") }}">{{ __('nav.catalog') }}</a></li>
+            <li class="min-h-14 flex items-center"><a
+                    class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent @if (Route::currentRouteName() == "collaborators.{$locale}") active @endif"
+                    href="{{ route("collaborators.{$locale}") }}">{{ __('nav.authors') }}</a></li>
+            <li class="min-h-14 flex items-center"><a
+                    class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent @if (Route::currentRouteName() == "agency.{$locale}") active @endif"
+                    href="{{ route("agency.{$locale}") }}">{{ __('nav.agency') }}</a></li>
+            <li class="min-h-14 flex items-center"><a
+                    class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent @if (Route::currentRouteName() == "activities.{$locale}") active @endif"
+                    href="{{ route("activities.{$locale}") }}">{{ __('nav.activities') }}</a></li>
+            <li class="min-h-14 flex items-center"><a
+                    class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent @if (Route::currentRouteName() == "posts.{$locale}") active @endif"
+                    href="{{ route("posts.{$locale}") }}">{{ __('nav.posts') }}</a></li>
+            <li class="min-h-14 flex items-center"><a
+                    class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent @if (Route::currentRouteName() == "about.{$locale}") active @endif"
+                    href="{{ route("about.{$locale}") }}">{{ __('nav.about') }}</a></li>
         </ul>
         <div>
             <x-partials.searchBar></x-partials.searchBar>
@@ -85,7 +90,8 @@ $locale = app()->getLocale() ?: 'ca';
     <nav class="flex justify-between px-6 pt-3 ">
         <a href="{{ route("home.{$locale}") }}" class="logo">
             <img src="{{ asset('img/logo/sm/' . $generalInfo['logo_black']) }}"
-                alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}" style="width: 3em">
+                alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}"
+                style="width: 3em">
         </a>
         <ul class="flex items-center space-x-4">
             <li class="flex relative">
