@@ -4,22 +4,18 @@
         Login || Èter Edicions
     </x-slot>
 
-    <form action="{{ route('login')}}" method="POST" class="space-y-4">
+    <form action="{{ route('login')}}" method="POST" class="space-y-4 validate">
         @csrf
         <div id="emailInputDiv" class="flex flex-col space-y-0.5">
             <label for="email">Email</label>
-            <input type="email" class="form-control" @error('email') is-invalid @enderror name="email" value="{{old('email')}}">
-            @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+            <input type="email" class="form-control field email required" @error('email') is-invalid @enderror name="email" value="{{old('email')}}">
+            <div class="invalid-feedback text-systemerror">@error('email'){{ $message }}@enderror</div>
         </div>
 
         <div id="passwordInputDiv" class="flex flex-col space-y-0.5">
             <label for="password">Contrasenya</label>
-            <input type="password" class="form-control" @error('password') is-invalid @enderror name="password" value="{{old('password')}}">
-            @error('password')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+            <input type="password" class="form-control field required" @error('password') is-invalid @enderror name="password" value="{{old('password')}}">
+            <div class="invalid-feedback text-systemerror">@error('password'){{ $message }}@enderror</div>
         </div>
 
         <div id="extraOptionsDiv">
@@ -42,5 +38,5 @@
             </small> --}}
         </div>
     </form>
-
+    <script src="js/front/validations.js"></script>
 </x-layouts.auth.app>

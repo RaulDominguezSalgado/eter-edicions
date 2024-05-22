@@ -11,11 +11,16 @@
     <link rel="stylesheet" href="/css/front/nav.css">
     <link rel="stylesheet" href="/css/front/footer.css">
     <script src="js/front/validations.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key={{env("PLACES_API_KEY", "default")}}&libraries=places&callback=initMap"></script> {{-- Google Places API --}}
     <title>{{ $title ?? 'Èter Edicions' }}</title>
-
 </head>
 <body>
+    <?php
+        $recaptcha = config("services.recaptcha");
+    ?>
+    <input type="hidden" id="recaptcha_site_key" value="{{ $recaptcha["site_key"] }}">
+    <input type="hidden" id="recaptcha_secret_key" value="{{ $recaptcha["secret_key"] }}">
     <x-layouts.navigate/>
     <main class="p-5 md:p-5 lg:p-10">
         {{$slot}}
