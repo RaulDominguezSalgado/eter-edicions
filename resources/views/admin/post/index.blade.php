@@ -71,13 +71,13 @@
 
                                             <td>
                                                 <form action="{{ route('posts.destroy',$post['id']) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('posts.show',$post['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('posts.edit',$post['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('posts.show',$post['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Vista prèvia') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('posts.edit',$post['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="btn btn-danger btn-sm"
                                                     onclick="document.getElementById('confirmDelete-{{ $post['id'] }}').classList.remove('hidden');">
-                                                    <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                    <i class="fa fa-fw fa-trash"></i> {{ __('Esborrar') }}
                                                     </button>
                                                 </form>
                                             </td>

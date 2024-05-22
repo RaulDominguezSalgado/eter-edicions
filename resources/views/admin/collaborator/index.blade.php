@@ -113,10 +113,10 @@
                                         @endforeach
                                         </td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary" href="{{ route('collaborators.show', $collaborator['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                            <a class="btn btn-sm btn-success" href="{{ route('collaborators.edit', $collaborator['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                            <a class="btn btn-sm btn-primary" href="{{ route('collaborators.show', $collaborator['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Vista prèvia') }}</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('collaborators.edit', $collaborator['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                             <button type="button" class="btn btn-danger btn-sm" onclick="document.getElementById('confirmDelete-{{ $collaborator['id'] }}').classList.remove('hidden');">
-                                                <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                <i class="fa fa-fw fa-trash"></i> {{ __('Esborrar') }}
                                             </button>
                                         </td>
                                     </tr>

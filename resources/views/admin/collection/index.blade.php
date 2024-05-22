@@ -58,12 +58,12 @@
                                                     method="POST">
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('collections.edit', $collection['id']) }}"><i
-                                                            class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                            class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="btn btn-danger btn-sm"
                                                         onclick="document.getElementById('confirmDelete-{{ $collection['id'] }}').classList.remove('hidden');">
-                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Esborrar') }}
                                                     </button>
                                                 </form>
                                             </td>
