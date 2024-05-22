@@ -13,11 +13,15 @@ use App\Models\CollaboratorTranslation;
 use App\Services\Translation\OrthographicRules;
 
 use Carbon\Carbon;
+use Exception;
 use PHPUnit\Metadata\Uses;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
+
+use Illuminate\Http\Exceptions\PostTooLargeException;
 
 /**
  * Class PostController
@@ -119,67 +123,75 @@ class PostController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validated();
+        try{
+            if ($request->hasFile('image')) {
+                // Obtener el archivo de imagen
+                $imagen = $request->file('image');
+                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['title']);
 
-        if ($request->hasFile('image')) {
-            // Obtener el archivo de imagen
-            $imagen = $request->file('image');
-            $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['title']);
+                $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
-            $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+                // Procesar y guardar la imagen
+                //$rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
+                //$imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
+                //$this->editImage($rutaImagen);
 
-            // Procesar y guardar la imagen
-            //$rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
-            //$imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
-            //$this->editImage($rutaImagen);
+                // // Procesar y guardar la imagen
+                $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+                // $this->editImage($nombreImagenOriginal, "collaborator");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "post");
 
-            // // Procesar y guardar la imagen
-            $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-            // $this->editImage($nombreImagenOriginal, "collaborator");
-            ImageHelperEditor::editImage($nombreImagenOriginal, "post");
+                $validatedData['image'] = $nombreImagenOriginal;
+            }
 
-            $validatedData['image'] = $nombreImagenOriginal;
+            // Set default values for date and time if not provided
+            $date = $validatedData['date'] ?? null;
+            $time = $validatedData['time'] ?? null;
+            // Combine date and time
+            if ($date && $time) {
+                $datetime = $date ? Carbon::parse("$date $time") : null;
+            } else {
+                $datetime = null;
+            }
+
+            //dd(Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']));
+            //$date = Carbon::createFromFormat('Y-m-d', $validatedData['date']);
+            //$date = Carbon::parse($validatedData['date']);
+            //$time = Carbon::createFromFormat('H:i', $validatedData['time']);
+            // $time = Carbon::parse($validatedData['time']);
+            // $datetime = $date->hour($time->hour)->minute($time->minute);
+            $translationData = [
+                'title' => $validatedData['title'],
+                'description' => $validatedData['description'],
+                //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
+                'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : null,
+                'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
+                'content' => $validatedData['content'],
+                //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
+                'date' => $datetime, // . ":00",
+                'location' => $validatedData['location'],
+                'image' => $validatedData['image'],
+                'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
+                'publication_date' => $validatedData['publication_date'],
+                'published_by' => $validatedData['published_by']
+            ];
+            //if $validatedData['author'], $translationData[] = ['author_id' => $validatedData['author_id']]
+            //if $validatedData['translator'], $translationData[] = ['translator_id' => $validatedData['translator_id']]
+
+            Post::create($translationData);
+
+            return redirect()->route('posts.index')
+                ->with('success', 'Post created successfully.');
+        }catch (PostTooLargeException $e) {
+            // Handle the exception
+            return redirect()->back()->withErrors(['file' => 'The file is too large. Please upload a file smaller than 32MB.']);
+        }catch(Exception $e){
+            return redirect()->back()
+                ->with('error', $e->getMessage());
         }
 
-        // Set default values for date and time if not provided
-        $date = $validatedData['date'] ?? null;
-        $time = $validatedData['time'] ?? null;
-        // Combine date and time
-        if ($date && $time) {
-            $datetime = $date ? Carbon::parse("$date $time") : null;
-        } else {
-            $datetime = null;
-        }
-
-        //dd(Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']));
-        //$date = Carbon::createFromFormat('Y-m-d', $validatedData['date']);
-        //$date = Carbon::parse($validatedData['date']);
-        //$time = Carbon::createFromFormat('H:i', $validatedData['time']);
-        // $time = Carbon::parse($validatedData['time']);
-        // $datetime = $date->hour($time->hour)->minute($time->minute);
-        $translationData = [
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description'],
-            //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
-            'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : null,
-            'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
-            'content' => $validatedData['content'],
-            //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
-            'date' => $datetime, // . ":00",
-            'location' => $validatedData['location'],
-            'image' => $validatedData['image'],
-            'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-            'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-            'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
-            'publication_date' => $validatedData['publication_date'],
-            'published_by' => $validatedData['published_by']
-        ];
-        //if $validatedData['author'], $translationData[] = ['author_id' => $validatedData['author_id']]
-        //if $validatedData['translator'], $translationData[] = ['translator_id' => $validatedData['translator_id']]
-
-        Post::create($translationData);
-
-        return redirect()->route('posts.index')
-            ->with('success', 'Post created successfully.');
     }
 
 

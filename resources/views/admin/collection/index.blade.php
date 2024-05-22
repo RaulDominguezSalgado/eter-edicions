@@ -68,7 +68,7 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $collection['id'], 'message' => '¿Estás seguro de que deseas eliminar esta colección? Esta acción no se puede deshacer.', 'action' => route('collections.destroy', $collection['id'])])
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $collection['id'], 'message' =>  __('Segur que voleu suprimir aquest recurs?'), 'action' => route('collections.destroy', $collection['id'])])
 
                                     @endforeach
                                 </tbody>

@@ -122,7 +122,7 @@
                                     </tr>
 
                                   {{-- Modal de confirmació --}}
-                                  @include('components.layouts.admin.delete-confirmation-modal', ['id' => $collaborator['id'], 'message' => '¿Estás seguro de que deseas eliminar este colaborador? Esta acción no se puede deshacer.', 'action' => route('collaborators.destroy', $collaborator['id'])])
+                                  @include('components.layouts.admin.delete-confirmation-modal', ['id' => $collaborator['id'], 'message' => __('Segur que voleu suprimir aquest recurs?') 'action' => route('collaborators.destroy', $collaborator['id'])])
 
                                     {{-- <div id="confirmDelete-{{ $collaborator['id'] }}" class="fixed z-10 inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75">
                                         <div class="flex items-center justify-center min-h-screen">

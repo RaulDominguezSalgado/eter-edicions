@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Actions\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostRequest extends FormRequest
@@ -23,37 +24,37 @@ class PostRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'title' => 'required|string',
-                'description' => 'nullable|string',
-                'author_id' => 'nullable',
-                'translator_id' => 'nullable',
-                'content' => 'required|string',
-                'date' => 'nullable|date_format:Y-m-d', 
+                'title' => ['required'],
+                'description' => ['nullable',Validator::$validations["description"]],
+                'author_id' => ['nullable'],
+                'translator_id' => ['nullable'],
+                'content' => ['required'],
+                'date' => ['nullable',Validator::$validations["date"]],
                 'time' => 'nullable|date_format:H:i', //buscar regex format 00:00:00, 00 son números de 2 dígitos
-                'location' => 'nullable',
-                'image' => 'required',
-                'publication_date' => 'required',
-                'published_by' => 'required',
-                'slug' => 'nullable|string',
-                'meta_title' => 'nullable|string',
-                'meta_description' => 'nullable|string'
+                'location' => ['nullable'],
+                'image' => ['required',Validator::$validations["image"]],
+                'publication_date' => ['required'],
+                'published_by' => ['required'],
+                'slug' => ['nullable',Validator::$validations["string"]],
+                'meta_title' => ['nullable',Validator::$validations["string"]],
+                'meta_description' => ['nullable',Validator::$validations["string"]]
             ];
         } else {
             return [
-                'title' => 'required|string',
-                'description' => 'nullable|string',
-                'author_id' => 'nullable',
-                'translator_id' => 'nullable',
-                'content' => 'required|string',
-                'date' => 'nullable',
+                'title' => ['required'],
+                'description' => ['nullable',Validator::$validations["description"]],
+                'author_id' => ['nullable'],
+                'translator_id' => ['nullable'],
+                'content' => ['required'],
+                'date' => ['nullable',Validator::$validations["date"]],
                 'time' => 'nullable', //buscar regex format 00:00:00, 00 son números de 2 dígitos
-                'location' => 'nullable',
+                'location' => ['nullable'],
                 'image' => '',
-                'publication_date' => 'required',
-                'published_by' => 'required',
-                'slug' => 'nullable|string',
-                'meta_title' => 'nullable|string',
-                'meta_description' => 'nullable|string'
+                'publication_date' => ['required'],
+                'published_by' => ['required'],
+                'slug' => ['nullable',Validator::$validations["string"]],
+                'meta_title' => ['nullable',Validator::$validations["string"]],
+                'meta_description' => ['nullable',Validator::$validations["string"]]
             ];
         }
     }

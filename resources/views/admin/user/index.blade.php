@@ -55,11 +55,15 @@
                                                     <a class="btn btn-sm btn-success" href="{{ route('users.edit',$user['id']) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="document.getElementById('confirmDelete-{{ $user['id'] }}').classList.remove('hidden');">
+                                                    <i class="fa fa-fw fa-trash">
+                                                        </i> {{ __('Delete') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $user['id'], 'message' =>  __('Segur que voleu suprimir aquest recurs?'), 'action' => route('users.destroy', $user['id'])])
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>
