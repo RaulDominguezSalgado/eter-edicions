@@ -359,3 +359,30 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function (){
     });
     })->middleware(['auth', 'verified']);
 });
+
+//Route::get('{slug}');
+
+Route::post('/cart/less/{item}', [App\Http\Controllers\ShoppingCartController::class, 'less'])->name('cart.less');
+Route::post('/cart/add/{item}', [App\Http\Controllers\ShoppingCartController::class, 'add'])->name('cart.add');
+Route::post('/cart/add', [App\Http\Controllers\ShoppingCartController::class, 'addProduct'])->name('cart.insert');
+Route::get('/cart', [App\Http\Controllers\ShoppingCartController::class, 'viewCart'])->name('cart.view');
+Route::get('/cart/checkout', [App\Http\Controllers\ShoppingCartController::class, 'viewCheckout'])->name('cart.view_checkout');
+Route::delete('/cart/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy'])->name('cart.remove');
+Route::post('/cart/delete/{item}', [App\Http\Controllers\ShoppingCartController::class, 'destroy']);
+Route::post('/cart/update-front', [App\Http\Controllers\ShoppingCartController::class, 'getCartView']);
+Route::get('/cart/items-count', [App\Http\Controllers\ShoppingCartController::class, 'getCartTotalItems']);
+
+Route::get('cart/payment', function () {
+    return redirect(route('cart.view'));
+});
+Route::post('cart/payment',[App\Http\Controllers\PaymentController::class, 'payment'])->name('payment');
+Route::get('cart/payment/succes',[App\Http\Controllers\PaymentController::class, 'success'])->name('payment.success');
+Route::get('cart/payment/cancel',[App\Http\Controllers\PaymentController::class, 'cancel'])->name('payment.cancel');
+
+// Checkout absolute routes
+// Route::post("/checkout/change-step/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
+Route::post("/checkout", [\App\Http\Controllers\CheckoutController::class, 'toPayment'])->name("checkout.toPayment");
+// Route::get("/checkout/{orderId}", [\App\Http\Controllers\CheckoutController::class, 'showPaymentMethodView'])->name("checkout.payment_method");
+
+
+Route::get('/orders/{orderId}/pdf',[App\Http\Controllers\PaymentController::class, 'generateOrderPdf'])->name('orders.pdf');
