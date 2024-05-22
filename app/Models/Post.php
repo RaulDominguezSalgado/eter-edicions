@@ -47,7 +47,6 @@ class Post extends Model
         'image',
         'content',
         'publication_date',
-        'published_by',
         'slug',
         'meta_title',
         'meta_description'

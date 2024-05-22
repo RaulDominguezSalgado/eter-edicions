@@ -6,6 +6,7 @@ use App\Http\Actions\ImageHelperEditor;
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Models\Author;
+use App\Models\Collaborator;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
@@ -53,6 +54,11 @@ class PostController extends Controller
                         break;
                         case "publication_date-max":
                             $posts->where("publication_date", '<=', date($filtro));
+                        break;
+                        case "published_by":
+                            $posts->whereHas('user', function($query) use ($filtro) {
+                                $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
                         break;
                         default:
                             if ($key != "search") {

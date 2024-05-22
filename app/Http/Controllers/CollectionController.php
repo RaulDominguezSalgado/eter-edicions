@@ -26,7 +26,7 @@ class CollectionController extends Controller
 
         $data = $request->validate([
             "name" => "",
-            "descripction" => "",
+            "description" => "",
             "search" => "",
         ]);
         if (isset($data["search"]["search"])) {
