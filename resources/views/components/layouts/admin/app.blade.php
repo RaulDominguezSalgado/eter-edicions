@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/admin/nav.css">
     <link rel="stylesheet" href="/css/admin/userSelect.css">
     <link rel="stylesheet" href="/css/admin/table.css">
+    <script src="js/front/validations.js"></script>
     <script src="/js/admin/userSelect.js"></script>
     <script src="/js/admin/nav.js"></script>
     {{-- <script src="/js/form/post_dates.js"></script> --}}

@@ -49,45 +49,37 @@
                     </span>
                 </div>
             @endif
-            <form action="{{ route("contact.send.{$locale}") }}" method="POST" class="w-full flex flex-col items-center space-y-4">
+            <form action="{{ route("contact.send.{$locale}") }}" method="POST" class="w-full flex flex-col items-center space-y-4 validate">
                 @csrf
                 <div class="w-full flex justify-between space-x-4">
                     <div class="flex flex-col space-y-2 grow">
                         <label for="form-name">{{$page['contents']['form-name']}}</label>
-                        <input type="text" name="name" id="form-name">
-                        @error('name')
-                            <small class="text-systemerror">{{ $message }}</small>
-                        @enderror
+                        <input class="field required" type="text" name="name" id="form-name" class="field required">
+                        <small class="text-systemerror">@error('name'){{ $message }}@enderror</small>
                     </div>
                     <div class="flex flex-col space-y-2 grow">
                         <label for="form-email">{{$page['contents']['form-email']}}</label>
-                        <input type="text" name="email" id="form-email">
-                        @error('email')
-                            <small class="text-systemerror">{{ $message }}</small>
-                        @enderror
+                        <input class="field required email" type="text" name="email" id="form-email">
+                        <small class="text-systemerror">@error('email'){{ $message }}@enderror</small>
                     </div>
                 </div>
                 <div class="w-full flex flex-col space-y-2 ">
                     <label for="form-subject">{{$page['contents']['form-subject']}}</label>
-                    <select name="subject" id="form-subject">
+                    <select class="field required" name="subject" id="form-subject">
                         <option value="" selected disabled>Seleccioni un asumpte</option>
                         @foreach (json_decode($page['contents']['form-subjects']) as $subject)
                             {{-- <p></p> --}}
                             <option value={{$subject}}>{{$subject}}</option>
                         @endforeach
                     </select>
-                    @error('subject')
-                        <small class="text-systemerror">{{ $message }}</small>
-                    @enderror
+                    <small class="text-systemerror">@error('subject'){{ $message }}@enderror</small>
                 </div>
                 <div class="w-full flex flex-col space-y-2 ">
                     <label for="form-message">{{$page['contents']['form-message']}}</label>
-                    <textarea name="message" cols="30" rows="8" id="form-message"></textarea>
-                    @error('message')
-                        <small class="text-systemerror">{{ $message }}</small>
-                    @enderror
+                    <textarea class="field required" name="message" cols="30" rows="8" id="form-message"></textarea>
+                    <small class="text-systemerror">@error('message'){{ $message }}@enderror</small>
                 </div>
-                <button type="submit" class="px-6 py-3 border border-black bg-black text-white hover:bg-white hover:text-black disabled:bg-slate-500 disabled:hover:text-white">{{$page['contents']['send-button']}}</button>
+                <button disabled type="submit" class="px-6 py-3 border border-black bg-black text-white hover:bg-white hover:text-black disabled:bg-slate-500 disabled:hover:text-white">{{$page['contents']['send-button']}}</button>
             </form>
         </div>
     </main>
