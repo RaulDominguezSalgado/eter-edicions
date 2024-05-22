@@ -29,7 +29,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        <th>Llenguatge</th>
+                                        {{-- <th>Llenguatge</th> --}}
                                         <th>Nom</th>
                                         <th>Descripció</th>
 
@@ -49,7 +49,7 @@
                                     @foreach ($collectionsArray as $collection)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $collection['lang'] }}</td>
+                                            {{-- <td>{{ $collection['lang'] }}</td> --}}
                                             <td>{{ $collection['name'] }}</td>
                                             <td>{{ $collection['description'] }}</td>
 

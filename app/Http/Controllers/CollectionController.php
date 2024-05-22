@@ -27,12 +27,15 @@ class CollectionController extends Controller
         $collectionsArray = [];
         foreach ($collections as $collection) {
             foreach ($collection->translations as $collectionTranslation) {
-                $collectionsArray[] = [
+                if($collectionTranslation->lang == "ca"){
+                    $collectionsArray[] = [
                     'id' => $collectionTranslation->collection->id,
                     'lang' => $collectionTranslation->lang,
                     'name' => $collectionTranslation->name,
                     'description' => $collectionTranslation->description
                 ];
+                }
+
             }
         }
 
@@ -132,7 +135,7 @@ class CollectionController extends Controller
                 $translation = $collection->translations()->where('lang', $language)->first();
                 if ($translation) {
                     $translation->update([
-                        'lang' => $data['lang'],
+                        'lang' => $language,
                         'name' => $data['name'],
                         'description' => $data['description'],
                         'slug' => FormatDocument::slugify($data['name']),
