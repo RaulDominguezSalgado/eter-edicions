@@ -10,20 +10,20 @@
 
     <main class="mb-24 space-y-16">
 
-        <div class="flex flex-col items-center space-y-16">
+        <div class="flex flex-col items-center space-y-8 lg:space-y-16">
             <div class="flex flex-col items-center space-y-6">
                 <h2>{{__('general.catalog')}}</h2>
             </div>
 
-            <div class="w-full flex flex-wrap justify-center h-auto px-16" id="catalog">
+            <div class="w-full flex flex-wrap justify-center h-auto px-4" id="catalog">
                 @foreach ($books as $i => $book)
-                    <div class="book flex flex-col items-center mb-6 mr-10">
-                        <div class="cover mb-4 relative">
+                    <div class="book flex flex-col items-center mb-8 lg:mr-10">
+                        <div class="cover mb-4 relative h-[15em] lg:h-[19.7em]">
                             <a href="{{ route("book-detail.{$locale}", $book['slug']) }}">
                                 <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
-                                    alt="{{ $book['title'] }}" style="height: 19.7em">
+                                    alt="{{ $book['title'] }}">
                             </a>
-                            <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+                            <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[12em] lg:h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                 <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
                                     <p class="font-bold text-xl">{{$book['pvp']}}€</p>
                                     <form action="{{ route('cart.insert') }}" method="POST">
@@ -80,13 +80,13 @@
 
         </div>
 
-        <div class="flex flex-col items-center space-y-6" id="news">
+        <div class="flex flex-col items-center space-y-8" id="news">
             <div>
                 <h2>{{__('general.news')}}</h2>
             </div>
-            <div class="flex flex-wrap">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 @foreach ($posts as $i => $post)
-                    <div class="post h-full space-y-2">
+                    <div class="post h-full space-y-2 mb-8">
                         <div class="">
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div>

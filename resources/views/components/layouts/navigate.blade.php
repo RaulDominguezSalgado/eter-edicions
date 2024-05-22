@@ -6,7 +6,7 @@
 $locale = app()->getLocale() ?: 'ca';
 ?>
 <nav id="desktop-nav" class="hidden lg:block">
-    <nav class="flex justify-end px-4 pt-3">
+    <nav class="flex justify-end px-4 py-3 mb-2">
         <ul class="flex space-x-2">
             <li class="relative">
                 <div id="lang" class="">
@@ -52,25 +52,25 @@ $locale = app()->getLocale() ?: 'ca';
     </nav>
     <nav id="main-nav" class="mb-6 px-4">
         <a href="{{ route("home.{$locale}") }}" class="logo">
-            <img src="{{ asset('img/logo/lg/' . $generalInfo['logo_black']) }}"
-                alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}" style="width: 5em">
+            <img class="lg:w-12 xl:w-20" src="{{ asset('img/logo/lg/' . $generalInfo['logo_black']) }}"
+                alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}">
         </a>
         <ul class="nav-links">
-            <li class=""><a href="{{ route("home_default.{$locale}") }}"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("home_default.{$locale}") }}"
                     @if (Route::currentRouteName() == "home_default.{$locale}" || Route::currentRouteName() == "home.{$locale}") class="active" @endif>{{ __('nav.home') }}</a></li>
-            <li class=""><a href="{{ route("catalog.{$locale}") }}"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("catalog.{$locale}") }}"
                     @if (Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>{{ __('nav.catalog') }}</a></li>
-            <li class=""><a href="{{ route("collaborators.{$locale}") }}"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("collaborators.{$locale}") }}"
                     @if (Route::currentRouteName() == "collaborators.{$locale}") class="active" @endif>{{ __('nav.authors') }}</a></li>
-            <li class=""><a href="{{ route("agency.{$locale}") }}"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("agency.{$locale}") }}"
                     @if (Route::currentRouteName() == "agency.{$locale}") class="active" @endif>{{ __('nav.agency') }}</a></li>
-            <li><a class="text-dark lg:text-light"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent"
                     href="{{ route("bookstores.{$locale}") }}">{{ __('general.bookstores') }}</a></li>
-            <li class=""><a href="{{ route("activities.{$locale}") }}"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("activities.{$locale}") }}"
                     @if (Route::currentRouteName() == "activities.{$locale}") class="active" @endif>{{ __('nav.activities') }}</a></li>
-            <li class=""><a href="{{ route("posts.{$locale}") }}"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("posts.{$locale}") }}"
                     @if (Route::currentRouteName() == "posts.{$locale}") class="active" @endif>{{ __('nav.posts') }}</a></li>
-            <li class=""><a href="{{ route("about.{$locale}") }}"
+            <li class="min-h-14 flex items-center"><a class="lg:py-2 lg:px-4 xl:py-2.5 xl:px-5 text-md xl:text-lg border border-transparent" href="{{ route("about.{$locale}") }}"
                     @if (Route::currentRouteName() == "about.{$locale}") class="active" @endif>{{ __('nav.about') }}</a></li>
         </ul>
         <div>
@@ -149,26 +149,26 @@ $locale = app()->getLocale() ?: 'ca';
         <div id="sidebar" class="absolute z-10 bg-light">
             <div id="nav-options" class="flex flex-col space-y-4 bg-light mb-8">
                 <ul class="nav-links">
-                    <li class="py-1 pr-4"><a href="{{ route("home_default.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("home_default.{$locale}") }}"
                             @if (Route::currentRouteName() == "home_default.{$locale}" || Route::currentRouteName() == "home.{$locale}") class="active" @endif>{{ __('nav.home') }}</a></li>
-                    <li class="py-1 pr-4"><a href="{{ route("catalog.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("catalog.{$locale}") }}"
                             @if (Route::currentRouteName() == "catalog.{$locale}") class="active" @endif>{{ __('nav.catalog') }}</a></li>
-                    <li class="py-1 pr-4"><a href="{{ route("collaborators.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("collaborators.{$locale}") }}"
                             @if (Route::currentRouteName() == "collaborators.{$locale}") class="active" @endif>{{ __('nav.authors') }}</a></li>
-                    <li class="py-1 pr-4"><a href="{{ route("agency.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("agency.{$locale}") }}"
                             @if (Route::currentRouteName() == "agency.{$locale}") class="active" @endif>{{ __('nav.agency') }}</a></li>
-                    <li class="py-1 pr-4"><a href="{{ route("bookstores.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("bookstores.{$locale}") }}"
                             @if (Route::currentRouteName() == "bookstores.{$locale}") class="active" @endif>{{ __('general.bookstores') }}</a>
                     </li>
-                    <li class="py-1 pr-4"><a href="{{ route("activities.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("activities.{$locale}") }}"
                             @if (Route::currentRouteName() == "activities.{$locale}") class="active" @endif>{{ __('nav.activities') }}</a>
                     </li>
-                    <li class="py-1 pr-4"><a href="{{ route("foreign-rights.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("foreign-rights.{$locale}") }}"
                             @if (Route::currentRouteName() == "foreign-rights.{$locale}") class="active" @endif>{{ __('general.foreign-rights') }}</a>
                     </li>
-                    <li class="py-1 pr-4"><a href="{{ route("posts.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("posts.{$locale}") }}"
                             @if (Route::currentRouteName() == "posts.{$locale}") class="active" @endif>{{ __('nav.posts') }}</a></li>
-                    <li class="py-1 pr-4"><a href="{{ route("about.{$locale}") }}"
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("about.{$locale}") }}"
                             @if (Route::currentRouteName() == "about.{$locale}") class="active" @endif>{{ __('nav.about') }}</a></li>
                     <li class=""><a href="{{ route("contact.{$locale}") }}"
                             @if (Route::currentRouteName() == "contact.{$locale}") class="active" @endif>{{ __('general.contact') }}</a>
