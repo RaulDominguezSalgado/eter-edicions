@@ -42,6 +42,38 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr class="border-b-2 border-dark">
+                                        <form action="{{ route('bookstores.index.post') }}" method="POST">
+                                            @csrf
+                                            @method("POST")
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="name" id="name" placeholder="Nom" value="{{ $old["name"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="address" id="address" placeholder="Adreça" value="{{ $old["address"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="website" id="website" placeholder="Pàgina web" value="{{ $old["website"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="submit" value="Cerca" name="search[search]">
+                                                    <input type="submit" value="Restaura" name="search[clear]">
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     @foreach ($bookstores as $bookstore)
                                         <tr>
                                             <td>{{  $bookstore['id'] }}</td>

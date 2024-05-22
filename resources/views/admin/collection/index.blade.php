@@ -46,6 +46,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr class="border-b-2 border-dark">
+                                        <form action="{{ route('collections.index.post') }}" method="POST">
+                                            @csrf
+                                            @method("POST")
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="name" id="name" placeholder="Nom" value="{{ $old["name"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="description" id="description" placeholder="Descripció" value="{{ $old["description"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="submit" value="Cerca" name="search[search]">
+                                                    <input type="submit" value="Restaura" name="search[clear]">
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     @foreach ($collectionsArray as $collection)
                                         <tr>
                                             <td>{{ ++$i }}</td>

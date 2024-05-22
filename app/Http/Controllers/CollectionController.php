@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\CollectionTranslation;
+use App\Models\Language;
 use App\Http\Requests\CollectionRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 /**
  * Class CollectionController
@@ -18,24 +20,87 @@ class CollectionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $collections = Collection::paginate();
+        $locale = app()->getLocale() ?? 'ca';
 
-        $collectionsArray = [];
-        foreach ($collections as $collection) {
-            foreach ($collection->translations as $collectionTranslation) {
-                $collectionsArray[] = [
-                    'id' => $collectionTranslation->collection->id,
-                    'lang' => $collectionTranslation->lang,
-                    'name' => $collectionTranslation->name,
-                    'description' => $collectionTranslation->description
-                ];
+        $data = $request->validate([
+            "name" => "",
+            "descripction" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $collections = Collection::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "name":
+                        case "description":
+                            $collections->whereHas("translations", function($query) use ($key, $filtro) {
+                                $query->where($key, "like", "%{$filtro}%");
+                            });
+                            // $collections->where("lang", "like", "%{$filtro}%");
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $collections->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
             }
-        }
+            $collections = $collections->paginate();
+            $collectionsArray = [];
+            foreach ($collections as $collection) {
+                foreach (Language::all() as $language) {
+                    if ($language->iso == "ca" || $language->iso == "es") {
+                        $aux = $this->getFullcollection($collection->id, $language->iso);
+                        $collectionsArray[] = $aux;
+                    }
+                }
+            }
+            $old = $data;
+            $i = (request()->input('page', 1) - 1) * $collections->perPage();
 
-        return view('admin.collection.index', compact('collectionsArray', 'collections'))
-            ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
+            return view('admin.collection.index', compact('collectionsArray', 'old', 'collections', 'i'));
+        }
+        else if (isset($data["search"]["clear"])) {
+            $collections = Collection::paginate();
+
+            $collectionsArray = [];
+            foreach ($collections as $collection) {
+                foreach ($collection->translations as $collectionTranslation) {
+                    $collectionsArray[] = [
+                        'id' => $collectionTranslation->collection->id,
+                        'lang' => $collectionTranslation->lang,
+                        'name' => $collectionTranslation->name,
+                        'description' => $collectionTranslation->description
+                    ];
+                }
+            }
+
+            return view('admin.collection.index', compact('collectionsArray', 'collections'))
+                ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
+        }
+        else {
+            $collections = Collection::paginate();
+
+            $collectionsArray = [];
+            foreach ($collections as $collection) {
+                foreach ($collection->translations as $collectionTranslation) {
+                    $collectionsArray[] = [
+                        'id' => $collectionTranslation->collection->id,
+                        'lang' => $collectionTranslation->lang,
+                        'name' => $collectionTranslation->name,
+                        'description' => $collectionTranslation->description
+                    ];
+                }
+            }
+
+            return view('admin.collection.index', compact('collectionsArray', 'collections'))
+                ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
+        }
     }
 
     /**
