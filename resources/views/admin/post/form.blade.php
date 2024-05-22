@@ -1,11 +1,11 @@
 @if ($errors->any())
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
         <strong class="font-bold">No s'han pogut actualitzar les dades de la Activitat / Article.</strong>
-        {{-- <ul>
+        <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
-        </ul> --}}
+        </ul>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
             <svg class="fill-current h-6 w-6 text-red-500" role="button" {{--xmlns="http://www.w3.org/2000/svg"--}}
                 viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
@@ -15,13 +15,17 @@
         </span>
     </div>
 @endif
+
 <div class="row padding-1 p-1">
     <div class="col-md-12">
         {{-- @dump($post) --}}
         {{-- TODO SAVE OLD VALUE --}}
         <select name="select-type" id="select-type">
-            <option value="activity">Activitats</option>
-            <option value="article">Articles</option>
+
+            <option value="activity" {{ old('select-type') == 'activity' ? 'selected' : '' }}>Activitats</option>
+
+            <option value="article" {{ old('select-type') == 'article' ? 'selected' : '' }}>Articles</option>
+
         </select>
         {{-- Title --}}
         <div class="form-group mb-2 mb20">
@@ -43,6 +47,7 @@
                     </option>
                 @endforeach
             </select>
+            {!! $errors->first('author_id', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Translator --}}
         <div class="form-group mb-2 mb20" name="article">
@@ -58,6 +63,7 @@
                     </option>
                 @endforeach
             </select>
+            {!! $errors->first('translator_id', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Description --}}
         <div class="form-group mb-2 mb20" name="activity">

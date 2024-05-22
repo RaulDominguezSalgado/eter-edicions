@@ -160,23 +160,42 @@ class PostController extends Controller
             //$time = Carbon::createFromFormat('H:i', $validatedData['time']);
             // $time = Carbon::parse($validatedData['time']);
             // $datetime = $date->hour($time->hour)->minute($time->minute);
-            $translationData = [
-                'title' => $validatedData['title'],
-                'description' => $validatedData['description'],
-                //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
-                'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : null,
-                'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
-                'content' => $validatedData['content'],
-                //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
-                'date' => $datetime, // . ":00",
-                'location' => $validatedData['location'],
-                'image' => $validatedData['image'],
-                'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-                'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-                'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
-                'publication_date' => $validatedData['publication_date'],
-                'published_by' => $validatedData['published_by']
-            ];
+
+            //dd($request);
+            $type = $request->input('select-type');
+            if($type=="activity"){
+                $translationData = [
+                    'title' => $validatedData['title'],
+                    'description' => $validatedData['description'],
+                    //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
+                    'content' => $validatedData['content'],
+                    //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
+                    'date' => $datetime, // . ":00",
+                    'location' => $validatedData['location'],
+                    'image' => $validatedData['image'],
+                    'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
+                    'publication_date' => $validatedData['publication_date'],
+                    'published_by' => $validatedData['published_by']
+                ];
+            }else if($type=="article"){
+                $translationData = [
+                    'title' => $validatedData['title'],
+                    'description' => $validatedData['description'],
+                    //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
+                    'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : null,
+                    'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
+                    'content' => $validatedData['content'],
+                    //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
+                    'image' => $validatedData['image'],
+                    'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
+                    'publication_date' => $validatedData['publication_date'],
+                    'published_by' => $validatedData['published_by']
+                ];
+            }
             //if $validatedData['author'], $translationData[] = ['author_id' => $validatedData['author_id']]
             //if $validatedData['translator'], $translationData[] = ['translator_id' => $validatedData['translator_id']]
 

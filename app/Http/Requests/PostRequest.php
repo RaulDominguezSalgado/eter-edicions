@@ -71,21 +71,27 @@ class PostRequest extends FormRequest
             $type = $this->input('select-type');
             $data = $this->input("date");
             $time = $this->input("time");
-
+            $location = $this->input("location");
             $author = $this->input("author_id");
             $translator = $this->input("translator_id");
+            if ($type === "activity") {
 
-            if ($type === "activity" && $data == "" || $data == null) {
-                $validator->errors()->add('date', 'El Date es obligatorio');
-            }elseif ($type === "activity" && $time == "" || $time == null){
-                $validator->errors()->add('date', 'El Time es obligatorio');
-            }elseif ($type === "activity" && $time == "" || $time == null){
-                $validator->errors()->add('date', 'El Time es obligatorio');
-            }
-            elseif ($type === "article" && $author == "" || $author == null){
-                $validator->errors()->add('date', 'El Author es obligatorio');
-            }elseif ($type === "article" && $translator == "" || $translator == null){
-                $validator->errors()->add('date', 'El Translator es obligatorio');
+                if ($data == "" || $data == null) {
+                    $validator->errors()->add('date', 'La data es obligatoria');
+                }
+                if ( $time == "" || $time == null) {
+                    $validator->errors()->add('time', 'La hora es obligatoria');
+                }
+                if ( $location == "" || $location == null) {
+                    $validator->errors()->add('location', 'La ubicació es obligatoria');
+                }
+            } else if ($type === "article") {
+                if ($author == "" || $author == null) {
+                    $validator->errors()->add('author_id', 'El autor es obligatori');
+                }
+                if ($translator == "" || $translator == null) {
+                    $validator->errors()->add('translator_id', 'El traductor es obligatorio');
+                }
             }
         });
     }
