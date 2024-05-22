@@ -26,6 +26,7 @@ return [
     'search' => 'Cercar',
 
     'new-books' => 'Novetats',
+    'all-books' => 'Tots els llibres',
 
     'translators' => '{1}Traductor|[2,*]Traductors',
 

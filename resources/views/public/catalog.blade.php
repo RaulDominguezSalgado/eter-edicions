@@ -7,26 +7,27 @@
     <link rel="stylesheet" href="{{ asset('css/public/catalog.css') }}">
 
     <main class="body">
-        <div class="flex flex-col items-center space-y-14">
+        <div class="flex flex-col items-center space-y-8 lg:space-y-16">
             <div class="flex flex-col items-center space-y-6">
                 <h2>{{__('general.catalog')}}</h2>
 
-                {{-- <div class="mb-8">
-                    <ul class="flex space-x-4">
+                <div class="mb-8">
+                    <ul class="flex flex-wrap justify-center space-x-4">
+                            <li class="active">{{ __('general.all-books') }}</li>
                         @foreach ($collections as $i => $collection)
-                            <li><a><h5>{{ $collection['name'] }}</h5></a></li>
+                            <li>{{ $collection['name'] }}</li>
                         @endforeach
                     </ul>
-                </div> --}}
+                </div>
             </div>
 
-            <div class="w-full flex flex-wrap justify-center h-auto px-16" id="catalog">
+            <div class="w-full flex flex-wrap justify-center h-auto px-4" id="catalog">
                 @foreach ($books as $i => $book)
-                    <div class="book flex flex-col items-center mb-6 mr-10">
-                        <div class="cover mb-4 relative ">
+                    <div class="book flex flex-col items-center mb-8 lg:mr-10">
+                        <div class="cover mb-4 relative h-[15em] lg:h-[19.7em]">
                             <a href="{{ route("book-detail.{$locale}", $book['slug']) }}">
                                 <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
-                                    alt="{{ $book['title'] }}" style="height: 19.7em">
+                                    alt="{{ $book['title'] }}">
                             </a>
                             <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                 <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
