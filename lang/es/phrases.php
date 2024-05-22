@@ -10,5 +10,7 @@ return [
     'botó per' => 'botón para',
 
     "no s'ha trobat cap resultat" => "no se ha encontrado ningún resultado",
+
+    'pagina de cerca' => 'página de búsqueda',
 ];
 

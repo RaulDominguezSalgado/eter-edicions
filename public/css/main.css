@@ -143,3 +143,28 @@ input{
     border-width: 2px;
     border-color: red;
 }
+
+
+
+.searchBar {
+    position: relative;
+}
+
+.searchBar::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    bottom: 5px;
+    width: 25px;
+    background-image: url("/img/icons/dark/search.svg");
+    background-size: contain;
+    background-position: left;
+    background-repeat: no-repeat;
+}
+.searchBar input[name="search_term"] {
+    padding-left: 40px;
+    position: relative;
+    max-width: 200px;
+}
