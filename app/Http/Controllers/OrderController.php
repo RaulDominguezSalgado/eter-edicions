@@ -64,6 +64,7 @@ class OrderController extends Controller
             'payment_method' => $order->payment_method,
             'date' => $order->date,
             'status' => $order->status->name,
+            'status_color' => strtolower($order->status->color),
             'pdf' => $order->pdf,
             'tracking_id' => $order->tracking_id
         ];

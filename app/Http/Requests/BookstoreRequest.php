@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Actions\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookstoreRequest extends FormRequest
@@ -22,15 +23,15 @@ class BookstoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'name' => 'required|string',
-			'address' => 'required|string',
-			'website' => 'required|string',
-			'zip_code' => '',
-			'city' => 'required|string',
-			'province' => 'required|string',
-			'country' => '',
-			'email' => '',
-			'phone' => '',
+			'name' => ['required',Validator::$validations["name"]],
+			'address' =>['required',Validator::$validations["address"]],
+			'website' => ['required',Validator::$validations["url"]],
+			'zip_code' => ['nullable',Validator::$validations["zip_code"]],
+			'city' => ['required',Validator::$validations["name"]],
+			'province' => ['required',Validator::$validations["name"]],
+			'country' => ['nullable',Validator::$validations["name"]],
+			'email' => ['nullable',Validator::$validations["email"]],
+			'phone' => ['nullable',Validator::$validations["phone"]],
         ];
     }
 }

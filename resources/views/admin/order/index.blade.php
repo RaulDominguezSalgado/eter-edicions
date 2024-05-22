@@ -58,7 +58,7 @@
                                             <td>{{ $order['first_name'] . ' ' . $order['last_name'] }}</td>
                                             <td>{{ $order['total'] }}</td>
                                             <td>{{ $order['payment_method'] }}</td>
-                                            <td>{{ $order['status'] }}</td>
+                                            <td><div class="w-2/3 border p-2 rounded text-light" style="background-color: {{ $order['status_color'] }}">{{ $order['status'] }}</div></td> {{-- {{ $order['status_color'] }} --}}
                                             <td>{{ $order['date'] }}</td>
                                             <td>{{ $order['pdf'] }}</td>
                                             <td>

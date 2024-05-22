@@ -60,13 +60,20 @@
                                                     <p>{{ __('Historial d\'estats de la comanda') }}: </p>
 
                                                     <ul>
-                                                        @foreach($order->statusHistory as $status)
-                                                        @if ($loop->last)
-                                                            <li><strong>- {{ $status->status->name }}</strong></li>
-                                                        @else
-                                                            <li>- {{ $status->status->name }}</li>
-                                                        @endif
-                                                    @endforeach
+                                                        @foreach ($order->statusHistory as $status)
+                                                            @if (!$loop->last)
+                                                                <div class="w-fit border py-2 ps-2 pe-4 rounded text-light mb-3 opacity-60"
+                                                                    style="background-color: {{ $status->status->color }}">
+                                                                    <li>{{ $status->status->name }}</li>
+                                                                </div>
+                                                            @else
+                                                            <div class="w-fit border py-2 ps-2 pe-4 rounded text-light mb-3"
+                                                            style="background-color: {{ $status->status->color }}">
+                                                            <li><strong>{{ $status->status->name }}</strong>
+                                                            </li>
+                                                        </div>
+                                                            @endif
+                                                        @endforeach
                                                     </ul>
 
                                                     <p>{{ __('form.shipping-cost') }}: {{ $order->shipment_taxes }}€

@@ -16,9 +16,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
-                            <span id="card_title">
-                                {{ __('Llibrerias') }}
-                            </span>
+
+                                <h2>{{ __('Llibreries') }}</h2>
+
+                        
 
                             <div class="float-right">
 
@@ -69,13 +70,13 @@
                                                             class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                    <button type="button" class="btn btn-danger btn-sm"
                                                     onclick="document.getElementById('confirmDelete-{{ $bookstore['id'] }}').classList.remove('hidden');">
                                                         <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
-                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $bookstore['id'], 'message' => '¿Estás seguro de que deseas eliminar esta librería? Esta acción no se puede deshacer.', 'action' => route('bookstores.destroy', $bookstore['id'])])
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $bookstore['id'], 'message' => __('Segur que voleu suprimir aquest recurs?'), 'action' => route('bookstores.destroy', $bookstore['id'])])
                                     @endforeach
                                 </tbody>
                             </table>
