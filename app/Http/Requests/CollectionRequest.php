@@ -24,8 +24,8 @@ class CollectionRequest extends FormRequest
     {
         return [
             'lang'=>'',
-            'name' => ['required',Validator::$validations["name"]],
-            'description' =>['required',Validator::$validations["description"]],
+            'translations.*.name' => ['required',Validator::$validations["name"]],
+            'translations.*.description' =>['required',Validator::$validations["description"]],
         ];
     }
 }
