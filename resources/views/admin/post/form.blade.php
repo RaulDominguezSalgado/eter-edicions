@@ -1,9 +1,26 @@
+@if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">No s'han pogut actualitzar les dades de la Activitat / Article.</strong>
+        {{-- <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul> --}}
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-red-500" role="button" {{--xmlns="http://www.w3.org/2000/svg"--}}
+                viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                <title>Close</title>
+                <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+            </svg>
+        </span>
+    </div>
+@endif
 <div class="row padding-1 p-1">
     <div class="col-md-12">
         {{-- @dump($post) --}}
         {{-- TODO SAVE OLD VALUE --}}
-        <select id="select-type">
-            <option value="activity" selected>Activitats</option>
+        <select name="select-type" id="select-type">
+            <option value="activity">Activitats</option>
             <option value="article">Articles</option>
         </select>
         {{-- Title --}}
@@ -11,7 +28,7 @@
             <label for="title" class="form-label">{{ __('Títol') }}</label>
             <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
                 value="{{ old('title', $post['title']) }}" id="title" placeholder="Títol">
-            {!! $errors->first('title', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            {!! $errors->first('title', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Author --}}
         <div class="form-group mb-2 mb20" name="article">
@@ -47,14 +64,14 @@
             <label for="description" class="form-label">{{ __('Descripció') }}</label>
             <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
                 value="{{ old('description', $post['description']) }}" id="description" placeholder="Descripció">
-            {!! $errors->first('description', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            {!! $errors->first('description', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Date --}}
         <div class="form-group mb-2 mb20" name="activity">
             <label for="date" class="form-label">{{ __('Data') }}</label>
             <input type="date" step="1" name="date" class="form-control @error('date') is-invalid @enderror"
                 value="{{ old('date', $post['date']) }}" id="date" placeholder="Data">
-            {!! $errors->first('date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            {!! $errors->first('date', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
 
         </div>
         <div class="form-group mb-2 mb20" name="activity">
@@ -66,7 +83,7 @@
             <label for="location" class="form-label">{{ __('Ubicació') }}</label>
             <input type="text" name="location" class="form-control @error('location') is-invalid @enderror"
                 value="{{ old('location', $post['location']) }}" id="location" placeholder="Ubicació">
-            {!! $errors->first('location', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            {!! $errors->first('location', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Image --}}
         <div class="form-group mb-2 mb20">
@@ -74,14 +91,14 @@
             {{-- <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image', $post->image) }}" id="image" placeholder="Imatge"> --}}
             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
                 value="{{ old('image', $post['image']) }}" id="image" placeholder="Imatge">
-            {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            {!! $errors->first('image', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Content --}}
         <div class="form-group mb-2 mb20">
             <label for="content" class="form-label">{{ __('Contingut') }}</label>
             <textarea name="content" class="form-control @error('content') is-invalid @enderror tinyMce" id="content"
                 rows="3" placeholder="Contingut">{{ old('content', $post['content'] ?? '') }}</textarea>
-            {!! $errors->first('content', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            {!! $errors->first('content', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Publication_date --}}
         <div class="form-group mb-2 mb20">
@@ -92,7 +109,7 @@
                 placeholder="Data de publicació">
             {!! $errors->first(
                 'publication_date',
-                '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>',
             ) !!}
         </div>
         {{-- SLUG --}}

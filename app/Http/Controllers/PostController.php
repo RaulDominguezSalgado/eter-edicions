@@ -245,16 +245,19 @@ class PostController extends Controller
 
         $postObject = Post::find($id);
         $post = [];
+        $isActivity=null;
         //dd($postObject);
 
         if ($postObject->author) {
             $authorID = $postObject->author_id;
+            $isActivity=false;
         } else {
             $authorID = '';
         }
 
         if ($postObject->translator) {
             $translator = $postObject->translator_id;
+            $isActivity=false;
         } else {
             $translator = '';
         }
@@ -262,10 +265,12 @@ class PostController extends Controller
         if($postObject->date){
             $date = substr($postObject->date, 0, 10);
             $time = Carbon::parse(substr($postObject->date, 10, 18))->format('H:i');
+            $isActivity=true;
         }else{
             $date = '';
             $time = '';
         }
+
         $post = [
             'id' => $postObject->id,
             'title' => $postObject->title,
@@ -274,6 +279,7 @@ class PostController extends Controller
             'translator_id' => $translator,
             'content' => $postObject->content,
             'date' => $date,
+            'isActivity'=>$isActivity,
             //'time' => substr($postObject->date, 10, 15),
             'time' => $time,
             'location' => $postObject->location,
@@ -291,7 +297,10 @@ class PostController extends Controller
 
         return view('admin.post.edit', compact('post', 'translators', 'authors', 'users'));
     }
+    public function getTypeOfPost($post){
 
+        return false;
+    }
     /**
      * Update the specified resource in storage.
      */
