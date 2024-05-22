@@ -16,10 +16,11 @@ class Validator
         "decimal"=>"decimal:0,2",
         "integer"=>"integer",
         "date"=>"date",
+        'time' => "regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/",
         "boolean"=>"boolean",
         "pdf"=>"file|mimes:pdf",
         "array" =>"array",
-        "image" =>"image|mimes:jpeg,jpg,png,gif,webp,tiff,bmp",
+        "image" =>"image","mimes:jpeg,jpg,png,gif,webp,tiff,bmp",
         "first_name" =>"regex:/^[\pL\s'-]+$/u",
         "last_name"=>"regex:/^[\pL\s'-]+$/u",
         "name"=>"regex:/^[\pL\s'-]+$/u",
@@ -38,6 +39,7 @@ class Validator
         "address_number"=>"regex:/^[\pL\pN\s'.,·‘–()\"’-]+$/u",
         "zip_code"=>"regex:/^\d{5}(?:\s[a-zA-Z]{2})?$/",
         "strict_password"=>"regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/", // (?=.*[A-Z]) indica que debe haber al menos una letra mayúscula (?=.*[^\w]) indica que debe haber al menos un carácter especial (no alfanumérico) {8,} indica que el campo debe tener al menos 8 caracteres
+        "slug"=>"regex:/^[a-z0-9]+(-[a-z0-9]+)*$",
     ];
 
 

@@ -59,6 +59,7 @@
         </div>
         <div class="form-group mb-2 mb20" name="activity">
             <input type="time" name="time" value="{{ old('time', $post['time']) }}">
+            {!! $errors->first('time', '<div class="invalid-feedback" role="alert" style="color: red"><strong>:message</strong></div>') !!}
         </div>
         {{-- Location --}}
         <div class="form-group mb-2 mb20" name="activity">

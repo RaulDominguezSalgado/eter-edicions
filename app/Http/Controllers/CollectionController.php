@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use App\Models\CollectionTranslation;
 use App\Http\Requests\CollectionRequest;
+use App\Models\LanguageTranslation;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
@@ -44,7 +45,13 @@ class CollectionController extends Controller
     public function create()
     {
         $collection = new Collection();
-        return view('admin.collection.create', compact('collection'));
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+            ->where(function ($query) {
+                $query->where('iso_language', 'ca')
+                    ->orWhere('iso_language', 'es');
+            })
+            ->get();
+        return view('admin.collection.create', compact('collection', 'languages'));
     }
 
     /**
@@ -93,8 +100,13 @@ class CollectionController extends Controller
     public function edit($id)
     {
         $collection = $this->getFullCollection($id, $this->lang);
-
-        return view('admin.collection.edit', compact('collection'));
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+        ->where(function ($query) {
+            $query->where('iso_language', 'ca')
+                ->orWhere('iso_language', 'es');
+        })
+        ->get();
+        return view('admin.collection.edit', compact('collection','languages'));
     }
 
     /**

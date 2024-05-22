@@ -30,14 +30,15 @@ class PostRequest extends FormRequest
                 'translator_id' => ['nullable'],
                 'content' => ['required'],
                 'date' => ['nullable',Validator::$validations["date"]],
-                'time' => 'nullable|date_format:H:i', //buscar regex format 00:00:00, 00 son números de 2 dígitos
+                // 'time' => 'nullable|date_format:H:i', //buscar regex format 00:00:00, 00 son números de 2 dígitos
+                'time' => ['nullable',Validator::$validations["time"]],
                 'location' => ['nullable'],
                 'image' => ['required',Validator::$validations["image"]],
                 'publication_date' => ['required'],
                 'published_by' => ['required'],
-                'slug' => ['nullable',Validator::$validations["string"]],
-                'meta_title' => ['nullable',Validator::$validations["string"]],
-                'meta_description' => ['nullable',Validator::$validations["string"]]
+                'slug' => ['nullable',Validator::$validations["slug"]],
+                'meta_title' => ['nullable',Validator::$validations["slug"]],
+                'meta_description' => ['nullable',Validator::$validations["slug"]]
             ];
         } else {
             return [
@@ -52,9 +53,9 @@ class PostRequest extends FormRequest
                 'image' => '',
                 'publication_date' => ['required'],
                 'published_by' => ['required'],
-                'slug' => ['nullable',Validator::$validations["string"]],
-                'meta_title' => ['nullable',Validator::$validations["string"]],
-                'meta_description' => ['nullable',Validator::$validations["string"]]
+                'slug' => ['nullable',Validator::$validations["slug"]],
+                'meta_title' => ['nullable',Validator::$validations["slug"]],
+                'meta_description' => ['nullable',Validator::$validations["slug"]]
             ];
         }
     }
