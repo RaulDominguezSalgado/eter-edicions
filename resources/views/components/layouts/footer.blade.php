@@ -6,16 +6,16 @@
 $locale = app()->getLocale() ?: 'ca';
 ?>
 
-<footer id="main-footer" class="hidden lg:flex lg:space-between lg:items-center">
+<footer id="main-footer" class="hidden lg:flex lg:justify-between lg:items-center">
     <div class="flex flex-col space-y-3">
         <a href="{{ route("home.{$locale}") }}" class="logo">
             <img src="{{ asset('img/logo/sm/' . $generalInfo['logo_white']) }}"
                 alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}">
         </a>
         <div>
-            <p>{{ $legalInfo['legal_name'] }}</p>
-            <p>{{ $legalInfo['address_1'] }}</p>
-            <p>{{ $legalInfo['address_2'] }}</p>
+            <p class="text-dark lg:text-light">{{ $legalInfo['legal_name'] }}</p>
+            <p class="text-dark lg:text-light">{{ $legalInfo['address_1'] }}</p>
+            <p class="text-dark lg:text-light">{{ $legalInfo['address_2'] }}</p>
         </div>
     </div>
     <div class="flex space-x-6 items-center">
@@ -29,10 +29,10 @@ $locale = app()->getLocale() ?: 'ca';
     </div>
     <div>
         <ul>
-            <li><a href="">{{ __('general.privacy-policy') }}</a></li>
-            <li><a href="">{{ __('general.cookie-policy') }}</a></li>
-            <li><a href="">{{ __('general.legal') }}</a></li>
-            <li><a href="{{ route("contact.{$locale}") }}">{{ __('general.contact') }}</a></li>
+            <li><a class="text-dark lg:text-light" href="">{{ __('general.privacy-policy') }}</a></li>
+            <li><a class="text-dark lg:text-light" href="">{{ __('general.cookie-policy') }}</a></li>
+            <li><a class="text-dark lg:text-light" href="">{{ __('general.legal') }}</a></li>
+            <li><a class="text-dark lg:text-light" href="{{ route("contact.{$locale}") }}">{{ __('general.contact') }}</a></li>
         </ul>
     </div>
     <div>
@@ -59,11 +59,11 @@ $locale = app()->getLocale() ?: 'ca';
                     src="{{ asset('img/icons/socials/dark/' . $social['name'] . '.webp') }}"
                     alt="{{ ucfirst($social['name']) }}
             {{ $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }}{{ $generalInfo['company_name'] }}"
-                    style="width:45px"></a>
+                    style="width:2em"></a>
         @endforeach
     </div>
     <div class="flex flex-col space-y-3">
-        <a href="{{ route("home.{$locale}") }}" class="logo">
+        <a href="{{ route("home.{$locale}") }}" class="logo w-fit">
             <img src="{{ asset('img/logo/sm/' . $generalInfo['logo_black']) }}"
                 alt="{{ __('phrases.logo', ['name' => $generalInfo['company_name'], 'de' => $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe('de ' . $generalInfo['company_name']) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by')]) }}">
         </a>
