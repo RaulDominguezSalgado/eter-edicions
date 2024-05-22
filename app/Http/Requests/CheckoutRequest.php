@@ -59,7 +59,6 @@ class CheckoutRequest extends FormRequest
         $validator->after(function ($validator) {
             $type = $this->input('typeNIF');
             $dni = $this->input('dni');
-
             if ($type === 'DNI' && !Validator::isValidDni($dni)) {
                 $validator->errors()->add('dni', 'El DNI no es válido.');
             } elseif ($type === 'NIE' && !Validator::isValidNie($dni)) {

@@ -23,7 +23,7 @@ class CollectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'lang'=>'required|string|in:ca,es,ar-sy',
+            'lang'=>'',
             'name' => ['required',Validator::$validations["name"]],
             'description' =>['required',Validator::$validations["description"]],
         ];
