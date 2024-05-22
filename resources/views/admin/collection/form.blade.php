@@ -30,6 +30,8 @@
             {!! $errors->first('translations.'.$language['iso_language'].'.description', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         </div>
+        {{-- Slug, meta title, meta description --}}
+        
         @endforeach
 
     </div>

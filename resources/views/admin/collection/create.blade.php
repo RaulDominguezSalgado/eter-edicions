@@ -37,7 +37,7 @@
                                                 {{ $language['translation'] }}</h2>
 
                                             <div class="form-group mb-2 mb20">
-                                                <label for="name" class="form-label">{{ __('Nom') }}</label>
+                                                <label for="name" class="form-label">{{ __('Nom *') }}</label>
                                                 <input type="text" required
                                                     name="translations[{{ $language['iso_language'] }}][name]"
                                                     class="form-control @error('translations.' . $language['iso_language'] . '.name') is-invalid @enderror"
@@ -50,7 +50,7 @@
                                             </div>
                                             <div class="form-group mb-2 mb20">
                                                 <label for="description"
-                                                    class="form-label">{{ __('Descripció') }}</label>
+                                                    class="form-label">{{ __('Descripció *') }}</label>
                                                 <textarea required name="translations[{{ $language['iso_language'] }}][description]"
                                                     class="form-control @error('translations.' . $language['iso_language'] . '.description') is-invalid @enderror"
                                                     id="description" rows="3" placeholder="Descripció">
@@ -60,19 +60,51 @@
                                                     '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
                                                 ) !!}
                                             </div>
+                                            {{-- Slug --}}
+                                            <div class="form-group mb-2 mb20">
+                                                <label for="slug" class="form-label">{{ __('Slug') }}</label>
+                                                <input type="text" required
+                                                    name="translations[{{ $language['iso_language'] }}][slug]"
+                                                    class="form-control @error('translations.' . $language['iso_language'] . '.slug') is-invalid @enderror"
+                                                    value="{{ old('translations.' . $language['iso_language'] . '.slug') }}"
+                                                    id="slug" placeholder="Slug">
+                                                {!! $errors->first(
+                                                    'translations.' . $language['iso_language'] . '.slug',
+                                                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                                                ) !!}
+                                            </div>
+                                            {{-- Meta title --}}
+                                            <div class="form-group mb-2 mb20">
+                                                <label for="metaTitle" class="form-label">{{ __('Meta title') }}</label>
+                                                <input type="text" required
+                                                    name="translations[{{ $language['iso_language'] }}][metaTitle]"
+                                                    class="form-control @error('translations.' . $language['iso_language'] . '.metaTitle') is-invalid @enderror"
+                                                    value="{{ old('translations.' . $language['iso_language'] . '.metaTitle') }}"
+                                                    id="metaTitle" placeholder="Meta Title">
+                                                {!! $errors->first(
+                                                    'translations.' . $language['iso_language'] . '.metaTitle',
+                                                    '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                                                ) !!}
+                                            </div>
+
+                                            {{-- Meta description --}}
+
                                         </div>
-                                    @endforeach
 
+                                        </fieldset>
                                 </div>
-                                <div class="col-md-12 mt20 mt-2">
-                                    <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
-                                </div>
+                                @endforeach
+
                             </div>
-
-                        </form>
+                            <div class="col-md-12 mt20 mt-2">
+                                <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                            </div>
                     </div>
+
+                    </form>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 </x-layouts.admin.app>
