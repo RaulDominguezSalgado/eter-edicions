@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/css/front/nav.css">
     <link rel="stylesheet" href="/css/front/footer.css">
     <script src="/js/ajax/cart.js"></script>
-    <script async src="https://maps.googleapis.com/maps/api/js?key={{env("PLACES_API_KEY", "default")}}&libraries=places&callback=initMap"></script> {{-- Google Places API --}}
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{config('eter.placesApiKey')}}&libraries=places&callback=initMap"></script> {{-- Google Places API --}}
     <title>{{ $title ?? 'Èter Edicions' }}</title>
 </head>
 <body>

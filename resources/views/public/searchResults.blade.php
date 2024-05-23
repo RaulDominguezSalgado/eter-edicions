@@ -58,11 +58,11 @@ $locale = 'ca';
                         @if(!empty($content))
                             <div class="searchItem w-full flex content-between mb-5">
                                 <div class="flex-col pr-5">
-                                    <a class="relative inline-block border-2 border-transparent hover:border-black" href="{{ route($link.".{$locale}", $item['id']) }}">
+                                    <a class="relative inline-block border-2 border-transparent hover:border-black" href="{{ route($link.".{$locale}", $item['slug']) }}">
                                         <img class="object-cover w-[150px] h-[150px] max-w-[150px]" src="{{ asset('img/'. $image .'/thumbnails/' . $item['image']) }}"
                                             alt="{{ $item['title'] ?? $item['full_name'] }}">
                                             <p class="absolute text-center bg-lightgrey bottom-0 left-0 right-0">{{ $contingut }}</p>
-                                    </a>    
+                                    </a>
                                 </div>
                                 <div class="flex-col pl-5">
                                     <a class="hover:underline" href="{{ route($link.".{$locale}", $item['id']) }}"><h2 class="item-title">{{ $item[$title] }}</h2></a>

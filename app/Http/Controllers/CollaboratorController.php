@@ -661,7 +661,7 @@ class CollaboratorController extends Controller
                 'last_name' => $single_data->last_name,
                 'full_name' => $single_data->first_name . " " . $single_data->last_name,
                 'biography' => $single_data->biography,
-                'slug' => \App\Http\Actions\FormatDocument::slugify($single_data),
+                'slug' => \App\Http\Actions\FormatDocument::slugify($single_data->first_name . " " . $single_data->last_name),
                 'lang' => $single_data->lang,
             ];
         }
