@@ -330,7 +330,7 @@ class CollaboratorController extends Controller
                 ->with('success', 'Col·laborador actualitzat correctament');
         }
         return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator updated successfully');
+            ->with('success', 'Col·laborador actualitzat correctament');
     }
 
     public function destroy($id)
@@ -339,7 +339,7 @@ class CollaboratorController extends Controller
             Collaborator::find($id)->delete();
             return redirect()->route('collaborators.index')->with('success', 'Col·laborador eliminat correctament');
         } catch (QueryException $e) {
-            return redirect()->route('collaborators.index')->with('error', 'No es possible eliminar aquest autor, ja que té dades relacionades');
+            return redirect()->route('collaborators.index')->with('error', 'No es possible eliminar aquest col·laborador, ja que té dades relacionades');
         }
     }
 

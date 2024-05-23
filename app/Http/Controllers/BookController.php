@@ -109,7 +109,7 @@ class BookController extends Controller
                         break;
                     }
                 }
-                
+
             }
             $bookspag = $bookspag->paginate();
             $books = [];
@@ -476,8 +476,16 @@ class BookController extends Controller
 
             return redirect()->route('books.index')
                 ->with('success', 'Book deleted successfully');
-        } catch (Exception $e) {
-            dump($e->getMessage());
+        } catch (QueryException $e) {
+            // Verificar si la excepción es una violación de clave foránea
+            if ($e->getCode() == '23000') {
+                return redirect()->route('books.index')->with('error', 'No es pot eliminar un llibre que té dades associades.');
+            }
+            return redirect()->route('books.index')->with('error', 'Hi ha hagut un error a l\'hora d\'eliminar el llibre.');
+        }catch (Exception $e) {
+            //dump($e->getMessage());
+            return redirect()->route('books.index')
+            ->with('error', $e->getMessage());
             // abort(500, 'Server Error');
         }
     }
@@ -655,7 +663,7 @@ class BookController extends Controller
             foreach ($book->authors()->get() as $author) {
 
                 $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
-                
+
                 // dd($author->collaborator()->first()->translations()->where("lang", $locale)->first());
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 

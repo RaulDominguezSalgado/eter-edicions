@@ -109,10 +109,11 @@ class GeneralSettingController extends Controller
     public function destroy($id)
     {
         try {
-            GeneralSetting::findOrFail($id)->delete();
+            // GeneralSetting::findOrFail($id)->delete();
 
-            return redirect()->route('general-settings.index')
-                ->with('success', 'Setting deleted successfully');
+            // return redirect()->route('general-settings.index')
+            //     ->with('success', 'Setting deleted successfully');
+            return redirect()->back();
         } catch (QueryException $e) {
             abort(500, $e->getMessage());
         } catch (Exception $e) {

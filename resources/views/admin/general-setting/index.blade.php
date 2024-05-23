@@ -12,8 +12,49 @@
             </div>
         </div>
         @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
+
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold"></strong>
+                <span class="block sm:inline">{{ $message }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
+            </div>
+        @elseif (session('error'))
+            {{-- <div class="alert alert-danger">{{ session('error') }}</div> --}}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Error:</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
+            </div>
+        @elseif ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Error: .</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" onclick="removeParentDiv(this.parentNode)">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                </span>
             </div>
         @endif
 
@@ -48,25 +89,17 @@
                                 <td>{{ $setting['key'] }}</td>
                                 <td>{{ $setting['category'] }}</td>
                                 <td>
-                                    @if($setting['key'] == 'logo')
-                                        <img src="{{asset("img/logo/xs/".$setting['value'])}}" alt="">
+                                    @if ($setting['key'] == 'logo')
+                                        <img src="{{ asset('img/logo/xs/' . $setting['value']) }}" alt="">
                                     @else
-                                    {{ $setting['value'] }}
+                                        {{ $setting['value'] }}
                                     @endif
                                 </td>
 
                                 <td class="min-w-fit">
-                                    <form action="{{ route('general-settings.destroy', $setting['id']) }}" method="POST" class="flex space-x-4">
-                                        {{-- <a class="btn btn-sm btn-primary "
-                                                        href="{{ route('general-settings.show', $setting['id']) }}"><i
-                                                            class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a> --}}
-                                        <a class="btn btn-sm btn-success min-w-fit"
-                                            href="{{ route('general-settings.edit', $setting['id']) }}"><i
-                                                class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                    <a class="btn btn-sm btn-success min-w-fit"
+                                        href="{{ route('general-settings.edit', $setting['id']) }}"><i
+                                            class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                     </form>
                                 </td>
                             </tr>
@@ -78,3 +111,4 @@
     </div>
     {!! $settings->links() !!}
 </x-layouts.admin.app>
+<script src="{{ asset('js/form/alert.js') }}"></script>
