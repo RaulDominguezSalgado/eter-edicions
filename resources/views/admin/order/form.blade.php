@@ -148,10 +148,24 @@ echo '</select>';
             {!! $errors->first('locality', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
+        {{-- <div class="form-group mb-2 mb20 ">
+            <label for="city" class="form-label">{{ __('Ciutat del client') }}</label>
+            <input type="text" name="city" class="form-control @error('city') is-invalid @enderror"
+                value="{{ old('city', $order['city']) }}" id="city" placeholder="Ciutat del client">
+            {!! $errors->first('city', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div> --}}
+
         <div class="form-group mb-2 mb20 ">
-            <label for="province" class="form-label">{{ __('Província del client') }}</label>
+            <label for="locality" class="form-label">{{ __('Localitat del client') }}</label>
+            <input type="text" name="locality" class="form-control @error('locality') is-invalid @enderror"
+                value="{{ old('locality', $order['locality']) }}" id="locality" placeholder="Ciutat del client">
+            {!! $errors->first('locality', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        <div class="form-group mb-2 mb20 ">
+            <label for="province" class="form-label">{{ __('Provincia del client') }}</label>
             <input type="text" name="province" class="form-control @error('province') is-invalid @enderror"
-                value="{{ old('province', $order['province']) }}" id="province" placeholder="Província del client">
+                value="{{ old('province', $order['province']) }}" id="province" placeholder="Ciutat del client">
             {!! $errors->first('province', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
@@ -184,10 +198,16 @@ echo '</select>';
     </div>
     <div class="form-group mb-2 mb20">
         <label for="payment_method" class="form-label">{{ __('Metode de pagament') }}</label>
-        <input type="text" name="payment_method"
+        <select name="payment_method" id="payment_method">
+            <option value="" selected disabled>---</option>
+            @foreach($payment_methods as $method)
+                <option @if(isset($old["payment_method"]) && $old["payment_method"] == $method || $order["payment_method"] == $method) selected @endif value="{{ $method }}">{{ $method }}</option>
+            @endforeach
+        </select>
+        {{-- <input type="text" name="payment_method"
             class="form-control @error('payment_method') is-invalid @enderror"
             value="{{ old('payment_method', $order['payment_method']) }}" id="payment_method"
-            placeholder="Metode de pagament">
+            placeholder="Metode de pagament"> --}}
         {!! $errors->first(
             'payment_method',
             '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
@@ -202,7 +222,8 @@ echo '</select>';
     <div class="form-group mb-2 mb20">
         <label for="tracking_id" class="form-label">{{ __('Codi d\'enviament') }}</label>
         <input type="text" name="tracking_id" class="form-control @error('tracking_id') is-invalid @enderror"
-            value="{{ old('tracking_id') ?? $order['tracking_id'] }}" id="tracking_id" placeholder="Codi d'enviament">
+            value="{{ old('tracking_id') ?? $order['tracking_id'] }}" id="tracking_id"
+            placeholder="Codi d'enviament">
         {!! $errors->first('tracking_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>
 
@@ -273,8 +294,12 @@ echo '</select>';
         }
     </script> --}}
 
-<div class="col-md-12 mt20 mt-2">
-    <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
+<div class="flex justify-center">
+    <button id="show-button" class="text-muted font-weight-bold me-8 underline" type="submit" value="show"
+        name="action">
+        Vista prèvia
+    </button>
+    <button type="submit" class="send-button">{{ __('Enviar') }}</button>
 </div>
 </div>
 <script src="{{ asset('js/form/products.js') }}"></script>

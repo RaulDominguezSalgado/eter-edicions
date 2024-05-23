@@ -12,12 +12,16 @@
     <link rel="stylesheet" href="/css/admin/nav.css">
     <link rel="stylesheet" href="/css/admin/userSelect.css">
     <link rel="stylesheet" href="/css/admin/table.css">
+    <script src="js/front/validations.js"></script>
     <script src="/js/admin/userSelect.js"></script>
     <script src="/js/admin/nav.js"></script>
     {{-- <script src="/js/form/post_dates.js"></script> --}}
     <title>{{ $title ?? 'Èter Edicions' }}</title>
     {{-- @vite('resources/css/app.css') --}}
     @vite(['resources/js/app.js'])
+    {{-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> --}}
+    {{-- check --}}
+
 </head>
 <body class="flex flex-col md:flex-row space-y-5 md:space-y-5 m-0 bg-surfacelight">
     <x-layouts.admin.navigate/>

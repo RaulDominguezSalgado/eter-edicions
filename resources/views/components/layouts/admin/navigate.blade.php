@@ -20,14 +20,14 @@ $locale = 'ca';
                 <img src="{{asset('img/icons/close.svg')}}" alt="Creu per tancar el menú lateral" width="32px" height="32px"/>
             </button>
         </div>
-        <a href="{{ route("home.{$locale}") }}"
-            class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light text-dark no-underline logo"><img
+        <a href="{{ route("admin_dashboard") }}"
+            class="py-2.5 px-5 md:hover:bg-light md:focus:bg-light md:active:bg-light text-dark no-underline logo"><img
                 src="/img/logo/lg/logo_eter_black.webp">
         </a>
     </div>
 
     @if(Auth::user()->role_id == 1)
-    <ul id="sidebar" class="hidden md:flex flex-col duration-100">
+    <ul id="sidebar" class="hidden md:flex flex-col duration-100 overflow-y-auto">
         {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
         <li class="">
             <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'orders.index') bg-light @endif" href="{{ route('orders.index') }}">
@@ -94,14 +94,14 @@ $locale = 'ca';
                 </div>
             </a>
         </li>
-        {{-- <li>
-            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'settings.index') bg-light @endif" href="">
+        <li>
+            <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'general-settings.index') bg-light @endif" href="{{route('general-settings.index')}}">
                 <div class="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 space-y-2 md:space-y-0 ">
                     <img class="w-10 h-10" src="/img/icons/settings.webp">
                     <div class=" text-base">Configuració</div>
                 </div>
             </a>
-        </li> --}}
+        </li>
     </ul>
     @else
     <ul id="sidebar" class="hidden md:flex flex-col duration-100">

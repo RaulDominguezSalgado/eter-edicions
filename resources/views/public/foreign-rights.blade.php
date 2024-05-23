@@ -1,7 +1,7 @@
 <x-layouts.app>
 
     <x-slot name="title">
-        {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $page['web'] }}
+        {{ $page['title'] }} | {{ $page['shortDescription'] }} | {{ $webTitle }}
     </x-slot>
 
     <link rel="stylesheet" href="{{ asset('css/public/static.css') }}">
@@ -30,7 +30,7 @@
                     <h4>{{ $page['contents']['agency'] }}</h5>
                     <div class="flex space-x-4">
                         <h5>{{ $page['contents']['contact-person'] }}</h5>
-                        <h5>{{ $page['contents']['contact-email'] }}</h5>
+                        <h5>{{ $contactInfo['foreign_rights_email'] }}</h5>
                     </div>
                 </div>
             </div>

@@ -7,12 +7,16 @@ use App\Models\Collaborator;
 use App\Models\CollaboratorTranslation;
 use App\Http\Requests\CollaboratorRequest;
 use App\Models\Author;
+use App\Models\Language;
+use App\Models\LanguageTranslation;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Encoders\WebpEncoder;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 /**
  * Class CollaboratorController
@@ -25,41 +29,112 @@ class CollaboratorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $locale = app()->getLocale() ?? 'ca';
 
-        $collaborators = Collaborator::paginate();
-        $collaboratorsArray = [];
-
-        //mostrar solo en español
-        foreach ($collaborators as $collaborator) {
-            $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-            if ($translation) {
-                $collaboratorsArray[] = [
-                    'id' => $collaborator->id,
-                    'image' => $collaborator->image,
-                    'full_name' => $translation->last_name . ", " . $translation->first_name,
-                    'lang' => $translation->lang,
-                    'social_networks' => json_decode($collaborator->social_networks, true)
-                ];
+        $data = $request->validate([
+            "name" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $collaborators = Collaborator::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "name":
+                            $collaborators->whereHas('translations', function ($query) use ($filtro, $locale) {
+                                $query->where('lang', $locale)
+                                    ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                            break;
+                        default:
+                            if ($key != "search") {
+                                $collaborators->where($key, "like", "%{$filtro}%");
+                            }
+                            break;
+                    }
+                }
             }
-        }
+            $collaborators = $collaborators->paginate();
+            $collaboratorsArray = [];
 
-        //opcion 2 que me salgan todos los colaboradores en todos los idiomas
-        // foreach ($collaborators as $collaborator) {
-        //     foreach ($collaborator->translations as $collabtrad) {
-        //         $collaboratorsArray[] = [
-        //             'id' => $collaborator->id,
-        //             'lang'=>$collabtrad->lang,
-        //             'image' => $collaborator->image,
-        //             'name' => $collabtrad->name,
-        //             'last_name' => $collabtrad->last_name,
-        //             'social_networks' => $collaborator->social_networks,
-        //         ];
-        //     }
-        // }
-        return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
-            ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+            //mostrar solo en español
+            foreach ($collaborators as $collaborator) {
+                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+                if ($translation) {
+                    $collaboratorsArray[] = [
+                        'id' => $collaborator->id,
+                        'image' => $collaborator->image,
+                        'full_name' => $translation->last_name . ", " . $translation->first_name,
+                        'lang' => $translation->lang,
+                        'social_networks' => json_decode($collaborator->social_networks, true)
+                    ];
+                }
+            }
+            // $collaboratorsArray = [];
+            // foreach ($collaboratorspag as $collaborator) {
+            //     $aux = $this->getFullcollaborator($collaborator->id, $locale);
+            //     $collaboratorsArray[] = $aux;
+            // }
+            $old = $data;
+
+            return view('admin.collaborator.index', compact('collaboratorsArray', "collaborators", 'old'))
+                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+        } else if (isset($data["search"]["clear"])) {
+            $collaborators = Collaborator::paginate();
+            $collaboratorsArray = [];
+
+            //mostrar solo en español
+            foreach ($collaborators as $collaborator) {
+                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+                if ($translation) {
+                    $collaboratorsArray[] = [
+                        'id' => $collaborator->id,
+                        'image' => $collaborator->image,
+                        'full_name' => $translation->last_name . ", " . $translation->first_name,
+                        'lang' => $translation->lang,
+                        'social_networks' => json_decode($collaborator->social_networks, true)
+                    ];
+                }
+            }
+
+            //opcion 2 que me salgan todos los colaboradores en todos los idiomas
+            // foreach ($collaborators as $collaborator) {
+            //     foreach ($collaborator->translations as $collabtrad) {
+            //         $collaboratorsArray[] = [
+            //             'id' => $collaborator->id,
+            //             'lang'=>$collabtrad->lang,
+            //             'image' => $collaborator->image,
+            //             'name' => $collabtrad->name,
+            //             'last_name' => $collabtrad->last_name,
+            //             'social_networks' => $collaborator->social_networks,
+            //         ];
+            //     }
+            // }
+            return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
+                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+        } else {
+            $collaborators = Collaborator::paginate();
+            $collaboratorsArray = [];
+
+            //mostrar solo en catalán
+            foreach ($collaborators as $collaborator) {
+                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+                if ($translation) {
+                    $collaboratorsArray[] = [
+                        'id' => $collaborator->id,
+                        'image' => $collaborator->image,
+                        'full_name' => $translation->last_name . ", " . $translation->first_name,
+                        'lang' => $translation->lang,
+                        'social_networks' => json_decode($collaborator->social_networks, true)
+                    ];
+                }
+            }
+            return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
+                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+        }
     }
 
     /**
@@ -68,7 +143,14 @@ class CollaboratorController extends Controller
     public function create()
     {
         $collaborator = new Collaborator();
-        return view('admin.collaborator.create', compact('collaborator'));
+        // $this->getCollaborator();
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+            ->where(function ($query) {
+                $query->where('iso_language', 'ca')
+                    ->orWhere('iso_language', 'es');
+            })
+            ->get();
+        return view('admin.collaborator.create', compact('collaborator', 'languages'));
     }
 
     /**
@@ -78,20 +160,14 @@ class CollaboratorController extends Controller
     {
         try {
             // Validate the request data
+            //dd($request);
             $validatedData = $request->validated();
+            $translationData = [];
+            $imageInserted = false;
             if ($request->hasFile('image')) {
                 // Obtener el archivo de imagen
-                $imagen = $request->file('image');
-                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
-
-                $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
-
-                // // Procesar y guardar la imagen
-                $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-                // $this->editImage($nombreImagenOriginal, "collaborator");
-                ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
-
-                $validatedData['image'] = $nombreImagenOriginal;
+                $validatedData['image'] = "procesingImage.webp";
+                $imageInserted = true;
             } else {
                 $validatedData['image'] = "default.webp";
             }
@@ -112,19 +188,38 @@ class CollaboratorController extends Controller
             ];
             $collaborator = Collaborator::create($collaboratorData);
 
-            $translationData = [
-                'collaborator_id' => $collaborator->id,
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'lang' => $validatedData['lang'],
-                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'meta_description' => $validatedData['biography']
-            ];
-            CollaboratorTranslation::create($translationData);
+            foreach ($validatedData['translations'] as $language => $translation) {
+                if ($translation) {
+                    $slug = \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($translation['last_name']);
+                    if ($language == "ca" && $imageInserted) {
+                        $imagen = $request->file('image');
+                        $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+
+                        // // Procesar y guardar la imagen
+                        $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+
+                        ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
+                        // updating the collaborator
+                        $c = Collaborator::find($collaborator->id);
+                        $c->image = $nombreImagenOriginal;
+                        $c->save();
+                    }
+                    $translationData = [
+                        'collaborator_id' => $collaborator->id,
+                        'first_name' => $translation['first_name'],
+                        'last_name' => $translation['last_name'],
+                        'biography' => $translation['biography'],
+                        'slug' => $slug,
+                        'lang' => $language,
+                        'meta_title' => $translation['first_name'] . " " . $translation['last_name'],
+                        'meta_description' => $translation['biography']
+                    ];
+                    CollaboratorTranslation::create($translationData);
+                    // dd($translationData);
+                }
+            }
             return redirect()->route('collaborators.index')
-                ->with('success', 'Collaborator created successfully.');
+                ->with('success', 'Col·laborador afegit correctament.');
         } catch (ValidationException $e) {
         }
     }
@@ -148,9 +243,18 @@ class CollaboratorController extends Controller
     {
         $locale = $this->lang;
 
-        $collaborator = $this->getFullCollaborator($id, $locale);
+        // $languages= LanguageTranslation::where("iso_translation", $locale)->get();
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+            ->where(function ($query) {
+                $query->where('iso_language', 'ca')
+                    ->orWhere('iso_language', 'es');
+            })
+            ->get();
 
-        return view('admin.collaborator.edit', compact('collaborator'));
+        // dd($languages);
+        $collaborator = $this->getCollaborator($id);
+        // dd($collaborator);
+        return view('admin.collaborator.edit', compact('collaborator', 'languages'));
     }
 
     /**
@@ -159,25 +263,25 @@ class CollaboratorController extends Controller
     public function update(CollaboratorRequest $request, Collaborator $collaborator)
     {
         //$collaborator->update($request->validated());
-
+        //dd($request);
         $validatedData = $request->validated();
+        $imageUpdated = false;
         if ($request->hasFile('image')) {
             // Obtener el archivo de imagen
-            $imagen = $request->file('image');
-            $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
+            $imageUpdated = true;
+            // $imagen = $request->file('image');
+            // $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']);
 
-            $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+            // $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
-            // // Procesar y guardar la imagen
-            $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-            // $this->editImage($nombreImagenOriginal, "collaborator");
-            ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
-
-
-            $validatedData['image'] = $nombreImagenOriginal;
-        } else {
-            $validatedData['image'] = $collaborator->image;
+            // // // Procesar y guardar la imagen
+            // $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+            // // $this->editImage($nombreImagenOriginal, "collaborator");
+            // ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
         }
+
+        $validatedData['image'] = $collaborator->image;
+
         $redes_sociales = [];
         if ($request->filled('red_social')) {
             foreach ($request->input('red_social') as $index => $red_social) {
@@ -192,22 +296,41 @@ class CollaboratorController extends Controller
             'image' => $validatedData['image'],
             'social_networks' => $redes_sociales_json
         ]);
+        foreach ($validatedData['translations'] as $language => $data) {
+            $translation = $collaborator->translations()->where('lang', $language)->first();
+            if ($translation) {
+                $slug = $data["slug"];
+                if ($imageUpdated && $language == "ca") {
+                    $imagen = $request->file('image');
 
-        $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-        if ($translation) {
-            $translation->update([
-                'collaborator_id' => $collaborator->id,
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'biography' => $validatedData['biography'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'lang' => $validatedData['lang'],
-                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($validatedData['last_name']),
-                'meta_description' => $validatedData['biography']
-            ]);
+                    $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+
+                    // // Procesar y guardar la imagen
+                    $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+
+                    ImageHelperEditor::editImage($nombreImagenOriginal, "collaborator");
+                    // updating the collaborator
+                    $c = Collaborator::find($collaborator->id);
+                    $c->image = $nombreImagenOriginal;
+                    $c->save();
+                }
+                $translation->update([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'biography' => $data['biography'],
+                    'slug' => $data['slug'],
+                    'lang' => $language,
+                    'meta_title' => $data['meta_title'],
+                    'meta_description' => $data['meta_description']
+                ]);
+            }
+        }
+        if ($request->input('action') == 'show') {
+            return redirect()->route('collaborators.show', $collaborator->id)
+                ->with('success', 'Col·laborador actualitzat correctament');
         }
         return redirect()->route('collaborators.index')
-            ->with('success', 'Collaborator updated successfully');
+            ->with('success', 'Col·laborador actualitzat correctament');
     }
 
     public function destroy($id)
@@ -216,7 +339,7 @@ class CollaboratorController extends Controller
             Collaborator::find($id)->delete();
             return redirect()->route('collaborators.index')->with('success', 'Col·laborador eliminat correctament');
         } catch (QueryException $e) {
-            return redirect()->route('collaborators.index')->with('error', 'No es possible eliminar aquest autor, ja que té dades relacionades');
+            return redirect()->route('collaborators.index')->with('error', 'No es possible eliminar aquest col·laborador, ja que té dades relacionades');
         }
     }
 
@@ -268,7 +391,7 @@ class CollaboratorController extends Controller
         // $collaborator_lv = Collaborator::find($id);
         // return dd($book_lv->id);
 
-        $collaborator = $this->getFullCollaborator($id, $locale);
+        $collaborator = $this->getFullCollaborator($id, $locale, 'slug');
 
         // dd($collaborator);
 
@@ -320,6 +443,68 @@ class CollaboratorController extends Controller
         return [$collaborators_lv, $collaborators];
     }
 
+    /**
+     * Get all the relevant details of a collaborator
+     *
+     * @param int $id: the id of the collaborator
+     * @param string $locale: the current language of the app
+     *
+     * @return array $collaborator
+     */
+    public function getCollaborator($id = 0)
+    {
+        $collab = Collaborator::find($id);
+        // $collaborator = [];
+        // if ($id = 0) {
+        //     $collaborator = [
+        //         'id' => null,
+        //         'image' => null,
+        //         'social_networks' => null,
+        //         'translations' => []
+        //     ];
+
+        //     $translations = LanguageTranslation::where('iso_translation', $this->lang)
+        //     ->where(function ($query) {
+        //         $query->where('iso_language', 'ca')
+        //             ->orWhere('iso_language', 'es');
+        //     })
+        //     ->get();
+        //     foreach ($translations as $translation) {
+        //         // Verificamos si la traducción es válida
+        //         if ($translation) {
+        //             $collaborator['translations'][$translation->lang] = [
+        //             ];
+        //         }
+        //     }
+        // } else {
+        if ($collab) {
+            $collaborator = [
+                'id' => $collab->id,
+                'image' => $collab->image,
+                'social_networks' => json_decode($collab->social_networks, true),
+                'translations' => []
+            ];
+
+            $translations = $collab->translations;
+
+            foreach ($translations as $translation) {
+                // Verificamos si la traducción es válida
+                if ($translation) {
+                    $collaborator['translations'][$translation->lang] = [
+                        'first_name' => $translation->first_name,
+                        'last_name' => $translation->last_name,
+                        'biography' => $translation->biography,
+                        'slug' => $translation->slug,
+                        'meta_title' => $translation->meta_title,
+                        'meta_description' => $translation->meta_description,
+                    ];
+                }
+            }
+        }
+        // }
+        return $collaborator;
+    }
+
 
     /**
      * Get all the relevant details of a collaborator
@@ -329,10 +514,17 @@ class CollaboratorController extends Controller
      *
      * @return array $collaborator
      */
-    public function getFullCollaborator($id, $locale){
-        $collab = Collaborator::find($id);
-        // $collaborator = [];
-        $translation = $collab->translations->where('lang', $locale)->first();
+    public function getFullCollaborator($id, $locale, $option = 'id')
+    {
+        if ($option == 'slug') {
+            $translation = CollaboratorTranslation::where('slug', $id)->where('lang', $locale)->first();
+            $collab = $translation->collaborator;
+        } else {
+            $collab = Collaborator::find($id);
+            // $collaborator = [];
+            $translation = $collab->translations->where('lang', $locale)->first();
+        }
+
         if ($translation) {
             $collaborator = [
                 'id' => $collab->id,
@@ -391,7 +583,7 @@ class CollaboratorController extends Controller
                     'collaborator_id' => $author->collaborator_id,
                     'first_name' => $translation->first_name,
                     'last_name' => $translation->last_name,
-                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'full_name' => $translation->first_name . " " . $translation->last_name,
                     'biography' => $translation->biography,
                     'image' => $collaborator->image,
                 ];
@@ -406,7 +598,7 @@ class CollaboratorController extends Controller
                     'collaborator_id' => $translator->collaborator_id,
                     'first_name' => $translation->first_name,
                     'last_name' => $translation->last_name,
-                    'full_name' => $translation->first_name." ".$translation->last_name,
+                    'full_name' => $translation->first_name . " " . $translation->last_name,
                     'biography' => $translation->biography,
                     'image' => $collaborator->image,
                 ];
@@ -415,68 +607,66 @@ class CollaboratorController extends Controller
                 'authors' => $authors,
                 'translators' => $translators,
             ];
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, 'Server Error');
         }
     }
 
 
     /**
-    * Method that generates the Author array used by the view
-    */
-    public static function getData($key = null, $value = null, $search = false) {
+     * Method that generates the Author array used by the view
+     */
+    public static function getData($key = null, $value = null, $search = false)
+    {
         // try {
-            // $locale = Config::get('app.locale');
-            $locale = app()->getLocale();
-            // $locale = 'ca';
+        // $locale = Config::get('app.locale');
+        $locale = app()->getLocale();
+        // $locale = 'ca';
 
-            $query_data = [];
+        $query_data = [];
 
-            if ($key == null || $value == null) {
-                $query_data = Collaborator::paginate();
-            }
-            else if ($search) {
-                switch ($key) {
-                    case 'id':
-                    case 'collaborator_id':
-                        $query_data = Collaborator::where($key, 'LIKE', '%' . $value . '%')->translation()->paginate();
+        if ($key == null || $value == null) {
+            $query_data = Collaborator::paginate();
+        } else if ($search) {
+            switch ($key) {
+                case 'id':
+                case 'collaborator_id':
+                    $query_data = Collaborator::where($key, 'LIKE', '%' . $value . '%')->translation()->paginate();
                     break;
-                    case 'lang':
-                    case 'first_name':
-                    case 'last_name':
-                    case 'biography':
-                    case 'slug':
-                    case 'meta_title':
-                    case 'meta_description':
-                        // Aux es un conjunto de traducciones de collaboradores los cuales tienen autores
-                        $query_data = CollaboratorTranslation::where($key, 'LIKE', '%' . $value . '%')
+                case 'lang':
+                case 'first_name':
+                case 'last_name':
+                case 'biography':
+                case 'slug':
+                case 'meta_title':
+                case 'meta_description':
+                    // Aux es un conjunto de traducciones de collaboradores los cuales tienen autores
+                    $query_data = CollaboratorTranslation::where($key, 'LIKE', '%' . $value . '%')
                         ->where('lang', $locale)
                         ->paginate();
                     break;
-                    default:
-                        $query_data = [];
+                default:
+                    $query_data = [];
                     break;
-                }
             }
-            else {
-                $query_data = Collaborator::where($key, $value)->paginate();
-            }
-            $collaborators = [];
-            foreach ($query_data as $single_data) {
-                $collaborators[] = [
-                    'id' => $single_data->collaborator()->first()->id,
-                    'image' => $single_data->collaborator()->first()->image,
-                    'first_name' => $single_data->first_name,
-                    'last_name' => $single_data->last_name,
-                    'full_name' => $single_data->first_name." ".$single_data->last_name,
-                    'biography' => $single_data->biography,
-                    'slug' => \App\Http\Actions\FormatDocument::slugify($single_data),
-                    'lang' => $single_data->lang,
-                ];
-            }
+        } else {
+            $query_data = Collaborator::where($key, $value)->paginate();
+        }
+        $collaborators = [];
+        foreach ($query_data as $single_data) {
+            $collaborators[] = [
+                'id' => $single_data->collaborator()->first()->id,
+                'image' => $single_data->collaborator()->first()->image,
+                'first_name' => $single_data->first_name,
+                'last_name' => $single_data->last_name,
+                'full_name' => $single_data->first_name . " " . $single_data->last_name,
+                'biography' => $single_data->biography,
+                'slug' => \App\Http\Actions\FormatDocument::slugify($single_data),
+                'lang' => $single_data->lang,
+            ];
+        }
 
-            return $collaborators;
+        return $collaborators;
         // }
         // catch (Exception $e) {
         //     abort(500, 'Server Error');

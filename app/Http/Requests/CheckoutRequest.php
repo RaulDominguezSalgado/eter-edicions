@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Actions\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CheckoutRequest extends FormRequest
@@ -23,19 +24,19 @@ class CheckoutRequest extends FormRequest
     {
         return [
             // User data
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|email',
-            'phone_number' => 'required|numeric',
+            'first_name' => ['required', Validator::$validations["first_name"]],
+            'last_name' => ['required', Validator::$validations["last_name"]],
+            'email' => ['required', Validator::$validations["email"]],
+            'phone_number' =>  ['required', Validator::$validations["phone"]],
             'dni' => 'required|string',
-
+            'typeNIF' => 'required',
             // Adress data
-            'address' => 'required|string',
-            'apartment' => 'nullable|string',
-            'zip_code' => 'required|numeric',
-            'locality' => 'required|string',
-            'province' => 'nullable|string',
-            'country' => 'required|string',
+            'address' =>  ['required', Validator::$validations["address"]],
+            'apartment' => ['nullable', Validator::$validations["address_number"]],//discord error
+            'zip_code' => ['required', Validator::$validations["zip_code"]],
+            'locality' => ['required', Validator::$validations["address"]],
+            'province' =>  ['nullable', Validator::$validations["address"]],//discord error
+            'country' => ['required', Validator::$validations["address"]],
 
             // Products data
             'products' => 'required',
@@ -43,8 +44,28 @@ class CheckoutRequest extends FormRequest
             'quantities' => 'required',
             'prices' => 'required',
             'total' => 'required',
-            'reference'=>'',
+            'reference' => '',
             // Order options
         ];
+    }
+
+    /**
+
+     *Configure the validator instance.*
+     *@param \Illuminate\Validation\Validator $validator
+     *@return void*/
+    public function withValidator(\Illuminate\Validation\Validator $validator)
+    {
+        $validator->after(function ($validator) {
+            $type = $this->input('typeNIF');
+            $dni = $this->input('dni');
+            if ($type === 'DNI' && !Validator::isValidDni($dni)) {
+                $validator->errors()->add('dni', 'El DNI no es válido.');
+            } elseif ($type === 'NIE' && !Validator::isValidNie($dni)) {
+                $validator->errors()->add('dni', 'El NIE no es válido.');
+            } elseif ($type === 'CIF' && !Validator::isValidCif($dni)) {
+                $validator->errors()->add('dni', 'El CIF no es válido.');
+            }
+        });
     }
 }

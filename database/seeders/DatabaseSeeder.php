@@ -11,17 +11,18 @@ use Illuminate\Database\Seeder;
 
 
 /* Seeders */
+use Database\Seeders\AdminSeeder;
 use Database\Seeders\BookSeeder;
 use Database\Seeders\CollectionSeeder;
 use Database\Seeders\CollaboratorSeeder;
 use Database\Seeders\AuthorSeeder;
 use Database\Seeders\TranslatorSeeder;
-use Database\Seeders\IllustratorSeeder;
 use Database\Seeders\OrderSeeder;
 use Database\Seeders\PostSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\LanguageSeeder;
+use Database\Seeders\GeneralSettingSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(AdminSeeder::class);
 
         $this->call(CollaboratorSeeder::class);
         $this->call(AuthorSeeder::class);
@@ -43,21 +45,18 @@ class DatabaseSeeder extends Seeder
         $this->call(CollectionSeeder::class);
         $this->call(BookSeeder::class);
 
+        $this->call(OrderStatusSeeder::class);
+
         $this->call(PostSeeder::class);
 
         $this->call(BookstoreSeeder::class);
         $this->call(BookBookstoreSeeder::class);
 
         $this->call(PageSeeder::class);
-
-        $this->call(OrderStatusSeeder::class);
+         //OrderStatus::factory(10)->create();
         Order::factory(10)->create();
         OrderDetail::factory(50)->create();
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(GeneralSettingSeeder::class);
     }
 }

@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Actions\FormatDocument;
 use App\Models\Collection;
 use App\Models\CollectionTranslation;
+use App\Models\Language;
 use App\Http\Requests\CollectionRequest;
+use App\Models\LanguageTranslation;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 /**
  * Class CollectionController
@@ -18,24 +22,90 @@ class CollectionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $collections = Collection::paginate();
+        $locale = app()->getLocale() ?? 'ca';
+
+        $data = $request->validate([
+            "name" => "",
+            "description" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $collections = Collection::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "name":
+                        case "description":
+                            $collections->whereHas("translations", function($query) use ($key, $filtro) {
+                                $query->where($key, "like", "%{$filtro}%");
+                            });
+                            // $collections->where("lang", "like", "%{$filtro}%");
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $collections->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+            }
+            $collections = $collections->paginate();
+            $collectionsArray = [];
+            foreach ($collections as $collection) {
+                foreach (Language::all() as $language) {
+                    if ($language->iso == "ca" || $language->iso == "es") {
+                        $aux = $this->getFullcollection($collection->id, $language->iso);
+                        $collectionsArray[] = $aux;
+                    }
+                }
+            }
+            $old = $data;
+            $i = (request()->input('page', 1) - 1) * $collections->perPage();
+
+            return view('admin.collection.index', compact('collectionsArray', 'old', 'collections', 'i'));
+        }
+        else if (isset($data["search"]["clear"])) {
+            $collections = Collection::paginate();
+
+            $collectionsArray = [];
+            foreach ($collections as $collection) {
+                foreach ($collection->translations as $collectionTranslation) {
+                    $collectionsArray[] = [
+                        'id' => $collectionTranslation->collection->id,
+                        'lang' => $collectionTranslation->lang,
+                        'name' => $collectionTranslation->name,
+                        'description' => $collectionTranslation->description
+                    ];
+                }
+            }
+
+            return view('admin.collection.index', compact('collectionsArray', 'collections'))
+                ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
+        }
+        else {
+            $collections = Collection::paginate();
 
         $collectionsArray = [];
         foreach ($collections as $collection) {
             foreach ($collection->translations as $collectionTranslation) {
-                $collectionsArray[] = [
+                if($collectionTranslation->lang == "ca"){
+                    $collectionsArray[] = [
                     'id' => $collectionTranslation->collection->id,
                     'lang' => $collectionTranslation->lang,
                     'name' => $collectionTranslation->name,
                     'description' => $collectionTranslation->description
                 ];
+                }
+
             }
         }
 
-        return view('admin.collection.index', compact('collectionsArray', 'collections'))
-            ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
+            return view('admin.collection.index', compact('collectionsArray', 'collections'))
+                ->with('i', (request()->input('page', 1) - 1) * $collections->perPage());
+        }
     }
 
     /**
@@ -44,7 +114,13 @@ class CollectionController extends Controller
     public function create()
     {
         $collection = new Collection();
-        return view('admin.collection.create', compact('collection'));
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+            ->where(function ($query) {
+                $query->where('iso_language', 'ca')
+                    ->orWhere('iso_language', 'es');
+            })
+            ->get();
+        return view('admin.collection.create', compact('collection', 'languages'));
     }
 
     /**
@@ -58,17 +134,21 @@ class CollectionController extends Controller
 
             // Create the collection
             $collection = Collection::create([]);
+            foreach ($validatedData['translations'] as $language => $translation) {
+                if ($translation) {
+                    $translationData = [
+                        'collection_id' => $collection->id,
+                        'lang' => $language,
+                        'name' => $translation['name'],
+                        'description' => $translation['description'],
+                        'slug' => \App\Http\Actions\FormatDocument::slugify($translation['name']),
+                        'meta_title' => $translation['name'],
+                        'meta_description' => $translation['description'],
+                    ];
+                    CollectionTranslation::create($translationData);
+                }
+            }
 
-            $translationData = [
-                'collection_id' => $collection->id,
-                'lang' => $validatedData['lang'],
-                'name' => $validatedData['name'],
-                'description' => $validatedData['description'],
-                'slug' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']),
-                'meta_title' => \App\Http\Actions\FormatDocument::slugify($validatedData['name']),
-                'meta_description' => \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
-            ];
-            CollectionTranslation::create($translationData);
 
             return redirect()->route('collections.index')
                 ->with('success', 'Col·lecció afegida correctament.');
@@ -92,9 +172,15 @@ class CollectionController extends Controller
      */
     public function edit($id)
     {
-        $collection = $this->getFullCollection($id, $this->lang);
-
-        return view('admin.collection.edit', compact('collection'));
+        $collection = $this->getCollection($id);
+        //$this->getFullCollection($id, $this->lang);
+        $languages = LanguageTranslation::where('iso_translation', $this->lang)
+            ->where(function ($query) {
+                $query->where('iso_language', 'ca')
+                    ->orWhere('iso_language', 'es');
+            })
+            ->get();
+        return view('admin.collection.edit', compact('collection', 'languages'));
     }
 
     /**
@@ -110,14 +196,18 @@ class CollectionController extends Controller
             $collection->update([]);
 
             // Actualizar la traducción de la colección
-            $translation = $collection->translations()->where('lang', $this->lang)->first();
-            if ($translation) {
-                $translation->update([
-                    'lang' => $validatedData['lang'],
-                    'name' => $validatedData['name'],
-                    'description' => $validatedData['description'],
-                    'slug' => $validatedData['name']
-                ]);
+            foreach ($validatedData['translations'] as $language => $data) {
+                $translation = $collection->translations()->where('lang', $language)->first();
+                if ($translation) {
+                    $translation->update([
+                        'lang' => $language,
+                        'name' => $data['name'],
+                        'description' => $data['description'],
+                        'slug' => FormatDocument::slugify($data['slug']),
+                        'meta_title'=>$data['meta_title'],
+                        'meta_description'=>$data['meta_description'],
+                    ]);
+                }
             }
 
             return redirect()->route('collections.index')
@@ -164,5 +254,34 @@ class CollectionController extends Controller
             'meta_description' => $translation->meta_description,
         ];
         return $collectionData;
+    }
+
+    public function getCollection($id = -1)
+    {
+        if ($id != -1) {
+            $coll = Collection::find($id);
+            if ($coll) {
+                $collection = [
+                    'id' => $coll->id,
+                    'translations' => []
+                ];
+                $translations = $coll->translations;
+
+                foreach ($translations as $translation) {
+                    // Verificamos si la traducción es válida
+                    if ($translation) {
+                        $collection['translations'][$translation->lang] = [
+                            'lang' => $translation->lang,
+                            'name' => $translation->name,
+                            'description' => $translation->description,
+                            'slug' => $translation->slug,
+                            'meta_title' => $translation->meta_title,
+                            'meta_description' => $translation->meta_description,
+                        ];
+                    }
+                }
+            }
+        }
+        return $collection;
     }
 }

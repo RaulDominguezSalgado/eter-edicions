@@ -37,11 +37,101 @@ class BookController extends Controller
      * Display a listing of the resource.
      * Used in the backoffice for the books listing
      */
-    public function index()
+    public function index(Request $request)
     {
+        $locale = app()->getLocale() ?? 'ca';
+
+        $data = $request->validate([
+            "isbn" => "",
+            "title" => "",
+            "authors" => "",
+            "translators" => "",
+            "price-min" => "",
+            "price-max" => "",
+            "discounted_price-min" => "",
+            "discounted_price-max" => "",
+            "stock-min" => "",
+            "stock-max" => "",
+            "visible" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $bookspag = Book::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "authors":
+                            $bookspag->whereHas('authors.collaborator.translations', function($query) use ($filtro, $locale) {
+                                $query->where('lang', $locale)
+                                ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        case "translators":
+                            $bookspag->whereHas('translators.collaborator.translations', function($query) use ($filtro, $locale) {
+                                $query->where('lang', $locale)
+                                ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        case "price-min":
+                            $bookspag->where("pvp", '>=', floatval($filtro));
+                        break;
+                        case "price-max":
+                            $bookspag->where("pvp", '<=', floatval($filtro));
+                        break;
+                        case "discounted_price-min":
+                            $bookspag->where("discounted_price", '>=', floatval($filtro))
+                                    ->whereNotNull("discounted_price");
+                        break;
+                        case "discounted_price-max":
+                            $bookspag->where("discounted_price", '<=', floatval($filtro))
+                                    ->whereNotNull("discounted_price");
+                        break;
+                        case "stock-min":
+                            $bookspag->where("stock", '>=', floatval($filtro));
+                        break;
+                        case "stock-max":
+                            $bookspag->where("stock", '<=', floatval($filtro));
+                        break;
+                        case "payment-method":
+                        case "visible":
+                            if ($filtro == "true") {
+                                $bookspag->where($key, true);
+                            }
+                            else if ($filtro == "false") {
+                                $bookspag->where($key, false);
+                            }
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $bookspag->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+
+            }
+            $bookspag = $bookspag->paginate();
+            $books = [];
+            foreach ($bookspag as $book) {
+                $aux = $this->getFullbook($book, $locale);
+                $books[] = $aux;
+            }
+            $old = $data;
+
+            return view('admin.book.index', compact('books', 'old'));
+        }
+        else if (isset($data["search"]["clear"])) {
+            $books = $this->getData();
+            return view('admin.book.index', compact('books'));
+        }
+        else {
+            $books = $this->getData();
+            return view('admin.book.index', compact('books'));
+        }
         // try {
-        $books = $this->getData();
-        return view('admin.book.index', compact('books'));
+        // $books = $this->getData();
+        // return view('admin.book.index', compact('books'));
         // } catch (Exception $e) {
         //     abort(500, 'Server Error');
         // }
@@ -167,6 +257,10 @@ class BookController extends Controller
                 $data['iva'] = 4;
             }
 
+            if ($data['discounted_price'] == 0) {
+                $data['discounted_price'] = null;
+            }
+
             if (!isset($data['stock'])) {
                 $data['stock'] = 0;
             }
@@ -178,7 +272,7 @@ class BookController extends Controller
             if (!isset($data['meta_description'])) {
                 $data['meta_description'] = $data['description'];
             }
-
+            // dd($data);
             $book = Book::create($data);
 
             $this->setBookData($book, $request);
@@ -204,12 +298,55 @@ class BookController extends Controller
     public function show($id)
     {
         try {
-            $book = $this->getData()[0];
-            if (request()->is('admin*')) {
-                return redirect()->route('books.edit', $book->id);
-            } else {
-                return view('book.show', compact('book'));
+            $locale = "ca";
+
+            // dump(Route::currentRouteName());
+            // dump($locale);
+            // dd(Route::currentRouteName() != "home.{$locale}");
+
+
+            $book_lv = Book::find($id);
+
+            // dd($book_lv);
+
+            $book = $this->getFullBook($book_lv, $locale);
+
+            // dd($book);
+
+            $authors = [];
+            foreach ($book_lv->authors()->get() as $author) {
+                $collaboratorController = new CollaboratorController();
+                $collaborator = $collaboratorController->getFullCollaborator($author->id, $locale);
+
+                $authors[] = $collaborator;
             }
+
+            $translators = [];
+            foreach ($book_lv->translators()->get() as $translator) {
+                $collaboratorController = new CollaboratorController();
+                $collaborator = $collaboratorController->getFullCollaborator($translator->id, $locale);
+
+                $translators[] = $collaborator;
+            }
+
+
+            //RELATED BOOKS
+            $related_books = $this->getRelatedBooks($book_lv, $locale);
+
+
+            $page = [
+                'title' => $book_lv->title,
+                'shortDescription' => '',
+                'longDescription' => $book_lv->meta_description,
+                'web' => 'Èter Edicions'
+            ];
+
+            // dd($book);
+            // dd($authors);
+            // dd($translators);
+            // dd($related_books);
+
+            return view('admin.book.show', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
         } catch (Exception $e) {
             abort(500, 'Server Error');
         }
@@ -268,11 +405,11 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        // dump($request);
-        // dump($book);
+        // dd($request);
+        //  dd($book);
         // try {
         // \App\Models\Book::class;
-        $new_data = $request->validated();
+        //$new_data = $request->validated();
         // \App\Models\Book::class;
         $new_data = $request->validated();
 
@@ -298,11 +435,21 @@ class BookController extends Controller
             $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
         }
 
-        // dump($new_data);
+        if ($new_data['discounted_price'] == 0) {
+            $new_data['discounted_price'] = null;
+        }
+
+        // dd($new_data);
 
         $book->update($new_data);
 
         $this->setBookData($book, $request);
+
+        // dd($request->input('action'));
+        if ($request->input('action') == 'show') {
+            return redirect()->route('books.show', $book->id)
+                ->with('success', 'Llibre actualitzat correctament');
+        }
 
         // // Controla la selección del usuario
         // if ($request->input('action') == 'redirect') {
@@ -329,8 +476,16 @@ class BookController extends Controller
 
             return redirect()->route('books.index')
                 ->with('success', 'Book deleted successfully');
-        } catch (Exception $e) {
-            dump($e->getMessage());
+        } catch (QueryException $e) {
+            // Verificar si la excepción es una violación de clave foránea
+            if ($e->getCode() == '23000') {
+                return redirect()->route('books.index')->with('error', 'No es pot eliminar un llibre que té dades associades.');
+            }
+            return redirect()->route('books.index')->with('error', 'Hi ha hagut un error a l\'hora d\'eliminar el llibre.');
+        }catch (Exception $e) {
+            //dump($e->getMessage());
+            return redirect()->route('books.index')
+            ->with('error', $e->getMessage());
             // abort(500, 'Server Error');
         }
     }
@@ -401,22 +556,13 @@ class BookController extends Controller
         try {
             $locale = app()->getLocale();
 
-            // dump(Route::currentRouteName());
-            // dump($locale);
-            // dd(Route::currentRouteName() != "home.{$locale}");
-
-
-            $book_lv = Book::find($id);
-
-            // dd($book_lv);
+            $book_lv = Book::where('slug', $id)->first();
 
             if (!$book_lv->visible) {
                 return view('components.404');
             }
 
             $book = $this->getFullBook($book_lv, $locale);
-
-            // dd($book);
 
             $authors = [];
             foreach ($book_lv->authors()->get() as $author) {
@@ -446,15 +592,9 @@ class BookController extends Controller
                 'web' => 'Èter Edicions'
             ];
 
-            // dd($book);
-            // dd($authors);
-            // dd($translators);
-            // dd($related_books);
-
             return view('public.book', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
         } catch (Exception $e) {
-            // abort(500, 'Server Error');
-            dump($e);
+            abort(500, $e->getMessage());
         }
     }
 
@@ -508,9 +648,12 @@ class BookController extends Controller
             foreach ($book->authors()->get() as $author) {
 
                 $collaboratorTranslation = \App\Models\CollaboratorTranslation::where('collaborator_id', $author->id)->where('lang', $locale)->first();
+
+                // dd($author->collaborator()->first()->translations()->where("lang", $locale)->first());
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
                 $bookResult['authors'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
+                $bookResult["collaborators"]['authors'][] = ["id" => $collaboratorTranslation->collaborator_id, "full_name" => $collaboratorName];
             }
 
             // dd($bookResult);
@@ -521,11 +664,13 @@ class BookController extends Controller
                 $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
                 $bookResult['translators'][] = ["id" => $collaboratorTranslation->collaborator_id, "name" => $collaboratorName];
+                $bookResult["collaborators"]['translators'][] = ["id" => $collaboratorTranslation->collaborator_id, "full_name" => $collaboratorName];
             }
 
             // dd($bookResult);
 
-            foreach ($book->languages()->orderby('id', 'desc')->get() as $lang) {
+            // foreach ($book->languages()->orderBy('id', 'desc')->get() as $lang) {
+            foreach ($book->languages()->get() as $lang) {
 
                 $langTranslation = \App\Models\LanguageTranslation::where('iso_language', $lang->iso)->where('iso_translation', $locale)->first();
                 $langName = $langTranslation->translation;
@@ -538,7 +683,7 @@ class BookController extends Controller
             foreach ($book->collections()->get() as $collection) {
                 $collection = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
 
-                $bookResult['collections'][] = ["id" => $collection->id, "name" => $collection->name];
+                $bookResult['collections'][] = ["id" => $collection->collection_id, "name" => $collection->name];
             }
 
             // dd($bookResult);
@@ -568,6 +713,7 @@ class BookController extends Controller
 
             return $bookResult;
         } catch (Exception $e) {
+            dd($e);
             abort(500, $e->getMessage());
         }
     }
@@ -603,6 +749,13 @@ class BookController extends Controller
             $collaboratorName = $collaboratorTranslation->first_name . " " . $collaboratorTranslation->last_name;
 
             $bookResult['translators'][] = $collaboratorName;
+        }
+
+        foreach ($book->collections()->get() as $collection) {
+            $collectionTranslation = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
+            $collectionName = $collectionTranslation->name;
+
+            $bookResult['collections'][] = [$collection->id, $collectionName];
         }
 
         // dd($bookResult);
@@ -645,7 +798,7 @@ class BookController extends Controller
                 'book_count' => $bookCount,
             ];
         }
-        // Sort authors based on the book count in descending order
+        // Sort authors based on the book count in descending book
         usort($authors, function ($a, $b) {
             return $b['book_count'] <=> $a['book_count'];
         });
@@ -679,7 +832,7 @@ class BookController extends Controller
                 'book_count' => $bookCount,
             ];
         }
-        // Sort translators based on the book count in descending order
+        // Sort translators based on the book count in descending book
         usort($translators, function ($a, $b) {
             return $b['book_count'] <=> $a['book_count'];
         });
@@ -726,7 +879,7 @@ class BookController extends Controller
         $bookTitles = [];
         $result = [];
         foreach ($books as $book) {
-            $bookTitles[$book->title]=true; //Save book title as key in $bookTitles to delete it from related books array, if present
+            $bookTitles[$book->title] = true; //Save book title as key in $bookTitles to delete it from related books array, if present
             $result = array_merge($result, $this->getRelatedBooks($book, $locale));
         }
 
@@ -739,7 +892,9 @@ class BookController extends Controller
         return $result;
     }
 
-
+    /**
+     *  Function that returns the newest books
+     */
     public function getNewestBooks($locale)
     {
         $books_lv = Book::where('visible', 1)
@@ -772,6 +927,9 @@ class BookController extends Controller
     //     return view('admin.book.stock', compact('book', 'bookstores'));
     // }
 
+    /**
+     * Function that redirects to the view stock edit
+     */
     public function editStock($id)
     {
         $locale = "ca";
@@ -894,17 +1052,14 @@ class BookController extends Controller
             $collections_names = [];
             if (!empty($single_data->collections)) {
                 foreach ($single_data->collections as $collection) {
-                    // dd($collection);
                     $name = $collection->translations()->first()->name;
                     $collections_names[] = [
                         'id' => $collection->id,
                         'name' => $name,
                     ];
                 }
-                // dd($collections_names);
             }
             $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
-            // dd($single_data);
             $books[] = [
                 'id' => $single_data->id,
                 'title' => $single_data->title,
@@ -982,7 +1137,6 @@ class BookController extends Controller
             } else {
                 $book->translators()->detach();
             }
-
 
             $request->has('collections') ? $book->collections()->sync(array_unique($request->input('collections'))) : '';
 

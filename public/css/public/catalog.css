@@ -1,6 +1,6 @@
 .body {
-    padding-left: 6.75em;
-    padding-right: 6.75em;
+    /* padding-left: 6.75em;
+    padding-right: 6.75em; */
 
     min-height: 85vh;
 }
@@ -15,4 +15,14 @@
     object-fit: cover;
 
     box-shadow: -6px 7px 10.6px 1px rgba(0, 0, 0, 0.3);
+}
+#tabs-links > ul > li {
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+#tabs-links > ul > li.active {
+    border-bottom: 1px solid black;
+}
+#tabs-contents > div:not(.active) {
+    display: none;
 }

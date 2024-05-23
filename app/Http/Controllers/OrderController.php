@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Http\Requests\OrderRequest;
+use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\OrderStatusHistory;
 use Exception;
+use Faker\Core\Number;
 use Spatie\LaravelIgnition\Recorders\DumpRecorder\Dump;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Utility\PaymentMethods;
 
 /**
  * Class OrderController
@@ -18,16 +21,29 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
  */
 class OrderController extends Controller
 {
+    private $payment_methods;
+
+
+    public function __construct() {
+        $this->payment_methods = PaymentMethods::all();
+    }
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orderspag = Order::paginate();
-        $orders = [];
-        foreach ($orderspag as $order) {
-            $orders[] = $this->getFullOrder($order);
+        $status_list = [];
+        foreach (OrderStatus::all() as $status) {
+            $status_list[] = [
+                "id" => $status->id,
+                "name" => $status->name,
+            ];
         }
+
+        $payment_methods = $this->payment_methods;
+
         //$orders= [];
 
         // <td>{{ $order['id'] }}</td>
@@ -38,8 +54,86 @@ class OrderController extends Controller
         // <td>{{ $order['payment_method'] }}</td>
         // <td>{{ $order['date'] }}</td>
         // <td>{{ $order['order_pdf'] }}</td>
-        return view('admin.order.index', compact('orders', 'orderspag'))
+
+        $data = $request->validate([
+            "reference" => "",
+            "address" => "",
+            "client" => "",
+            "total-min" => "",
+            "total-max" => "",
+            "payment_method" => "",
+            "status_id" => "",
+            "date-min" => "",
+            "date-max" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $orderspag = Order::query();
+            $orderspag->where('payment_method', '!=', 'pending');
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "client":
+                            $orderspag->where(function($query) use ($filtro) {
+                                $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        case "total-min":
+                            $orderspag->where("total", '>=', floatval($filtro));
+                        break;
+                        case "total-max":
+                            $orderspag->where("total", '<=', floatval($filtro));
+                        break;
+                        case "payment_method":
+                        case "status_id":
+                            $orderspag->where($key, $filtro);
+                        break;
+                        case "date-min":
+                            $orderspag->where("date", '>=', date($filtro));
+                        break;
+                        case "date-max":
+                            $orderspag->where("date", '<=', date($filtro));
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $orderspag->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+
+            }
+            $orderspag = $orderspag->paginate();
+            $orders = [];
+            foreach ($orderspag as $order) {
+                $orders[] = $this->getFullOrder($order);
+            }
+            $old = $data;
+
+            return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods', 'old'))
             ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
+        }
+        else if (isset($data["search"]["clear"])) {
+            $orderspag = Order::where('payment_method', '!=', 'pending')->paginate();
+            $orders = [];
+            foreach ($orderspag as $order) {
+                $orders[] = $this->getFullOrder($order);
+            }
+
+            return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods'))
+            ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
+        }
+        else {
+            $orderspag = Order::where('payment_method', '!=', 'pending')->paginate();
+            $orders = [];
+            foreach ($orderspag as $order) {
+                $orders[] = $this->getFullOrder($order);
+            }
+
+            return view('admin.order.index', compact('orders', 'orderspag', 'status_list', 'payment_methods'))
+            ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
+        }
     }
     //TODO CHECK ERROR CASES
     public function getFullOrder($order)
@@ -59,9 +153,14 @@ class OrderController extends Controller
             'locality' => $order->locality,
             'country' => $order->country,
             'zip_code' => $order->zip_code,
+            // 'city' => $order->city,
+            'locality' => $order->locality,
+            'province' => $order->province,
+            'country' => $order->country,
             'payment_method' => $order->payment_method,
             'date' => $order->date,
             'status' => $order->status->name,
+            'status_color' => strtolower($order->status->color),
             'pdf' => $order->pdf,
             'tracking_id' => $order->tracking_id
         ];
@@ -183,11 +282,15 @@ class OrderController extends Controller
             $validatedData = $this->validateOrder($request);
 
             // Guardar la orden
-            $this->saveOrder($validatedData);
+            $order = $this->saveOrder($validatedData);
 
+            if ($request->input('action') == 'show') {
+                return redirect()->route('orders.show', $order->id)
+                    ->with('success', 'Comanda actualitzada correctament.');
+            }
             // Redireccionar con un mensaje de éxito
             return redirect()->route('orders.index')
-                ->with('success', 'Order created successfully.');
+                ->with('success', 'Comanda actualitzada correctament.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Redireccionar de vuelta con los errores de validación
             return redirect()->back()->withErrors($e->errors());
@@ -263,6 +366,7 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'status_id' => $order->status_id,
         ]));
+        return $order;
     }
 
     public function saveOrderCheckout($validatedData){
@@ -325,7 +429,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         return view('admin.order.show', compact('order'));
-        //return view('public.order_pdf', compact('order'));
+        // return view('public.order_pdf', compact('order'));
     }
 
     /**
@@ -336,7 +440,8 @@ class OrderController extends Controller
         $order = $this->getFullOrder(Order::find($id));
         $books = Book::all();
         $statuses = OrderStatus::all();
-        return view('admin.order.edit', compact('order', 'statuses', 'books'));
+        $payment_methods = $this->payment_methods;
+        return view('admin.order.edit', compact('order', 'statuses', 'books', 'payment_methods'));
     }
 
     /**
@@ -442,7 +547,10 @@ class OrderController extends Controller
                 // dump($orderStatusHistory);
             }
 
-
+            if ($request->input('action') == 'show') {
+                return redirect()->route('orders.show', $order->id)
+                    ->with('success', 'Comanda actualitzada correctament.');
+            }
             return redirect()->route('orders.index')
                 ->with('success', 'Order updated successfully');
         } catch (Exception $e) {

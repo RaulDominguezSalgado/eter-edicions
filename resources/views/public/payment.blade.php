@@ -49,10 +49,10 @@ $order = old() ?? [];
             </span>
         </div>
     @endif
-    <div class="flex w-full">
-        <form action="{{ route('payment') }}" method="POST" class="flex w-full">
-            <div class="flex w-2/3">
-                <div id="checkout-main-content" class="flex-col pr-5 space-y-4 ">
+    <div class="flex flex-col md:flex-row w-full">
+        <form action="{{ route('payment') }}" method="POST" class="flex flex-col md:flex-row w-full ps-1 pr-3">
+            <div class="flex md:w-2/3">
+                <div id="checkout-main-content" class="flex-col pr-5">
                     @csrf
                     <h2>{{ __('form.payment-method') }}</h2>
                     <div class="">
@@ -63,7 +63,7 @@ $order = old() ?? [];
                             <li class="w-2/5 min-w-max flex items-center space-x-4 ">
                                 <input value="paypal" @if (isset($order['payment_method']) && $order['payment_method'] == 'paypal') checked @endif type="radio"
                                     class="" name="payment_method" id="paypal" value="paypal">
-                                <label for="paypal" class="w-full">
+                                <label for="paypal" class="w-full mt-4">
                                     <div class="flex justify-between text-lg">
                                         {{-- {{ __('form.paypal') }} --}}
                                         <img src="{{ asset('img/icons/third-party-logos/paypal.svg') }}"
@@ -115,7 +115,7 @@ $order = old() ?? [];
                     </div>
                     {{-- <input type="text" name="total" value="{{ Cart::instance('default')->total() + $order->shipment_taxes }}" id="total"
                         hidden> --}}
-                    <div>
+                    <div class="hidden md:block">
                         <input type="text" name="orderId" value="{{ $orderId }}" id="total" hidden>
                         <button class="send-button">
                             {{ __('checkout.continue-with-payment') }}
@@ -123,7 +123,7 @@ $order = old() ?? [];
                     </div>
                 </div>
             </div>
-            <aside id="" class="flex-col w-1/3 pl-5">
+            <div id="" class="flex-col md:w-1/3 md:min-w-80 md:pl-5 mb-8">
                 <div>
                     <h2>{{ trans_choice('words.producte', 2) }}</h2>
                     <x-partials.cartContent></x-partials.cartContent>
@@ -147,11 +147,18 @@ $order = old() ?? [];
                         <div class="border my-3"></div>
                         <div class="flex">
                             <div class="flex-col w-1/2 min-w-fit">{{__("Total")}}</div>
-                            <div class="flex-col w-1/2 text-right">{{ str_replace(".", ",", Cart::instance("default")->total()+$shipment_tax )}}€</div>
+
+                            <div class="flex-col w-1/2 text-right" id="total">{{ str_replace(".", ",", Cart::instance("default")->total()+$shipment_tax )}}€</div>
                         </div>
                     </div>
                 </div>
-            </aside>
+            </div>
+            <div class="block md:hidden">
+                <input type="text" name="orderId" value="{{ $orderId }}" id="total" hidden>
+                <button class="send-button">
+                    {{ __('checkout.continue-with-payment') }}
+                </button>
+            </div>
         </form>
     </div>
 

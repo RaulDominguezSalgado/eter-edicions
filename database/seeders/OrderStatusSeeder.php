@@ -20,6 +20,12 @@ class OrderStatusSeeder extends Seeder
         $paymentpending->color = "#4E80FF";
         $paymentpending->save();
 
+        //pagament pendent
+        $paymentpending = new OrderStatus();
+        $paymentpending->name = "Pagament amb transferència pendent de comprobació";
+        $paymentpending->color = "#4E54FF";
+        $paymentpending->save();
+
         //pagat
         $payed = new OrderStatus();
         $payed->name = "Pagat, pendent d'enviament";
@@ -32,12 +38,23 @@ class OrderStatusSeeder extends Seeder
         $sent->color = "#0B8B4E";
         $sent->save();
 
-
         //entregat
         $delivered = new OrderStatus();
         $delivered->name = "Entregat";
         $delivered->color = "#8A2BE2";
         $delivered->save();
+
+        //error en el pagament
+        $paymenterror = new OrderStatus();
+        $paymenterror->name = "Error en el pagament";
+        $paymenterror->color = "#B90126";
+        $paymenterror->save();
+
+        //cancel·lat
+        $cancelled = new OrderStatus();
+        $cancelled->name = "Cancel·lat";
+        $cancelled->color = "#FF0000";
+        $cancelled->save();
 
         //retornat
         $returned = new OrderStatus();
@@ -45,16 +62,7 @@ class OrderStatusSeeder extends Seeder
         $returned->color = "#41007D";
         $returned->save();
 
-         //error en el pagament
-         $paymenterror = new OrderStatus();
-         $paymenterror->name = "Error en el pagament";
-         $paymenterror->color = "#B90126";
-         $paymenterror->save();
 
-        //cancel·lat
-        $cancelled = new OrderStatus();
-        $cancelled->name = "Cancel·lat";
-        $cancelled->color = "#FF0000";
-        $cancelled->save();
+
     }
 }

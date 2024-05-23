@@ -6,6 +6,7 @@ use App\Http\Actions\ImageHelperEditor;
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Models\Author;
+use App\Models\Collaborator;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
@@ -13,11 +14,15 @@ use App\Models\CollaboratorTranslation;
 use App\Services\Translation\OrthographicRules;
 
 use Carbon\Carbon;
+use Exception;
 use PHPUnit\Metadata\Uses;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
+
+use Illuminate\Http\Exceptions\PostTooLargeException;
 
 /**
  * Class PostController
@@ -29,41 +34,150 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::paginate();
-        $postsArray = [];
-        foreach ($posts as $post) {
-            if ($post->author) {
-                $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
-            } else {
-                $authorID = '';
-            }
+        $locale = app()->getLocale() ?? 'ca';
 
-            if ($post->translator) {
-                $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
-            } else {
-                $translator = '';
+        $data = $request->validate([
+            "title" => "",
+            "description" => "",
+            "content" => "",
+            "publication_date-min" => "",
+            "publication_date-max" => "",
+            "published_by" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $posts = Post::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "publication_date-min":
+                            $posts->where("publication_date", '>=', date($filtro));
+                        break;
+                        case "publication_date-max":
+                            $posts->where("publication_date", '<=', date($filtro));
+                        break;
+                        case "published_by":
+                            $posts->whereHas('user', function($query) use ($filtro) {
+                                $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $posts->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+                
             }
+            $posts = $posts->paginate();
+            $postsArray = [];
+            foreach ($posts as $post) {
+                if ($post->author) {
+                    $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+                } else {
+                    $authorID = '';
+                }
 
-            $postsArray[] = [
-                'id' => $post->id,
-                'title' => $post->title,
-                'description' => $post->description,
-                'author_id' => $authorID,
-                'translator_id' => $translator,
-                'content' => $post->content,
-                'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
-                'time' => substr($post->date, 10, 15),
-                'location' => $post->location,
-                'image' => $post->image,
-                'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
-                'published_by' => $post->user->first_name . " " . $post->user->last_name
-            ];
+                if ($post->translator) {
+                    $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
+                } else {
+                    $translator = '';
+                }
+
+                $postsArray[] = [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    'author_id' => $authorID,
+                    'translator_id' => $translator,
+                    'content' => $post->content,
+                    'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'time' => substr($post->date, 10, 15),
+                    'location' => $post->location,
+                    'image' => $post->image,
+                    'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'published_by' => $post->user->first_name . " " . $post->user->last_name
+                ];
+            }
+            $old = $data;
+            $i = (request()->input('page', 1) - 1) * $posts->perPage();
+
+            return view('admin.post.index', compact('posts', 'old', 'postsArray', 'i'));
         }
-        //dd($postsArray);
-        return view('admin.post.index', compact('postsArray', 'posts'))
-            ->with('i', (request()->input('page', 1) - 1) * $posts->perPage());
+        else if (isset($data["search"]["clear"])) {
+            $posts = Post::paginate();
+            $postsArray = [];
+            foreach ($posts as $post) {
+                if ($post->author) {
+                    $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+                } else {
+                    $authorID = '';
+                }
+
+                if ($post->translator) {
+                    $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
+                } else {
+                    $translator = '';
+                }
+
+                $postsArray[] = [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    'author_id' => $authorID,
+                    'translator_id' => $translator,
+                    'content' => $post->content,
+                    'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'time' => substr($post->date, 10, 15),
+                    'location' => $post->location,
+                    'image' => $post->image,
+                    'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'published_by' => $post->user->first_name . " " . $post->user->last_name
+                ];
+            }
+            //dd($postsArray);
+            return view('admin.post.index', compact('postsArray', 'posts'))
+                ->with('i', (request()->input('page', 1) - 1) * $posts->perPage());
+        }
+        else {
+            $posts = Post::paginate();
+            $postsArray = [];
+            foreach ($posts as $post) {
+                if ($post->author) {
+                    $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+                } else {
+                    $authorID = '';
+                }
+
+                if ($post->translator) {
+                    $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
+                } else {
+                    $translator = '';
+                }
+
+                $postsArray[] = [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    'author_id' => $authorID,
+                    'translator_id' => $translator,
+                    'content' => $post->content,
+                    'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'time' => substr($post->date, 10, 15),
+                    'location' => $post->location,
+                    'image' => $post->image,
+                    'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'published_by' => $post->user->first_name . " " . $post->user->last_name
+                ];
+            }
+            //dd($postsArray);
+            return view('admin.post.index', compact('postsArray', 'posts'))
+                ->with('i', (request()->input('page', 1) - 1) * $posts->perPage());
+        }
     }
 
     /**
@@ -119,67 +233,94 @@ class PostController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validated();
+        try{
+            if ($request->hasFile('image')) {
+                // Obtener el archivo de imagen
+                $imagen = $request->file('image');
+                $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['title']);
 
-        if ($request->hasFile('image')) {
-            // Obtener el archivo de imagen
-            $imagen = $request->file('image');
-            $slug = \App\Http\Actions\FormatDocument::slugify($validatedData['title']);
+                $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
-            $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
+                // Procesar y guardar la imagen
+                //$rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
+                //$imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
+                //$this->editImage($rutaImagen);
 
-            // Procesar y guardar la imagen
-            //$rutaImagen = public_path('img/posts/' . $nombreImagenOriginal);
-            //$imagen->move(public_path('img/posts/'), $nombreImagenOriginal);
-            //$this->editImage($rutaImagen);
+                // // Procesar y guardar la imagen
+                $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
+                // $this->editImage($nombreImagenOriginal, "collaborator");
+                ImageHelperEditor::editImage($nombreImagenOriginal, "post");
 
-            // // Procesar y guardar la imagen
-            $imagen->move(public_path('img/temp/'), $nombreImagenOriginal);
-            // $this->editImage($nombreImagenOriginal, "collaborator");
-            ImageHelperEditor::editImage($nombreImagenOriginal, "post");
+                $validatedData['image'] = $nombreImagenOriginal;
+            }
 
-            $validatedData['image'] = $nombreImagenOriginal;
+            // Set default values for date and time if not provided
+            $date = $validatedData['date'] ?? null;
+            $time = $validatedData['time'] ?? null;
+            // Combine date and time
+            if ($date && $time) {
+                $datetime = $date ? Carbon::parse("$date $time") : null;
+            } else {
+                $datetime = null;
+            }
+
+            //dd(Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']));
+            //$date = Carbon::createFromFormat('Y-m-d', $validatedData['date']);
+            //$date = Carbon::parse($validatedData['date']);
+            //$time = Carbon::createFromFormat('H:i', $validatedData['time']);
+            // $time = Carbon::parse($validatedData['time']);
+            // $datetime = $date->hour($time->hour)->minute($time->minute);
+
+            //dd($request);
+            $type = $request->input('select-type');
+            if($type=="activity"){
+                $translationData = [
+                    'title' => $validatedData['title'],
+                    'description' => $validatedData['description'],
+                    //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
+                    'content' => $validatedData['content'],
+                    //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
+                    'date' => $datetime, // . ":00",
+                    'location' => $validatedData['location'],
+                    'image' => $validatedData['image'],
+                    'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
+                    'publication_date' => $validatedData['publication_date'],
+                    'published_by' => $validatedData['published_by']
+                ];
+            }else if($type=="article"){
+                $translationData = [
+                    'title' => $validatedData['title'],
+                    'description' => $validatedData['description'],
+                    //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
+                    'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : null,
+                    'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
+                    'content' => $validatedData['content'],
+                    //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
+                    'image' => $validatedData['image'],
+                    'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
+                    'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
+                    'publication_date' => $validatedData['publication_date'],
+                    'published_by' => $validatedData['published_by']
+                ];
+            }
+            //if $validatedData['author'], $translationData[] = ['author_id' => $validatedData['author_id']]
+            //if $validatedData['translator'], $translationData[] = ['translator_id' => $validatedData['translator_id']]
+
+            Post::create($translationData);
+
+            return redirect()->route('posts.index')
+                ->with('success', 'Post created successfully.');
+        }catch (PostTooLargeException $e) {
+            // Handle the exception
+            return redirect()->back()->withErrors(['file' => 'The file is too large. Please upload a file smaller than 32MB.']);
+        }catch(Exception $e){
+            return redirect()->back()
+                ->with('error', $e->getMessage());
         }
 
-        // Set default values for date and time if not provided
-        $date = $validatedData['date'] ?? null;
-        $time = $validatedData['time'] ?? null;
-        // Combine date and time
-        if ($date && $time) {
-            $datetime = $date ? Carbon::parse("$date $time") : null;
-        } else {
-            $datetime = null;
-        }
-
-        //dd(Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']));
-        //$date = Carbon::createFromFormat('Y-m-d', $validatedData['date']);
-        //$date = Carbon::parse($validatedData['date']);
-        //$time = Carbon::createFromFormat('H:i', $validatedData['time']);
-        // $time = Carbon::parse($validatedData['time']);
-        // $datetime = $date->hour($time->hour)->minute($time->minute);
-        $translationData = [
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description'],
-            //'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : '',
-            'author_id' => array_key_exists('author_id', $validatedData) ? $validatedData['author_id'] : null,
-            'translator_id' => array_key_exists('translator_id', $validatedData) ? $validatedData['translator_id'] : null,
-            'content' => $validatedData['content'],
-            //'date' => Carbon::createFromFormat(('Y-m-d H:i'), $validatedData['date'] . " " . $validatedData['time']),
-            'date' => $datetime, // . ":00",
-            'location' => $validatedData['location'],
-            'image' => $validatedData['image'],
-            'slug' =>  strlen($validatedData['slug']) >= 1 ? $validatedData['slug'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-            'meta_title' => strlen($validatedData['meta_title']) >= 1 ? $validatedData['meta_title'] : \App\Http\Actions\FormatDocument::slugify($validatedData['title']),
-            'meta_description' => strlen($validatedData['meta_description']) >= 1 ? $validatedData['meta_description'] : \App\Http\Actions\FormatDocument::slugify($validatedData['description']),
-            'publication_date' => $validatedData['publication_date'],
-            'published_by' => $validatedData['published_by']
-        ];
-        //if $validatedData['author'], $translationData[] = ['author_id' => $validatedData['author_id']]
-        //if $validatedData['translator'], $translationData[] = ['translator_id' => $validatedData['translator_id']]
-
-        Post::create($translationData);
-
-        return redirect()->route('posts.index')
-            ->with('success', 'Post created successfully.');
     }
 
 
@@ -233,16 +374,19 @@ class PostController extends Controller
 
         $postObject = Post::find($id);
         $post = [];
+        $isActivity=null;
         //dd($postObject);
 
         if ($postObject->author) {
             $authorID = $postObject->author_id;
+            $isActivity=false;
         } else {
             $authorID = '';
         }
 
         if ($postObject->translator) {
             $translator = $postObject->translator_id;
+            $isActivity=false;
         } else {
             $translator = '';
         }
@@ -250,10 +394,12 @@ class PostController extends Controller
         if($postObject->date){
             $date = substr($postObject->date, 0, 10);
             $time = Carbon::parse(substr($postObject->date, 10, 18))->format('H:i');
+            $isActivity=true;
         }else{
             $date = '';
             $time = '';
         }
+
         $post = [
             'id' => $postObject->id,
             'title' => $postObject->title,
@@ -262,6 +408,7 @@ class PostController extends Controller
             'translator_id' => $translator,
             'content' => $postObject->content,
             'date' => $date,
+            'isActivity'=>$isActivity,
             //'time' => substr($postObject->date, 10, 15),
             'time' => $time,
             'location' => $postObject->location,
@@ -279,7 +426,10 @@ class PostController extends Controller
 
         return view('admin.post.edit', compact('post', 'translators', 'authors', 'users'));
     }
+    public function getTypeOfPost($post){
 
+        return false;
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -304,11 +454,14 @@ class PostController extends Controller
         $validatedData['date'] = $datetime;
 
         $post->update($validatedData);
-
+        if ($request->input('action') == 'show') {
+            return redirect()->route('posts.show', $post->id)
+                ->with('success', 'Post actualitzat correctament');
+        }
 
         return redirect()->route('posts.index')
 
-            ->with('success', 'Post updated successfully');
+            ->with('success', 'Post actualitzat correctament');
     }
 
     public function destroy($id)
@@ -316,7 +469,7 @@ class PostController extends Controller
         Post::find($id)->delete();
 
         return redirect()->route('posts.index')
-            ->with('success', 'Post deleted successfully');
+            ->with('success', 'Post eliminat correctament');
     }
 
 
@@ -377,7 +530,7 @@ class PostController extends Controller
         $locale = "ca";
 
 
-        $post_lv = Post::find($id);
+        $post_lv = Post::where('slug', $id)->first();
 
         $page = [
             'title' => $post_lv->meta_title,

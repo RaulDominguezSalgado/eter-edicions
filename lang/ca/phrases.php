@@ -10,5 +10,11 @@ return [
     'botó per' => 'botó per',
 
     "no s'ha trobat cap resultat" => "no s'ha trobat cap resultat",
+
+    'pagina de cerca' => 'pàgina de cerca',
+
+    "logo" => "logotip :de:name",
+
+    'Encara no hi han llibres en aquesta col·lecció' => 'Encara no hi han llibres en aquesta col·lecció',
 ];
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Actions\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderStatusRequest extends FormRequest
+class ContactFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +23,10 @@ class OrderStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'name' => 'required|string',
+            'name' => ['required',Validator::$validations["first_name"]],
+            'email' => ['required',Validator::$validations["email"]],
+            'subject' => ['required',Validator::$validations["description"]],
+            'message' => ['required',Validator::$validations["description"]],
         ];
     }
 }

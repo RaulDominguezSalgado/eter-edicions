@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Actions\Validator;
+use Closure;
+use Illuminate\Support\Facades\Http;
+
+
 use \App\Models\Page;
 use App\Models\Book;
 use App\Models\Post;
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\PostController;
+
+
+use App\Http\Requests\ContactFormRequest;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 
@@ -27,13 +36,13 @@ class PageController extends Controller
 
         $bookController = new BookController();
         $books = $bookController->getNewestBooks($locale);
-        // dd($books);
 
         $postController = new PostController();
         $posts = $postController->getLatestPosts($locale);
-        // dd($posts);
 
-        return view('public.home', compact('books', 'posts', 'page', 'locale'));
+        $legalInfo = GeneralSettingController::getContactInfo();
+
+        return view('public.home', compact('books', 'posts', 'page', 'locale', 'legalInfo'));
     }
 
 
@@ -85,9 +94,38 @@ class PageController extends Controller
     }
 
 
-    public function sendContactForm()
+    public function sendContactForm(Request $request)
     {
-        return "email sent";
+        try {
+            // dd($request);
+
+            $locale = app()->getLocale() ?: 'ca';
+            $request->validate([
+                'name' => ['required', Validator::$validations["first_name"]],
+                'email' => ['required', Validator::$validations["email"]],
+                'subject' => ['required', Validator::$validations["description"]],
+                'message' => ['required', Validator::$validations["description"]],
+                // 'g-recaptcha-response' => ["required", function (string $attribute, mixed $value, Closure $fail) {
+                //     $g_response = Http::asForm()->post("https://www.google.com/recaptcha/api/siteverify", [
+                //         "secret" => config("services.recaptcha.secret_key"),
+                //         "response" => $value,
+                //         "remoteip" => \request()->ip(),
+                //     ]);
+                //     if (!$g_response->JSON("response")) {
+                //         $fail("The {$attribute} is invalid.");
+                //     }
+                // },],
+            ]);
+            // dd($request);
+            // $adminMail = \App\Models\GeneralSettings::where("key", "general_contact")->first()->value;
+            $adminMail = "jordicatsg2@gmail.com";
+
+            // Mail::to($adminMail)->send(new \App\Mail\ContactForm($request, "admin", $locale));
+            // Mail::to($request->input("email"))->send(new \App\Mail\ContactForm($request, "client", $locale));
+            return back()->with(["success" => "La vostra solicitud s'ha enviat correctament."]);
+        } catch (\Exception $e) {
+            return back()->with(["error" => $e]);
+        }
     }
 
 
@@ -106,7 +144,7 @@ class PageController extends Controller
             $page['title'] = $translation->meta_title;
             $page['longDescription'] = $translation->meta_description;
             $page['shortDescription'] = "";
-            $page['web'] = 'Èter Edicions';
+            $webTitle = 'Èter Edicions';
             $page['slug'] = $translation->slug;
         }
         // dd($translation->contents);
