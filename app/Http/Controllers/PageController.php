@@ -75,8 +75,9 @@ class PageController extends Controller
         $locale = app()->getLocale() ?: 'ca';
 
         $page = $this->getFullPage('contact', $locale);
+        $contactInfo =  GeneralSettingController::getContactInfo();
 
-        return view('public.contact', compact('page', 'locale'));
+        return view('public.contact', compact('page', 'contactInfo', 'locale'));
     }
 
     public function agency()
