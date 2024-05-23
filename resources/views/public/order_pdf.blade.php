@@ -44,7 +44,7 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                 <p><strong>{{ __('form.reference-number') }}:</strong></p>
                 <p class="mb-1"> {{ $order->reference }}</p>
                 <p><strong>{{ __('form.payment-method') }}:</strong></p>
-                <p class="mb-1"> {{ $order->payment_method }}</p>
+                <p class="mb-1"> {{ $paymentMethod }}</p>
                 <!-- Other order details -->
             </div>
 

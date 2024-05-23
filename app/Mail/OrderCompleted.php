@@ -30,7 +30,7 @@ class OrderCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Hem rebut la teva comanda #" . $this->order->reference,
+            subject: __('checkout.purchase-received') . " #" . $this->order->reference,
         );
     }
 
