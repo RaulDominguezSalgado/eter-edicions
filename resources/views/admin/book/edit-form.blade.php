@@ -763,6 +763,9 @@ function getLanguagesOptions($languages, $selected = null)
 <div id="save" class="flex justify-center">
     <button id="submit-button" class="send-button" type="submit" value="stay" name="action">Desar
         canvis</button>
+        <button id="show-button" class="send-button" type="submit" value="show" name="action">
+            Vista prèvia
+        </button>
 </div>
 
 <script src="/js/form/dynamic_textarea.js"></script>

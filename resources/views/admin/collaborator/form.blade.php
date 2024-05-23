@@ -134,20 +134,5 @@
     <div class="col-md-12 mt20 mt-2">
         <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
     </div>
-    <script>
-        document.getElementById('lang').addEventListener('change', function() {
-            var selectedLanguage = this.value;
-            var idiomaContainers = document.getElementsByClassName('idioma-container');
-
-            for (var i = 0; i < idiomaContainers.length; i++) {
-                var container = idiomaContainers[i];
-                if (container.id === selectedLanguage) {
-                    container.style.display = 'block'; // Mostrar el contenedor correspondiente al idioma seleccionado
-                } else {
-                    container.style.display = 'none'; // Ocultar los otros contenedores
-                }
-            }
-        });
-    </script>
 </div>
 <script src="{{ asset('js/form/social_networks.js') }}"></script>

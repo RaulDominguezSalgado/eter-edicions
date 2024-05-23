@@ -25,9 +25,23 @@ document.addEventListener('DOMContentLoaded', function() {
         var nuevas_redes_sociales = document.createElement('div');
         nuevas_redes_sociales.classList.add('red_social' + contador);
         nuevas_redes_sociales.innerHTML = '<div><input type="text" name="red_social[]" placeholder="Nom de la xarxa social"></div><div><input type="text" name="usuario_red_social[]" placeholder="URL del usuari"></div>';
-        nuevas_redes_sociales.classList.add('flex', 'space-x-4'); 
+        nuevas_redes_sociales.classList.add('flex', 'space-x-4');
         document.getElementById('redes_sociales').appendChild(nuevas_redes_sociales);
         contador++;
+    });
+
+    document.getElementById('lang').addEventListener('change', function() {
+        var selectedLanguage = this.value;
+        var idiomaContainers = document.getElementsByClassName('idioma-container');
+
+        for (var i = 0; i < idiomaContainers.length; i++) {
+            var container = idiomaContainers[i];
+            if (container.id === selectedLanguage) {
+                container.style.display = 'block'; // Mostrar el contenedor correspondiente al idioma seleccionado
+            } else {
+                container.style.display = 'none'; // Ocultar los otros contenedores
+            }
+        }
     });
 });
 

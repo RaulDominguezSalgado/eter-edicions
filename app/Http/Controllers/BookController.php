@@ -311,11 +311,11 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-          dump($request);
+        //dump($request);
         //  dd($book);
         // try {
         // \App\Models\Book::class;
-        $new_data = $request->validated();
+        //$new_data = $request->validated();
         // \App\Models\Book::class;
         $new_data = $request->validated();
 
@@ -346,6 +346,12 @@ class BookController extends Controller
         $book->update($new_data);
 
         $this->setBookData($book, $request);
+
+        // dd($request->input('action'));
+        if ($request->input('action') == 'show') {
+            return redirect()->route('books.show', $book->id)
+                ->with('success', 'Llibre actualitzat correctament');
+        }
 
         // // Controla la selección del usuario
         // if ($request->input('action') == 'redirect') {
@@ -769,7 +775,7 @@ class BookController extends Controller
         $bookTitles = [];
         $result = [];
         foreach ($books as $book) {
-            $bookTitles[$book->title]=true; //Save book title as key in $bookTitles to delete it from related books array, if present
+            $bookTitles[$book->title] = true; //Save book title as key in $bookTitles to delete it from related books array, if present
             $result = array_merge($result, $this->getRelatedBooks($book, $locale));
         }
 
