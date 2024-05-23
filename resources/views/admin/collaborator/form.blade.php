@@ -38,7 +38,6 @@
             <select name="lang" class="form-control @error('lang') is-invalid @enderror" id="lang">
                 <option selected disabled>Selecciona un idioma</option>
                 @foreach ($languages as $language)
-
                     <option value="{{ $language['iso_language'] }}">
                         {{ $language['translation'] }}
                     </option>
@@ -52,67 +51,83 @@
                 <div class="form-group mb-2 mb20">
                     <label for="first_name" class="form-label">{{ __('Nom') }}</label>
                     <input required type="text" name="translations[{{ $language['iso_language'] }}][first_name]"
-                        class="form-control @error('translations.'.$language['iso_language'].'.first_name') is-invalid @enderror"
-                        value="{{ old('translations.'.$language['iso_language'].'.first_name', $collaborator['translations'][$language['iso_language']]['first_name']) }}" id="first_name" placeholder="Nom">
-                    {!! $errors->first('translations.'.$language['iso_language'].'.first_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+                        class="form-control @error('translations.' . $language['iso_language'] . '.first_name') is-invalid @enderror"
+                        value="{{ old('translations.' . $language['iso_language'] . '.first_name', $collaborator['translations'][$language['iso_language']]['first_name']) }}"
+                        id="first_name" placeholder="Nom">
+                    {!! $errors->first(
+                        'translations.' . $language['iso_language'] . '.first_name',
+                        '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                    ) !!}
                 </div>
 
                 <div class="form-group mb-2 mb20">
                     <label for="last_name" class="form-label">{{ __('Cognom') }}</label>
-                    <input required type="text" name="translations[{{ $language['iso_language'] }}][last_name]" class="form-control @error('translations.'.$language['iso_language'].'.last_name') is-invalid @enderror"
-                        value="{{ old('translations.'.$language['iso_language'].'.last_name', $collaborator['translations'][$language['iso_language']]['last_name']) }}" id="last_name" placeholder="Cognom">
-                    {!! $errors->first('translations.'.$language['iso_language'].'.last_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+                    <input required type="text" name="translations[{{ $language['iso_language'] }}][last_name]"
+                        class="form-control @error('translations.' . $language['iso_language'] . '.last_name') is-invalid @enderror"
+                        value="{{ old('translations.' . $language['iso_language'] . '.last_name', $collaborator['translations'][$language['iso_language']]['last_name']) }}"
+                        id="last_name" placeholder="Cognom">
+                    {!! $errors->first(
+                        'translations.' . $language['iso_language'] . '.last_name',
+                        '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                    ) !!}
                 </div>
 
                 <div class="form-group mb-2 mb20">
                     <label for="biography" class="form-label">{{ __('Biografia') }}</label>
                     <textarea required name="translations[{{ $language['iso_language'] }}][biography]"
-                        class="form-textarea h-40 w-full px-3 py-2 border @error('translations.'.$language['iso_language'].'.biography') border-red-500 @enderror" id="biography"
-                        placeholder="Biografía">{{ old('translations.'.$language['iso_language'].'.biography', $collaborator['translations'][$language['iso_language']]['biography']) }}</textarea>
-                    {!! $errors->first('translations.'.$language['iso_language'].'.biography', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                </div>
-
-                {{-- Slug --}}
-                <div class="w-full flex items-center space-x-1">
-                    <label for="slug" class="form-label">{{ __('Enllaç') }}</label>
-                    <p class="min-w-fit">eteredicions.com /</p>
-                    <input type="text" name="translations[{{ $language['iso_language'] }}][slug]"
-                        class="md:min-w-80 m-0 ps-1 pe-0 is-disabled @error('slug') is-invalid @else border-0 @enderror"
-                        value="{{ old('translations.' . $language['iso_language'] . '.slug', $collaborator['translations'][$language['iso_language']]['slug']) }}"
-                        id="slug" placeholder="enllaç-personalitzat">
+                        class="form-textarea h-40 w-full px-3 py-2 border @error('translations.' . $language['iso_language'] . '.biography') border-red-500 @enderror"
+                        id="biography" placeholder="Biografía">{{ old('translations.' . $language['iso_language'] . '.biography', $collaborator['translations'][$language['iso_language']]['biography']) }}</textarea>
                     {!! $errors->first(
-                        'translations.' . $language['iso_language'] . '.slug',
+                        'translations.' . $language['iso_language'] . '.biography',
                         '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
                     ) !!}
                 </div>
 
-                {{-- Meta title --}}
-                <div class="form-group mb-2 mb20">
-                    <label for="meta_title"
-                        class="form-label">{{ __('Títol de la pàgina (aparença en buscadors i navegador)') }}</label>
-                    <input type="text" name="translations[{{ $language['iso_language'] }}][meta_title]"
-                        class="is-disabled @error('meta_title') is-invalid @else border-0 @enderror"
-                        value="{{ old('translations.' . $language['iso_language'] . '.meta_title',$collaborator['translations'][$language['iso_language']]['meta_title']) }}"
-                        id="meta_title"
-                        placeholder="Títol de la pàgina">
-                    {!! $errors->first(
-                        'translations.' . $language['iso_language'] . '.meta_title',
-                        '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                    ) !!}
-                </div>
-                {{-- Meta description --}}
-                <div class="form-group mb-2 mb20">
-                    <label for="meta_description"
-                        class="form-label">{{ __('Descripció de la pàgina (aparença en buscadors i navegador)') }}</label>
-                    <textarea name="translations[{{ $language['iso_language'] }}][meta_description]"
-                    class="is-disabled @error('meta_description') is-invalid @else border-0 @enderror"
-                        id="meta_description">
-                        {{ old('translations.' . $language['iso_language'] . '.meta_description', $collaborator['translations'][$language['iso_language']]['meta_description']) }}
-                    </textarea>
-                    {!! $errors->first(
-                        'translations.' . $language['iso_language'] . '.meta_description',
-                        '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
-                    ) !!}
+                {{-- Advanced Options --}}
+                <button class="boton-opcions" data-target="opcionsAvancades-{{ $language['iso_language'] }}"
+                    type="button">Opcions Avançades</button>
+                <div name="opcionsAvancades" style="display:none"
+                    id="opcionsAvancades-{{ $language['iso_language'] }}">
+                    {{-- Slug --}}
+                    <div class="w-full flex items-center space-x-1">
+                        <label for="slug" class="form-label">{{ __('Enllaç') }}</label>
+                        <p class="min-w-fit">eteredicions.com /</p>
+                        <input type="text" name="translations[{{ $language['iso_language'] }}][slug]"
+                            class="md:min-w-80 m-0 ps-1 pe-0 is-disabled @error('slug') is-invalid @else border-0 @enderror"
+                            value="{{ old('translations.' . $language['iso_language'] . '.slug', $collaborator['translations'][$language['iso_language']]['slug']) }}"
+                            id="slug" placeholder="enllaç-personalitzat">
+                        {!! $errors->first(
+                            'translations.' . $language['iso_language'] . '.slug',
+                            '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                        ) !!}
+                    </div>
+
+                    {{-- Meta title --}}
+                    <div class="form-group mb-2 mb20">
+                        <label for="meta_title"
+                            class="form-label">{{ __('Títol de la pàgina (aparença en buscadors i navegador)') }}</label>
+                        <input type="text" name="translations[{{ $language['iso_language'] }}][meta_title]"
+                            class="is-disabled @error('meta_title') is-invalid @else border-0 @enderror"
+                            value="{{ old('translations.' . $language['iso_language'] . '.metaTitle', $collaborator['translations'][$language['iso_language']]['meta_title']) }}"
+                            id="meta_title" placeholder="Títol de la pàgina">
+                        {!! $errors->first(
+                            'translations.' . $language['iso_language'] . '.metaTitle',
+                            '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                        ) !!}
+                    </div>
+                    {{-- Meta description --}}
+                    <div class="form-group mb-2 mb20">
+                        <label for="meta_description"
+                            class="form-label">{{ __('Descripció de la pàgina (aparença en buscadors i navegador)') }}</label>
+                        <textarea name="translations[{{ $language['iso_language'] }}][meta_description]"
+                            class="is-disabled @error('meta_description') is-invalid @else border-0 @enderror" id="meta_description">
+                       {{ old('translations.' . $language['iso_language'] . '.meta_description', $collaborator['translations'][$language['iso_language']]['meta_description']) }}
+                   </textarea>
+                        {!! $errors->first(
+                            'translations.' . $language['iso_language'] . '.meta_description',
+                            '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
+                        ) !!}
+                    </div>
                 </div>
             </div>
         @endforeach
@@ -142,7 +157,8 @@
             for (var i = 0; i < idiomaContainers.length; i++) {
                 var container = idiomaContainers[i];
                 if (container.id === selectedLanguage) {
-                    container.style.display = 'block'; // Mostrar el contenedor correspondiente al idioma seleccionado
+                    container.style.display =
+                    'block'; // Mostrar el contenedor correspondiente al idioma seleccionado
                 } else {
                     container.style.display = 'none'; // Ocultar los otros contenedores
                 }
@@ -151,3 +167,4 @@
     </script>
 </div>
 <script src="{{ asset('js/form/social_networks.js') }}"></script>
+<script src="{{ asset('js/form/advanced_options.js') }}"></script>
