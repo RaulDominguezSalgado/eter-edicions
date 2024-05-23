@@ -17,7 +17,7 @@
     <title>{{ $title ?? 'Èter Edicions' }}</title>
 </head>
 <body>
-    {{-- <x-partials.cookieBanner/> --}}
+    <x-partials.cookieBanner/>
     <?php
         $recaptcha = config("services.recaptcha");
     ?>
