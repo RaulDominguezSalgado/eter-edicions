@@ -280,12 +280,12 @@
                         @foreach ($relatedBooks as $i => $relatedBook)
                             <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
                                 <div class="cover mb-4 flex justify-center relative">
-                                    <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}">
+                                    <a href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}">
                                         <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
                                             alt="{{ $relatedBook['title'] }}" style="height: 13.75em"
                                             class="aspect-[2/3]">
                                     </a>
-                                    <a href="{{ route("book-detail.{$locale}", $relatedBook['id']) }}"
+                                    <a href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}"
                                         class="flex items-end w-[9.16em] h-[13.75em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                         <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
                                             <p class="font-bold text-xl">{{ $relatedBook['pvp'] }}€</p>
@@ -304,12 +304,11 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div id="book-info-{{ $relatedBook['slug'] }}"
-                                    class="flex flex-col items-center space-y-2 w-full">
+                                <a id="book-info-{{ $relatedBook['slug'] }}" class="flex flex-col items-center space-y-2 w-full" href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}">
                                     <div class="book-title flex justify-center items-center text-center">
                                         {{ $relatedBook['title'] }}
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
