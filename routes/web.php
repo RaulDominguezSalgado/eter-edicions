@@ -185,7 +185,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
 
     // Authentication...
     if ($enableViews) {
-        if (strtolower(config('eter.appEnv')) == 'local') {
+        if (strtolower(config('eter.appEnv')) == 'production') {
             Route::get(RoutePath::for('login', '/eter1121'), [AuthenticatedSessionController::class, 'create'])
                 ->middleware(['guest:' . config('fortify.guard')])
                 ->name('login');
