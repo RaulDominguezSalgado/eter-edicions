@@ -782,7 +782,9 @@ class BookController extends Controller
         return $result;
     }
 
-
+    /**
+     *  Function that returns the newest books
+     */
     public function getNewestBooks($locale)
     {
         $books_lv = Book::where('visible', 1)
@@ -815,6 +817,9 @@ class BookController extends Controller
     //     return view('admin.book.stock', compact('book', 'bookstores'));
     // }
 
+    /**
+     * Function that redirects to the view stock edit
+     */
     public function editStock($id)
     {
         $locale = "ca";
