@@ -44,19 +44,18 @@ class CollaboratorController extends Controller
                 if ($filtro != null && $filtro != "") {
                     switch ($key) {
                         case "name":
-                            $collaborators->whereHas('translations', function($query) use ($filtro, $locale) {
+                            $collaborators->whereHas('translations', function ($query) use ($filtro, $locale) {
                                 $query->where('lang', $locale)
-                                ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                                    ->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
                             });
-                        break;
+                            break;
                         default:
                             if ($key != "search") {
                                 $collaborators->where($key, "like", "%{$filtro}%");
                             }
-                        break;
+                            break;
                     }
                 }
-
             }
             $collaborators = $collaborators->paginate();
             $collaboratorsArray = [];
@@ -82,9 +81,8 @@ class CollaboratorController extends Controller
             $old = $data;
 
             return view('admin.collaborator.index', compact('collaboratorsArray', "collaborators", 'old'))
-            ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
-        }
-        else if (isset($data["search"]["clear"])) {
+                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
+        } else if (isset($data["search"]["clear"])) {
             $collaborators = Collaborator::paginate();
             $collaboratorsArray = [];
 
@@ -117,26 +115,26 @@ class CollaboratorController extends Controller
             // }
             return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
                 ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
-        }
-        else {
+        } else {
             $collaborators = Collaborator::paginate();
             $collaboratorsArray = [];
 
-        //mostrar solo en catalán
-        foreach ($collaborators as $collaborator) {
-            $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-            if ($translation) {
-                $collaboratorsArray[] = [
-                    'id' => $collaborator->id,
-                    'image' => $collaborator->image,
-                    'full_name' => $translation->last_name . ", " . $translation->first_name,
-                    'lang' => $translation->lang,
-                    'social_networks' => json_decode($collaborator->social_networks, true)
-                ];
+            //mostrar solo en catalán
+            foreach ($collaborators as $collaborator) {
+                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+                if ($translation) {
+                    $collaboratorsArray[] = [
+                        'id' => $collaborator->id,
+                        'image' => $collaborator->image,
+                        'full_name' => $translation->last_name . ", " . $translation->first_name,
+                        'lang' => $translation->lang,
+                        'social_networks' => json_decode($collaborator->social_networks, true)
+                    ];
+                }
             }
+            return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
+                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
         }
-        return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
-            ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
 
     /**
@@ -213,7 +211,7 @@ class CollaboratorController extends Controller
                         'biography' => $translation['biography'],
                         'slug' => $slug,
                         'lang' => $language,
-                        'meta_title' => $translation['first_name'] . " " .$translation['last_name'],
+                        'meta_title' => $translation['first_name'] . " " . $translation['last_name'],
                         'meta_description' => $translation['biography']
                     ];
                     CollaboratorTranslation::create($translationData);
@@ -303,7 +301,7 @@ class CollaboratorController extends Controller
             $translation = $collaborator->translations()->where('lang', $language)->first();
             if ($translation) {
                 $slug = $data["slug"];
-                if($imageUpdated && $language == "ca"){
+                if ($imageUpdated && $language == "ca") {
                     $imagen = $request->file('image');
 
                     $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
@@ -321,9 +319,9 @@ class CollaboratorController extends Controller
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
                     'biography' => $data['biography'],
-                    'slug' =>$data['slug'],
+                    'slug' => $data['slug'],
                     'lang' => $language,
-                    'meta_title' => $data['meta_title'] ,
+                    'meta_title' => $data['meta_title'],
                     'meta_description' => $data['meta_description']
                 ]);
             }
