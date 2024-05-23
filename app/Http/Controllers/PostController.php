@@ -71,7 +71,7 @@ class PostController extends Controller
                         break;
                     }
                 }
-                
+
             }
             $posts = $posts->paginate();
             $postsArray = [];
@@ -329,27 +329,47 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        $locale = app()->getLocale() ?? 'ca';
+
         $postObject = Post::find($id);
         $post = [];
         //dd($postObject);
 
         if ($postObject->author) {
-            $authorID = $postObject->author->collaborator->translations->first()->first_name . " " . $postObject->author->collaborator->translations->first()->last_name;
+            $authorID = $postObject->author->collaborator_id;
+            $authorName = $postObject->author->collaborator->translations->first()->first_name . " " . $postObject->author->collaborator->translations->first()->last_name;
+            $authorSlug = $postObject->author->collaborator->translations->first()->slug;
+            $authorImage = $postObject->author->collaborator->image;
         } else {
             $authorID = '';
+            $authorName = '';
+            $authorSlug = '';
+            $authorImage = '';
         }
 
         if ($postObject->translator) {
-            $translator = $postObject->translator->collaborator->translations->first()->first_name . " " . $postObject->translator->collaborator->translations->first()->last_name;
+            $translatorID = $postObject->translator->collaborator->translations->first()->first_name . " " . $postObject->translator->collaborator->translations->first()->last_name;
+            $translatorName = $postObject->translator->collaborator->translations->first()->first_name . " " . $postObject->author->collaborator->translations->first()->last_name;
+            $translatorSlug = $postObject->translator->collaborator->translations->first()->slug;
+            $translatorImage = $postObject->translator->collaborator->image;
         } else {
-            $translator = '';
+            $translatorID = '';
+            $translatorName = '';
+            $translatorSlug = '';
+            $translatorImage = '';
         }
         $post = [
             'id' => $postObject->id,
             'title' => $postObject->title,
             'description' => $postObject->description,
             'author_id' => $authorID,
-            'translator_id' => $translator,
+            'author_name' => $authorName,
+            'author_slug' => $authorSlug,
+            'author_image' => $authorImage,
+            'translator_id' => $translatorID,
+            'translator_name' => $authorName,
+            'translator_slug' => $authorSlug,
+            'translator_image' => $authorImage,
             'content' => $postObject->content,
             'date' => substr($postObject->date, 0, 10), // Extracts 'YYYY-MM-DD'
             'time' => substr($postObject->date, 10, 15),
@@ -360,7 +380,7 @@ class PostController extends Controller
         ];
 
         //dd($post);
-        return view('admin.post.show', compact('post'));
+        return view('admin.post.show', compact('post', 'locale'));
     }
 
     /**

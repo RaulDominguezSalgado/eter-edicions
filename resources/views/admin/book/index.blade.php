@@ -183,7 +183,9 @@
                                     </tr>
                                     @foreach ($books as $book)
                                         <tr>
-                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                {{-- <input type="checkbox"> --}}
+                                            </td>
                                             <td>
                                                 <a href="{{ route('books.edit', $book['id']) }}"><img
                                                         style="width: 100px; height: auto;"
