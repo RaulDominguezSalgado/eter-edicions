@@ -1,15 +1,15 @@
-<div class="bg-black bg-opacity-60 fixed top-0 left-0 right-0 bottom-0 inset-x-0 flex content-center items-center z-50">
+<div class="cookie-notice-container bg-black bg-opacity-60 fixed top-0 left-0 right-0 bottom-0 inset-x-0 flex content-center items-center z-50 hidden">
     <form action="" class="cookie-notice max-w-7xl w-[800px] mx-auto bg-white rounded-lg" method="">
         <header class="bg-black text-white p-6">
             <h2 class="font-normal normal-case">La nostra página utilitza cookies</h2>
         </header>
         <main class="p-2 border-black-500 border-b-2">
-            <section class="border-[1px] border-red cookie-info p-5 overflow-hidden box-border transition-all duration-300">
+            <section class="cookie-info p-5 overflow-hidden box-border transition-all duration-300">
                 <p>A Eter Edicions utilitzem cookies per millorar l'experiència. Pots acceptar-les, denegables o configurar-les.</p>
                 <p>Pots revisar la nostra <a class="underline" href="#" target="_blank">política de cookies</a> abans de acceptar-les.</p>
             </section>
             <section class="cookie-config disabled p-5 overflow-hidden box-border transition-all duration-300">
-                <p>Configurar cookies</p>
+                <p>Pots seleccionar quines categoríes de cookies vols acceptar, guardarem la selecció 365 dies.</p>
                 <ul>
                     <li class="flex border-b-2 py-5">
                         <div class="flex-col grow">
@@ -27,7 +27,7 @@
                             <small class="w-full block">Les utilitzem per poder millorar el funcionament de la web en base a com s'utilitza.</small>
                         </div>
                         <div class="flex-col px-5 flex justify-end items-center">
-                            <input type="checkbox" name="stadistics-cookies" id="stadistics-cookies" class="text-right">
+                            <input type="checkbox" name="stadistics-cookies" id="stadistics-cookies" class="text-right" value="stad">
                             <label for="stadistics-cookies"></label>
                         </div>
                     </li>
@@ -37,26 +37,27 @@
                             <small class="w-full block">Les utilitzem per poder millorar el funcionament de la web en base a com s'utilitza.</small>
                         </div>
                         <div class="flex-col px-5 flex justify-end items-center">
-                            <input type="checkbox" name="experience-cookies" id="experience-cookies" class="text-right">
+                            <input type="checkbox" name="experience-cookies" id="experience-cookies" class="text-right" value="exp">
                             <label for="experience-cookies"></label>
                         </div>
                     </li>
-                    <li class="flex border-b-2 py-5">
+                    <li class="flex py-5">
                         <div class="flex-col grow">
                             <strong class="w-full block">Estadistiques</strong>
                             <small class="w-full block">Les utilitzem per poder millorar el funcionament de la web en base a com s'utilitza.</small>
                         </div>
                         <div class="flex-col px-5 flex justify-end items-center">
-                            <input type="checkbox" name="stadistics-cookies" id="marketing-cookies" class="text-right">
+                            <input type="checkbox" name="stadistics-cookies" id="marketing-cookies" class="text-right" value="mkt">
                             <label for="marketing-cookies"></label>
                         </div>
                     </li>
                 </ul>
+                <button class="border-[1px] border-dark py-[10px] px-[20px]" id="cookie-accept-selection" type="button">Guardar selección</button>
             </section>
         </main>
         <footer class="flex justify-end p-5">
-            <button class="border-[1px] border-dark py-[10px] px-[20px]" id="cookie-accept">Acceptar totes les cookies</button>
-            <button class="border-[1px] border-dark py-[10px] px-[20px] mx-2" id="cookie-deny">Denegar totes les cookies</button>
+            <button class="border-[1px] border-dark py-[10px] px-[20px]" type="button" id="cookie-accept">Acceptar totes les cookies</button>
+            <button class="border-[1px] border-dark py-[10px] px-[20px] mx-2" type="button" id="cookie-deny">Denegar totes les cookies</button>
             <button class="border-[1px] border-dark py-[10px] px-[20px]" type="button" id="cookie-set">Configurar</button>
         </footer>
     </form>
@@ -105,6 +106,8 @@
     }
 </style>
 <script>
+    let popUp = document.querySelector(".cookie-notice-container");
+
     let infoSection = document.querySelector(".cookie-info");
     let settingsSection = document.querySelector(".cookie-config");
 
@@ -122,4 +125,56 @@
             }, 200);
         }
     });
+
+    document.getElementById("cookie-accept").addEventListener("click", function () {
+        cookies("eter_cookies_accept", "stad|exp|mkt");
+        popUp.style.display = "none";
+    });
+
+    document.getElementById("cookie-deny").addEventListener("click", function () {
+        localStorage.setItem("eter_cookies_accept", "deny");
+        popUp.style.display = "none";
+    });
+
+    document.getElementById("cookie-accept-selection").addEventListener("click", function () {
+        let cookieValue = [];
+        settingsSection.querySelectorAll("input[type='checkbox']:checked").forEach((e) => {
+            cookieValue.push(e.value);
+        });
+        cookies("eter_cookies_accept", cookieValue.join("|"));
+        popUp.style.display = "none";
+    });
+
+    if (!cookies("eter_cookies_accept") && !localStorage.getItem("eter_cookies_accept")) {
+        popUp.style.display = "flex";
+    }
+
+
+    function cookies(name, value = null, days = null) {
+        if (value == null) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return false;
+        } else {
+            try {
+                let expires = "";
+                days = days ?? 365;
+                if (days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+    }
+
 </script>
