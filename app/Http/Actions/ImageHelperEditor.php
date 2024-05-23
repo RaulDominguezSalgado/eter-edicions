@@ -13,6 +13,7 @@ use Intervention\Image\Encoders\WebpEncoder;
  */
 class ImageHelperEditor
 {
+    // Paths to the destinations of the images for each post type
     public static $paths = [
         'books' => [
             'thumbnail' => 'img/books/thumbnails/',
@@ -28,17 +29,21 @@ class ImageHelperEditor
         ],
     ];
 
+
+    // Size of the images for each post type
     public static $sizes = [
         'books' => ['720', '1080'],
         'collaborators' => ['560', '400'],
         'posts' => ['720', '1080'],
     ];
 
+    // Reducction rate of the images for thumbnails resizes
     public static $reduction_rate = .6;
 
 
 
 
+    
     private static function configImage($readPath, $savePath, $size)
     {
         // dump($readPath);
