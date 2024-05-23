@@ -60,7 +60,7 @@
             </div>
         @endif
 
-        <div class="space-y-8">
+        <div class="space-y-16">
             @if (count(Cart::instance('default')->content()) > 0)
                 <div class="space-y-4">
                     <table class="table w-full">
@@ -89,7 +89,7 @@
                                         <div class="py-2 flex flex-col justify-between">
                                             <div class="">
                                                 <a href="{{ route("book-detail.{$locale}", $item->options->id) }}">
-                                                    <h6 class="text-baseline md:text-lg font-bold w-max">
+                                                    <h6 class="text-baseline md:text-lg font-bold">
                                                         {{ $item->name }}</h6>
                                                 </a>
                                                 <small class="hidden md:block">{{ $item->options->publisher }}</small>
@@ -273,12 +273,13 @@
                 </div>
             @endif
             @if (count($relatedBooks) > 0)
-                <div id="related-books" class="flex flex-col items-center space-y-4">
-                    <h2>{{ __('general.you-may-also-like') }}</h2>
+                <div id="related-books" class="flex flex-col items-center space-y-4 px-8">
+                    <h2 class="text-center">{{ __('general.you-may-also-like') }}</h2>
 
-                    <div class="flex">
+                    <div class="flex flex-wrap justify-center">
                         @foreach ($relatedBooks as $i => $relatedBook)
-                            <div class="related-book flex flex-col items-center mb-6 w-64 px-6">
+                            <div
+                                class="related-book flex flex-col items-center mb-6 w-36 md:w-48 lg:w-64 mx-3 lg:px-6">
                                 <div class="cover mb-4 flex justify-center relative">
                                     <a href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}">
                                         <img src="{{ asset('img/books/thumbnails/' . $relatedBook['image']) }}"
@@ -286,7 +287,7 @@
                                             class="aspect-[2/3]">
                                     </a>
                                     <a href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}"
-                                        class="flex items-end w-[9.16em] h-[13.75em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+                                        class="hidden lg:flex items-end w-[9.16em] h-[13.75em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                         <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
                                             <p class="font-bold text-xl">{{ $relatedBook['pvp'] }}€</p>
                                             <form action="{{ route('cart.insert') }}" method="POST">
@@ -304,11 +305,14 @@
                                         </div>
                                     </a>
                                 </div>
-                                <a id="book-info-{{ $relatedBook['slug'] }}" class="flex flex-col items-center space-y-2 w-full" href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}">
+                                <a id="book-info-{{ $relatedBook['slug'] }}"
+                                    class="flex flex-col items-center space-y-2 w-full"
+                                    href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}">
                                     <div class="book-title flex justify-center items-center text-center">
                                         {{ $relatedBook['title'] }}
                                     </div>
                                 </a>
+
                             </div>
                         @endforeach
                     </div>

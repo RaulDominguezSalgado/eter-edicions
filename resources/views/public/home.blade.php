@@ -24,7 +24,7 @@
                                     alt="{{ $book['title'] }}">
                             </a>
                             <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[12em] lg:h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
-                                <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
+                                <div class="w-full hidden lg:flex justify-between items-center p-2 bg-light/[.75]">
                                     <p class="font-bold text-xl">{{$book['pvp']}}€</p>
                                     <form action="{{ route('cart.insert') }}" method="POST">
                                         @csrf

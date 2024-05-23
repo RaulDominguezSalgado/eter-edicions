@@ -611,7 +611,7 @@
                                 </a>
                                 <a href="{{ route("book-detail.{$locale}", $relatedBook['slug']) }}"
                                     class="flex items-end w-[9.16em] h-[13.75em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
-                                    <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
+                                    <div class="w-full hidden lg:flex justify-between items-center p-2 bg-light/[.75]">
                                         <p class="font-bold text-xl">{{ $relatedBook['pvp'] }}€</p>
                                         <form action="{{ route('cart.insert') }}" method="POST">
                                             @csrf
