@@ -13,6 +13,8 @@ return [
 
     'pagina de cerca' => 'página de búsqueda',
 
-    "logo" => "logotipo " . __('orthographicRules.by') . ":name"
+    "logo" => "logotipo " . __('orthographicRules.by') . ":name",
+
+    'Encara no hi han llibres en aquesta col·lecció' => 'Aún no hay libros en esta colección',
 ];
 

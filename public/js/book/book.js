@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         //remove underline from technical sheet tab
         technicalSheetTab.classList.remove('border-gray-950');
+        technicalSheetTab.classList.add('border-transparent');
 
         //show description div
         description.classList.remove('hidden');
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         //remove underline from description tab
         descriptionTab.classList.remove('border-gray-950');
+        descriptionTab.classList.add('border-transparent');
 
         //show technical sheet div
         techinicalSheet.classList.remove('hidden');

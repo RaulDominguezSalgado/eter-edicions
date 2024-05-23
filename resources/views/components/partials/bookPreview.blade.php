@@ -1,10 +1,10 @@
-<div class="book flex flex-col items-center mb-6 mr-10">
-    <div class="cover mb-4 relative ">
-        <a href="{{ route("book-detail.{$locale}", $book['id']) }}">
+<div class="book flex flex-col items-center mb-8 lg:mr-10">
+    <div class="cover mb-4 relative h-[15em] lg:h-[19.7em]">
+        <a href="{{ route("book-detail.{$locale}", $book['slug']) }}">
             <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
-                alt="{{ $book['title'] }}" style="height: 19.7em">
+                alt="{{ $book['title'] }}">
         </a>
-        <a href="{{ route("book-detail.{$locale}", $book['id']) }}" class="flex items-end w-full h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+        <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
             <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
                 <p class="font-bold text-xl">{{$book['pvp']}}€</p>
                 <form action="{{ route('cart.insert') }}" method="POST">
@@ -36,7 +36,7 @@
 
         @if(array_key_exists('translators', $book))
         <div class="book-translator flex space-x-1 text-center">
-            <div class="book-translator">{{__('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }}<!--
+            <div class="book-translator">{{('general.translation')}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de ". $book['translators'][0]) ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }}<!--
                     @foreach ($book['translators'] as $translator)
                         @if($loop->first && !$loop->last)
                             -->{{ $translator }},

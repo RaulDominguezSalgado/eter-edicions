@@ -17,11 +17,11 @@
     object-position: center;
 }
 #admin-nav > ul {
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     list-style: none;
     width: 100%;
     /* flex-grow: 1; */
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 #admin-nav > a {
     width: 100%;

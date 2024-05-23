@@ -64,4 +64,6 @@ return [
     'invalid-dni' => 'El format del DNI no és vàlid',
     'invalid-nie' => 'El format del NIE no és vàlid',
     'invalid-cif' => 'El format del CIF no és vàlid',
+
+    'select-subject' => 'Seleccionar asumpte',
 ];

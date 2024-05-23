@@ -42,8 +42,8 @@ return [
     'bank-transfer' => 'Transferencia bancaria',
     'redsys' => 'Tarjeta de crédito',
 
-    'reference' => "Referència",
-    'reference-number' => 'Nº de referència',
+    'reference' => "Referencia",
+    'reference-number' => 'Nº de referencia',
 
     'message' => "Mensaje",
 
@@ -64,4 +64,6 @@ return [
     'invalid-dni' => 'El formato del DNI no es válido',
     'invalid-nie' => 'El formato del NIE no es válido',
     'invalid-cif' => 'El formato del CIF no es válido',
+
+    'select-subject' => 'Seleccionar asunto',
 ];

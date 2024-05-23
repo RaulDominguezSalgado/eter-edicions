@@ -1,11 +1,10 @@
-<h2>Hem rebut la teva comanda</h2>
+<h2>{{__('checkout.purchase-received')}}</h2>
 
-@include("public.order_pdf", ["order" => $order])
-@if ($order->payment_method == "wire")
-    <p>Dades per a la transferencia:</p>
+@include('public.order_pdf', ['order' => $order])
+@if ($order->payment_method == 'wire')
+    <h5 class="mb-4">{{ __('checkout.wire-payment-data') }}:</h5>
     <ul>
-        <li>Titular del compte: Èter Edicions</li>
-        <li>Número de la compte: ES-XXXXXXXXXXXXX</li>
-        <li>Concepte de la transferéncia: Comanda:#{{ $order->reference }}</li>
+        <li class="mb-2">{{ __('checkout.bank-account-data') }}: <br> {{ $iban }}</li>
+        <li>{{ __('checkout.wire-payment-subject') }}: <br> {{ $order->reference }}</li>
     </ul>
 @endif

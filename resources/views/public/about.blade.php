@@ -6,8 +6,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/static.css') }}">
 
-    <main class="body flex flex-col items-center px-8 space-y-16 mb-32">
-        <div class="content w-2/3  space-y-4">
+    <main class="flex flex-col items-center space-y-16 md:px-8 mb-32">
+        <div class="max-w-6xl  space-y-4">
             <div id="title">
                 <h2>{{$page['contents']['h1']}}</h2>
             </div>

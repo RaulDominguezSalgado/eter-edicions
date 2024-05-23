@@ -61,6 +61,12 @@ class GeneralSettingSeeder extends Seeder
         $companyAddress2->value = "08001, Barcelona";
         $companyAddress2->save();
 
+        $companyIBAN = new GeneralSetting();
+        $companyIBAN->category = "legal_info";
+        $companyIBAN->key = "iban";
+        $companyIBAN->value = "ES8620952449545482658496";
+        $companyIBAN->save();
+
 
         $companyFacebook = new GeneralSetting();
         $companyFacebook->category = 'social_networks';

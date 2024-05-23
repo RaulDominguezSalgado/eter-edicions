@@ -10,21 +10,21 @@
 
     <main class="mb-24 space-y-16">
 
-        <div class="flex flex-col items-center space-y-16">
+        <div class="flex flex-col items-center space-y-8 lg:space-y-16">
             <div class="flex flex-col items-center space-y-6">
                 <h2>{{__('general.catalog')}}</h2>
             </div>
 
-            <div class="w-full flex flex-wrap justify-center h-auto px-16" id="catalog">
+            <div class="w-full flex flex-wrap justify-center h-auto px-4" id="catalog">
                 @foreach ($books as $i => $book)
-                    <div class="book flex flex-col items-center mb-6 mr-10">
-                        <div class="cover mb-4 relative">
-                            <a href="{{ route("book-detail.{$locale}", $book['id']) }}">
+                    <div class="book flex flex-col items-center mb-8 lg:mr-10">
+                        <div class="cover mb-4 relative h-[15em] lg:h-[19.7em]">
+                            <a href="{{ route("book-detail.{$locale}", $book['slug']) }}">
                                 <img src="{{ asset('img/books/thumbnails/' . $book['image']) }}"
-                                    alt="{{ $book['title'] }}" style="height: 19.7em">
+                                    alt="{{ $book['title'] }}">
                             </a>
-                            <div class="flex items-end w-full opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
-                                <div class="w-full flex justify-between items-center p-2 bg-light/[.75]">
+                            <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[12em] lg:h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
+                                <div class="w-full hidden lg:flex justify-between items-center p-2 bg-light/[.75]">
                                     <p class="font-bold text-xl">{{$book['pvp']}}€</p>
                                     <div action="{{ route('cart.insert') }}" method="POST">
                                         @csrf
@@ -80,18 +80,18 @@
 
         </div>
 
-        <div class="flex flex-col items-center space-y-6" id="news">
+        <div class="flex flex-col items-center space-y-8" id="news">
             <div>
                 <h2>{{__('general.news')}}</h2>
             </div>
-            <div class="flex flex-wrap">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 @foreach ($posts as $i => $post)
-                    <div class="post h-full space-y-2">
+                    <div class="post h-full space-y-2 mb-8">
                         <div class="">
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div>
                         <div class="cover-min">
-                            <a href="{{ route("post-detail.{$locale}", $post['id']) }}">
+                            <a href="{{ is_null($post['location']) ? route("post-detail.{$locale}", $post['slug']) : route("activity-detail.{$locale}", $post['slug']) }}">
                                 <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
                                     alt="{{ $post['title'] }}" class="">
                             </a>
@@ -101,12 +101,12 @@
                         </div> --}}
                         <div class="headline headline flex justify-between items-end">
                             <div class="min-w-max">
-                                <p class="uppercase">{{ $post['post_type'] }}</p>
+                                <p class="text-start uppercase">{{ $post['post_type'] }}</p>
                             </div>
                             <div class="date-info h-auto">
-                                <p class="p12">{{ $post['date'] }}</p>
+                                <p class="p12 text-end">{{ $post['date'] }}</p>
                                 @if (!is_null($post['location']))
-                                    <p class="p12">{{ $post['location'] }}</p>
+                                    <p class="p12 text-end">{{ $post['location'] }}</p>
                                 @endif
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                             <p class="p14">{{ $post['description'] }}</p>
                         </div>
                         <div class="w-fi">
-                            <a href="{{ route('post-detail.ca', $post['id']) }}">
+                            <a href="{{ is_null($post['location']) ? route("post-detail.{$locale}", $post['slug']) : route("activity-detail.{$locale}", $post['slug']) }}">
                                 <p class="p14 underline">{{__('general.read-more')}}</p>
                             </a>
                         </div>

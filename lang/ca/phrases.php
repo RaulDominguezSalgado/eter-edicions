@@ -13,6 +13,8 @@ return [
 
     'pagina de cerca' => 'pàgina de cerca',
 
-    "logo" => "logotip :de:name"
+    "logo" => "logotip :de:name",
+
+    'Encara no hi han llibres en aquesta col·lecció' => 'Encara no hi han llibres en aquesta col·lecció',
 ];
 

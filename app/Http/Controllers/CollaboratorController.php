@@ -391,7 +391,7 @@ class CollaboratorController extends Controller
         // $collaborator_lv = Collaborator::find($id);
         // return dd($book_lv->id);
 
-        $collaborator = $this->getFullCollaborator($id, $locale);
+        $collaborator = $this->getFullCollaborator($id, $locale, 'slug');
 
         // dd($collaborator);
 
@@ -514,11 +514,17 @@ class CollaboratorController extends Controller
      *
      * @return array $collaborator
      */
-    public function getFullCollaborator($id, $locale)
+    public function getFullCollaborator($id, $locale, $option = 'id')
     {
-        $collab = Collaborator::find($id);
-        // $collaborator = [];
-        $translation = $collab->translations->where('lang', $locale)->first();
+        if ($option == 'slug') {
+            $translation = CollaboratorTranslation::where('slug', $id)->where('lang', $locale)->first();
+            $collab = $translation->collaborator;
+        } else {
+            $collab = Collaborator::find($id);
+            // $collaborator = [];
+            $translation = $collab->translations->where('lang', $locale)->first();
+        }
+
         if ($translation) {
             $collaborator = [
                 'id' => $collab->id,

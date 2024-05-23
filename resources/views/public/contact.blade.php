@@ -6,8 +6,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/public/static.css') }}">
 
-    <main class="body flex flex-col justify-between items-center space-y-8 mb-12">
-        <div class="space-y-4 content w-2/3">
+    <main class="flex flex-col justify-between items-center space-y-8 md:px-8 mb-12">
+        <div class="w-full max-w-6xl space-y-4">
             <div id="title">
                 <h2>{{ $page['contents']['h1'] }}</h2>
             </div>
@@ -16,7 +16,7 @@
             </div>
         </div>
         {{-- <hr> --}}
-        <div class="content w-2/3">
+        <div class="w-full max-w-6xl">
             <h4>{{$page['contents']['form-title']}}</h4>
             @if (session('success'))
                 {{-- <div class="alert alert-danger">{{ session('error') }}</div> --}}
@@ -36,7 +36,6 @@
             @endif
             @if (session('error'))
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <strong class="font-bold">No s'han pogut actualitzar les dades del llibre.</strong>
                     <span class="block sm:inline">{{ session('error') }}</span>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                         <svg class="fill-current h-6 w-6 text-systemerror" role="button"
@@ -51,22 +50,22 @@
             @endif
             <form action="{{ route("contact.send.{$locale}") }}" method="POST" class="w-full flex flex-col items-center space-y-4 validate">
                 @csrf
-                <div class="w-full flex justify-between space-x-4">
-                    <div class="flex flex-col space-y-2 grow">
+                <div class="w-full md:flex md:justify-between md:space-x-4">
+                    <div class="flex flex-col space-y-2 grow mb-4">
                         <label for="form-name">{{$page['contents']['form-name']}}</label>
                         <input class="field required" type="text" name="name" id="form-name" class="field required">
                         <small class="text-systemerror">@error('name'){{ $message }}@enderror</small>
                     </div>
-                    <div class="flex flex-col space-y-2 grow">
+                    <div class="flex flex-col space-y-2 grow mb-4">
                         <label for="form-email">{{$page['contents']['form-email']}}</label>
                         <input class="field required email" type="text" name="email" id="form-email">
                         <small class="text-systemerror">@error('email'){{ $message }}@enderror</small>
                     </div>
                 </div>
-                <div class="w-full flex flex-col space-y-2 ">
+                <div class="w-full flex flex-col mb-4">
                     <label for="form-subject">{{$page['contents']['form-subject']}}</label>
                     <select class="field required" name="subject" id="form-subject">
-                        <option value="" selected disabled>Seleccioni un asumpte</option>
+                        <option value="" selected disabled>{{__('form.select-subject')}}</option>
                         @foreach (json_decode($page['contents']['form-subjects']) as $subject)
                             {{-- <p></p> --}}
                             <option value={{$subject}}>{{$subject}}</option>
@@ -74,7 +73,7 @@
                     </select>
                     <small class="text-systemerror">@error('subject'){{ $message }}@enderror</small>
                 </div>
-                <div class="w-full flex flex-col space-y-2 ">
+                <div class="w-full flex flex-col mb-4">
                     <label for="form-message">{{$page['contents']['form-message']}}</label>
                     <textarea class="field required" name="message" cols="30" rows="8" id="form-message"></textarea>
                     <small class="text-systemerror">@error('message'){{ $message }}@enderror</small>

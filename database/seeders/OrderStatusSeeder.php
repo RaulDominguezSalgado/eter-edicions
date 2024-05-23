@@ -19,6 +19,7 @@ class OrderStatusSeeder extends Seeder
         $paymentpending->name = "Pagament pendent";
         $paymentpending->color = "#4E80FF";
         $paymentpending->save();
+
         //pagament pendent
         $paymentpending = new OrderStatus();
         $paymentpending->name = "Pagament amb transferència pendent de comprobació";

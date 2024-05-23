@@ -21,13 +21,13 @@ $locale = 'ca';
             </button>
         </div>
         <a href="{{ route("admin_dashboard") }}"
-            class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light text-dark no-underline logo"><img
+            class="py-2.5 px-5 md:hover:bg-light md:focus:bg-light md:active:bg-light text-dark no-underline logo"><img
                 src="/img/logo/lg/logo_eter_black.webp">
         </a>
     </div>
 
     @if(Auth::user()->role_id == 1)
-    <ul id="sidebar" class="hidden md:flex flex-col duration-100 ">
+    <ul id="sidebar" class="hidden md:flex flex-col duration-100 overflow-y-auto">
         {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
         <li class="">
             <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'orders.index') bg-light @endif" href="{{ route('orders.index') }}">
