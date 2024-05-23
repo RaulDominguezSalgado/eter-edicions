@@ -28,12 +28,10 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-
                                         <th>Imatge</th>
                                         <th>Nom</th>
                                         <th>Llenguatge</th>
                                         <th>Xarxes Socials Networks</th>
-
                                         <th><a href="{{ route('collaborators.create') }}">
                                             <div  class="navigation-button form-button flex items-center space-x-1 max-w-10">
                                                 <img src="{{asset('img/icons/plus.webp')}}" alt="Afegir nou llibre" class="add w-2.5 h-2.5">
@@ -43,6 +41,43 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr class="border-b-2 border-dark">
+                                        <form action="{{ route('collaborators.index.post') }}" method="POST">
+                                            @csrf
+                                            @method("POST")
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="name" id="name" placeholder="Nom" value="{{ $old["name"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="submit" value="Cerca" name="search[search]">
+                                                    <input type="submit" value="Restaura" name="search[clear]">
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     @foreach ($collaboratorsArray as $collaborator)
                                         <tr>
                                             <td>{{ ++$i }}</td>

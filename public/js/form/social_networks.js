@@ -9,13 +9,25 @@
 //         document.getElementById('redes_sociales').appendChild(nuevas_redes_sociales);
 //     });
 // });
+// document.addEventListener('DOMContentLoaded', function() {
+//     var contador = 1;
+//     document.getElementById('agregar_red_social').addEventListener('click', function() {
+//         var nuevas_redes_sociales = document.createElement('div');
+//         nuevas_redes_sociales.classList.add('red_social' + contador);
+//         nuevas_redes_sociales.innerHTML = '<input type="text" name="red_social[]" placeholder="Nombre de la red social"> <input type="text" name="usuario_red_social[]" placeholder="URL del usuario">';
+//         document.getElementById('redes_sociales').appendChild(nuevas_redes_sociales);
+//         contador++;
+//     });
+// });
 document.addEventListener('DOMContentLoaded', function() {
     var contador = 1;
     document.getElementById('agregar_red_social').addEventListener('click', function() {
         var nuevas_redes_sociales = document.createElement('div');
         nuevas_redes_sociales.classList.add('red_social' + contador);
-        nuevas_redes_sociales.innerHTML = '<input type="text" name="red_social[]" placeholder="Nombre de la red social"> <input type="text" name="usuario_red_social[]" placeholder="URL del usuario">';
+        nuevas_redes_sociales.innerHTML = '<div><input type="text" name="red_social[]" placeholder="Nom de la xarxa social"></div><div><input type="text" name="usuario_red_social[]" placeholder="URL del usuari"></div>';
+        nuevas_redes_sociales.classList.add('flex', 'space-x-4'); 
         document.getElementById('redes_sociales').appendChild(nuevas_redes_sociales);
         contador++;
     });
 });
+

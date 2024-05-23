@@ -19,7 +19,7 @@ return [
     'purchase-completed' => 'Comanda realitzada correctament',
     'thanks-for-your-purchase' => 'Gràcies per la teva compra.',
 
-
+    'payment-error' => 'Error en el pagament',
 
     //shipment options
     'standard' => 'Correus Estàndard (3 a 5 dies)',

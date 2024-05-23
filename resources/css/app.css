@@ -37,4 +37,8 @@
     .is-disabled {
         @apply bg-verylightgrey
     }
+
+    .invalid-feedback{
+        @apply text-systemerror
+    }
 }

@@ -11,6 +11,8 @@ return [
 
     "no s'ha trobat cap resultat" => "no se ha encontrado ningún resultado",
 
+    'pagina de cerca' => 'página de búsqueda',
+
     "logo" => "logotipo " . __('orthographicRules.by') . ":name"
 ];
 

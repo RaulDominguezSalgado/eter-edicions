@@ -48,6 +48,73 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr class="border-b-2 border-dark">
+                                        <form action="{{ route('orders.index.post') }}" method="POST">
+                                            @csrf
+                                            @method("POST")
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="reference" id="reference" placeholder="Referència" value="{{ $old["reference"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="address" id="address" placeholder="Entrega" value="{{ $old["address"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="client" id="client" placeholder="Client" value="{{ $old["client"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="total-min" id="total-min" placeholder="min" value="{{ $old["total-min"] ?? "" }}">
+                                                    <input type="text" name="total-max" id="total-max" placeholder="max" value="{{ $old["total-max"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <select name="payment-method" id="payment-method">
+                                                        <option value="" selected disabled>---</option>
+                                                        @foreach($payment_methods as $method)
+                                                            <option @if(isset($old["payment-method"]) && $old["payment-method"] == $method) selected @endif value="{{ $method }}">{{ $method }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <select name="status_id" id="status_id">
+                                                        <option value="" selected disabled>---</option>
+                                                        @foreach($status_list as $status)
+                                                            <option @if(isset($old["status_id"]) && $old["status_id"] == $status["id"]) selected @endif value="{{ $status['id'] }}">{{ $status['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    <input type="text" name="date-min" id="date-min" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="min" value="{{ $old["date-min"] ?? "" }}">
+                                                    <input type="text" name="date-max" id="date-max" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="max" value="{{ $old["date-max"] ?? "" }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="submit" value="Cerca" name="search[search]">
+                                                    <input type="submit" value="Restaura" name="search[clear]">
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     @foreach ($orders as $order)
                                         <tr>
                                             {{-- <td>{{ ++$i }}</td> --}}

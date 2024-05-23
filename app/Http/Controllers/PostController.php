@@ -6,6 +6,7 @@ use App\Http\Actions\ImageHelperEditor;
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
 use App\Models\Author;
+use App\Models\Collaborator;
 use App\Models\User;
 use App\Models\Translator;
 use App\Models\CollaboratorTranslation;
@@ -29,41 +30,150 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::paginate();
-        $postsArray = [];
-        foreach ($posts as $post) {
-            if ($post->author) {
-                $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
-            } else {
-                $authorID = '';
-            }
+        $locale = app()->getLocale() ?? 'ca';
 
-            if ($post->translator) {
-                $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
-            } else {
-                $translator = '';
+        $data = $request->validate([
+            "title" => "",
+            "description" => "",
+            "content" => "",
+            "publication_date-min" => "",
+            "publication_date-max" => "",
+            "published_by" => "",
+            "search" => "",
+        ]);
+        if (isset($data["search"]["search"])) {
+            // Changes before searching
+            $posts = Post::query();
+            foreach ($data as $key => $filtro) {
+                if ($filtro != null && $filtro != "") {
+                    switch ($key) {
+                        case "publication_date-min":
+                            $posts->where("publication_date", '>=', date($filtro));
+                        break;
+                        case "publication_date-max":
+                            $posts->where("publication_date", '<=', date($filtro));
+                        break;
+                        case "published_by":
+                            $posts->whereHas('user', function($query) use ($filtro) {
+                                $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filtro}%"]);
+                            });
+                        break;
+                        default:
+                            if ($key != "search") {
+                                $posts->where($key, "like", "%{$filtro}%");
+                            }
+                        break;
+                    }
+                }
+                
             }
+            $posts = $posts->paginate();
+            $postsArray = [];
+            foreach ($posts as $post) {
+                if ($post->author) {
+                    $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+                } else {
+                    $authorID = '';
+                }
 
-            $postsArray[] = [
-                'id' => $post->id,
-                'title' => $post->title,
-                'description' => $post->description,
-                'author_id' => $authorID,
-                'translator_id' => $translator,
-                'content' => $post->content,
-                'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
-                'time' => substr($post->date, 10, 15),
-                'location' => $post->location,
-                'image' => $post->image,
-                'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
-                'published_by' => $post->user->first_name . " " . $post->user->last_name
-            ];
+                if ($post->translator) {
+                    $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
+                } else {
+                    $translator = '';
+                }
+
+                $postsArray[] = [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    'author_id' => $authorID,
+                    'translator_id' => $translator,
+                    'content' => $post->content,
+                    'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'time' => substr($post->date, 10, 15),
+                    'location' => $post->location,
+                    'image' => $post->image,
+                    'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'published_by' => $post->user->first_name . " " . $post->user->last_name
+                ];
+            }
+            $old = $data;
+            $i = (request()->input('page', 1) - 1) * $posts->perPage();
+
+            return view('admin.post.index', compact('posts', 'old', 'postsArray', 'i'));
         }
-        //dd($postsArray);
-        return view('admin.post.index', compact('postsArray', 'posts'))
-            ->with('i', (request()->input('page', 1) - 1) * $posts->perPage());
+        else if (isset($data["search"]["clear"])) {
+            $posts = Post::paginate();
+            $postsArray = [];
+            foreach ($posts as $post) {
+                if ($post->author) {
+                    $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+                } else {
+                    $authorID = '';
+                }
+
+                if ($post->translator) {
+                    $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
+                } else {
+                    $translator = '';
+                }
+
+                $postsArray[] = [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    'author_id' => $authorID,
+                    'translator_id' => $translator,
+                    'content' => $post->content,
+                    'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'time' => substr($post->date, 10, 15),
+                    'location' => $post->location,
+                    'image' => $post->image,
+                    'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'published_by' => $post->user->first_name . " " . $post->user->last_name
+                ];
+            }
+            //dd($postsArray);
+            return view('admin.post.index', compact('postsArray', 'posts'))
+                ->with('i', (request()->input('page', 1) - 1) * $posts->perPage());
+        }
+        else {
+            $posts = Post::paginate();
+            $postsArray = [];
+            foreach ($posts as $post) {
+                if ($post->author) {
+                    $authorID = $post->author->collaborator->translations->first()->first_name . " " . $post->author->collaborator->translations->first()->last_name;
+                } else {
+                    $authorID = '';
+                }
+
+                if ($post->translator) {
+                    $translator = $post->translator->collaborator->translations->first()->first_name . " " . $post->translator->collaborator->translations->first()->last_name;
+                } else {
+                    $translator = '';
+                }
+
+                $postsArray[] = [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    'author_id' => $authorID,
+                    'translator_id' => $translator,
+                    'content' => $post->content,
+                    'date' => substr($post->date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'time' => substr($post->date, 10, 15),
+                    'location' => $post->location,
+                    'image' => $post->image,
+                    'publication_date' => substr($post->publication_date, 0, 10), // Extracts 'YYYY-MM-DD'
+                    'published_by' => $post->user->first_name . " " . $post->user->last_name
+                ];
+            }
+            //dd($postsArray);
+            return view('admin.post.index', compact('postsArray', 'posts'))
+                ->with('i', (request()->input('page', 1) - 1) * $posts->perPage());
+        }
     }
 
     /**

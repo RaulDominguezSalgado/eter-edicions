@@ -70,8 +70,7 @@
                                 alt="{{ucfirst(__('phrases.descarregar sample'))}} {{  $locale == 'ca' ? (\App\Services\Translation\OrthographicRules::startsWithDe("de") ? __('orthographicRules.with_d') : __('orthographicRules.with_de')) : __('orthographicRules.by') }} {{ $book['title'] }}" class="clickable" style="width: 15px">
                             <small class="text-slate-600">{{__('general.sample')}}</small>
                         </a>
-
-                        <div class="add-to-cart">
+                        {{-- <div class="add-to-cart">
                             <form action="{{ route('cart.insert') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="book_id" value="{{ $book['id'] }}">
@@ -84,6 +83,18 @@
                                         alt="{{ucfirst(__('phrases.botó per'))}} {{__('phrases.afegir a la cistella')}}" style="width: 15px"></span>
                             </button>
                               </form>
+                        </div> --}}
+                        <div class="add-to-cart">
+                            <div>
+
+                            <input type="number" class="border border-black mb-2" name="number_of_items" placeholder="1"
+                                value="1" min="1">
+                            <button class="ajax-add-to-cart py-2.5 px-3 flex space-x-2 items-center" book-id="{{ $book['id'] }}">
+                                <span class="flex items-center leading-none text-white">{{ucfirst(__('phrases.afegir a la cistella'))}}</span>
+                                <span class=""><img src="{{ asset('img/icons/add-to-cart-white.webp') }}"
+                                        alt="{{ucfirst(__('phrases.botó per'))}} {{__('phrases.afegir a la cistella')}}" style="width: 15px"></span>
+                            </button>
+                              </div>
                         </div>
                     </div>
                 </div>

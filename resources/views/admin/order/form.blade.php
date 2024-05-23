@@ -135,18 +135,38 @@ echo '</select>';
         </div>
 
         <div class="form-group mb-2 mb20">
-            <label for="zip_code" class="form-label">{{ __('Codi postal del client') }}</label>
-            <input type="text" name="zip_code" class="form-control @error('zip_code') is-invalid @enderror"
-                value="{{ old('zip_code', $order['zip_code']) }}" id="zip_code"
-                placeholder="Codi postal del client">
-            {!! $errors->first('zip_code', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            <label for="apartment" class="form-label">{{ __('Apartament del client') }}</label>
+            <input type="text" name="apartment" class="form-control @error('apartment') is-invalid @enderror"
+                value="{{ old('apartment', $order['apartment']) }}" id="apartment" placeholder="Apartament del client">
+            {!! $errors->first('apartment', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
         <div class="form-group mb-2 mb20 ">
+            <label for="locality" class="form-label">{{ __('Localitat del client') }}</label>
+            <input type="text" name="locality" class="form-control @error('locality') is-invalid @enderror"
+                value="{{ old('locality', $order['locality']) }}" id="locality" placeholder="Localitat del client">
+            {!! $errors->first('locality', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        {{-- <div class="form-group mb-2 mb20 ">
             <label for="city" class="form-label">{{ __('Ciutat del client') }}</label>
             <input type="text" name="city" class="form-control @error('city') is-invalid @enderror"
                 value="{{ old('city', $order['city']) }}" id="city" placeholder="Ciutat del client">
             {!! $errors->first('city', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div> --}}
+
+
+        <div class="form-group mb-2 mb20 ">
+            <label for="province" class="form-label">{{ __('Provincia del client') }}</label>
+            <input type="text" name="province" class="form-control @error('province') is-invalid @enderror"
+                value="{{ old('province', $order['province']) }}" id="province" placeholder="Ciutat del client">
+            {!! $errors->first('province', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+        <div class="form-group mb-2 mb20 ">
+            <label for="locality" class="form-label">{{ __('Localitat del client') }}</label>
+            <input type="text" name="locality" class="form-control @error('locality') is-invalid @enderror"
+                value="{{ old('locality', $order['locality']) }}" id="locality" placeholder="Ciutat del client">
+            {!! $errors->first('locality', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
 
         <div class="form-group mb-2 mb20">
@@ -154,6 +174,14 @@ echo '</select>';
             <input type="text" name="country" class="form-control @error('country') is-invalid @enderror"
                 value="{{ old('country', $order['country']) }}" id="country" placeholder="País del client">
             {!! $errors->first('country', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
+
+        <div class="form-group mb-2 mb20">
+            <label for="zip_code" class="form-label">{{ __('Codi postal del client') }}</label>
+            <input type="text" name="zip_code" class="form-control @error('zip_code') is-invalid @enderror"
+                value="{{ old('zip_code', $order['zip_code']) }}" id="zip_code"
+                placeholder="Codi postal del client">
+            {!! $errors->first('zip_code', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <hr>
     </div>

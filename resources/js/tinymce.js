@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
         /* TinyMCE configuration options */
         skin: false,
         content_css: false,
-        width: '90%', // Amplada de l'editor
+        width: '100%', // Amplada de l'editor
         height: 400, // Alçada de l'editor
 
         // Estils

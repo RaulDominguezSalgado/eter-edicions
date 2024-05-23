@@ -5,7 +5,7 @@ $order = old() ?? [];
 ?>
 <x-layouts.app>
     <h1 class="pb-20 text-center">{{ __('checkout.checkout') }}</h1>
-    <form action="{{ route('checkout.toPayment') }}" method="POST">
+    <form action="{{ route('checkout.toPayment') }}" method="POST" class="validate">
         <div class="flex">
             <div id="checkout-main-content" class="flex-col w-2/3 pr-5">
                 @if ($errors->any())
@@ -42,45 +42,35 @@ $order = old() ?? [];
                     <div class="flex">
                         <label class="flex-col w-1/2 my-3" for="first_name">{{ __('form.first_name') }}
                             <input type="text" value="{{ $order['first_name'] ?? '' }}"
-                                class="@error('first_name') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="@error('first_name') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="first_name" id="first_name">
-                            @error('first_name')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('first_name'){{ $message }}@enderror</small>
                         </label>
                         <label class="flex-col w-1/2 my-3" for="last_name">{{ __('form.last_name') }}
                             <input type="text" value="{{ $order['last_name'] ?? '' }}"
-                                class="@error('last_name') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="@error('last_name') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="last_name" id="last_name">
-                            @error('last_name')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('last_name'){{ $message }}@enderror</small>
                         </label>
                     </div>
                     <div class="flex">
                         <label class="flex-col w-1/3 my-3" for="dni">NIF (DNI, NIE)
                             <input type="text" value="{{ $order['dni'] ?? '' }}"
-                                class="@error('dni') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="@error('dni') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="dni" id="dni">
-                            @error('dni')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('dni'){{ $message }}@enderror</small>
                         </label>
                         <label class="flex-col w-1/3 my-3" for="email">{{ __('form.email') }}
                             <input type="email" value="{{ $order['email'] ?? '' }}"
-                                class="@error('email') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="@error('email') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="email" id="email">
-                            @error('email')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('email'){{ $message }}@enderror</small>
                         </label>
                         <label class="flex-col w-1/3 my-3" for="phone_number">{{ __('form.phone') }}
                             <input type="tel" value="{{ $order['phone_number'] ?? '' }}"
-                                class="@error('phone_number') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="@error('phone_number') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="phone_number" id="phone_number">
-                            @error('phone_number')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('phone_number'){{ $message }}@enderror</small>
                         </label>
                     </div>
                 </div>
@@ -91,35 +81,31 @@ $order = old() ?? [];
                             for="address">{{ __('form.address') }}
                             <div
                                 class="w-full hidden lg:flex items-center justify-between shadow appearance-none border border-dark rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline p-1">
-                                <input type="text" class="w-full border-0 py-1 px-2" name="search_input"
+                                <input type="text" class="w-full border-0 py-1 px-2" value="{{ $order['address'] ?? '' }}" name="search_input"
                                     id="search_input">
                                 <i class="icon search"></i>
                             </div>
-                            <input type="text"
-                                class="flex lg:hidden w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            <input type="text" value="{{ $order['address'] ?? '' }}"
+                                class="flex lg:hidden w-fullshadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="address" id="address">
                         </label>
                         <label class="flex-col w-min my-3" for="apartment">{{ __('form.apartment') }}
                             <input type="text" value="{{ $order['apartment'] ?? '' }}"
                                 class="h-[42px] @error('apartment') border-systemerror @enderror w-min shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="apartment" id="apartment" placeholder="(opcional)">
-                            @error('apartment')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('apartment'){{ $message }}@enderror</small>
                         </label>
                     </div>
                     <div class="flex">
                         <label class="flex-col w-1/3 my-3" for="locality">{{ __('form.locality') }}
                             <input type="text" value="{{ $order['locality'] ?? '' }}"
-                                class="@error('locality') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="@error('locality') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="locality" id="locality">
-                            @error('locality')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('locality'){{ $message }}@enderror</small>
                         </label>
                         <label class="flex-col w-1/3 my-3" for="province">{{ __('form.province') }}
                             <select
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('province') border-systemerror @enderror"
+                                class="field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('province') border-systemerror @enderror"
                                 name="province" id="province">
                                 @foreach ($provinces as $code => $province)
                                     @if($loop->first)
@@ -133,13 +119,11 @@ $order = old() ?? [];
                                 @endforeach
                             </select>
 
-                            @error('province')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('province'){{ $message }}@enderror</small>
                         </label>
                         <label class="flex-col w-1/3 my-3" for="country">{{ __('form.country') }}
                             <select
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('country') border-systemerror @enderror"
+                                class="field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('country') border-systemerror @enderror"
                                 name="country" id="country">
                                 @foreach ($countries as $key => $country)
                                     <option value="{{ $key }}"
@@ -150,19 +134,15 @@ $order = old() ?? [];
                             {{-- <input type="text" value="{{ $order['country'] ?? '' }}"
                                 class="@error('country') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="country" id="country"> --}}
-                            @error('country')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('country'){{ $message }}@enderror</small>
                         </label>
                     </div>
                     <div class="flex">
                         <label class="flex-col w-min my-3" for="zip_code">{{ __('form.zip-code') }}
                             <input type="text" value="{{ $order['zip_code'] ?? '' }}"
-                                class="@error('zip_code') border-systemerror @enderror w-min shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="@error('zip_code') border-systemerror @enderror field required w-min shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="zip_code" id="zip_code">
-                            @error('zip_code')
-                                <small class="text-systemerror">{{ $message }}</small>
-                            @enderror
+                            <small class="text-systemerror">@error('zip_code'){{ $message }}@enderror</small>
                         </label>
                     </div>
                 </div>
@@ -239,7 +219,7 @@ $order = old() ?? [];
                         <div class="flex">
                             <div class="flex-col w-1/2 min-w-fit">{{ __('Total') }}</div>
                             <div class="flex-col w-1/2 text-right">
-                                {{ str_replace('.', ',', Cart::instance('default')->total() + $shipment_tax) }}€</div>
+                                {{ number_format(str_replace(",", ".", Cart::instance('default')->total()) + $shipment_tax, 2, ',', '.') }}€
                         </div>
                     </div>
                 </div>

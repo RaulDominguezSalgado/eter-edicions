@@ -11,6 +11,8 @@ return [
 
     "no s'ha trobat cap resultat" => "no s'ha trobat cap resultat",
 
+    'pagina de cerca' => 'pàgina de cerca',
+
     "logo" => "logotip :de:name"
 ];
 
