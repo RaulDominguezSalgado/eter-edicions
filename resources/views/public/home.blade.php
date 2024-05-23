@@ -101,12 +101,12 @@
                         </div> --}}
                         <div class="headline headline flex justify-between items-end">
                             <div class="min-w-max">
-                                <p class="uppercase">{{ $post['post_type'] }}</p>
+                                <p class="text-start uppercase">{{ $post['post_type'] }}</p>
                             </div>
                             <div class="date-info h-auto">
-                                <p class="p12">{{ $post['date'] }}</p>
+                                <p class="p12 text-end">{{ $post['date'] }}</p>
                                 @if (!is_null($post['location']))
-                                    <p class="p12">{{ $post['location'] }}</p>
+                                    <p class="p12 text-end">{{ $post['location'] }}</p>
                                 @endif
                             </div>
                         </div>
