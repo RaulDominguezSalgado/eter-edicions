@@ -163,14 +163,14 @@ $locale = app()->getLocale() ?: 'ca';
                             @if (Route::currentRouteName() == "collaborators.{$locale}") class="active" @endif>{{ __('nav.authors') }}</a></li>
                     <li class="min-h-14 py-1 pr-4"><a href="{{ route("agency.{$locale}") }}"
                             @if (Route::currentRouteName() == "agency.{$locale}") class="active" @endif>{{ __('nav.agency') }}</a></li>
-                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("bookstores.{$locale}") }}"
-                            @if (Route::currentRouteName() == "bookstores.{$locale}") class="active" @endif>{{ __('general.bookstores') }}</a>
-                    </li>
-                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("activities.{$locale}") }}"
-                            @if (Route::currentRouteName() == "activities.{$locale}") class="active" @endif>{{ __('nav.activities') }}</a>
-                    </li>
                     <li class="min-h-14 py-1 pr-4"><a href="{{ route("foreign-rights.{$locale}") }}"
                             @if (Route::currentRouteName() == "foreign-rights.{$locale}") class="active" @endif>{{ __('general.foreign-rights') }}</a>
+                    </li>
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("bookstores.{$locale}") }}"
+                        @if (Route::currentRouteName() == "bookstores.{$locale}") class="active" @endif>{{ __('general.bookstores') }}</a>
+                    </li>
+                    <li class="min-h-14 py-1 pr-4"><a href="{{ route("activities.{$locale}") }}"
+                        @if (Route::currentRouteName() == "activities.{$locale}") class="active" @endif>{{ __('nav.activities') }}</a>
                     </li>
                     <li class="min-h-14 py-1 pr-4"><a href="{{ route("posts.{$locale}") }}"
                             @if (Route::currentRouteName() == "posts.{$locale}") class="active" @endif>{{ __('nav.posts') }}</a></li>
