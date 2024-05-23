@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/icons.css">
     <link rel="stylesheet" href="/css/front/nav.css">
     <link rel="stylesheet" href="/css/front/footer.css">
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="/js/ajax/cart.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key={{env("PLACES_API_KEY", "default")}}&libraries=places&callback=initMap"></script> {{-- Google Places API --}}
     <title>{{ $title ?? 'Èter Edicions' }}</title>

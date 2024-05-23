@@ -105,16 +105,16 @@ class PageController extends Controller
                 'email' => ['required', Validator::$validations["email"]],
                 'subject' => ['required', Validator::$validations["description"]],
                 'message' => ['required', Validator::$validations["description"]],
-                // 'g-recaptcha-response' => ["required", function (string $attribute, mixed $value, Closure $fail) {
-                //     $g_response = Http::asForm()->post("https://www.google.com/recaptcha/api/siteverify", [
-                //         "secret" => config("services.recaptcha.secret_key"),
-                //         "response" => $value,
-                //         "remoteip" => \request()->ip(),
-                //     ]);
-                //     if (!$g_response->JSON("response")) {
-                //         $fail("The {$attribute} is invalid.");
-                //     }
-                // },],
+                'g-recaptcha-response' => ["required", function (string $attribute, mixed $value, Closure $fail) {
+                    $g_response = Http::asForm()->post("https://www.google.com/recaptcha/api/siteverify", [
+                        "secret" => config("services.recaptcha.secret_key"),
+                        "response" => $value,
+                        "remoteip" => \request()->ip(),
+                    ]);
+                    if (!$g_response->JSON("success")) {
+                        $fail("The {$attribute} is invalid.");
+                    }
+                },],
             ]);
             // dd($request);
             // $adminMail = \App\Models\GeneralSettings::where("key", "general_contact")->first()->value;
