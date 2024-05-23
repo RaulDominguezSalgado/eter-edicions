@@ -60,11 +60,11 @@ class CheckoutRequest extends FormRequest
             $type = $this->input('typeNIF');
             $dni = $this->input('dni');
             if ($type === 'DNI' && !Validator::isValidDni($dni)) {
-                $validator->errors()->add('dni', 'El DNI no es válido.');
+                $validator->errors()->add('dni', __('form.invalid-dni'));
             } elseif ($type === 'NIE' && !Validator::isValidNie($dni)) {
-                $validator->errors()->add('dni', 'El NIE no es válido.');
+                $validator->errors()->add('dni',  __('form.invalid-nie'));
             } elseif ($type === 'CIF' && !Validator::isValidCif($dni)) {
-                $validator->errors()->add('dni', 'El CIF no es válido.');
+                $validator->errors()->add('dni', __('form.invalid-cif'));
             }
         });
     }

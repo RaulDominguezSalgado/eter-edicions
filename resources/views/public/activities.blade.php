@@ -12,9 +12,44 @@
                 <h2>{{__('general.activities')}}</h2>
             </div>
 
-            <div class="w-full flex flex-wrap justify-center space-y-5 px-16" id="activities">
+            <div class="flex flex-wrap justify-center md:px-0" id="activities">
                 @foreach ($posts as $i => $post)
-                    <div class="post mx-5 space-y-2">
+                    <div class="max-w-96 post h-full mb-8">
+                        <div class="">
+                            <h5 class="font-bold">{{ $post['title'] }}</h5>
+                        </div>
+                        <div class="cover-min">
+                            <a href="{{ is_null($post['location']) ? route("post-detail.{$locale}", $post['slug']) : route("activity-detail.{$locale}", $post['slug']) }}">
+                                <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
+                                    alt="{{ $post['title'] }}" class="">
+                            </a>
+                        </div>
+                        {{-- <div class="">
+                            <h5 class="font-bold">{{ $post['title'] }}</h5>
+                        </div> --}}
+                        <div class="headline headline flex justify-between items-end">
+                            <div class="min-w-max">
+                                <p class="text-start uppercase">{{ $post['post_type'] }}</p>
+                            </div>
+                            <div class="date-info h-auto">
+                                <p class="p12 text-end">{{ $post['date'] }}</p>
+                                @if (!is_null($post['location']))
+                                    <p class="p12 text-end">{{ $post['location'] }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="description">
+                            <p class="p14">{{ $post['description'] }}</p>
+                        </div>
+                        <div class="w-fi">
+                            <a href="{{ is_null($post['location']) ? route("post-detail.{$locale}", $post['slug']) : route("activity-detail.{$locale}", $post['slug']) }}">
+                                <p class="p14 underline">{{__('general.read-more')}}</p>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+                {{-- @foreach ($posts as $i => $post)
+                    <div class="max-w-[23.75em] post mx-5 space-y-2">
                         <div class="">
                             <h5 class="font-bold">{{$post['title']}}</h5>
                         </div>
@@ -46,7 +81,7 @@
                             </a>
                         </div>
                     </div>
-                @endforeach
+                @endforeach --}}
             </div>
 
         </div>

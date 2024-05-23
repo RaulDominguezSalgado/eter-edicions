@@ -86,7 +86,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 @foreach ($posts as $i => $post)
-                    <div class="post h-full space-y-2 mb-8">
+                    <div class="max-w-96 post h-full space-y-2 mb-8">
                         <div class="">
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div>
