@@ -64,7 +64,7 @@ class GeneralSettingSeeder extends Seeder
         $companyIBAN = new GeneralSetting();
         $companyIBAN->category = "legal_info";
         $companyIBAN->key = "iban";
-        $companyIBAN->value = "ES8620952449545482658496";
+        $companyIBAN->value = "ES98 2100 0725 9402 0055 7837";
         $companyIBAN->save();
 
 
