@@ -72,6 +72,16 @@
                                             </td>
                                             <td>
                                                 <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="flex">
                                                     <input type="text" name="content" id="content" placeholder="Contingut" value="{{ $old["content"] ?? "" }}">
                                                 </div>
                                             </td>
@@ -109,7 +119,6 @@
                                                 <img style="width: 100px; height: auto;" src="{{ asset('img/posts/covers/' . $post['image']) }}" alt="{{ ($post['image']." - ") }}">
                                             </td>
 											{{-- <td>{{ $post['content'] }}</td> --}}
-                                            <td>{!! substr($post['content'], 0, 255) !!}@if(strlen($post['content']) > 255)... <a href="{{ route('posts.show',$post['id']) }}" class="underline text-sm">Veure més</a>@endif</td>
                                             <td>{!! substr($post['content'], 0, 255) !!}@if(strlen($post['content']) > 255)... <a href="{{ route('posts.show',$post['id']) }}" class="underline text-sm">Veure més</a>@endif</td>
 
 											<td>{{ $post['publication_date'] }}</td>
