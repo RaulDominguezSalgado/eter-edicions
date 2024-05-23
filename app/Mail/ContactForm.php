@@ -37,12 +37,12 @@ class ContactForm extends Mailable
         switch ($action) {
             case "client":
                 return new Envelope(
-                    subject: "Hem rebut el teu dubte",
+                    subject: "Hem rebut el teu missatge",
                 );
             break;
             case "admin":
                 return new Envelope(
-                    subject: "Un client ha contactat desde el formulari",
+                    subject: "Un client ha contactat des del formulari",
                 );
             break;
         }
@@ -84,7 +84,7 @@ class ContactForm extends Mailable
     public function attachments(): array
     {
         return [
-            
+
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Actions\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactFormRequest extends FormRequest
@@ -22,10 +23,10 @@ class ContactFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => 'required',
-            'subject' => 'required',
-            'message' => 'required',
+            'name' => ['required',Validator::$validations["first_name"]],
+            'email' => ['required',Validator::$validations["email"]],
+            'subject' => ['required',Validator::$validations["description"]],
+            'message' => ['required',Validator::$validations["description"]],
         ];
     }
 }

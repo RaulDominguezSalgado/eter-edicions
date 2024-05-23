@@ -85,3 +85,4 @@
     </main>
 
 </x-layouts.app>
+<script src="{{asset('/js/front/validations.js')}}"></script>

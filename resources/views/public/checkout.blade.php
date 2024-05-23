@@ -67,7 +67,7 @@ $order = old() ?? [];
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
                         </label>
-                        <label class="flex-col w-1/3 my-3" for="dni">NIF (DNI, NIE, CIF)
+                        <label class="flex-col w-1/3 my-3" for="dni">NIF
                             <input type="text" value="{{ $order['dni'] ?? '' }}"
                                 class="@error('dni') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="dni" id="dni">
@@ -243,3 +243,4 @@ $order = old() ?? [];
     <link rel="stylesheet" href="{{ asset('css/public/checkout.css') }}">
 </x-layouts.app>
 <script src="{{ asset('js/form/checkout.js') }}"></script>
+<script src="{{asset('/js/front/validations.js')}}"></script>

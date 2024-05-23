@@ -59,4 +59,9 @@ return [
     'next' => 'Següent',
     'back' => 'Enrere',
 
+    'select_type' => 'Seleccionar tipus',
+    'typeNIF' => 'Tipus de NIF',
+    'invalid-dni' => 'El format del DNI no és vàlid',
+    'invalid-nie' => 'El format del NIE no és vàlid',
+    'invalid-cif' => 'El format del CIF no és vàlid',
 ];

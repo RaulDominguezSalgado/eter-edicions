@@ -15,3 +15,4 @@ $locale = app()->getLocale() ?: 'ca';
             <input hidden type="submit" value={{__('general.search')}} class="bg-light border-s-0 border-t border-e border-b border-black p-2 cursor-pointer hover:bg-dark hover:text-light">
     </form>
 </div>
+<script src="{{asset('/js/front/validations.js')}}"></script>
