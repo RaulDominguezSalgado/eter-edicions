@@ -43,14 +43,14 @@ class OrderRequest extends FormRequest
                 'pdf' => ['required',Validator::$validations["pdf"]],
                 'products' => ['required',Validator::$validations["array"]],
                 'products.*' => 'array:id,quantity,pvp',
-                'tracking_id' => ['required',Validator::$validations["alphanumeric"]],
+                'tracking_id' => ['required',Validator::$validations["string"]],
             ];
         } else {
             return [
                 'date' => ['required',Validator::$validations["date"]],
                 'total' => '',
                 'reference' => ['required',Validator::$validations["reference"]],
-                'dni' => 'required',
+                'dni' => ['required',Validator::$validations["string"]],
                 'first_name' => ['required',Validator::$validations["first_name"]],
                 'last_name' => ['required',Validator::$validations["last_name"]],
                 'email' =>  ['required',Validator::$validations["email"]],
@@ -65,7 +65,7 @@ class OrderRequest extends FormRequest
                 'pdf' => '',
                 'products' => ['required',Validator::$validations["array"]],
                 'products.*' => 'array:id,quantity,pvp',
-                'tracking_id' => ['required',Validator::$validations["alphanumeric"]],
+                'tracking_id' => ['required',Validator::$validations["string"]],
             ];
         }
     }

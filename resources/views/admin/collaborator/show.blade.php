@@ -74,7 +74,7 @@ $locale="ca"
     <main class="body space-y-24 mb-12">
         <h2>Vista previa</h2>
         <div class="float-right">
-            <a class="btn btn-primary btn-sm" href="{{ route('collaborators.index') }}"> {{ __('Enrere') }}</a>
+            <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}"> {{ __('Enrere') }}</a>
         </div>
         <div class="collaborator flex justify-between space-x-10 px-10 mb-4">
             <div class="mr-6 cover">

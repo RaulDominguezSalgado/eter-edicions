@@ -282,11 +282,15 @@ class OrderController extends Controller
             $validatedData = $this->validateOrder($request);
 
             // Guardar la orden
-            $this->saveOrder($validatedData);
+            $order = $this->saveOrder($validatedData);
 
+            if ($request->input('action') == 'show') {
+                return redirect()->route('orders.show', $order->id)
+                    ->with('success', 'Comanda actualitzada correctament.');
+            }
             // Redireccionar con un mensaje de éxito
             return redirect()->route('orders.index')
-                ->with('success', 'Order created successfully.');
+                ->with('success', 'Comanda actualitzada correctament.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Redireccionar de vuelta con los errores de validación
             return redirect()->back()->withErrors($e->errors());
@@ -362,6 +366,7 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'status_id' => $order->status_id,
         ]));
+        return $order;
     }
 
     public function saveOrderCheckout($validatedData){
@@ -542,7 +547,10 @@ class OrderController extends Controller
                 // dump($orderStatusHistory);
             }
 
-
+            if ($request->input('action') == 'show') {
+                return redirect()->route('orders.show', $order->id)
+                    ->with('success', 'Comanda actualitzada correctament.');
+            }
             return redirect()->route('orders.index')
                 ->with('success', 'Order updated successfully');
         } catch (Exception $e) {

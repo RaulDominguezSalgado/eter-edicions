@@ -35,8 +35,8 @@
                                                 <span class="card-title">{{ __('Vista Previa') }} Comanda</span>
                                             </div>
                                             <div class="float-right">
-                                                <a class="btn btn-primary btn-sm" href="{{ route('orders.index') }}">
-                                                    {{ __('Back') }}</a>
+                                                <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}">
+                                                    {{ __('Enrere') }}</a>
                                             </div>
                                         </div>
                                         <div class="w-min flex flex-col justify-center">

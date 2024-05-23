@@ -218,8 +218,11 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-12 mt20 mt-2">
-                                    <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                                <div class="flex justify-center">
+                                    <button id="show-button" class="text-muted font-weight-bold me-8 underline" type="submit" value="show" name="action">
+                                        Vista prèvia
+                                    </button>
+                                    <button type="submit" class="send-button">{{ __('Enviar') }}</button>
                                 </div>
                             </div>
                             <script src="{{ asset('js/admin/postArticleActivity.js') }}"></script>

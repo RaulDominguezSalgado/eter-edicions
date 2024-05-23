@@ -222,7 +222,8 @@ echo '</select>';
     <div class="form-group mb-2 mb20">
         <label for="tracking_id" class="form-label">{{ __('Codi d\'enviament') }}</label>
         <input type="text" name="tracking_id" class="form-control @error('tracking_id') is-invalid @enderror"
-            value="{{ old('tracking_id') ?? $order['tracking_id'] }}" id="tracking_id" placeholder="Codi d'enviament">
+            value="{{ old('tracking_id') ?? $order['tracking_id'] }}" id="tracking_id"
+            placeholder="Codi d'enviament">
         {!! $errors->first('tracking_id', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
     </div>
 
@@ -293,8 +294,12 @@ echo '</select>';
         }
     </script> --}}
 
-<div class="col-md-12 mt20 mt-2">
-    <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
+<div class="flex justify-center">
+    <button id="show-button" class="text-muted font-weight-bold me-8 underline" type="submit" value="show"
+        name="action">
+        Vista prèvia
+    </button>
+    <button type="submit" class="send-button">{{ __('Enviar') }}</button>
 </div>
 </div>
 <script src="{{ asset('js/form/products.js') }}"></script>
