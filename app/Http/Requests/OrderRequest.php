@@ -43,14 +43,14 @@ class OrderRequest extends FormRequest
                 'pdf' => ['required',Validator::$validations["pdf"]],
                 'products' => ['required',Validator::$validations["array"]],
                 'products.*' => 'array:id,quantity,pvp',
-                'tracking_id' => ['required',Validator::$validations["alphanumeric"]],
+                'tracking_id' => ['required',Validator::$validations["string"]],
             ];
         } else {
             return [
                 'date' => ['required',Validator::$validations["date"]],
                 'total' => '',
                 'reference' => ['required',Validator::$validations["reference"]],
-                'dni' => 'required',
+                'dni' => ['required',Validator::$validations["string"]],
                 'first_name' => ['required',Validator::$validations["first_name"]],
                 'last_name' => ['required',Validator::$validations["last_name"]],
                 'email' =>  ['required',Validator::$validations["email"]],
@@ -65,68 +65,9 @@ class OrderRequest extends FormRequest
                 'pdf' => '',
                 'products' => ['required',Validator::$validations["array"]],
                 'products.*' => 'array:id,quantity,pvp',
-                'tracking_id' => ['required',Validator::$validations["alphanumeric"]],
+                'tracking_id' => ['required',Validator::$validations["string"]],
             ];
         }
     }
 
-
-    //Las siguientes rules tiene validacion dni pero hay que testear
-    // public function rules(): array
-    // {
-    //     if ($this->isMethod('post')) {
-    //         return [
-    //             'date' => 'required',
-    //             'total' => '',
-    //             'reference' => 'required|regex:/^[a-zA-Z0-9]+$/',
-    //             'dni' => 'required|digits:8|regex:/^[0-9]{8}[A-Z]$/|callback:validateDNI',
-    //             'first_name' => 'required|regex:/^[a-zA-Z]+$/|string',
-    //             'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
-    //             'email' => 'required',
-    //             'phone_number' => 'required|digits:9',
-    //             'address' => 'required',
-    //             'zip_code' => 'required|digits:5',
-    //             'city' => 'required|regex:/^[a-zA-Z]+$/|string',
-    //             'country' => 'required|regex:/^[a-zA-Z]+$/|string',
-    //             'payment_method' => 'required',
-    //             'status_id' => 'required',
-    //             'pdf' => 'required|file|mimes:pdf',
-    //             'products' => 'required|array',
-    //             'products.*' => 'array:id,quantity,pvp',
-    //             'tracking_id' => 'required|regex:/^[a-zA-Z0-9-]+$/',
-    //         ];
-    //     } else {
-    //         return [
-    //             'date' => 'required',
-    //             'total' => '',
-    //             'reference' => 'required|regex:/^[a-zA-Z0-9]+$/',
-    //             'dni' => 'required|digits:8|regex:/^[0-9]{8}[A-Z]$/|callback:validateDNI',
-    //             'first_name' => 'required|regex:/^[a-zA-Z]+$/|string',
-    //             'last_name' => 'required|regex:/^[a-zA-Z]+$/|string',
-    //             'email' => 'required',
-    //             'phone_number' => 'required|digits:9',
-    //             'address' => 'required',
-    //             'zip_code' => 'required|digits:5',
-    //             'city' => 'required',
-    //             'country' => 'required',
-    //             'payment_method' => 'required',
-    //             'status_id' => 'required',
-    //             'pdf' => '',
-    //             'products' => 'required|array',
-    //             'products.*' => 'array:id,quantity,pvp',
-    //             'tracking_id' => 'required|regex:/^[a-zA-Z0-9-]+$/',
-    //         ];
-    //     }
-    // }
-
-    // public function validateDNI($value)
-    // {
-    //     $dni = substr($value, 0, 8);
-    //     $letter = substr($value, 8, 1);
-    //     $letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    //     $index = (int)$dni % 23;
-    //     $correctLetter = $letters[$index];
-
-    //     return $letter == $correctLetter;
-    // }
 }

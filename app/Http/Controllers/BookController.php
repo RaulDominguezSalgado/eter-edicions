@@ -167,6 +167,10 @@ class BookController extends Controller
                 $data['iva'] = 4;
             }
 
+            if ($data['discounted_price'] == 0) {
+                $data['discounted_price'] = null;
+            }
+
             if (!isset($data['stock'])) {
                 $data['stock'] = 0;
             }
@@ -178,7 +182,7 @@ class BookController extends Controller
             if (!isset($data['meta_description'])) {
                 $data['meta_description'] = $data['description'];
             }
-
+            // dd($data);
             $book = Book::create($data);
 
             $this->setBookData($book, $request);
@@ -311,7 +315,7 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        //dump($request);
+        // dd($request);
         //  dd($book);
         // try {
         // \App\Models\Book::class;
@@ -341,7 +345,11 @@ class BookController extends Controller
             $new_data['slug'] = \App\Http\Actions\FormatDocument::slugify($request['title']);
         }
 
-        // dump($new_data);
+        if ($new_data['discounted_price'] == 0) {
+            $new_data['discounted_price'] = null;
+        }
+
+        // dd($new_data);
 
         $book->update($new_data);
 
@@ -948,17 +956,14 @@ class BookController extends Controller
             $collections_names = [];
             if (!empty($single_data->collections)) {
                 foreach ($single_data->collections as $collection) {
-                    // dd($collection);
                     $name = $collection->translations()->first()->name;
                     $collections_names[] = [
                         'id' => $collection->id,
                         'name' => $name,
                     ];
                 }
-                // dd($collections_names);
             }
             $collaborators = \App\Http\Controllers\CollaboratorController::getCollaboratorsArray($single_data->id);
-            // dd($single_data);
             $books[] = [
                 'id' => $single_data->id,
                 'title' => $single_data->title,

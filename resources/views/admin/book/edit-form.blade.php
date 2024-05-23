@@ -115,24 +115,39 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex justify-between items-center">
                     <div class="flex flex-wrap items-center space-x-2">
                         <label class="mx-2.5" for="authors">Autoria:</label>
-                        @for ($i = 0; $i < count($book['authors']); $i++)
-                            <div class="flex">
-                                <select name="authors[]" id="authors_{{ $i }}"
-                                    class="@error('authors') is-invalid @else border-0 @enderror">
-                                    {!! getCollaboratorsOptions($collaborators, $book['authors'][$i]['id']) !!}
-                                </select>
-                                <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
-                                    disabled>
-                                    <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
-                                </button>
-                            </div>
-                        @endfor
-                        @error('authors')
-                            <small class="text-systemerror">{{ $message }}</small>
-                        @enderror
-                        <button id="add_author" type="button" class="add-content-button" disabled>
-                            <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
-                        </button>
+                        @if (old('authors'))
+                            @for ($i = 0; $i < count(old('authors')); $i++)
+                                <div class="flex">
+                                    <select name="authors[]" id="authors_{{ $i }}"
+                                        class="@error('authors') is-invalid @else border-0 @enderror">
+                                        {!! getCollaboratorsOptions($collaborators, old('authors')[$i]) !!}
+                                    </select>
+                                    <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
+                                        disabled>
+                                        <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
+                                    </button>
+                                </div>
+                            @endfor
+                        @elseif($book['authors'])
+                            @for ($i = 0; $i < count($book['authors']); $i++)
+                                <div class="flex">
+                                    <select name="authors[]" id="authors_{{ $i }}"
+                                        class="@error('authors') is-invalid @else border-0 @enderror">
+                                        {!! getCollaboratorsOptions($collaborators, $book['authors'][$i]['id']) !!}
+                                    </select>
+                                    <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
+                                        disabled>
+                                        <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
+                                    </button>
+                                </div>
+                            @endfor
+                        @endif
+                            @error('authors')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                            <button id="add_author" type="button" class="add-content-button" disabled>
+                                <img src="{{ asset('img/icons/dark/add.webp') }}" alt="Afegir autor">
+                            </button>
                     </div>
                     <div class="flex space-x-2">
                         <button class="edit-button" type="button" onclick="enableSelect(this)">
@@ -146,15 +161,29 @@ function getLanguagesOptions($languages, $selected = null)
                 <div class="flex justify-between items-center">
                     <div class="flex flex-wrap space-x-2 @error('translators') is-invalid @enderror">
                         <label class="flex items-center mx-2.5" for="translators">Traducció:</label>
-                        @if (array_key_exists('translators', $book))
+
+                        @if (old('translators'))
+                            @for ($i = 0; $i < count(old('translators')); $i++)
+                                <div class="flex">
+                                    <select name="translators[]" id="translators{{ $i }}"
+                                        class="@error('translators') is-invalid @else border-0 @enderror">
+                                        {!! getCollaboratorsOptions($collaborators, old('translators')[$i]) !!}
+                                    </select>
+                                    <button class="remove-content-button" type="button" onclick="removeParentDiv(this)">
+                                        <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
+                                    </button>
+                                </div>
+                            @endfor
+                        @elseif(array_key_exists('translators', $book))
                             @for ($i = 0; $i < count($book['translators']); $i++)
+                            {{-- @dd($book['translators']) --}}
                                 <div class="flex">
                                     <select name="translators[]" id="translators_{{ $i }}"
-                                        class="@error('translators') is-invalid @else border-0 @enderror" disabled>
+                                        class="@error('translators') is-invalid @else border-0 @enderror">
                                         {!! getCollaboratorsOptions($collaborators, $book['translators'][$i]['id']) !!}
                                     </select>
-                                    <button class="remove-content-button" type="button" onclick="removeParentDiv(this)"
-                                        disabled>
+                                    <button class="remove-content-button" type="button"
+                                        onclick="removeParentDiv(this)" disabled>
                                         <img src="{{ asset('img/icons/dark/less.webp') }}" alt="Eliminar autor">
                                     </button>
                                 </div>
@@ -761,11 +790,12 @@ function getLanguagesOptions($languages, $selected = null)
 </div>
 
 <div id="save" class="flex justify-center">
+    <button id="show-button" class="text-muted font-weight-bold me-8 underline" type="submit" value="show" name="action">
+        Vista prèvia
+    </button>
     <button id="submit-button" class="send-button" type="submit" value="stay" name="action">Desar
         canvis</button>
-        <button id="show-button" class="send-button" type="submit" value="show" name="action">
-            Vista prèvia
-        </button>
+
 </div>
 
 <script src="/js/form/dynamic_textarea.js"></script>

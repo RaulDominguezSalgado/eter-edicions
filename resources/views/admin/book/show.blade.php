@@ -11,7 +11,9 @@
             <h2>Vista previa</h2>
         </div>
         <div class="flex flex-col items-end space-y-6">
-            <div><a class="navigation-button font-bold" href="{{ route('books.index') }}">Enrere</a></div>
+            <div>
+                <a class="navigation-button font-bold" href="{{ url()->previous() }}">Enrere</a>
+            </div>
         </div>
 
         <div class="book">

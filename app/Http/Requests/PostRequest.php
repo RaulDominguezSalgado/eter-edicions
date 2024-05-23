@@ -24,7 +24,7 @@ class PostRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'title' => ['required'],
+                'title' => ['required', Validator::$validations["title"]],
                 'description' => ['nullable', Validator::$validations["description"]],
                 'author_id' => ['nullable'],
                 'translator_id' => ['nullable'],
@@ -37,8 +37,8 @@ class PostRequest extends FormRequest
                 'publication_date' => ['required'],
                 'published_by' => ['required'],
                 'slug' => ['nullable', Validator::$validations["slug"]],
-                'meta_title' => ['nullable', Validator::$validations["slug"]],
-                'meta_description' => ['nullable', Validator::$validations["slug"]]
+                'meta_title' => ['nullable', Validator::$validations["title"]],
+                'meta_description' => ['nullable', Validator::$validations["description"]]
             ];
         } else {
             return [
@@ -54,8 +54,8 @@ class PostRequest extends FormRequest
                 'publication_date' => ['required'],
                 'published_by' => ['required'],
                 'slug' => ['nullable', Validator::$validations["slug"]],
-                'meta_title' => ['nullable', Validator::$validations["slug"]],
-                'meta_description' => ['nullable', Validator::$validations["slug"]]
+                'meta_title' => ['nullable', Validator::$validations["title"]],
+                'meta_description' => ['nullable', Validator::$validations["description"]]
             ];
         }
     }

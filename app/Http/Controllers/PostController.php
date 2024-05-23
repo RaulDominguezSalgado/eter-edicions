@@ -344,11 +344,14 @@ class PostController extends Controller
         $validatedData['date'] = $datetime;
 
         $post->update($validatedData);
-
+        if ($request->input('action') == 'show') {
+            return redirect()->route('posts.show', $post->id)
+                ->with('success', 'Post actualitzat correctament');
+        }
 
         return redirect()->route('posts.index')
 
-            ->with('success', 'Post updated successfully');
+            ->with('success', 'Post actualitzat correctament');
     }
 
     public function destroy($id)
@@ -356,7 +359,7 @@ class PostController extends Controller
         Post::find($id)->delete();
 
         return redirect()->route('posts.index')
-            ->with('success', 'Post deleted successfully');
+            ->with('success', 'Post eliminat correctament');
     }
 
 

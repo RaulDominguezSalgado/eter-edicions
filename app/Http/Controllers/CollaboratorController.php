@@ -132,9 +132,8 @@ class CollaboratorController extends Controller
                     // dd($translationData);
                 }
             }
-
             return redirect()->route('collaborators.index')
-                ->with('success', 'Collaborator created successfully.');
+                ->with('success', 'Col·laborador afegit correctament.');
         } catch (ValidationException $e) {
         }
     }
@@ -239,6 +238,10 @@ class CollaboratorController extends Controller
                     'meta_description' => $data['meta_description']
                 ]);
             }
+        }
+        if ($request->input('action') == 'show') {
+            return redirect()->route('collaborators.show', $collaborator->id)
+                ->with('success', 'Col·laborador actualitzat correctament');
         }
         return redirect()->route('collaborators.index')
             ->with('success', 'Collaborator updated successfully');

@@ -12,7 +12,7 @@
 <main class="body flex flex-col items-center space-y-6 mb-12">
     <div class="w-full flex justify-between items-center px-10">
         <h2 class="text-2xl font-semibold">Vista previa</h2>
-        <a class="btn btn-primary btn-sm" href="{{ route('posts.index') }}"> {{ __('Enrere') }}</a>
+        <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}"> {{ __('Enrere') }}</a>
     </div>
     <div class="banner w-full px-10">
         <img src="{{ asset('img/posts/covers/' . $post['image']) }}" alt="{{ $post['title'] }}" class="w-full h-auto">
