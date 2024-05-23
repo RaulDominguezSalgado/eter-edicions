@@ -1,11 +1,15 @@
 <?php
-$locale = 'ca';
-
 $path = 'img/logo/lg/logo_eter_black.webp';
 $type = pathinfo($path, PATHINFO_EXTENSION);
 $data = file_get_contents($path);
 $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
+$paymentMethod = $order->payment_method;
+if ($paymentMethod == 'wire') {
+    $paymentMethod = __('checkout.payment-wire');
+} elseif ($paymentMethod == 'paypal') {
+    $paymentMethod = __('checkout.payment-paypal');
+}
 ?>
 <x-layouts.app>
     {{-- <h1>Checkout</h1> --}}
@@ -15,10 +19,10 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                 <h2 class="">{{__('checkout.purchase-completed')}}</h2>
                 @if ($order->payment_method == 'wire')
                     <div>
-                        <h5 class="mb-4">Dades per a la transferència:</h5>
+                        <h5 class="mb-4">{{__('checkout.wire-payment-data')}}:</h5>
                         <ul>
-                            <li class="mb-2">Número de la compte: <br> ES-XXXXXXXXXXXXX</li>
-                            <li>Concepte de la transferència: <br> {{ $order->reference }}</li>
+                            <li class="mb-2">{{__('checkout.bank-account-data')}}: <br> {{$iban}}</li>
+                            <li>{{__('checkout.wire-payment-subject')}}: <br> {{ $order->reference }}</li>
                         </ul>
                     </div>
                 @endif
@@ -36,7 +40,7 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                             <p><strong>{{ __('form.shipping-address') }}:</strong></p><p class="mb-1">{{ $order->address }}, @if($order->apartment) {{$order->apartment}},@endif <br>{{$order->locality}}, {{$order->zip_code}}</p>
                             <p><strong>{{ __('form.date') }}:</strong></p><p class="mb-1"> {{ $order->date }}</p>
                             <p><strong>{{ __('form.reference-number') }}:</strong></p><p class="mb-1"> {{ $order->reference }}</p>
-                            <p><strong>{{ __('form.payment-method') }}:</strong></p><p class="mb-1"> {{ $order->payment_method }}</p>
+                            <p><strong>{{ __('form.payment-method') }}:</strong></p><p class="mb-1"> {{ $paymentMethod }}</p>
                             <!-- Other order details -->
                         </div>
 
@@ -62,9 +66,9 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         </table>
 
                         <div>
-                            <p><strong>{{ __('shopping-cart.subtotal') }}:</strong></p><p class="mb-1"> {{ number_format($order->total - $order->shipment_taxes) }}€</p>
+                            <p><strong>{{ __('shopping-cart.subtotal') }}:</strong></p><p class="mb-1"> {{ number_format((float)$order->total, 2, '.', '') }}€</p>
                             <p><strong>{{ __('form.shipping-cost') }}:</strong></p><p class="mb-1"> {{ $order->shipment_taxes }}€</p>
-                            <p><strong>{{ __('shopping-cart.total') }}:</strong></p><p class="mb-1"> {{ $order->total }}€</p>
+                            <p><strong>{{ __('shopping-cart.total') }}:</strong></p><p class="mb-1"> {{ number_format((float)$order->total + $order->shipment_taxes, 2, '.', '') }}€</p>
                         </div>
                     </div>
                     <div class="footer">

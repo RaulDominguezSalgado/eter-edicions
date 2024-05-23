@@ -14,12 +14,14 @@ class OrderCompleted extends Mailable
     use Queueable, SerializesModels;
 
     private $order;
+    private $iban;
     /**
      * Create a new message instance.
      */
-    public function __construct($order)
+    public function __construct($order, $iban = null)
     {
         $this->order = $order;
+        $this->iban = $iban;
     }
 
     /**
@@ -39,7 +41,7 @@ class OrderCompleted extends Mailable
     {
        return new Content(
             view: 'mailing.orderCompleted',
-            with: ["order"=>$this->order],
+            with: ["order"=>$this->order, "iban" => $this->iban],
         );
     }
 

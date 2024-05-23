@@ -14,6 +14,7 @@ use Dompdf\Options;
 // Mailling
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderCompleted;
+use Exception;
 
 class PaymentController extends Controller
 {
@@ -63,11 +64,17 @@ class PaymentController extends Controller
                 $order = Order::where("reference", 'LIKE', $request->orderId)->first();
                 $order->payment_method = "wire";
                 $order->save();
-                //
-                $this->generateOrderPdf($order);
-                Mail::to($order->email)->send(new OrderCompleted($order));
+
+                $iban = \App\Http\Controllers\GeneralSettingController::getSetting('iban')->value;
+                if(!$iban){
+                    return redirect()->route('payment.cancel', ['orderId' => $request->orderId])->with('error', __("This payment method is currently unavailable. Please choose another one."));
+                }
+                // dd($iban);
+
+                $this->generateOrderPdf($order, $iban);
+                Mail::to($order->email)->send(new OrderCompleted($order, $iban));
                 Cart::instance("default")->destroy();
-                return view('public.purchaseCompleted', compact('order'));
+                return view('public.purchaseCompleted', compact('order', 'iban'));
                 break;
             default:
                 $message = "Payment method not lp.\nPlease select another payment method";
@@ -120,32 +127,37 @@ class PaymentController extends Controller
     function success(Request $request)
     {
 
-        $provider = new PayPalClient();
-        $provider->setApiCredentials(config('paypal'));
-        $paypalToken = $provider->getAccessToken();
-        $provider->setCurrency('EUR');
-        $response = $provider->capturePaymentOrder($request->token);
+        try {
+            $provider = new PayPalClient();
+            $provider->setApiCredentials(config('paypal'));
+            $paypalToken = $provider->getAccessToken();
+            $provider->setCurrency('EUR');
+            $response = $provider->capturePaymentOrder($request->token);
 
-        if (isset($response['status']) && $response['status'] == "COMPLETED") {
-            $order = Order::where("reference", 'LIKE', $request->orderId)->first();
-            $order->status_id = 2;
-            $order->payment_method = "paypal";
-            $order->save();
+            if (isset($response['status']) && $response['status'] == "COMPLETED") {
+                $order = Order::where("reference", 'LIKE', $request->orderId)->first();
+                $order->status_id = 2;
+                $order->payment_method = "paypal";
+                $order->save();
 
-            $orderStatusHistory = new OrderStatusHistory();
-            $orderStatusHistory->order_id = $order->id;
-            $orderStatusHistory->status_id = $order->status_id;
-            $orderStatusHistory->save();
-            //
-            $this->generateOrderPdf($order);
-            Mail::to($order->email)->send(new OrderCompleted($order));
-            Cart::instance("default")->destroy();
-            //dd( $order->details->first()->book->title);
-            return view('public.purchaseCompleted', compact('order'));
-        } else {
-            return redirect()->route('payment.cancel', ['orderId' => $request->orderId]);
+                $orderStatusHistory = new OrderStatusHistory();
+                $orderStatusHistory->order_id = $order->id;
+                $orderStatusHistory->status_id = $order->status_id;
+                $orderStatusHistory->save();
+
+
+
+                $this->generateOrderPdf($order);
+                Mail::to($order->email)->send(new OrderCompleted($order));
+                Cart::instance("default")->destroy();
+
+                return view('public.purchaseCompleted', compact('order'));
+            } else {
+                return redirect()->route('payment.cancel', ['orderId' => $request->orderId]);
+            }
+        } catch (Exception $e) {
+            return redirect()->route('payment.cancel', ['orderId' => $request->orderId])->with('error', $e->getMessage());
         }
-        // dd($response);
     }
 
     function cancel(Request $request)
@@ -166,33 +178,35 @@ class PaymentController extends Controller
         return redirect()->route('checkout.toPaymentFromCancelled', ['orderId' => $request->orderId])->with('error', __('checkout.payment-error'));
     }
 
-    public function generateOrderPdf($order)
+    public function generateOrderPdf($order, $iban = null)
     {
-        // Obtener la orden y sus detalles
+        try {
+            // Obtener la orden y sus detalles
 
-        // Crear una nueva instancia de Dompdf
-        $pdf = new Dompdf();
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
-        $pdf->setOptions($options);
+            // Crear una nueva instancia de Dompdf
+            $pdf = new Dompdf();
+            $options = new Options();
+            $options->set('isHtml5ParserEnabled', true);
+            $pdf->setOptions($options);
 
-        // HTML para el ticket de la orden
-        $html = view('public.order_pdf', compact('order'))->render();
+            // HTML para el ticket de la orden
+            $html = view('public.order_pdf', compact('order', 'iban'))->render();
 
-        // Cargar HTML en Dompdf
-        $pdf->loadHtml($html);
+            // Cargar HTML en Dompdf
+            $pdf->loadHtml($html);
 
-        // Renderizar PDF
-        $pdf->render();
+            // Renderizar PDF
+            $pdf->render();
 
 
-        // Guardar el PDF en una ubicación específica
-        $pdfFilePath = public_path('files/orders/' . $order->reference . '.pdf');
-        file_put_contents($pdfFilePath, $pdf->output());
+            // Guardar el PDF en una ubicación específica
+            $pdfFilePath = public_path('files/orders/' . $order->reference . '.pdf');
+            file_put_contents($pdfFilePath, $pdf->output());
 
-        // Devolver la ruta del archivo guardado
-        return $pdfFilePath;
-        // Descargar el PDF
-        //return $pdf->stream('order.pdf');
+            // Devolver la ruta del archivo guardado
+            return $pdfFilePath;
+        } catch (Exception $e) {
+            abort('500', $e->getMessage());
+        }
     }
 }

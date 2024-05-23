@@ -42,8 +42,8 @@ return [
     'bank-transfer' => 'Transferencia bancaria',
     'redsys' => 'Tarjeta de crédito',
 
-    'reference' => "Referència",
-    'reference-number' => 'Nº de referència',
+    'reference' => "Referencia",
+    'reference-number' => 'Nº de referencia',
 
     'message' => "Mensaje",
 
