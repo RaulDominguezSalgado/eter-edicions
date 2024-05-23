@@ -18,12 +18,12 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         <h5 class="mb-4">Dades per a la transferència:</h5>
                         <ul>
                             <li class="mb-2">Número de la compte: <br> ES-XXXXXXXXXXXXX</li>
-                            <li>Concepte de la transferència: <br> Comanda:#{{ $order->reference }}</li>
+                            <li>Concepte de la transferència: <br> {{ $order->reference }}</li>
                         </ul>
                     </div>
                 @endif
                 {{-- @include('public.order_pdf', ['order' => $order]) --}}
-                <div class="w-max flex flex-col justify-center space-y-4">
+                <div class="w-full max-w-max flex flex-col justify-center space-y-4">
                     <div class="ticket md:w-[500px] bg-[#f9f9f9] p-5 space-y-4">
                         <div class="items-baseline pb-1">
                             <h2 class="float-left">{{ __('checkout.ticket') }}</h2>
@@ -43,19 +43,19 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         <table class="order-items">
                             <thead>
                                 <tr>
-                                    <th class="text-start md:pe-2">{{ __('shopping-cart.product') }}</th>
+                                    <th class="text-start px-1 md:px-2">{{ __('shopping-cart.product') }}</th>
                                     <th class="text-end px-1 md:px-2">#</th>
-                                    <th class="text-end px-3 md:px-6">{{ __('shopping-cart.price') }}</th>
-                                    <th class="text-end px-3 md:ps-6">{{ __('shopping-cart.total') }}</th>
+                                    <th class="text-end px-1 md:px-6">{{ __('shopping-cart.price') }}</th>
+                                    <th class="text-end px-1 md:px-6">{{ __('shopping-cart.total') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($order->details()->get() as $detail)
                                     <tr>
-                                        <td class="">{{ $detail->book->title }}</td>
-                                        <td class="">{{ $detail->quantity }}</td>
-                                        <td class="">{{ $detail->price_each }}€</td>
-                                        <td class=""><strong>{{ number_format($detail->quantity * $detail->price_each, 2) }}€</strong></td>
+                                        <td class="text-start px-1">{{ $detail->book->title }}</td>
+                                        <td class=" text-end px-1">{{ $detail->quantity }}</td>
+                                        <td class="text-end px-1">{{ $detail->price_each }}€</td>
+                                        <td class="text-end px-1"><strong>{{ number_format($detail->quantity * $detail->price_each, 2) }}€</strong></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -80,4 +80,4 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
     </div>
     <div class="clear-both"></div>
 </x-layouts.app>
-{{-- <link rel="stylesheet" href="{{ asset('css/public/order_pdf.css') }}"> --}}
+<link rel="stylesheet" href="{{ asset('css/public/order_pdf.css') }}">
