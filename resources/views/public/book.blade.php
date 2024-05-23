@@ -634,7 +634,6 @@
                                     {{ $relatedBook['title'] }}
                                 </div>
                             </a>
-
                         </div>
                     @endforeach
                 </div>
