@@ -27,7 +27,7 @@ $locale = 'ca';
     </div>
 
     @if(Auth::user()->role_id == 1)
-    <ul id="sidebar" class="hidden md:flex flex-col duration-100">
+    <ul id="sidebar" class="hidden md:flex flex-col duration-100 ">
         {{-- <li><a href="{{ route('admin_dashboard') }}">Portada</a></li> --}}
         <li class="">
             <a class="py-2.5 px-5 hover:bg-light focus:bg-light active:bg-light @if (Route::currentRouteName() == 'orders.index') bg-light @endif" href="{{ route('orders.index') }}">

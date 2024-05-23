@@ -13,6 +13,7 @@ use Exception;
 use Faker\Core\Number;
 use Spatie\LaravelIgnition\Recorders\DumpRecorder\Dump;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Utility\PaymentMethods;
 
 /**
  * Class OrderController
@@ -20,6 +21,14 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
  */
 class OrderController extends Controller
 {
+    private $payment_methods;
+
+
+    public function __construct() {
+        $this->payment_methods = PaymentMethods::all();
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -33,9 +42,7 @@ class OrderController extends Controller
             ];
         }
 
-        $payment_methods = [
-            "wire", "paypal"
-        ];
+        $payment_methods = $this->payment_methods;
 
         //$orders= [];
 
@@ -54,7 +61,7 @@ class OrderController extends Controller
             "client" => "",
             "total-min" => "",
             "total-max" => "",
-            "payment-method" => "",
+            "payment_method" => "",
             "status_id" => "",
             "date-min" => "",
             "date-max" => "",
@@ -77,7 +84,7 @@ class OrderController extends Controller
                         case "total-max":
                             $orderspag->where("total", '<=', floatval($filtro));
                         break;
-                        case "payment-method":
+                        case "payment_method":
                         case "status_id":
                             $orderspag->where($key, $filtro);
                         break;
@@ -426,7 +433,8 @@ class OrderController extends Controller
         $order = $this->getFullOrder(Order::find($id));
         $books = Book::all();
         $statuses = OrderStatus::all();
-        return view('admin.order.edit', compact('order', 'statuses', 'books'));
+        $payment_methods = $this->payment_methods;
+        return view('admin.order.edit', compact('order', 'statuses', 'books', 'payment_methods'));
     }
 
     /**

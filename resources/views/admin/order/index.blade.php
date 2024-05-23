@@ -80,10 +80,10 @@
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <select name="payment-method" id="payment-method">
+                                                    <select name="payment_method" id="payment_method">
                                                         <option value="" selected disabled>---</option>
                                                         @foreach($payment_methods as $method)
-                                                            <option @if(isset($old["payment-method"]) && $old["payment-method"] == $method) selected @endif value="{{ $method }}">{{ $method }}</option>
+                                                            <option @if(isset($old["payment_method"]) && $old["payment_method"] == $method) selected @endif value="{{ $method }}">{{ $method }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

@@ -198,10 +198,16 @@ echo '</select>';
     </div>
     <div class="form-group mb-2 mb20">
         <label for="payment_method" class="form-label">{{ __('Metode de pagament') }}</label>
-        <input type="text" name="payment_method"
+        <select name="payment_method" id="payment_method">
+            <option value="" selected disabled>---</option>
+            @foreach($payment_methods as $method)
+                <option @if(isset($old["payment_method"]) && $old["payment_method"] == $method || $order["payment_method"] == $method) selected @endif value="{{ $method }}">{{ $method }}</option>
+            @endforeach
+        </select>
+        {{-- <input type="text" name="payment_method"
             class="form-control @error('payment_method') is-invalid @enderror"
             value="{{ old('payment_method', $order['payment_method']) }}" id="payment_method"
-            placeholder="Metode de pagament">
+            placeholder="Metode de pagament"> --}}
         {!! $errors->first(
             'payment_method',
             '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>',
