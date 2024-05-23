@@ -54,25 +54,40 @@ $order = old() ?? [];
                         </label>
                     </div>
                     <div class="flex flex-col lg:flex-row">
-                        <label class="flex-col lg:w-1/3 my-3 lg:mr-2" for="dni">NIF (DNI, NIE)
+                        <label class="flex-col lg:w-1/2 my-3 lg:mr-2" for="email">{{ __('form.email') }}
+                            <input type="email" value="{{ $order['email'] ?? '' }}"
+                                class="@error('email') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="email" id="email">
+                            <small class="text-systemerror">@error('email'){{ $message }}@enderror</small>
+                        </label>
+                        <label class="flex-col lg:w-1/2 my-3 lg:ms-2" for="phone_number">{{ __('form.phone') }}
+                            <input type="tel" value="{{ $order['phone_number'] ?? '' }}"
+                                class="@error('phone_number') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="phone_number" id="phone_number">
+                            <small class="text-systemerror">@error('phone_number'){{ $message }}@enderror</small>
+                        </label>
+                    </div>
+                    <div class="flex flex-col lg:flex-row">
+                        <label class="flex-col lg:w-1/2 my-3 lg:mr-2" for="typeNIF">{{ __('form.typeNIF') }}
+                            <select name="typeNIF" id="typeNIF"
+                                class="@error('typeNIF') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="" disabled selected>{{ __('form.select_type') }}</option>
+                                <option value="DNI" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'DNI' ? 'selected' : '' }}>DNI</option>
+                                <option value="NIE" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'NIE' ? 'selected' : '' }}>NIE</option>
+                                <option value="CIF" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'CIF' ? 'selected' : '' }}>CIF</option>
+                                <option value="others" {{ old('typeNIF', $order['typeNIF'] ?? '') == 'others' ? 'selected' : '' }}>{{ __('Altres') }}</option>
+                            </select>
+                            @error('typeNIF')
+                                <small class="text-systemerror">{{ $message }}</small>
+                            @enderror
+                        </label>
+                        <label class="flex-col lg:w-1/2 my-3 lg:ms-2" for="dni">NIF (DNI, NIE)
                             <input type="text" value="{{ $order['dni'] ?? '' }}"
                                 class="@error('dni') border-systemerror @enderror shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="dni" id="dni">
                             @error('dni')
                                 <small class="text-systemerror">{{ $message }}</small>
                             @enderror
-                        </label>
-                        <label class="flex-col lg:w-1/3 my-3 lg:mx-2" for="email">{{ __('form.email') }}
-                            <input type="email" value="{{ $order['email'] ?? '' }}"
-                                class="@error('email') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="email" id="email">
-                            <small class="text-systemerror">@error('email'){{ $message }}@enderror</small>
-                        </label>
-                        <label class="flex-col lg:w-1/3 my-3 lg:ms-2" for="phone_number">{{ __('form.phone') }}
-                            <input type="tel" value="{{ $order['phone_number'] ?? '' }}"
-                                class="@error('phone_number') border-systemerror @enderror field required shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="phone_number" id="phone_number">
-                            <small class="text-systemerror">@error('phone_number'){{ $message }}@enderror</small>
                         </label>
                     </div>
                 </div>
@@ -88,7 +103,7 @@ $order = old() ?? [];
                                 <i class="icon search"></i>
                             </div>
                             <input type="text" value="{{ $order['address'] ?? '' }}"
-                                class="flex lg:hidden w-fullshadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="flex lg:hidden w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="address" id="address">
                         </label>
                         <label class="w-full md:w-min flex-col my-3" for="apartment">{{ __('form.apartment') }}
