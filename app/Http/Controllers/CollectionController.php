@@ -77,8 +77,8 @@ class CollectionController extends Controller
                         'name' => $translation['name'],
                         'description' => $translation['description'],
                         'slug' => \App\Http\Actions\FormatDocument::slugify($translation['name']),
-                        'meta_title' => \App\Http\Actions\FormatDocument::slugify($translation['name']),
-                        'meta_description' => \App\Http\Actions\FormatDocument::slugify($translation['description']),
+                        'meta_title' => $translation['name'],
+                        'meta_description' => $translation['description'],
                     ];
                     CollectionTranslation::create($translationData);
                 }
@@ -138,9 +138,9 @@ class CollectionController extends Controller
                         'lang' => $language,
                         'name' => $data['name'],
                         'description' => $data['description'],
-                        'slug' => FormatDocument::slugify($data['name']),
-                        'meta_title'=>$data['name'],
-                        'meta_description'=>$data['description'],
+                        'slug' => FormatDocument::slugify($data['slug']),
+                        'meta_title'=>$data['meta_title'],
+                        'meta_description'=>$data['meta_description'],
                     ]);
                 }
             }

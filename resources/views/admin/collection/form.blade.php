@@ -45,7 +45,7 @@
                     <p class="min-w-fit">eteredicions.com /</p>
                     <input type="text" name="translations[{{ $language['iso_language'] }}][slug]"
                         class="md:min-w-80 m-0 ps-1 pe-0 is-disabled @error('slug') is-invalid @else border-0 @enderror"
-                        value="{{ old('translations.' . $language['iso_language'] . '.slug') }}" id="slug"
+                        value="{{ old('translations.' . $language['iso_language'] . '.slug', $collection['translations'][$language['iso_language']]['slug']) }}" id="slug"
                         placeholder="enllaç-personalitzat">
                     {!! $errors->first(
                         'translations.' . $language['iso_language'] . '.slug',
@@ -59,7 +59,7 @@
                         class="form-label">{{ __('Títol de la pàgina (aparença en buscadors i navegador)') }}</label>
                     <input type="text" name="translations[{{ $language['iso_language'] }}][meta_title]"
                         class="is-disabled @error('meta_title') is-invalid @else border-0 @enderror"
-                        value="{{ old('translations.' . $language['iso_language'] . '.metaTitle') }}" id="meta_title"
+                        value="{{ old('translations.' . $language['iso_language'] . '.metaTitle',$collection['translations'][$language['iso_language']]['meta_title']) }}" id="meta_title"
                         placeholder="Títol de la pàgina">
                     {!! $errors->first(
                         'translations.' . $language['iso_language'] . '.metaTitle',
@@ -73,7 +73,7 @@
                     <textarea name="translations[{{ $language['iso_language'] }}][meta_description]"
                     class="is-disabled @error('meta_description') is-invalid @else border-0 @enderror"
                         id="meta_description">
-                        {{ old('translations.' . $language['iso_language'] . '.meta_description') }}
+                        {{old('translations.' . $language['iso_language'] . '.meta_description', $collection['translations'][$language['iso_language']]['meta_description'])}}
                     </textarea>
                     {!! $errors->first(
                         'translations.' . $language['iso_language'] . '.meta_description',
@@ -85,7 +85,7 @@
 
     </div>
     <div class="col-md-12 mt20 mt-2">
-        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+        <button type="submit" class="btn btn-primary">{{ __('Enviar') }}</button>
     </div>
 </div>
 <script>

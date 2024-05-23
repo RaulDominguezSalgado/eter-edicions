@@ -39,7 +39,7 @@ class Validator
         "address_number"=>"regex:/^[\pL\pN\s'.,·‘–()\"’-]+$/u",
         "zip_code"=>"regex:/^\d{5}(?:\s[a-zA-Z]{2})?$/",
         "strict_password"=>"regex:/^(?=.*[A-Z])(?=.*[^\w]).{8,}$/", // (?=.*[A-Z]) indica que debe haber al menos una letra mayúscula (?=.*[^\w]) indica que debe haber al menos un carácter especial (no alfanumérico) {8,} indica que el campo debe tener al menos 8 caracteres
-        "slug"=>"regex:/^[a-z0-9]+(-[a-z0-9]+)*$",
+        "slug" => "regex:/^[a-z0-9]+(-[a-z0-9]+)*$/"
     ];
 
 

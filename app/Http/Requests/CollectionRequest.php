@@ -27,8 +27,8 @@ class CollectionRequest extends FormRequest
             'translations.*.name' => ['required',Validator::$validations["name"]],
             'translations.*.description' =>['required',Validator::$validations["description"]],
             'translations.*.slug' => ['nullable',Validator::$validations["slug"]],
-            'translations.*.meta_title' => ['nullable',Validator::$validations["meta_title"]],
-            'translations.*.meta_description' => ['nullable',Validator::$validations["meta_description"]],
+            'translations.*.meta_title' => ['nullable',Validator::$validations["name"]],
+            'translations.*.meta_description' => ['nullable',Validator::$validations["description"]],
         ];
     }
 }
