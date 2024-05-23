@@ -1,5 +1,5 @@
 .post {
-    width: 23.8125em;
+    /* width: 23.8125em; */
     /* height: 24.4375em; */
     height: auto;
 
@@ -15,10 +15,10 @@
     height: 11.6875em;
 }
 
-.post .cover-min{
+/* .post .cover-min{
     width: 20.6875em;
     height: 4.6875em;
-}
+} */
 
 .post .cover img,
 .post .cover-min img {
