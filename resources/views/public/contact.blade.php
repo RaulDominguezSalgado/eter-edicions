@@ -15,11 +15,17 @@
                 <p class="text-justify">{{ $page['contents']['p1'] }}</p>
             </div>
         </div>
+
+        <div class="w-full max-w-6xl space-y-4">
+            <span><strong>{{__('form.email')}}:</strong></span>
+            <span>{{$contactInfo['general_email']}}</span>
+        </div>
+
+        {{-- @dump($contactInfo) --}}
         {{-- <hr> --}}
-        <div class="w-full max-w-6xl">
+        {{-- <div class="w-full max-w-6xl">
             <h4>{{$page['contents']['form-title']}}</h4>
             @if (session('success'))
-                {{-- <div class="alert alert-danger">{{ session('error') }}</div> --}}
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
                     role="alert">
                     <strong class="font-bold">{{ session('success') }}</strong>
@@ -67,7 +73,6 @@
                     <select class="field required" name="subject" id="form-subject">
                         <option value="" selected disabled>{{__('form.select-subject')}}</option>
                         @foreach (json_decode($page['contents']['form-subjects']) as $subject)
-                            {{-- <p></p> --}}
                             <option value={{$subject}}>{{$subject}}</option>
                         @endforeach
                     </select>
@@ -80,7 +85,7 @@
                 </div>
                 <button disabled type="submit" class="px-6 py-3 border border-black bg-black text-white hover:bg-white hover:text-black disabled:bg-slate-500 disabled:hover:text-white">{{$page['contents']['send-button']}}</button>
             </form>
-        </div>
+        </div> --}}
     </main>
 
 </x-layouts.app>

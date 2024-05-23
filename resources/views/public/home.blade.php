@@ -26,18 +26,18 @@
                             <a href="{{ route("book-detail.{$locale}", $book['slug']) }}" class="flex items-end w-full h-[12em] lg:h-[19.7em] opacity-0 hover:opacity-100 duration-150 ease-in-out absolute bottom-0">
                                 <div class="w-full hidden lg:flex justify-between items-center p-2 bg-light/[.75]">
                                     <p class="font-bold text-xl">{{$book['pvp']}}€</p>
-                                    <div action="{{ route('cart.insert') }}" method="POST">
+                                    <form action="{{ route('cart.insert') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="book_id" value="{{ $book['id'] }}">
 
                                         <input hidden type="number" class=" border border-black" name="number_of_items"
                                             placeholder="1" value="1" min="1">
-                                            <button class="ajax-add-to-cart" book-id="{{ $book['id'] }}">
+                                            <button>
                                                 <i class="icon text-3xl add-to-cart"></i>
                                             </button>
-                                    </div>
+                                    </form>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div id="book-info-{{ $book['slug'] }}" class="flex flex-col items-center space-y-2 w-64">
                             <div class="book-title w-fit h-12 flex justify-center items-center text-center">
@@ -86,7 +86,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 @foreach ($posts as $i => $post)
-                    <div class="post h-full space-y-2 mb-8">
+                    <div class="max-w-96 post h-full space-y-2 mb-8">
                         <div class="">
                             <h5 class="font-bold">{{ $post['title'] }}</h5>
                         </div>

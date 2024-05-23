@@ -12,9 +12,41 @@
                 <h2>{{__('general.posts')}}</h2>
             </div>
 
-            <div class="w-full flex flex-wrap justify-center space-x-10 h-auto px-16" id="catalog">
+            <div class="w-full flex flex-wrap justify-center md:px-0" id="catalog">
                 @foreach ($posts as $i => $post)
-                    <div class="post space-y-2">
+                    <div class="max-w-96 post h-full mb-8">
+                        <div class="">
+                            <h5 class="font-bold">{{ $post['title'] }}</h5>
+                        </div>
+                        <div class="cover-min">
+                            <a href="{{ route("post-detail.{$locale}", $post['slug']) }}">
+                                <img src="{{ asset('img/posts/thumbnails/' . $post['image']) }}"
+                                    alt="{{ $post['title'] }}" class="">
+                            </a>
+                        </div>
+                        {{-- <div class="">
+                            <h5 class="font-bold">{{ $post['title'] }}</h5>
+                        </div> --}}
+                        <div class="headline headline flex justify-between items-end">
+                            <div class="min-w-max">
+                                <p class="text-start uppercase">{{ $post['post_type'] }}</p>
+                            </div>
+                            <div class="date-info h-auto">
+                                <p class="p12 text-end">{{ $post['date'] }}</p>
+                            </div>
+                        </div>
+                        <div class="description">
+                            <p class="p14">{{ $post['description'] }}</p>
+                        </div>
+                        <div class="w-fi">
+                            <a href="{{route('post-detail.ca', $post['slug'])}}">
+                                <p class="p14 underline">{{__('general.read-more')}}</p>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+                {{-- @foreach ($posts as $i => $post)
+                    <div class="max-w-96 post space-y-2">
                         <div class="">
                             <h5 class="font-bold">{{$post['title']}}</h5>
                         </div>
@@ -30,7 +62,6 @@
                             </div>
                             <div class="h-auto">
                                 <p class="p12">{{$post['date']}}</p>
-                                {{-- <p class="p12">{{$post['location']}}</p> --}}
                             </div>
                         </div>
                         <div class="description">
@@ -42,7 +73,7 @@
                             </a>
                         </div>
                     </div>
-                @endforeach
+                @endforeach --}}
             </div>
 
         </div>
