@@ -651,7 +651,7 @@ function getLanguagesOptions($languages, $selected = null)
     <fieldset>
         <legend class="mx-2.5" for="visible">Visible a la web?</legend>
         <div class="mx-2.5 flex space-x-4">
-            @if ((old('visible')) != null)
+            @if (old('visible') != null)
                 <div class="flex items-center space-x-2">
                     <input type="radio" id="visible_true" name="visible"
                         @if (old('visible') == 1) checked @endif value="1"><label class="font-normal"
@@ -665,12 +665,12 @@ function getLanguagesOptions($languages, $selected = null)
             @elseif(isset($book['visible']))
                 <div class="flex items-center space-x-2">
                     <input type="radio" id="visible_true" name="visible"
-                        @if ($book['visible']==1) checked @endif value="1"><label class="font-normal"
+                        @if ($book['visible'] == 1) checked @endif value="1"><label class="font-normal"
                         for="visible_true">Sí</label>
                 </div>
                 <div class="flex items-center space-x-2">
                     <input type="radio" id="visible_false" name="visible"
-                        @if ($book['visible']==0) checked @endif value="0"><label class="font-normal"
+                        @if ($book['visible'] == 0) checked @endif value="0"><label class="font-normal"
                         for="visible_true">No</label>
                 </div>
             @endif
@@ -763,6 +763,9 @@ function getLanguagesOptions($languages, $selected = null)
 <div id="save" class="flex justify-center">
     <button id="submit-button" class="send-button" type="submit" value="stay" name="action">Desar
         canvis</button>
+        <button id="show-button" class="send-button" type="submit" value="show" name="action">
+            Vista prèvia
+        </button>
 </div>
 
 <script src="/js/form/dynamic_textarea.js"></script>

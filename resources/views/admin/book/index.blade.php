@@ -169,17 +169,21 @@
                                                     {{-- <a class="btn btn-sm btn-primary "
                                                         href="{{ route('libro', $book['slug']) }}" target="_blank"><i
                                                             class="fa fa-fw fa-eye"></i> {{ __('Mostrar en catalogo') }}</a> --}}
+                                                            <a class="btn btn-sm btn-primary " href="{{ route('books.show',$book['id']) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Vista prèvia') }}</a>
+
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('books.edit', $book['id']) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="document.getElementById('confirmDelete-{{ $book['id'] }}').classList.remove('hidden');">
+                                                    <i class="fa fa-fw fa-trash"></i>
                                                         {{ __('Eliminar') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $book['id'], 'message' =>  __('Segur que voleu suprimir aquest recurs?'), 'action' => route('books.destroy', $book['id'])])
                                     @endforeach
                                 </tbody>
                             </table>

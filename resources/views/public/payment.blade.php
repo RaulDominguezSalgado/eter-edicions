@@ -147,7 +147,8 @@ $order = old() ?? [];
                         <div class="border my-3"></div>
                         <div class="flex">
                             <div class="flex-col w-1/2 min-w-fit">{{__("Total")}}</div>
-                            <div class="flex-col w-1/2 text-right">{{ str_replace(".", ",", Cart::instance("default")->total()+$shipment_tax )}}€</div>
+
+                            <div class="flex-col w-1/2 text-right" id="total">{{ str_replace(".", ",", Cart::instance("default")->total()+$shipment_tax )}}€</div>
                         </div>
                     </div>
                 </div>

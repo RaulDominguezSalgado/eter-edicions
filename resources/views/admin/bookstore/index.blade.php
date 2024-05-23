@@ -1,4 +1,11 @@
 <x-layouts.admin.app>
+    @push('styles')
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    @endpush
     {{-- <x-slot name="title">
         {{ $pageTitle }} | {{ $pageDescription }} | {{ $webName }}
     </x-slot> --}}
@@ -9,9 +16,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
-                            <span id="card_title">
-                                {{ __('Llibrerias') }}
-                            </span>
+
+                                <h2>{{ __('Gestió de Llibreries') }}</h2>
+
+
 
                             <div class="float-right">
 
@@ -50,7 +58,7 @@
                                             @method("POST")
                                             <td>
                                                 <div class="flex">
-                                                    
+
                                                 </div>
                                             </td>
                                             <td>
@@ -88,16 +96,21 @@
                                             <td>
                                                 <form action="{{ route('bookstores.destroy', $bookstore['id']) }}"
                                                     method="POST">
+                                                    {{-- <a class="btn btn-sm btn-primary "
+                                                        href="{{ route('bookstores.show', $bookstore['id']) }}"><i
+                                                            class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a> --}}
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('bookstores.edit', $bookstore['id']) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="document.getElementById('confirmDelete-{{ $bookstore['id'] }}').classList.remove('hidden');">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Esborrar') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $bookstore['id'], 'message' => __('Segur que voleu suprimir aquest recurs?'), 'action' => route('bookstores.destroy', $bookstore['id'])])
                                     @endforeach
                                 </tbody>
                             </table>

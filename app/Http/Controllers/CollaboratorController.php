@@ -56,7 +56,7 @@ class CollaboratorController extends Controller
                         break;
                     }
                 }
-                
+
             }
             $collaborators = $collaborators->paginate();
             $collaboratorsArray = [];
@@ -122,36 +122,21 @@ class CollaboratorController extends Controller
             $collaborators = Collaborator::paginate();
             $collaboratorsArray = [];
 
-            //mostrar solo en español
-            foreach ($collaborators as $collaborator) {
-                $translation = $collaborator->translations()->where('lang', $this->lang)->first();
-                if ($translation) {
-                    $collaboratorsArray[] = [
-                        'id' => $collaborator->id,
-                        'image' => $collaborator->image,
-                        'full_name' => $translation->last_name . ", " . $translation->first_name,
-                        'lang' => $translation->lang,
-                        'social_networks' => json_decode($collaborator->social_networks, true)
-                    ];
-                }
+        //mostrar solo en catalán
+        foreach ($collaborators as $collaborator) {
+            $translation = $collaborator->translations()->where('lang', $this->lang)->first();
+            if ($translation) {
+                $collaboratorsArray[] = [
+                    'id' => $collaborator->id,
+                    'image' => $collaborator->image,
+                    'full_name' => $translation->last_name . ", " . $translation->first_name,
+                    'lang' => $translation->lang,
+                    'social_networks' => json_decode($collaborator->social_networks, true)
+                ];
             }
-
-            //opcion 2 que me salgan todos los colaboradores en todos los idiomas
-            // foreach ($collaborators as $collaborator) {
-            //     foreach ($collaborator->translations as $collabtrad) {
-            //         $collaboratorsArray[] = [
-            //             'id' => $collaborator->id,
-            //             'lang'=>$collabtrad->lang,
-            //             'image' => $collaborator->image,
-            //             'name' => $collabtrad->name,
-            //             'last_name' => $collabtrad->last_name,
-            //             'social_networks' => $collaborator->social_networks,
-            //         ];
-            //     }
-            // }
-            return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
-                ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
         }
+        return view('admin.collaborator.index', compact('collaboratorsArray', 'collaborators'))
+            ->with('i', (request()->input('page', 1) - 1) * $collaborators->perPage());
     }
 
     /**
@@ -207,10 +192,9 @@ class CollaboratorController extends Controller
 
             foreach ($validatedData['translations'] as $language => $translation) {
                 if ($translation) {
+                    $slug = \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($translation['last_name']);
                     if ($language == "ca" && $imageInserted) {
                         $imagen = $request->file('image');
-                        $slug = \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($translation['last_name']);
-
                         $nombreImagenOriginal = $slug . ".webp"; //. $imagen->getClientOriginalExtension();
 
                         // // Procesar y guardar la imagen
@@ -227,9 +211,9 @@ class CollaboratorController extends Controller
                         'first_name' => $translation['first_name'],
                         'last_name' => $translation['last_name'],
                         'biography' => $translation['biography'],
-                        'slug' => \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($translation['last_name']),
+                        'slug' => $slug,
                         'lang' => $language,
-                        'meta_title' => \App\Http\Actions\FormatDocument::slugify($translation['first_name']) . "-" . \App\Http\Actions\FormatDocument::slugify($translation['last_name']),
+                        'meta_title' => $translation['first_name'] . " " .$translation['last_name'],
                         'meta_description' => $translation['biography']
                     ];
                     CollaboratorTranslation::create($translationData);
@@ -318,7 +302,7 @@ class CollaboratorController extends Controller
         foreach ($validatedData['translations'] as $language => $data) {
             $translation = $collaborator->translations()->where('lang', $language)->first();
             if ($translation) {
-                $slug = \App\Http\Actions\FormatDocument::slugify($data['first_name']) . '-' . \App\Http\Actions\FormatDocument::slugify($data['last_name']);
+                $slug = $data["slug"];
                 if($imageUpdated && $language == "ca"){
                     $imagen = $request->file('image');
 
@@ -337,10 +321,10 @@ class CollaboratorController extends Controller
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
                     'biography' => $data['biography'],
-                    'slug' =>$slug,
+                    'slug' =>$data['slug'],
                     'lang' => $language,
-                    'meta_title' => $slug,
-                    'meta_description' => $data['biography']
+                    'meta_title' => $data['meta_title'] ,
+                    'meta_description' => $data['meta_description']
                 ]);
             }
         }
@@ -509,7 +493,9 @@ class CollaboratorController extends Controller
                         'first_name' => $translation->first_name,
                         'last_name' => $translation->last_name,
                         'biography' => $translation->biography,
-                        'slug' => $translation->slug
+                        'slug' => $translation->slug,
+                        'meta_title' => $translation->meta_title,
+                        'meta_description' => $translation->meta_description,
                     ];
                 }
             }

@@ -43,7 +43,7 @@ class BookRequest extends FormRequest
             'publication_date' => ['nullable',Validator::$validations["date"]],
             'collaborators' => '',
             'collections' => ['required',Validator::$validations["array"]],
-            'extras' => ['required',Validator::$validations["array"]],
+            'extras' => ['nullable',Validator::$validations["array"]],
             // 'extras' => 'array:key,value',
             'original_title' => 'nullable',
             'original_publication_date' => 'nullable',

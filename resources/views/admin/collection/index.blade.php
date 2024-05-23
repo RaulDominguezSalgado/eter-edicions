@@ -29,7 +29,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        <th>Llenguatge</th>
+                                        {{-- <th>Llenguatge</th> --}}
                                         <th>Nom</th>
                                         <th>Descripció</th>
 
@@ -52,11 +52,11 @@
                                             @method("POST")
                                             <td>
                                                 <div class="flex">
-                                                    
+
                                                 </div>
                                             </td>
                                             <td>
-                                                
+
                                             </td>
                                             <td>
                                                 <div class="flex">
@@ -79,24 +79,27 @@
                                     @foreach ($collectionsArray as $collection)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $collection['lang'] }}</td>
+                                            {{-- <td>{{ $collection['lang'] }}</td> --}}
                                             <td>{{ $collection['name'] }}</td>
                                             <td>{{ $collection['description'] }}</td>
 
                                             <td>
-                                                <form action="{{ route('collections.destroy', $collection['id']) }}"
+                                                 <form action="{{ route('collections.destroy', $collection['id']) }}"
                                                     method="POST">
-
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('collections.edit', $collection['id']) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="document.getElementById('confirmDelete-{{ $collection['id'] }}').classList.remove('hidden');">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Esborrar') }}
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
+                                        @include('components.layouts.admin.delete-confirmation-modal', ['id' => $collection['id'], 'message' =>  __('Segur que voleu suprimir aquest recurs?'), 'action' => route('collections.destroy', $collection['id'])])
+
                                     @endforeach
                                 </tbody>
                             </table>

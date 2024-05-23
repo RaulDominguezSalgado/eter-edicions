@@ -70,6 +70,7 @@ class OrderController extends Controller
         if (isset($data["search"]["search"])) {
             // Changes before searching
             $orderspag = Order::query();
+            $orderspag->where('payment_method', '!=', 'pending');
             foreach ($data as $key => $filtro) {
                 if ($filtro != null && $filtro != "") {
                     switch ($key) {
@@ -101,7 +102,7 @@ class OrderController extends Controller
                         break;
                     }
                 }
-                
+
             }
             $orderspag = $orderspag->paginate();
             $orders = [];
@@ -114,7 +115,7 @@ class OrderController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
         }
         else if (isset($data["search"]["clear"])) {
-            $orderspag = Order::paginate();
+            $orderspag = Order::where('payment_method', '!=', 'pending')->paginate();
             $orders = [];
             foreach ($orderspag as $order) {
                 $orders[] = $this->getFullOrder($order);
@@ -124,7 +125,7 @@ class OrderController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * $orderspag->perPage());
         }
         else {
-            $orderspag = Order::paginate();
+            $orderspag = Order::where('payment_method', '!=', 'pending')->paginate();
             $orders = [];
             foreach ($orderspag as $order) {
                 $orders[] = $this->getFullOrder($order);
@@ -159,6 +160,7 @@ class OrderController extends Controller
             'payment_method' => $order->payment_method,
             'date' => $order->date,
             'status' => $order->status->name,
+            'status_color' => strtolower($order->status->color),
             'pdf' => $order->pdf,
             'tracking_id' => $order->tracking_id
         ];
@@ -422,7 +424,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         return view('admin.order.show', compact('order'));
-        //return view('public.order_pdf', compact('order'));
+        // return view('public.order_pdf', compact('order'));
     }
 
     /**

@@ -294,12 +294,55 @@ class BookController extends Controller
     public function show($id)
     {
         try {
-            $book = $this->getData()[0];
-            if (request()->is('admin*')) {
-                return redirect()->route('books.edit', $book->id);
-            } else {
-                return view('book.show', compact('book'));
+            $locale = "ca";
+
+            // dump(Route::currentRouteName());
+            // dump($locale);
+            // dd(Route::currentRouteName() != "home.{$locale}");
+
+
+            $book_lv = Book::find($id);
+
+            // dd($book_lv);
+
+            $book = $this->getFullBook($book_lv, $locale);
+
+            // dd($book);
+
+            $authors = [];
+            foreach ($book_lv->authors()->get() as $author) {
+                $collaboratorController = new CollaboratorController();
+                $collaborator = $collaboratorController->getFullCollaborator($author->id, $locale);
+
+                $authors[] = $collaborator;
             }
+
+            $translators = [];
+            foreach ($book_lv->translators()->get() as $translator) {
+                $collaboratorController = new CollaboratorController();
+                $collaborator = $collaboratorController->getFullCollaborator($translator->id, $locale);
+
+                $translators[] = $collaborator;
+            }
+
+
+            //RELATED BOOKS
+            $related_books = $this->getRelatedBooks($book_lv, $locale);
+
+
+            $page = [
+                'title' => $book_lv->title,
+                'shortDescription' => '',
+                'longDescription' => $book_lv->meta_description,
+                'web' => 'Èter Edicions'
+            ];
+
+            // dd($book);
+            // dd($authors);
+            // dd($translators);
+            // dd($related_books);
+
+            return view('admin.book.show', compact('book', 'authors', 'translators', 'related_books', 'page', 'locale'));
         } catch (Exception $e) {
             abort(500, 'Server Error');
         }
@@ -358,11 +401,11 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        // dump($request);
-        // dump($book);
+        //dump($request);
+        //  dd($book);
         // try {
         // \App\Models\Book::class;
-        $new_data = $request->validated();
+        //$new_data = $request->validated();
         // \App\Models\Book::class;
         $new_data = $request->validated();
 
@@ -393,6 +436,12 @@ class BookController extends Controller
         $book->update($new_data);
 
         $this->setBookData($book, $request);
+
+        // dd($request->input('action'));
+        if ($request->input('action') == 'show') {
+            return redirect()->route('books.show', $book->id)
+                ->with('success', 'Llibre actualitzat correctament');
+        }
 
         // // Controla la selección del usuario
         // if ($request->input('action') == 'redirect') {
@@ -633,7 +682,7 @@ class BookController extends Controller
             foreach ($book->collections()->get() as $collection) {
                 $collection = \App\Models\CollectionTranslation::where('collection_id', $collection->id)->where('lang', $locale)->first();
 
-                $bookResult['collections'][] = ["id" => $collection->id, "name" => $collection->name];
+                $bookResult['collections'][] = ["id" => $collection->collection_id, "name" => $collection->name];
             }
 
             // dd($bookResult);
@@ -829,7 +878,7 @@ class BookController extends Controller
         $bookTitles = [];
         $result = [];
         foreach ($books as $book) {
-            $bookTitles[$book->title]=true; //Save book title as key in $bookTitles to delete it from related books array, if present
+            $bookTitles[$book->title] = true; //Save book title as key in $bookTitles to delete it from related books array, if present
             $result = array_merge($result, $this->getRelatedBooks($book, $locale));
         }
 
@@ -842,7 +891,9 @@ class BookController extends Controller
         return $result;
     }
 
-
+    /**
+     *  Function that returns the newest books
+     */
     public function getNewestBooks($locale)
     {
         $books_lv = Book::where('visible', 1)
@@ -875,6 +926,9 @@ class BookController extends Controller
     //     return view('admin.book.stock', compact('book', 'bookstores'));
     // }
 
+    /**
+     * Function that redirects to the view stock edit
+     */
     public function editStock($id)
     {
         $locale = "ca";
@@ -1085,7 +1139,6 @@ class BookController extends Controller
             } else {
                 $book->translators()->detach();
             }
-
 
             $request->has('collections') ? $book->collections()->sync(array_unique($request->input('collections'))) : '';
 

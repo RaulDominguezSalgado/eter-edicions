@@ -388,7 +388,7 @@ Route::get('cart/payment/cancel',[App\Http\Controllers\PaymentController::class,
 // Checkout absolute routes
 // Route::post("/checkout/change-step/", [App\Http\Controllers\CheckoutController::class, 'changeStep'])->name('checkout.changeStep');
 Route::post("/checkout", [\App\Http\Controllers\CheckoutController::class, 'toPayment'])->name("checkout.toPayment");
-// Route::get("/checkout/{orderId}", [\App\Http\Controllers\CheckoutController::class, 'showPaymentMethodView'])->name("checkout.payment_method");
+Route::get("/checkout/{orderId}", [\App\Http\Controllers\CheckoutController::class, 'showPaymentMethodView'])->name("checkout.payment_method");
 
 
 Route::get('/orders/{orderId}/pdf',[App\Http\Controllers\PaymentController::class, 'generateOrderPdf'])->name('orders.pdf');

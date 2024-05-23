@@ -125,7 +125,7 @@
                                             <td>{{ $order['first_name'] . ' ' . $order['last_name'] }}</td>
                                             <td>{{ $order['total'] }}</td>
                                             <td>{{ $order['payment_method'] }}</td>
-                                            <td>{{ $order['status'] }}</td>
+                                            <td><div class="w-2/3 border p-2 rounded text-light" style="background-color: {{ $order['status_color'] }}">{{ $order['status'] }}</div></td> {{-- {{ $order['status_color'] }} --}}
                                             <td>{{ $order['date'] }}</td>
                                             <td>{{ $order['pdf'] }}</td>
                                             <td>
@@ -133,14 +133,14 @@
                                                     method="POST">
                                                     <a class="btn btn-sm btn-primary "
                                                         href="{{ route('orders.show', $order['id']) }}"><i
-                                                            class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                            class="fa fa-fw fa-eye"></i> {{ __('Vista prèvia') }}</a>
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('orders.edit', $order['id']) }}"><i
-                                                            class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                            class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                                     @csrf
-                                                    @method('DELETE')
+                                                    {{-- @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button> --}}
                                                 </form>
                                             </td>
                                         </tr>

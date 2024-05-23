@@ -88,6 +88,7 @@
                                                 placeholder="Biografía">{{ old('translations.' . $language['iso_language'] . '.biography') }}</textarea>
                                             {!! $errors->first('translations.' . $language['iso_language'] . '.biography', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
                                         </div>
+
                                     </div>
                                 @endforeach
 

@@ -56,15 +56,15 @@ class CheckoutController extends Controller
     {
         // dd($request);
         // try {
-        // $data['shipment_taxes'] =5;
-
-        // dd($data);
-
+        //giving default values
         $data = $request->validated();
         $data['reference'] = $this->generateRandomReference();
         $data['date'] = now()->toDateString();
         $data['status_id'] = 1;
-        $data['payment_method'] = "Pending";
+        $data['payment_method'] = "pending";
+        // $data['shipment_taxes'] =5;
+
+        // dd($data);
 
         if ($data['country'] == 'ES') {
             if (isset($this->shippingCostsSpanishProvinces[$data['province']])) {
@@ -135,7 +135,26 @@ class CheckoutController extends Controller
 
     function showPaymentMethodView($orderId)
     {
-        return view("public.payment", compact('orderId'));
+        $data = Order::where("reference",$orderId)->first();
+        if ($data['country'] == 'ES') {
+            if (isset($this->shippingCostsSpanishProvinces[$data['province']])) {
+                // dd("province in array");
+                $shipment_options = $this->shippingCostsSpanishProvinces[$data['province']];
+                $shipment_tax = $shipment_options['standard']['price'];
+            } else {
+                $shipment_options = $this->shippingCostsSpanishProvinces['ES'];
+                $shipment_tax = $shipment_options['standard']['price'];
+            }
+        } else {
+            if (isset($this->shippingCostsInternationalCountries[$data['country']])) {
+                $shipment_options = $this->shippingCostsInternationalCountries[$data['country']];
+                $shipment_tax = $shipment_options['price'];
+            } else {
+                $shipment_options = $this->shippingCostsInternationalCountries['default'];
+                $shipment_tax = $shipment_options['price'];
+            }
+        }
+        return view("public.payment", compact('orderId', 'shipment_options', 'shipment_tax'));
     }
 
     /**

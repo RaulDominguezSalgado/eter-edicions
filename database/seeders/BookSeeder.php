@@ -89,7 +89,7 @@ class BookSeeder extends Seeder
         $panorama->discounted_price;
         $panorama->stock = 300;
         $panorama->visible = 1;
-        $panorama->legal_diposit = "B 8647-202";
+        $panorama->legal_diposit = "B 8647-2023";
         $panorama->slug = "panorama-de-mort-i-desolacio";
         $panorama->sample = $panorama->slug . ".pdf";
         $panorama->meta_title = $panorama->title;

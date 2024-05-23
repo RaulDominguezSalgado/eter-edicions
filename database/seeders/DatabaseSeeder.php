@@ -45,14 +45,15 @@ class DatabaseSeeder extends Seeder
         $this->call(CollectionSeeder::class);
         $this->call(BookSeeder::class);
 
+        $this->call(OrderStatusSeeder::class);
+
         $this->call(PostSeeder::class);
 
         $this->call(BookstoreSeeder::class);
         $this->call(BookBookstoreSeeder::class);
 
         $this->call(PageSeeder::class);
-
-        $this->call(OrderStatusSeeder::class);
+         //OrderStatus::factory(10)->create();
         Order::factory(10)->create();
         OrderDetail::factory(50)->create();
 

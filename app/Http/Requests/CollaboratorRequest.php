@@ -27,6 +27,9 @@ class CollaboratorRequest extends FormRequest
             'translations.*.first_name' => ["required",Validator::$validations['first_name']],
             'translations.*.last_name' => ['required',Validator::$validations['last_name']],
             'translations.*.biography' => ["required",Validator::$validations["biography"]],
+            'translations.*.slug' => ['nullable',Validator::$validations["slug"]],
+            'translations.*.meta_title' => ['nullable',Validator::$validations["first_name"]],
+            'translations.*.meta_description' => ['nullable',Validator::$validations["biography"]],
         ];
 
     }
