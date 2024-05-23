@@ -203,7 +203,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
     $twoFactorLimiter = config('fortify.limiters.two-factor');
     $verificationLimiter = config('fortify.limiters.verification', '6,1');
 
-    if (strtolower(config('eter.appEnv')) == 'local') {
+    if (strtolower(config('eter.appEnv')) == 'production') {
         Route::post(RoutePath::for('login', '/eter1121'), [AuthenticatedSessionController::class, 'store'])
             ->middleware(array_filter([
                 'guest:' . config('fortify.guard'),
