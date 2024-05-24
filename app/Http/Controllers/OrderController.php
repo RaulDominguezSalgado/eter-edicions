@@ -200,7 +200,8 @@ class OrderController extends Controller
         $order = new Order();
         $books = Book::all();
         $statuses = OrderStatus::all();
-        return view('admin.order.create', compact('order', 'books', 'statuses'));
+        $payment_methods = $this->payment_methods;
+        return view('admin.order.create', compact('order', 'books', 'statuses', 'payment_methods'));
     }
 
     // /**

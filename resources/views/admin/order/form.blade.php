@@ -155,12 +155,12 @@ echo '</select>';
             {!! $errors->first('city', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div> --}}
 
-        <div class="form-group mb-2 mb20 ">
+        {{-- <div class="form-group mb-2 mb20 ">
             <label for="locality" class="form-label">{{ __('Localitat del client') }}</label>
             <input type="text" name="locality" class="form-control @error('locality') is-invalid @enderror"
                 value="{{ old('locality', $order['locality']) }}" id="locality" placeholder="Ciutat del client">
             {!! $errors->first('locality', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
+        </div> --}}
 
         <div class="form-group mb-2 mb20 ">
             <label for="province" class="form-label">{{ __('Provincia del client') }}</label>
