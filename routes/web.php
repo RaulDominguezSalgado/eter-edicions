@@ -368,19 +368,19 @@ Route::middleware(['auth.authenticated', 'verified'])->group(function () {
         //Admin routes
         Route::middleware(['auth.admin'])->group(function () {
             Route::resource('books', App\Http\Controllers\BookController::class);
-            Route::post('books', [App\Http\Controllers\BookController::class, "index"])->name("books.index.post");
+            Route::post('books/filter', [App\Http\Controllers\BookController::class, "index"])->name("books.index.post");
             Route::resource('collaborators', App\Http\Controllers\CollaboratorController::class);
-            Route::post('collaborators', [App\Http\Controllers\CollaboratorController::class, "index"])->name("collaborators.index.post");
+            Route::post('collaborators/filter', [App\Http\Controllers\CollaboratorController::class, "index"])->name("collaborators.index.post");
             Route::resource('collections', App\Http\Controllers\CollectionController::class);
-            Route::post('collections', [App\Http\Controllers\CollectionController::class, "index"])->name("collections.index.post");
+            Route::post('collections/filter', [App\Http\Controllers\CollectionController::class, "index"])->name("collections.index.post");
             Route::resource('users', App\Http\Controllers\UserController::class);
             Route::resource('authors', App\Http\Controllers\AuthorController::class);
             Route::resource('translators', App\Http\Controllers\TranslatorController::class);
             Route::resource('bookstores', App\Http\Controllers\BookstoreController::class);
-            Route::post('bookstores', [App\Http\Controllers\BookstoreController::class, "index"])->name("bookstores.index.post");
+            Route::post('bookstores/filter', [App\Http\Controllers\BookstoreController::class, "index"])->name("bookstores.index.post");
 
             Route::resource('orders', App\Http\Controllers\OrderController::class);
-            Route::post('orders', [App\Http\Controllers\OrderController::class, "index"])->name("orders.index.post");
+            Route::post('order/filters', [App\Http\Controllers\OrderController::class, "index"])->name("orders.index.post");
             Route::get('/stock/{id}', [App\Http\Controllers\BookController::class, 'editStock'])->name('stock.edit');
             Route::put('/stock/{id}', [App\Http\Controllers\BookController::class, 'updateStock'])->name('stock.update');
             // Route::put('/books/{book}/stock/update', [App\Http\Controllers\BookController::class, 'updateBookstoreStock'])->name('book.stock.update');

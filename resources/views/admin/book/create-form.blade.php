@@ -168,7 +168,7 @@ function getLanguagesOptions($languages, $selected = null)
             <label class="" for="headline">Capçalera:</label>
             <div class="grow-wrap ">
                 <textarea name="headline" id="headline" class="@error('headline') is-invalid  @enderror"
-                    onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                    onInput="this.parentNode.dataset.replicatedValue = this.value">{{old('headline')}}</textarea>
             </div>
             @error('headline')
                 <small class="text-systemerror">{{ $message }}</small>
@@ -178,7 +178,7 @@ function getLanguagesOptions($languages, $selected = null)
             <label for="description">Descripció / sinopsi</label>
             <div class="grow-wrap ">
                 <textarea name="description" id="description" class="@error('description') is-invalid  @enderror" rows="8"
-                    onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                    onInput="this.parentNode.dataset.replicatedValue = this.value">{{old('description')}}</textarea>
             </div>
         </div>
         <div class="space-y-5 md:space-y-0 md:flex md:justify-between">
@@ -264,7 +264,7 @@ function getLanguagesOptions($languages, $selected = null)
             <div class="w-full">
                 <label class="min-w-fit" for="publication_date">Data de publicació:</label>
                 <input id="publication_date" class="@error('publication_date') is-invalid @enderror" type="date"
-                    name="publication_date"></input>
+                    name="publication_date" value="{{ old('publication_date') }}"></input>
                 @error('publication_date')
                     <small class="text-systemerror">{{ $message }}</small>
                 @enderror
