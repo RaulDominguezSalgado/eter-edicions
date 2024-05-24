@@ -12,7 +12,10 @@ if (Auth::user()->role_id == 1) {
         ['name' => 'Configuració', 'image' => '/img/icons/settings.webp', 'routeName' => 'general-settings.index', 'message' => 'Gestió dels paràmetres generals de la web', 'visible' => true],
     ];
 } else {
-    $options = [['name' => 'Publicacions', 'image' => '/img/icons/posts.webp', 'routeName' => 'posts.index', 'message' => 'Gestió de les activitats i articles de la web', 'visible' => true], ['name' => 'Pàgines', 'image' => '/img/icons/pages.webp', 'routeName' => 'pages.index', 'message' => 'Gestió del contingut de les pàgines de la web', 'visible' => false]];
+    $options = [
+        ['name' => 'Publicacions', 'image' => '/img/icons/posts.webp', 'routeName' => 'posts.index', 'message' => 'Gestió de les activitats i articles de la web', 'visible' => true],
+        ['name' => 'Pàgines', 'image' => '/img/icons/pages.webp', 'routeName' => 'pages.index', 'message' => 'Gestió del contingut de les pàgines de la web', 'visible' => false]
+    ];
 }
 
 $visibleOptions = [];
