@@ -14,6 +14,7 @@ use Dompdf\Options;
 // Mailling
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderCompleted;
+use App\Models\Book;
 use Exception;
 
 class PaymentController extends Controller
@@ -152,6 +153,7 @@ class PaymentController extends Controller
     function cancel(Request $request)
     {
         $this->saveStatusOrder($request->orderId, 6);
+        //$this->returnStock($request->orderId);
         return redirect()->route('checkout.toPaymentFromCancelled', ['orderId' => $request->orderId])->with('error', __('checkout.payment-error'));
     }
 
@@ -207,5 +209,22 @@ class PaymentController extends Controller
 
 
         return $order;
+    }
+
+    private function returnStock($reference){
+        try{
+        $order = Order::where("reference", 'LIKE', $reference)->first();
+        foreach($order->details as $detail){
+            $book = Book::find($detail->product_id);
+            if($book){
+                $stock = $book->stock;
+                $book->stock = $stock+$detail->quantity;
+                $book->save();
+            }
+        }
+        return true;
+    }catch(Exception $e){
+        return false;
+    }
     }
 }
